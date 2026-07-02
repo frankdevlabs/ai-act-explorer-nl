@@ -8688,12 +8688,16 @@
      {
       "type": "text",
       "text": "Voor in bijlage III vermelde AI-systemen met een hoog risico die in de handel zijn gebracht of in gebruik zijn gesteld door aanbieders die onderworpen zijn aan rechtsinstrumenten van de Unie met meldingsverplichtingen die gelijkwaardig zijn aan die van deze verordening, is de melding van ernstige incidenten beperkt tot de in artikel 3, punt 49), c), bedoelde incidenten."
+     },
+     {
+      "type": "text",
+      "text": "▼C2"
      }
     ]
    },
    {
-    "number": 11,
-    "anchor": "lid-11",
+    "number": 10,
+    "anchor": "lid-10",
     "content": [
      {
       "type": "text",
@@ -8703,11 +8707,15 @@
    },
    {
     "number": 11,
-    "anchor": "lid-11-bis",
+    "anchor": "lid-11",
     "content": [
      {
       "type": "text",
       "text": "De nationale bevoegde autoriteiten stellen de Commissie onmiddellijk in kennis van elk ernstig incident, ongeacht of zij al dan niet maatregelen hebben getroffen, overeenkomstig artikel 20 van Verordening (EU) 2019/1020."
+     },
+     {
+      "type": "text",
+      "text": "▼B"
      }
     ]
    }
@@ -9125,7 +9133,7 @@
         "content": [
          {
           "type": "text",
-          "text": "de intellectuele-eigendomsrechten, en vertrouwelijke bedrijfsinformatie of bedrijfsgeheimen van een natuurlijke of rechtspersoon, waaronder de broncode, uitgezonderd de gevallen bedoeld in artikel 5 van Richtlijn (EU) 2016/943 van het Europees Parlement en de Raad (57);"
+          "text": "de intellectuele-eigendomsrechten, en vertrouwelijke bedrijfsinformatie of bedrijfsgeheimen van een natuurlijke of rechtspersoon, waaronder de broncode, uitgezonderd de gevallen bedoeld in artikel 5 van Richtlijn (EU) 2016/943 van het Europees Parlement en de Raad (1);"
          }
         ],
         "anchor": "lid-1-a"
@@ -9219,7 +9227,13 @@
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0001",
+    "label": "(1)",
+    "text": "Richtlijn (EU) 2016/943 van het Europees Parlement en de Raad van 8 juni 2016 betreffende de bescherming van niet-openbaar gemaakte knowhow en bedrijfsinformatie (bedrijfsgeheimen) tegen het onrechtmatig verkrijgen, gebruiken en openbaar maken daarvan (PB L 157 van 15.6.2016, blz. 1)."
+   }
+  ]
  },
  {
   "number": 79,
@@ -11161,12 +11175,18 @@
      },
      {
       "type": "text",
-      "text": "“Bij het vaststellen van gedetailleerde maatregelen met betrekking tot technische specificaties en procedures voor de goedkeuring en het gebruik van veiligheidsuitrusting betreffende artificiële-intelligentiesystemen in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
+      "text": "“Bij het vaststellen van gedetailleerde maatregelen met betrekking tot technische specificaties en procedures voor de goedkeuring en het gebruik van veiligheidsuitrusting betreffende artificiële-intelligentiesystemen in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*1), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
      }
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0002",
+    "label": "(*1)",
+    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”."
+   }
+  ]
  },
  {
   "number": 103,
@@ -11186,12 +11206,18 @@
      },
      {
       "type": "text",
-      "text": "“Bij het vaststellen van gedelegeerde handelingen krachtens de eerste alinea betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
+      "text": "“Bij het vaststellen van gedelegeerde handelingen krachtens de eerste alinea betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*2), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
      }
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0003",
+    "label": "(*2)",
+    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”."
+   }
+  ]
  },
  {
   "number": 104,
@@ -11211,12 +11237,18 @@
      },
      {
       "type": "text",
-      "text": "“Bij het vaststellen van gedelegeerde handelingen krachtens de eerste alinea betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
+      "text": "“Bij het vaststellen van gedelegeerde handelingen krachtens de eerste alinea betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*3), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
      }
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0004",
+    "label": "(*3)",
+    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”."
+   }
+  ]
  },
  {
   "number": 105,
@@ -11236,12 +11268,22 @@
      },
      {
       "type": "text",
-      "text": "“5. Voor artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*), neemt de Commissie bij het uitvoeren van haar activiteiten krachtens lid 1 en bij het vaststellen van technische specificaties en testnormen overeenkomstig de leden 2 en 3 de eisen van hoofdstuk III, hoofdstuk 2, van die verordening in aanmerking."
+      "text": "“5."
+     },
+     {
+      "type": "text",
+      "text": "Voor artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*4), neemt de Commissie bij het uitvoeren van haar activiteiten krachtens lid 1 en bij het vaststellen van technische specificaties en testnormen overeenkomstig de leden 2 en 3 de eisen van hoofdstuk III, hoofdstuk 2, van die verordening in aanmerking."
      }
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0005",
+    "label": "(*4)",
+    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”."
+   }
+  ]
  },
  {
   "number": 106,
@@ -11261,12 +11303,22 @@
      },
      {
       "type": "text",
-      "text": "“12. Bij het vaststellen van gedelegeerde handelingen krachtens lid 1 en uitvoeringshandelingen krachtens lid 11 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
+      "text": "“12."
+     },
+     {
+      "type": "text",
+      "text": "Bij het vaststellen van gedelegeerde handelingen krachtens lid 1 en uitvoeringshandelingen krachtens lid 11 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*5), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
      }
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0006",
+    "label": "(*5)",
+    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”."
+   }
+  ]
  },
  {
   "number": 107,
@@ -11286,12 +11338,22 @@
      },
      {
       "type": "text",
-      "text": "“4. Bij het vaststellen van gedelegeerde handelingen krachtens lid 3 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
+      "text": "“4."
+     },
+     {
+      "type": "text",
+      "text": "Bij het vaststellen van gedelegeerde handelingen krachtens lid 3 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*6), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
      }
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0007",
+    "label": "(*6)",
+    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”."
+   }
+  ]
  },
  {
   "number": 108,
@@ -11321,7 +11383,11 @@
          },
          {
           "type": "text",
-          "text": "“3. Onverminderd lid 2 worden bij het vaststellen van uitvoeringshandelingen krachtens lid 1 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*), de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
+          "text": "“3."
+         },
+         {
+          "type": "text",
+          "text": "Onverminderd lid 2 worden bij het vaststellen van uitvoeringshandelingen krachtens lid 1 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*7), de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
          }
         ],
         "anchor": "punt-1"
@@ -11335,7 +11401,11 @@
          },
          {
           "type": "text",
-          "text": "“4. Bij het vaststellen van gedelegeerde handelingen krachtens de leden 1 en 2 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689, worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen.”."
+          "text": "“4."
+         },
+         {
+          "type": "text",
+          "text": "Bij het vaststellen van gedelegeerde handelingen krachtens de leden 1 en 2 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689, worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen.”."
          }
         ],
         "anchor": "punt-2"
@@ -11349,7 +11419,11 @@
          },
          {
           "type": "text",
-          "text": "“4. Bij het vaststellen van uitvoeringshandelingen krachtens lid 1 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689, worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen.”."
+          "text": "“4."
+         },
+         {
+          "type": "text",
+          "text": "Bij het vaststellen van uitvoeringshandelingen krachtens lid 1 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689, worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen.”."
          }
         ],
         "anchor": "punt-3"
@@ -11363,7 +11437,11 @@
          },
          {
           "type": "text",
-          "text": "“3. Bij het vaststellen van gedelegeerde handelingen krachtens de leden 1 en 2 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689, worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen.”."
+          "text": "“3."
+         },
+         {
+          "type": "text",
+          "text": "Bij het vaststellen van gedelegeerde handelingen krachtens de leden 1 en 2 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689, worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen.”."
          }
         ],
         "anchor": "punt-4"
@@ -11391,7 +11469,11 @@
          },
          {
           "type": "text",
-          "text": "“3. Bij het vaststellen van gedelegeerde handelingen krachtens de leden 1 en 2 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689, worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen.”."
+          "text": "“3."
+         },
+         {
+          "type": "text",
+          "text": "Bij het vaststellen van gedelegeerde handelingen krachtens de leden 1 en 2 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689, worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen.”."
          }
         ],
         "anchor": "punt-6"
@@ -11403,9 +11485,9 @@
   ],
   "footnotes": [
    {
-    "id": "ntr*-L_202401689NL.000101-E0064",
-    "label": "(*)",
-    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”.\""
+    "id": "E0008",
+    "label": "(*7)",
+    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”."
    }
   ]
  },
@@ -11427,12 +11509,22 @@
      },
      {
       "type": "text",
-      "text": "“3. Bij het vaststellen van de uitvoeringshandelingen krachtens lid 2 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
+      "text": "“3."
+     },
+     {
+      "type": "text",
+      "text": "Bij het vaststellen van de uitvoeringshandelingen krachtens lid 2 betreffende artificiële-intelligentiesystemen die veiligheidscomponenten zijn in de zin van Verordening (EU) 2024/1689 van het Europees Parlement en de Raad (*8), worden de eisen van hoofdstuk III, afdeling 2, van die verordening in aanmerking genomen."
      }
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0009",
+    "label": "(*8)",
+    "text": "Verordening (EU) 2024/1689 van het Europees Parlement en de Raad van 13 juni 2024 tot vaststelling van geharmoniseerde regels betreffende artificiële intelligentie en tot wijziging van de Verordeningen (EG) nr. 300/2008, (EU) nr. 167/2013, (EU) nr. 168/2013, (EU) 2018/858, (EU) 2018/1139 en (EU) 2019/2144 en de Richtlijnen 2014/90/EU, (EU) 2016/797 en (EU) 2020/1828 (verordening artificiële intelligentie) (PB L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj).”."
+   }
+  ]
  },
  {
   "number": 110,
@@ -11448,7 +11540,7 @@
     "content": [
      {
       "type": "text",
-      "text": "In bijlage I bij Richtlijn (EU) 2020/1828 van het Europees Parlement en de Raad (58) wordt het volgende punt toegevoegd:"
+      "text": "In bijlage I bij Richtlijn (EU) 2020/1828 van het Europees Parlement en de Raad (2) wordt het volgende punt toegevoegd:"
      },
      {
       "type": "list",
@@ -11468,7 +11560,13 @@
     ]
    }
   ],
-  "footnotes": []
+  "footnotes": [
+   {
+    "id": "E0010",
+    "label": "(2)",
+    "text": "Richtlijn (EU) 2020/1828 van het Europees Parlement en de Raad van 25 november 2020 betreffende representatieve vorderingen ter bescherming van de collectieve belangen van consumenten en tot intrekking van Richtlijn 2009/22/EG (PB L 409 van 4.12.2020, blz. 1)."
+   }
+  ]
  },
  {
   "number": 111,

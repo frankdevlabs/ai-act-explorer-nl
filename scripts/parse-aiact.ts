@@ -1,20 +1,26 @@
 /**
- * One-time parser: official Dutch OJ HTML of Regulation (EU) 2024/1689
- * (data/source/aiact_nl.html) -> structured JSON in data/generated/.
+ * One-time parser -> structured JSON in data/generated/.
  *
- * Source markup (EUR-Lex Formex-derived OJ HTML):
- * - chapters:  <div id="cpt_III"> with > p.oj-ti-section-1 + .eli-title
- * - sections:  <div id="cpt_III.sct_1"> nested inside chapters
- * - articles:  <div class="eli-subdivision" id="art_5">
- * - numbered paragraphs (leden): <div id="005.001"> inside the article
- * - points a)/1./i): 2-col <table> rows (marker | content), nesting recursively
- * - recitals:  <div class="eli-subdivision" id="rct_42"> (table (N) | text)
- * - annexes:   <div class="eli-container" id="anx_III"> with 2x p.oj-doc-ti
- * - footnotes: p.oj-note, referenced inline via <a href="#ntr...">
+ * Two sources, two EUR-Lex HTML dialects:
+ *
+ * 1. data/source/aiact_nl_consolidated.html — consolidated text CELEX
+ *    02024R1689-20240712 (incorporates corrigenda R(02)/R(04), e.g. the fixed
+ *    lid numbering of art. 73). Used for chapters/articles/annexes.
+ *    Markup: div.eli-subdivision#art_N > p.title-article-norm + .eli-title
+ *    > p.stitle-article-norm; leden as div.norm > span.no-parag ("1.") +
+ *    div.norm.inline-element; points as div.grid-container.grid-list
+ *    (.grid-list-column-1 = marker, .grid-list-column-2 = content, nesting
+ *    recursively); chapters div#cpt_III (+ #cpt_III.sct_1) with
+ *    p.title-division-1/2; annexes div#anx_III with p.title-annex-1/2 and
+ *    p.title-gr-seq-level-1 sub-headings; footnotes p.footnote at document
+ *    end, referenced inline via <a href="#E0001" id="src.E0001">.
+ *
+ * 2. data/source/aiact_nl.html — the original OJ text. Consolidated versions
+ *    omit the preamble, so the 180 recitals come from here:
+ *    div.eli-subdivision#rct_N with a 2-col table ("(N)" | text).
  */
 import * as cheerio from "cheerio";
-import type { Cheerio } from "cheerio";
-import type { Element } from "domhandler";
+import type { AnyNode, Element } from "domhandler";
 import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -32,8 +38,8 @@ import type {
 } from "../src/lib/types";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const html = readFileSync(join(root, "data/source/aiact_nl.html"), "utf-8");
-const $ = cheerio.load(html);
+const $ = cheerio.load(readFileSync(join(root, "data/source/aiact_nl_consolidated.html"), "utf-8"));
+const $oj = cheerio.load(readFileSync(join(root, "data/source/aiact_nl.html"), "utf-8"));
 
 const ROMAN_VALUES: Record<string, number> = { I: 1, V: 5, X: 10, L: 50, C: 100 };
 function romanToInt(roman: string): number {
@@ -47,96 +53,106 @@ function romanToInt(roman: string): number {
 }
 
 function cleanText(raw: string): string {
-  return raw.replace(/ /g, " ").replace(/\s+/g, " ").trim();
-}
-
-/** Visible text of an element, with footnote back-reference anchors kept as plain "(1)". */
-function textOf(el: Cheerio<Element>): string {
-  return cleanText(el.text());
+  return raw
+    .replace(/ /g, " ")
+    .replace(/\s+/g, " ")
+    .replace(/\(\s+(\*?\d+)\s+\)/g, "($1)") // superscript footnote refs: "( 1 )" -> "(1)"
+    .trim();
 }
 
 const isTag = (n: unknown): n is Element =>
   typeof n === "object" && n !== null && "tagName" in n && (n as Element).type === "tag";
 
+const isText = (n: unknown): n is { type: "text"; data: string } =>
+  typeof n === "object" && n !== null && (n as { type?: string }).type === "text";
+
+// ------------------------------------------------- consolidated dialect
+
+const SKIP_P_CLASSES = [
+  "footnote",
+  "arrow",
+  "title-article-norm",
+  "title-annex-1",
+  "title-annex-2",
+  "title-division-1",
+  "title-division-2",
+];
+
 /**
- * Convert the children of a container into ContentNodes.
- * Consecutive point-tables merge into a single list node.
+ * Convert a container's child nodes into ContentNodes. Handles direct text
+ * nodes (div.norm.inline-element often holds bare text), merges consecutive
+ * grid-list point blocks into one list node.
  */
-function parseBlocks(container: Element): ContentNode[] {
+function parseBlocks(container: Element, skipLidMarker = false): ContentNode[] {
+  return parseNodes(container.children, skipLidMarker);
+}
+
+function parseNodes(children: AnyNode[], skipLidMarker = false): ContentNode[] {
   const nodes: ContentNode[] = [];
-  for (const child of container.children) {
+  let textBuf = "";
+  const flushText = () => {
+    const text = cleanText(textBuf);
+    textBuf = "";
+    if (text) nodes.push({ type: "text", text });
+  };
+
+  let lidMarkerSkipped = false;
+  for (const child of children) {
+    if (isText(child)) {
+      textBuf += child.data;
+      continue;
+    }
     if (!isTag(child)) continue;
     const $child = $(child);
     const cls = $child.attr("class") ?? "";
+
+    if (child.tagName === "span" && cls.includes("no-parag")) {
+      // the lid marker handled by the caller is dropped; any other no-parag
+      // span (quoted lid numbers in amendment articles) stays in the text
+      if (skipLidMarker && !lidMarkerSkipped) {
+        lidMarkerSkipped = true;
+      } else {
+        textBuf += $child.text();
+      }
+      continue;
+    }
+    if (child.tagName === "a" || child.tagName === "span" || child.tagName === "em") {
+      textBuf += $child.text();
+      continue;
+    }
+    flushText();
+
     if (child.tagName === "p") {
-      if (cls.includes("oj-note") || cls.includes("oj-ti-art") || cls.includes("oj-doc-ti")) continue;
-      if (cls.includes("oj-ti-grseq")) {
-        const text = textOf($child);
+      if (SKIP_P_CLASSES.some((c) => cls.includes(c))) continue;
+      if (cls.includes("title-gr-seq")) {
+        const text = cleanText($child.text());
         if (text) nodes.push({ type: "heading", text });
         continue;
       }
-      const text = textOf($child);
+      const text = cleanText($child.text());
       if (text) nodes.push({ type: "text", text });
-    } else if (child.tagName === "table") {
-      const items = parsePointTable(child);
-      if (items.length === 0) continue;
-      const last = nodes[nodes.length - 1];
-      if (last?.type === "list") last.items.push(...items);
-      else nodes.push({ type: "list", items });
     } else if (child.tagName === "div") {
-      // quoted amendment blocks, .eli-title wrappers, etc. -> recurse
       if (cls.includes("eli-title")) continue;
-      nodes.push(...parseBlocks(child));
-    } else if (child.tagName !== "hr") {
-      // inline containers (annex list cells hold bare <span>s)
-      const text = textOf($child);
-      if (text) nodes.push({ type: "text", text });
+      if (cls.includes("grid-container")) {
+        const item = parseGridItem(child);
+        const last = nodes[nodes.length - 1];
+        if (last?.type === "list") last.items.push(item);
+        else nodes.push({ type: "list", items: [item] });
+      } else {
+        nodes.push(...parseBlocks(child));
+      }
     }
   }
+  flushText();
   return nodes;
 }
 
-/** A point table: each row = marker cell(s) + content cell (last td). */
-function parsePointTable(table: Element): ListItem[] {
-  const items: ListItem[] = [];
-  const rows = $(table).children("tbody").children("tr");
-  rows.each((_, tr) => {
-    const cells = $(tr).children("td").toArray();
-    if (cells.length === 0) return;
-    if (cells.length === 1) {
-      // spanning row: fold its content into the previous item if any
-      const content = parseBlocks(cells[0]);
-      const prev = items[items.length - 1];
-      if (prev) prev.content.push(...content);
-      else items.push({ marker: "", content });
-      return;
-    }
-    const contentCell = cells[cells.length - 1];
-    const marker = cells
-      .slice(0, -1)
-      .map((td) => textOf($(td)))
-      .filter(Boolean)
-      .join(" ");
-    items.push({ marker, content: parseBlocks(contentCell) });
-  });
-  return items;
-}
-
-/** Collect p.oj-note descendants of a container as footnotes (they are excluded from the body). */
-function collectFootnotes(container: Element): Footnote[] {
-  const notes: Footnote[] = [];
-  $(container)
-    .find("p.oj-note")
-    .each((_, p) => {
-      const $p = $(p);
-      const $a = $p.find("a").first();
-      const label = cleanText($a.text()) || "(*)";
-      const id = $a.attr("id") ?? `note-${notes.length + 1}`;
-      const clone = $p.clone();
-      clone.find("a").first().remove();
-      notes.push({ id, label, text: cleanText(clone.text()) });
-    });
-  return notes;
+/** One div.grid-container.grid-list = one list item (marker column + content column). */
+function parseGridItem(grid: Element): ListItem {
+  const $grid = $(grid);
+  const marker = cleanText($grid.children(".grid-list-column-1").first().text());
+  const contentCell = $grid.children(".grid-list-column-2").first().get(0);
+  return { marker, content: contentCell ? parseBlocks(contentCell) : [] };
 }
 
 function markerToSlug(marker: string): string {
@@ -157,7 +173,38 @@ function assignItemAnchors(content: ContentNode[], prefix: string): void {
   }
 }
 
-// ---------------------------------------------------------------- articles
+// ------------------------------------------------- footnotes (global, ref-attached)
+
+/** All p.footnote elements sit at document end; key them by their E-number. */
+const footnoteTextById = new Map<string, string>();
+$("p.footnote").each((_, p) => {
+  const $p = $(p);
+  const id = $p.find("a[id]").first().attr("id") ?? "";
+  const clone = $p.clone();
+  clone.find("a").remove();
+  footnoteTextById.set(id, cleanText(clone.text()).replace(/^\(\s*\)\s*/, ""));
+});
+
+/**
+ * Footnotes referenced from within `container` via <a id="src.E...."> markers;
+ * the label is the visible superscript ("1", "*4"), matching the body text.
+ */
+function referencedFootnotes(container: Element): Footnote[] {
+  const out: Footnote[] = [];
+  $(container)
+    .find('a[id^="src."]')
+    .each((_, a) => {
+      const target = ($(a).attr("href") ?? "").replace(/^#/, "");
+      const text = footnoteTextById.get(target);
+      const marker = cleanText($(a).text());
+      if (text !== undefined && !out.some((f) => f.id === target)) {
+        out.push({ id: target, label: `(${marker})`, text });
+      }
+    });
+  return out;
+}
+
+// ------------------------------------------------- structure walk
 
 interface ChapterInfo {
   roman: string;
@@ -171,17 +218,16 @@ $("div[id]").each((_, el) => {
   const id = $(el).attr("id")!;
   if (!/^cpt_[IVXLC]+$/.test(id)) return;
   const roman = id.slice(4);
-  const title = textOf($(el).children(".eli-title").first());
+  const title = cleanText($(el).find("p.title-division-2").first().text());
   const sections: ChapterInfo["sections"] = [];
   $(el)
     .find("div[id]")
     .each((_, s) => {
-      const sid = $(s).attr("id")!;
-      const m = sid.match(/^cpt_[IVXLC]+\.sct_(\d+)$/);
+      const m = $(s).attr("id")!.match(/^cpt_[IVXLC]+\.sct_(\d+)$/);
       if (!m) return;
       sections.push({
         number: Number(m[1]),
-        title: textOf($(s).children(".eli-title").first()),
+        title: cleanText($(s).find("p.title-division-2").first().text()),
         el: s,
       });
     });
@@ -194,53 +240,53 @@ $("div.eli-subdivision[id]").each((_, el) => {
   const m = id.match(/^art_(\d+)$/);
   if (!m) return;
   const number = Number(m[1]);
-  const title = textOf($(el).children(".eli-title").find(".oj-sti-art").first());
+  const title = cleanText($(el).children(".eli-title").find(".stitle-article-norm").first().text());
 
   const chapter = chapters.find((c) => $.contains(c.el, el));
   if (!chapter) throw new Error(`Article ${number}: no containing chapter`);
   const section = chapter.sections.find((s) => $.contains(s.el, el)) ?? null;
 
-  const footnotes = collectFootnotes(el);
-
-  // numbered paragraph divs: id NNN.MMM
-  const paraDivs = $(el)
-    .children("div[id]")
-    .toArray()
-    .filter((d) => /^\d{3}\.\d{3}$/.test($(d).attr("id")!));
+  // Walk direct children in document order. A div.norm with an unquoted "N."
+  // no-parag marker starts a new lid (quoted markers belong to text of amended
+  // acts, art. 102-110); everything else — continuation alineas are SIBLINGS
+  // of the lid div in this dialect — is appended to the current lid.
+  const entries: { lid: number | null; content: ContentNode[] }[] = [];
+  let buffer: AnyNode[] = [];
+  const flushBuffer = () => {
+    if (buffer.length === 0) return;
+    const nodes = parseNodes(buffer);
+    buffer = [];
+    if (nodes.length === 0) return;
+    if (entries.length === 0) entries.push({ lid: null, content: [] });
+    entries[entries.length - 1].content.push(...nodes);
+  };
+  for (const child of el.children) {
+    if (isTag(child)) {
+      const $child = $(child);
+      const cls = $child.attr("class") ?? "";
+      if (child.tagName === "p" && cls.includes("title-article-norm")) continue;
+      if (child.tagName === "div" && cls.includes("eli-title")) continue;
+      const marker = cleanText($child.children("span.no-parag").first().text());
+      if (child.tagName === "div" && cls.includes("norm") && /^\d+\.$/.test(marker)) {
+        flushBuffer();
+        entries.push({ lid: Number(marker.slice(0, -1)), content: parseBlocks(child, true) });
+        continue;
+      }
+    }
+    buffer.push(child);
+  }
+  flushBuffer();
 
   const paragraphs: ArticleParagraph[] = [];
-  if (paraDivs.length > 0) {
-    for (const d of paraDivs) {
-      const mm = Number($(d).attr("id")!.split(".")[1]);
-      const content = parseBlocks(d);
-      // the printed lid number is authoritative (div ids drift where the OJ
-      // numbering skips, e.g. art. 73 has no lid 10); a quoted marker ("1.)
-      // is amendment text, not a lid of this article
-      const first = content[0];
-      let lid: number | null = null;
-      if (first?.type === "text") {
-        const lm = first.text.match(/^(\d+)\.\s+/);
-        if (lm) {
-          lid = Number(lm[1]);
-          first.text = first.text.replace(/^\d+\.\s+/, "");
-        }
-      }
-      const base = lid !== null ? `lid-${lid}` : paraDivs.length === 1 ? "inhoud" : `alinea-${mm}`;
-      // the OJ itself contains duplicate lid numbers (art. 73 prints "11." twice)
-      let anchor = base;
-      for (let n = 2; paragraphs.some((p) => p.anchor === anchor); n++) {
-        anchor = `${base}-bis${n > 2 ? `-${n}` : ""}`;
-      }
-      assignItemAnchors(content, anchor);
-      paragraphs.push({ number: lid, anchor, content });
+  for (const e of entries) {
+    const base =
+      e.lid !== null ? `lid-${e.lid}` : entries.length === 1 ? "inhoud" : `alinea-${paragraphs.length + 1}`;
+    let anchor = base;
+    for (let n = 2; paragraphs.some((p) => p.anchor === anchor); n++) {
+      anchor = `${base}-bis${n > 2 ? `-${n}` : ""}`;
     }
-  } else {
-    // flat article: whole body is one unnumbered paragraph
-    const content = parseBlocks(el).filter(
-      (n) => !(n.type === "text" && /^Artikel \d+$/.test(n.text)),
-    );
-    assignItemAnchors(content, "");
-    paragraphs.push({ number: null, anchor: "inhoud", content });
+    assignItemAnchors(e.content, e.lid !== null ? anchor : "");
+    paragraphs.push({ number: e.lid, anchor, content: e.content });
   }
 
   articles.push({
@@ -251,48 +297,50 @@ $("div.eli-subdivision[id]").each((_, el) => {
     section: section?.number ?? null,
     sectionTitle: section?.title ?? null,
     paragraphs,
-    footnotes,
+    footnotes: referencedFootnotes(el),
   });
 });
 articles.sort((a, b) => a.number - b.number);
 
-// ---------------------------------------------------------------- recitals
+// ------------------------------------------------- recitals (from the OJ text)
 
 const recitals: Recital[] = [];
-$("div.eli-subdivision[id]").each((_, el) => {
-  const m = $(el).attr("id")!.match(/^rct_(\d+)$/);
+$oj("div.eli-subdivision[id]").each((_, el) => {
+  const m = $oj(el).attr("id")!.match(/^rct_(\d+)$/);
   if (!m) return;
-  const cells = $(el).find("tr").first().children("td");
+  const cells = $oj(el).find("tr").first().children("td");
   const paragraphs = cells
     .last()
     .children("p")
     .toArray()
-    .map((p) => textOf($(p)))
+    .map((p) => cleanText($oj(p).text()))
     .filter(Boolean);
   recitals.push({ number: Number(m[1]), paragraphs });
 });
 recitals.sort((a, b) => a.number - b.number);
 
-// ---------------------------------------------------------------- annexes
+// ------------------------------------------------- annexes
 
 const annexes: Annex[] = [];
-$("div.eli-container[id]").each((_, el) => {
+$("div[id]").each((_, el) => {
   const m = $(el).attr("id")!.match(/^anx_([IVXLC]+)$/);
   if (!m) return;
   const roman = m[1];
-  const docTitles = $(el)
-    .children("p.oj-doc-ti")
-    .toArray()
-    .map((p) => textOf($(p)));
-  const title = docTitles[1] ?? docTitles[0] ?? `Bijlage ${roman}`;
-  const footnotes = collectFootnotes(el);
+  const title =
+    cleanText($(el).find("p.title-annex-2").first().text()) || `Bijlage ${roman}`;
   const content = parseBlocks(el);
   assignItemAnchors(content, "");
-  annexes.push({ roman, ordinal: romanToInt(roman), title, content, footnotes });
+  annexes.push({
+    roman,
+    ordinal: romanToInt(roman),
+    title,
+    content,
+    footnotes: referencedFootnotes(el),
+  });
 });
 annexes.sort((a, b) => a.ordinal - b.ordinal);
 
-// ---------------------------------------------------------------- toc
+// ------------------------------------------------- toc
 
 const toc: Toc = {
   chapters: chapters.map((c): TocChapter => {
@@ -316,7 +364,7 @@ const toc: Toc = {
   recitalCount: recitals.length,
 };
 
-// ---------------------------------------------------------------- search docs
+// ------------------------------------------------- search docs
 
 function flattenNodes(nodes: ContentNode[]): string {
   return nodes
@@ -382,7 +430,7 @@ for (const a of annexes) {
   flush();
 }
 
-// ---------------------------------------------------------------- write
+// ------------------------------------------------- write
 
 const outDir = join(root, "data/generated");
 mkdirSync(outDir, { recursive: true });
@@ -398,5 +446,5 @@ copyFileSync(join(outDir, "search-docs.json"), join(root, "public/search-docs.js
 
 console.log(
   `parsed: ${articles.length} articles, ${recitals.length} recitals, ${annexes.length} annexes, ` +
-    `${chapters.length} chapters, ${searchDocs.length} search docs`,
+    `${chapters.length} chapters, ${footnoteTextById.size} footnotes, ${searchDocs.length} search docs`,
 );

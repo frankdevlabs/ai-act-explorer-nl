@@ -105,7 +105,15 @@ assert.ok(
   ),
   "annex III nested points",
 );
-// the only article embedding an oj-note footnote in the OJ source is art. 108
-assert.ok(articles[107].footnotes.length === 1, "art 108 footnote");
+// consolidated text: art. 73 numbering fixed by corrigendum (1..11, no gaps)
+assert.deepEqual(
+  articles[72].paragraphs.map((p) => p.number),
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  "art 73 lid numbering (corrigendum)",
+);
+// footnote-referencing articles: 78 (bedrijfsgeheimen) + amendment articles 102-110
+for (const n of [78, 102, 103, 104, 105, 106, 107, 108, 109, 110]) {
+  assert.ok(articles[n - 1].footnotes.length === 1, `art ${n} footnote`);
+}
 
 console.log("verify-data: all assertions passed");

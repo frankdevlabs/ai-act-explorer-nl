@@ -9,218 +9,88 @@
     "text": "Afdeling A — Lijst van harmonisatiewetgeving van de Unie op basis van het nieuwe wetgevingskader"
    },
    {
-    "type": "list",
-    "items": [
-     {
-      "marker": "1.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn 2006/42/EG van het Europees Parlement en de Raad van 17 mei 2006 betreffende machines en tot wijziging van Richtlijn 95/16/EG (PB L 157 van 9.6.2006, blz. 24)"
-       }
-      ],
-      "anchor": "punt-1"
-     },
-     {
-      "marker": "2.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn 2009/48/EG van het Europees Parlement en de Raad van 18 juni 2009 betreffende de veiligheid van speelgoed (PB L 170 van 30.6.2009, blz. 1)"
-       }
-      ],
-      "anchor": "punt-2"
-     },
-     {
-      "marker": "3.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn 2013/53/EU van het Europees Parlement en de Raad van 20 november 2013 betreffende pleziervaartuigen en waterscooters en tot intrekking van Richtlijn 94/25/EG (PB L 354 van 28.12.2013, blz. 90)"
-       }
-      ],
-      "anchor": "punt-3"
-     },
-     {
-      "marker": "4.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn 2014/33/EU van het Europees Parlement en de Raad van 26 februari 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake liften en veiligheidscomponenten voor liften (PB L 96 van 29.3.2014, blz. 251)"
-       }
-      ],
-      "anchor": "punt-4"
-     },
-     {
-      "marker": "5.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn 2014/34/EU van het Europees Parlement en de Raad van 26 februari 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake apparaten en beveiligingssystemen bedoeld voor gebruik op plaatsen waar ontploffingsgevaar kan heersen (PB L 96 van 29.3.2014, blz. 309)"
-       }
-      ],
-      "anchor": "punt-5"
-     },
-     {
-      "marker": "6.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn 2014/53/EU van het Europees Parlement en de Raad van 16 april 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake het op de markt aanbieden van radioapparatuur en tot intrekking van Richtlijn 1999/5/EG (PB L 153 van 22.5.2014, blz. 62)"
-       }
-      ],
-      "anchor": "punt-6"
-     },
-     {
-      "marker": "7.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn 2014/68/EU van het Europees Parlement en de Raad van 15 mei 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake het op de markt aanbieden van drukapparatuur (PB L 189 van 27.6.2014, blz. 164)"
-       }
-      ],
-      "anchor": "punt-7"
-     },
-     {
-      "marker": "8.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) 2016/424 van het Europees Parlement en de Raad van 9 maart 2016 betreffende kabelbaaninstallaties en tot intrekking van Richtlijn 2000/9/EG (PB L 81 van 31.3.2016, blz. 1)"
-       }
-      ],
-      "anchor": "punt-8"
-     },
-     {
-      "marker": "9.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) 2016/425 van het Europees Parlement en de Raad van 9 maart 2016 betreffende persoonlijke beschermingsmiddelen en tot intrekking van Richtlijn 89/686/EEG van de Raad (PB L 81 van 31.3.2016, blz. 51)"
-       }
-      ],
-      "anchor": "punt-9"
-     },
-     {
-      "marker": "10.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) 2016/426 van het Europees Parlement en de Raad van 9 maart 2016 betreffende gasverbrandingstoestellen en tot intrekking van Richtlijn 2009/142/EG (PB L 81 van 31.3.2016, blz. 99)"
-       }
-      ],
-      "anchor": "punt-10"
-     },
-     {
-      "marker": "11.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) 2017/745 van het Europees Parlement en de Raad van 5 april 2017 betreffende medische hulpmiddelen, tot wijziging van Richtlijn 2001/83/EG, Verordening (EG) nr. 178/2002 en Verordening (EG) nr. 1223/2009, en tot intrekking van Richtlijnen 90/385/EEG en 93/42/EEG van de Raad (PB L 117 van 5.5.2017, blz. 1)"
-       }
-      ],
-      "anchor": "punt-11"
-     },
-     {
-      "marker": "12.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) 2017/746 van het Europees Parlement en de Raad van 5 april 2017 betreffende medische hulpmiddelen voor in-vitrodiagnostiek en tot intrekking van Richtlijn 98/79/EG en Besluit 2010/227/EU van de Commissie (PB L 117 van 5.5.2017, blz. 176)"
-       }
-      ],
-      "anchor": "punt-12"
-     }
-    ]
+    "type": "text",
+    "text": "1. Richtlijn 2006/42/EG van het Europees Parlement en de Raad van 17 mei 2006 betreffende machines en tot wijziging van Richtlijn 95/16/EG (PB L 157 van 9.6.2006, blz. 24)"
+   },
+   {
+    "type": "text",
+    "text": "2. Richtlijn 2009/48/EG van het Europees Parlement en de Raad van 18 juni 2009 betreffende de veiligheid van speelgoed (PB L 170 van 30.6.2009, blz. 1)"
+   },
+   {
+    "type": "text",
+    "text": "3. Richtlijn 2013/53/EU van het Europees Parlement en de Raad van 20 november 2013 betreffende pleziervaartuigen en waterscooters en tot intrekking van Richtlijn 94/25/EG (PB L 354 van 28.12.2013, blz. 90)"
+   },
+   {
+    "type": "text",
+    "text": "4. Richtlijn 2014/33/EU van het Europees Parlement en de Raad van 26 februari 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake liften en veiligheidscomponenten voor liften (PB L 96 van 29.3.2014, blz. 251)"
+   },
+   {
+    "type": "text",
+    "text": "5. Richtlijn 2014/34/EU van het Europees Parlement en de Raad van 26 februari 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake apparaten en beveiligingssystemen bedoeld voor gebruik op plaatsen waar ontploffingsgevaar kan heersen (PB L 96 van 29.3.2014, blz. 309)"
+   },
+   {
+    "type": "text",
+    "text": "6. Richtlijn 2014/53/EU van het Europees Parlement en de Raad van 16 april 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake het op de markt aanbieden van radioapparatuur en tot intrekking van Richtlijn 1999/5/EG (PB L 153 van 22.5.2014, blz. 62)"
+   },
+   {
+    "type": "text",
+    "text": "7. Richtlijn 2014/68/EU van het Europees Parlement en de Raad van 15 mei 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake het op de markt aanbieden van drukapparatuur (PB L 189 van 27.6.2014, blz. 164)"
+   },
+   {
+    "type": "text",
+    "text": "8. Verordening (EU) 2016/424 van het Europees Parlement en de Raad van 9 maart 2016 betreffende kabelbaaninstallaties en tot intrekking van Richtlijn 2000/9/EG (PB L 81 van 31.3.2016, blz. 1)"
+   },
+   {
+    "type": "text",
+    "text": "9. Verordening (EU) 2016/425 van het Europees Parlement en de Raad van 9 maart 2016 betreffende persoonlijke beschermingsmiddelen en tot intrekking van Richtlijn 89/686/EEG van de Raad (PB L 81 van 31.3.2016, blz. 51)"
+   },
+   {
+    "type": "text",
+    "text": "10. Verordening (EU) 2016/426 van het Europees Parlement en de Raad van 9 maart 2016 betreffende gasverbrandingstoestellen en tot intrekking van Richtlijn 2009/142/EG (PB L 81 van 31.3.2016, blz. 99)"
+   },
+   {
+    "type": "text",
+    "text": "11. Verordening (EU) 2017/745 van het Europees Parlement en de Raad van 5 april 2017 betreffende medische hulpmiddelen, tot wijziging van Richtlijn 2001/83/EG, Verordening (EG) nr. 178/2002 en Verordening (EG) nr. 1223/2009, en tot intrekking van Richtlijnen 90/385/EEG en 93/42/EEG van de Raad (PB L 117 van 5.5.2017, blz. 1)"
+   },
+   {
+    "type": "text",
+    "text": "12. Verordening (EU) 2017/746 van het Europees Parlement en de Raad van 5 april 2017 betreffende medische hulpmiddelen voor in-vitrodiagnostiek en tot intrekking van Richtlijn 98/79/EG en Besluit 2010/227/EU van de Commissie (PB L 117 van 5.5.2017, blz. 176)"
    },
    {
     "type": "heading",
     "text": "Afdeling B — Lijst van andere harmonisatiewetgeving van de Unie"
    },
    {
-    "type": "list",
-    "items": [
-     {
-      "marker": "13.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EG) nr. 300/2008 van het Europees Parlement en de Raad van 11 maart 2008 inzake gemeenschappelijke regels op het gebied van de beveiliging van de burgerluchtvaart en tot intrekking van Verordening (EG) nr. 2320/2002 (PB L 97 van 9.4.2008, blz. 72)"
-       }
-      ],
-      "anchor": "punt-13"
-     },
-     {
-      "marker": "14.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) nr. 168/2013 van het Europees Parlement en de Raad van 15 januari 2013 betreffende de goedkeuring van en het markttoezicht op twee- of driewielige voertuigen en vierwielers (PB L 60 van 2.3.2013, blz. 52)"
-       }
-      ],
-      "anchor": "punt-14"
-     },
-     {
-      "marker": "15.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) nr. 167/2013 van het Europees Parlement en de Raad van 5 februari 2013 inzake de goedkeuring van en het markttoezicht op landbouw- en bosbouwvoertuigen (PB L 60 van 2.3.2013, blz. 1)"
-       }
-      ],
-      "anchor": "punt-15"
-     },
-     {
-      "marker": "16.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn 2014/90/EU van het Europees Parlement en de Raad van 23 juli 2014 inzake uitrusting van zeeschepen en tot intrekking van Richtlijn 96/98/EG van de Raad (PB L 257 van 28.8.2014, blz. 146)"
-       }
-      ],
-      "anchor": "punt-16"
-     },
-     {
-      "marker": "17.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Richtlijn (EU) 2016/797 van het Europees Parlement en de Raad van 11 mei 2016 betreffende de interoperabiliteit van het spoorwegsysteem in de Europese Unie (PB L 138 van 26.5.2016, blz. 44)"
-       }
-      ],
-      "anchor": "punt-17"
-     },
-     {
-      "marker": "18.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) 2018/858 van het Europees Parlement en de Raad van 30 mei 2018 betreffende de goedkeuring van en het markttoezicht op motorvoertuigen en aanhangwagens daarvan en systemen, onderdelen en technische eenheden die voor dergelijke voertuigen zijn bestemd, tot wijziging van Verordeningen (EG) nr. 715/2007 en (EG) nr. 595/2009 en tot intrekking van Richtlijn 2007/46/EG (PB L 151 van 14.6.2018, blz. 1)"
-       }
-      ],
-      "anchor": "punt-18"
-     },
-     {
-      "marker": "19.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) 2019/2144 van het Europees Parlement en de Raad van 27 november 2019 betreffende de voorschriften voor de typegoedkeuring van motorvoertuigen en aanhangwagens daarvan en van systemen, onderdelen en technische eenheden die voor dergelijke voertuigen zijn bestemd wat de algemene veiligheid ervan en de bescherming van de inzittenden van voertuigen en kwetsbare weggebruikers betreft, tot wijziging van Verordening (EU) 2018/858 van het Europees Parlement en de Raad en tot intrekking van de Verordeningen (EG) nr. 78/2009, (EG) nr. 79/2009 en (EG) nr. 661/2009 van het Europees Parlement en de Raad en de Verordeningen (EG) nr. 631/2009, (EU) nr. 406/2010, (EU) nr. 672/2010, (EU) nr. 1003/2010, (EU) nr. 1005/2010, (EU) nr. 1008/2010, (EU) nr. 1009/2010, (EU) nr. 19/2011, (EU) nr. 109/2011, (EU) nr. 458/2011, (EU) nr. 65/2012, (EU) nr. 130/2012, (EU) nr. 347/2012, (EU) nr. 351/2012, (EU) nr. 1230/2012 en (EU) 2015/166 van de Commissie (PB L 325 van 16.12.2019, blz. 1)"
-       }
-      ],
-      "anchor": "punt-19"
-     },
-     {
-      "marker": "20.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Verordening (EU) 2018/1139 van het Europees Parlement en de Raad van 4 juli 2018 inzake gemeenschappelijke regels op het gebied van burgerluchtvaart en tot oprichting van een Agentschap van de Europese Unie voor de veiligheid van de luchtvaart, en tot wijziging van de Verordeningen (EG) nr. 2111/2005, (EG) nr. 1008/2008, (EU) nr. 996/2010, (EU) nr. 376/2014 en de Richtlijnen 2014/30/EU en 2014/53/EU van het Europees Parlement en de Raad, en tot intrekking van de Verordeningen (EG) nr. 552/2004 en (EG) nr. 216/2008 van het Europees Parlement en de Raad en Verordening (EEG) nr. 3922/91 van de Raad (PB L 212 van 22.8.2018, blz. 1), voor zover het gaat om het ontwerp, de productie en het in de handel brengen van luchtvaartuigen als bedoeld in artikel 2, lid 1, punten a) en b), wat betreft onbemande luchtvaartuigen, en hun motoren, propellers, onderdelen en apparatuur om het luchtvaartuig op afstand te besturen."
-       }
-      ],
-      "anchor": "punt-20"
-     }
-    ]
+    "type": "text",
+    "text": "13. Verordening (EG) nr. 300/2008 van het Europees Parlement en de Raad van 11 maart 2008 inzake gemeenschappelijke regels op het gebied van de beveiliging van de burgerluchtvaart en tot intrekking van Verordening (EG) nr. 2320/2002 (PB L 97 van 9.4.2008, blz. 72)"
+   },
+   {
+    "type": "text",
+    "text": "14. Verordening (EU) nr. 168/2013 van het Europees Parlement en de Raad van 15 januari 2013 betreffende de goedkeuring van en het markttoezicht op twee- of driewielige voertuigen en vierwielers (PB L 60 van 2.3.2013, blz. 52)"
+   },
+   {
+    "type": "text",
+    "text": "15. Verordening (EU) nr. 167/2013 van het Europees Parlement en de Raad van 5 februari 2013 inzake de goedkeuring van en het markttoezicht op landbouw- en bosbouwvoertuigen (PB L 60 van 2.3.2013, blz. 1)"
+   },
+   {
+    "type": "text",
+    "text": "16. Richtlijn 2014/90/EU van het Europees Parlement en de Raad van 23 juli 2014 inzake uitrusting van zeeschepen en tot intrekking van Richtlijn 96/98/EG van de Raad (PB L 257 van 28.8.2014, blz. 146)"
+   },
+   {
+    "type": "text",
+    "text": "17. Richtlijn (EU) 2016/797 van het Europees Parlement en de Raad van 11 mei 2016 betreffende de interoperabiliteit van het spoorwegsysteem in de Europese Unie (PB L 138 van 26.5.2016, blz. 44)"
+   },
+   {
+    "type": "text",
+    "text": "18. Verordening (EU) 2018/858 van het Europees Parlement en de Raad van 30 mei 2018 betreffende de goedkeuring van en het markttoezicht op motorvoertuigen en aanhangwagens daarvan en systemen, onderdelen en technische eenheden die voor dergelijke voertuigen zijn bestemd, tot wijziging van Verordeningen (EG) nr. 715/2007 en (EG) nr. 595/2009 en tot intrekking van Richtlijn 2007/46/EG (PB L 151 van 14.6.2018, blz. 1)"
+   },
+   {
+    "type": "text",
+    "text": "19. Verordening (EU) 2019/2144 van het Europees Parlement en de Raad van 27 november 2019 betreffende de voorschriften voor de typegoedkeuring van motorvoertuigen en aanhangwagens daarvan en van systemen, onderdelen en technische eenheden die voor dergelijke voertuigen zijn bestemd wat de algemene veiligheid ervan en de bescherming van de inzittenden van voertuigen en kwetsbare weggebruikers betreft, tot wijziging van Verordening (EU) 2018/858 van het Europees Parlement en de Raad en tot intrekking van de Verordeningen (EG) nr. 78/2009, (EG) nr. 79/2009 en (EG) nr. 661/2009 van het Europees Parlement en de Raad en de Verordeningen (EG) nr. 631/2009, (EU) nr. 406/2010, (EU) nr. 672/2010, (EU) nr. 1003/2010, (EU) nr. 1005/2010, (EU) nr. 1008/2010, (EU) nr. 1009/2010, (EU) nr. 19/2011, (EU) nr. 109/2011, (EU) nr. 458/2011, (EU) nr. 65/2012, (EU) nr. 130/2012, (EU) nr. 347/2012, (EU) nr. 351/2012, (EU) nr. 1230/2012 en (EU) 2015/166 van de Commissie (PB L 325 van 16.12.2019, blz. 1)"
+   },
+   {
+    "type": "text",
+    "text": "20. Verordening (EU) 2018/1139 van het Europees Parlement en de Raad van 4 juli 2018 inzake gemeenschappelijke regels op het gebied van burgerluchtvaart en tot oprichting van een Agentschap van de Europese Unie voor de veiligheid van de luchtvaart, en tot wijziging van de Verordeningen (EG) nr. 2111/2005, (EG) nr. 1008/2008, (EU) nr. 996/2010, (EU) nr. 376/2014 en de Richtlijnen 2014/30/EU en 2014/53/EU van het Europees Parlement en de Raad, en tot intrekking van de Verordeningen (EG) nr. 552/2004 en (EG) nr. 216/2008 van het Europees Parlement en de Raad en Verordening (EEG) nr. 3922/91 van de Raad (PB L 212 van 22.8.2018, blz. 1), voor zover het gaat om het ontwerp, de productie en het in de handel brengen van luchtvaartuigen als bedoeld in artikel 2, lid 1, punten a) en b), wat betreft onbemande luchtvaartuigen, en hun motoren, propellers, onderdelen en apparatuur om het luchtvaartuig op afstand te besturen."
    }
   ],
   "footnotes": []
@@ -1103,35 +973,19 @@
   "content": [
    {
     "type": "text",
-    "text": "1."
+    "text": "1. De conformiteitsbeoordelingsprocedure op basis van interne controle is de conformiteitsbeoordelingsprocedure op basis van de punten 2, 3 en 4."
    },
    {
     "type": "text",
-    "text": "De conformiteitsbeoordelingsprocedure op basis van interne controle is de conformiteitsbeoordelingsprocedure op basis van de punten 2, 3 en 4."
+    "text": "2. De aanbieder verifieert dat het ingevoerde kwaliteitsbeheersysteem voldoet aan de eisen van artikel 17."
    },
    {
     "type": "text",
-    "text": "2."
+    "text": "3. De aanbieder beoordeelt de in de technische documentatie opgenomen informatie om te beoordelen of het AI-systeem voldoet aan de relevante essentiële eisen van hoofdstuk III, afdeling 2."
    },
    {
     "type": "text",
-    "text": "De aanbieder verifieert dat het ingevoerde kwaliteitsbeheersysteem voldoet aan de eisen van artikel 17."
-   },
-   {
-    "type": "text",
-    "text": "3."
-   },
-   {
-    "type": "text",
-    "text": "De aanbieder beoordeelt de in de technische documentatie opgenomen informatie om te beoordelen of het AI-systeem voldoet aan de relevante essentiële eisen van hoofdstuk III, afdeling 2."
-   },
-   {
-    "type": "text",
-    "text": "4."
-   },
-   {
-    "type": "text",
-    "text": "De aanbieder verifieert eveneens of het ontwerp- en ontwikkelingsproces van het AI-systeem en de in artikel 72 bedoelde monitoring na het in de handel brengen overeenkomt met de technische documentatie."
+    "text": "4. De aanbieder verifieert eveneens of het ontwerp- en ontwikkelingsproces van het AI-systeem en de in artikel 72 bedoelde monitoring na het in de handel brengen overeenkomt met de technische documentatie."
    }
   ],
   "footnotes": []
@@ -1162,290 +1016,200 @@
     "text": "3. Systeem voor kwaliteitsbeheer"
    },
    {
+    "type": "text",
+    "text": "3.1. De aanvraag van de aanbieder bevat onder meer:"
+   },
+   {
     "type": "list",
     "items": [
      {
-      "marker": "3.1.",
+      "marker": "a)",
       "content": [
        {
         "type": "text",
-        "text": "De aanvraag van de aanbieder bevat onder meer:"
-       },
-       {
-        "type": "list",
-        "items": [
-         {
-          "marker": "a)",
-          "content": [
-           {
-            "type": "text",
-            "text": "de naam en het adres van de aanbieder en, indien de aanvraag wordt ingediend door een gemachtigde, ook diens naam en adres;"
-           }
-          ]
-         },
-         {
-          "marker": "b)",
-          "content": [
-           {
-            "type": "text",
-            "text": "de lijst met AI-systemen die vallen onder hetzelfde kwaliteitsbeheersysteem;"
-           }
-          ]
-         },
-         {
-          "marker": "c)",
-          "content": [
-           {
-            "type": "text",
-            "text": "de technische documentatie voor elk AI-systeem dat valt onder hetzelfde kwaliteitsbeheersysteem;"
-           }
-          ]
-         },
-         {
-          "marker": "d)",
-          "content": [
-           {
-            "type": "text",
-            "text": "de documentatie betreffende het kwaliteitsbeheersysteem, dat alle in artikel 17 vermelde aspecten beslaat;"
-           }
-          ]
-         },
-         {
-          "marker": "e)",
-          "content": [
-           {
-            "type": "text",
-            "text": "een beschrijving van de ingestelde procedures om te zorgen dat het kwaliteitsbeheersysteem adequaat en doeltreffend blijft;"
-           }
-          ]
-         },
-         {
-          "marker": "f)",
-          "content": [
-           {
-            "type": "text",
-            "text": "een schriftelijke verklaring dat er geen gelijkluidende aanvraag bij een andere aangemelde instantie is ingediend."
-           }
-          ]
-         }
-        ]
+        "text": "de naam en het adres van de aanbieder en, indien de aanvraag wordt ingediend door een gemachtigde, ook diens naam en adres;"
        }
       ],
-      "anchor": "punt-3-1"
+      "anchor": "punt-a"
      },
      {
-      "marker": "3.2.",
+      "marker": "b)",
       "content": [
        {
         "type": "text",
-        "text": "Het kwaliteitsbeheersysteem wordt beoordeeld door de aangemelde instantie, die bepaalt of wordt voldaan aan de in artikel 17 bedoelde eisen."
-       },
-       {
-        "type": "text",
-        "text": "Het besluit wordt meegedeeld aan de aanbieder of diens gemachtigde."
-       },
-       {
-        "type": "text",
-        "text": "In deze kennisgeving zijn de conclusies van de beoordeling van het kwaliteitsbeheersysteem opgenomen, evenals de met redenen omklede beoordelingsbeslissing."
+        "text": "de lijst met AI-systemen die vallen onder hetzelfde kwaliteitsbeheersysteem;"
        }
       ],
-      "anchor": "punt-3-2"
+      "anchor": "punt-b"
      },
      {
-      "marker": "3.3.",
+      "marker": "c)",
       "content": [
        {
         "type": "text",
-        "text": "Het goedgekeurde kwaliteitsbeheersysteem wordt zodanig uitgevoerd en onderhouden door de aanbieder dat het toereikend en efficiënt blijft."
+        "text": "de technische documentatie voor elk AI-systeem dat valt onder hetzelfde kwaliteitsbeheersysteem;"
        }
       ],
-      "anchor": "punt-3-3"
+      "anchor": "punt-c"
      },
      {
-      "marker": "3.4.",
+      "marker": "d)",
       "content": [
        {
         "type": "text",
-        "text": "Voorgenomen wijzigingen in het goedgekeurde kwaliteitsbeheersysteem of de lijst met AI-systemen waarop het beheersysteem van toepassing is, worden door de aanbieder meegedeeld aan de aangemelde instantie."
-       },
-       {
-        "type": "text",
-        "text": "De voorgestelde wijzigingen worden beoordeeld door de aangemelde instantie, die beslist of het gewijzigde kwaliteitsbeheersysteem blijft voldoen aan de in punt 3.2 bedoelde eisen dan wel of een nieuwe beoordeling noodzakelijk is."
-       },
-       {
-        "type": "text",
-        "text": "De aangemelde instantie stelt de aanbieder in kennis van haar beslissing. In deze kennisgeving zijn de conclusies van de beoordeling van de wijzigingen opgenomen, evenals de met redenen omklede beoordelingsbeslissing."
+        "text": "de documentatie betreffende het kwaliteitsbeheersysteem, dat alle in artikel 17 vermelde aspecten beslaat;"
        }
       ],
-      "anchor": "punt-3-4"
+      "anchor": "punt-d"
+     },
+     {
+      "marker": "e)",
+      "content": [
+       {
+        "type": "text",
+        "text": "een beschrijving van de ingestelde procedures om te zorgen dat het kwaliteitsbeheersysteem adequaat en doeltreffend blijft;"
+       }
+      ],
+      "anchor": "punt-e"
+     },
+     {
+      "marker": "f)",
+      "content": [
+       {
+        "type": "text",
+        "text": "een schriftelijke verklaring dat er geen gelijkluidende aanvraag bij een andere aangemelde instantie is ingediend."
+       }
+      ],
+      "anchor": "punt-f"
      }
     ]
+   },
+   {
+    "type": "text",
+    "text": "3.2. Het kwaliteitsbeheersysteem wordt beoordeeld door de aangemelde instantie, die bepaalt of wordt voldaan aan de in artikel 17 bedoelde eisen."
+   },
+   {
+    "type": "text",
+    "text": "Het besluit wordt meegedeeld aan de aanbieder of diens gemachtigde."
+   },
+   {
+    "type": "text",
+    "text": "In deze kennisgeving zijn de conclusies van de beoordeling van het kwaliteitsbeheersysteem opgenomen, evenals de met redenen omklede beoordelingsbeslissing."
+   },
+   {
+    "type": "text",
+    "text": "3.3. Het goedgekeurde kwaliteitsbeheersysteem wordt zodanig uitgevoerd en onderhouden door de aanbieder dat het toereikend en efficiënt blijft."
+   },
+   {
+    "type": "text",
+    "text": "3.4. Voorgenomen wijzigingen in het goedgekeurde kwaliteitsbeheersysteem of de lijst met AI-systemen waarop het beheersysteem van toepassing is, worden door de aanbieder meegedeeld aan de aangemelde instantie."
+   },
+   {
+    "type": "text",
+    "text": "De voorgestelde wijzigingen worden beoordeeld door de aangemelde instantie, die beslist of het gewijzigde kwaliteitsbeheersysteem blijft voldoen aan de in punt 3.2 bedoelde eisen dan wel of een nieuwe beoordeling noodzakelijk is."
+   },
+   {
+    "type": "text",
+    "text": "De aangemelde instantie stelt de aanbieder in kennis van haar beslissing. In deze kennisgeving zijn de conclusies van de beoordeling van de wijzigingen opgenomen, evenals de met redenen omklede beoordelingsbeslissing."
    },
    {
     "type": "heading",
     "text": "4. Controle van de technische documentatie."
    },
    {
+    "type": "text",
+    "text": "4.1. In aanvulling op de in punt 3 bedoelde aanvraag, wordt een aanvraag bij een aangemelde instantie naar keuze ingediend door de aanbieder voor de beoordeling van de technische documentatie die betrekking heeft op het AI-systeem dat de aanbieder voornemens is in de handel te brengen of in gebruik te stellen en waarop het in punt 3 bedoelde kwaliteitsbeheersysteem van toepassing is."
+   },
+   {
+    "type": "text",
+    "text": "4.2. De aanvraag omvat:"
+   },
+   {
     "type": "list",
     "items": [
      {
-      "marker": "4.1.",
+      "marker": "a)",
       "content": [
        {
         "type": "text",
-        "text": "In aanvulling op de in punt 3 bedoelde aanvraag, wordt een aanvraag bij een aangemelde instantie naar keuze ingediend door de aanbieder voor de beoordeling van de technische documentatie die betrekking heeft op het AI-systeem dat de aanbieder voornemens is in de handel te brengen of in gebruik te stellen en waarop het in punt 3 bedoelde kwaliteitsbeheersysteem van toepassing is."
+        "text": "de naam en het adres van de aanbieder;"
        }
       ],
-      "anchor": "punt-4-1"
+      "anchor": "punt-a"
      },
      {
-      "marker": "4.2.",
+      "marker": "b)",
       "content": [
        {
         "type": "text",
-        "text": "De aanvraag omvat:"
-       },
-       {
-        "type": "list",
-        "items": [
-         {
-          "marker": "a)",
-          "content": [
-           {
-            "type": "text",
-            "text": "de naam en het adres van de aanbieder;"
-           }
-          ]
-         },
-         {
-          "marker": "b)",
-          "content": [
-           {
-            "type": "text",
-            "text": "een schriftelijke verklaring dat er geen gelijkluidende aanvraag bij een andere aangemelde instantie is ingediend;"
-           }
-          ]
-         },
-         {
-          "marker": "c)",
-          "content": [
-           {
-            "type": "text",
-            "text": "de in bijlage IV bedoelde technische documentatie."
-           }
-          ]
-         }
-        ]
+        "text": "een schriftelijke verklaring dat er geen gelijkluidende aanvraag bij een andere aangemelde instantie is ingediend;"
        }
       ],
-      "anchor": "punt-4-2"
+      "anchor": "punt-b"
      },
      {
-      "marker": "4.3.",
+      "marker": "c)",
       "content": [
        {
         "type": "text",
-        "text": "De technische documentatie wordt beoordeeld door de aangemelde instantie. Indien relevant en beperkt tot wat nodig is om haar taken uit te voeren, wordt aan de aangemelde instantie volledige toegang verleend tot de gebruikte reeksen trainings-, validatie- en testdata, onder meer, indien passend en met inachtneming van beveiligingswaarborgen, via API’s of andere relevante technische middelen en instrumenten die toegang op afstand mogelijk maken."
+        "text": "de in bijlage IV bedoelde technische documentatie."
        }
       ],
-      "anchor": "punt-4-3"
-     },
-     {
-      "marker": "4.4.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Bij de beoordeling van de technische documentatie kan de aangemelde instantie eisen dat de aanbieder nader bewijs overlegt of nadere tests uitvoert, zodat een passende conformiteitsbeoordeling kan worden uitgevoerd om te controleren of het AI-systeem voldoet aan de eisen van hoofdstuk III, afdeling 2. Indien de aangemelde instantie niet tevreden is met de door de aanbieder uitgevoerde tests, voert de aangemelde instantie zelf toereikende tests uit, voor zover passend."
-       }
-      ],
-      "anchor": "punt-4-4"
-     },
-     {
-      "marker": "4.5.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Indien dat noodzakelijk is om te beoordelen of het AI-systeem met een hoog risico voldoet aan de eisen van hoofdstuk III, afdeling 2, nadat alle andere redelijke manieren om de conformiteit te verifiëren, zijn uitgeput of ontoereikend zijn gebleken, en na een met redenen omkleed verzoek, krijgt de aangemelde instantie eveneens toegang tot de trainings- en getrainde modellen van het AI-systeem, met inbegrip van de relevante parameters ervan. Die toegang is onderworpen aan het bestaande Unierecht inzake de bescherming van intellectuele eigendom en bedrijfsgeheimen."
-       }
-      ],
-      "anchor": "punt-4-5"
-     },
-     {
-      "marker": "4.6.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Het besluit van de aangemelde instantie wordt meegedeeld aan de aanbieder of diens gemachtigde. In deze kennisgeving zijn de conclusies van de beoordeling van de technische documentatie opgenomen, evenals de met redenen omklede beoordelingsbeslissing."
-       },
-       {
-        "type": "text",
-        "text": "Indien het AI-systeem voldoet aan de eisen van hoofdstuk III, afdeling 2, geeft de aangemelde instantie een beoordelingscertificaat technische documentatie van de Unie af. Het certificaat bevat naam en adres van de aanbieder, de controlebevindingen, de eventuele voorwaarden voor de geldigheid van het certificaat en de noodzakelijke gegevens voor de identificatie van het AI-systeem."
-       },
-       {
-        "type": "text",
-        "text": "Het certificaat en de bijlagen daarbij bevatten alle relevante informatie voor de evaluatie van de conformiteit van het AI-systeem en maken het mogelijk het in gebruik zijnde AI-systeem te controleren, indien van toepassing."
-       },
-       {
-        "type": "text",
-        "text": "Indien het AI-systeem niet voldoet aan de eisen van hoofdstuk III, afdeling 2, weigert de aangemelde instantie een beoordelingscertificaat technische documentatie van de Unie te verstrekken en brengt zij de aanvrager hiervan op de hoogte met vermelding van de precieze redenen voor de weigering."
-       },
-       {
-        "type": "text",
-        "text": "Indien het AI-systeem niet voldoet aan de eis met betrekking tot de gebruikte trainingsdata, moet het AI-systeem opnieuw worden getraind voorafgaand aan de aanvraag voor een nieuwe conformiteitsbeoordeling. In dit geval bevat de met redenen omklede beoordelingsbeslissing van de aangemelde instantie waarin het beoordelingscertificaat technische documentatie van de Unie wordt geweigerd de specifieke overwegingen ten aanzien van de kwaliteitsdata die worden gebruikt voor de training van het AI-systeem, met name over de redenen waarom deze niet voldoen."
-       }
-      ],
-      "anchor": "punt-4-6"
-     },
-     {
-      "marker": "4.7.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Eventuele wijzigingen in het AI-systeem die van invloed kunnen zijn op de naleving door het AI-systeem van de eisen of het beoogde doel, worden beoordeeld door de aangemelde instantie die het beoordelingscertificaat technische documentatie van de Unie heeft verstrekt. De aanbieder informeert die aangemelde instantie over zijn voornemen om een van voornoemde wijzigingen door te voeren of wanneer hij zich anderszins bewust wordt van het bestaan van dergelijke wijzigingen. De aangemelde instantie beoordeelt de voorgenomen wijzigingen en beslist of deze een nieuwe conformiteitsbeoordeling vereisen overeenkomstig artikel 43, lid 4, dan wel of een aanvulling op het beoordelingscertificaat technische documentatie van de Unie volstaat. In het laatste geval beoordeelt de aangemelde instantie de wijzigingen, stelt zij de aanbieder in kennis van haar besluit en verstrekt hem, indien de wijzigingen worden goedgekeurd, een aanvulling op het beoordelingscertificaat technische documentatie van de Unie."
-       }
-      ],
-      "anchor": "punt-4-7"
+      "anchor": "punt-c"
      }
     ]
+   },
+   {
+    "type": "text",
+    "text": "4.3. De technische documentatie wordt beoordeeld door de aangemelde instantie. Indien relevant en beperkt tot wat nodig is om haar taken uit te voeren, wordt aan de aangemelde instantie volledige toegang verleend tot de gebruikte reeksen trainings-, validatie- en testdata, onder meer, indien passend en met inachtneming van beveiligingswaarborgen, via API’s of andere relevante technische middelen en instrumenten die toegang op afstand mogelijk maken."
+   },
+   {
+    "type": "text",
+    "text": "4.4. Bij de beoordeling van de technische documentatie kan de aangemelde instantie eisen dat de aanbieder nader bewijs overlegt of nadere tests uitvoert, zodat een passende conformiteitsbeoordeling kan worden uitgevoerd om te controleren of het AI-systeem voldoet aan de eisen van hoofdstuk III, afdeling 2. Indien de aangemelde instantie niet tevreden is met de door de aanbieder uitgevoerde tests, voert de aangemelde instantie zelf toereikende tests uit, voor zover passend."
+   },
+   {
+    "type": "text",
+    "text": "4.5. Indien dat noodzakelijk is om te beoordelen of het AI-systeem met een hoog risico voldoet aan de eisen van hoofdstuk III, afdeling 2, nadat alle andere redelijke manieren om de conformiteit te verifiëren, zijn uitgeput of ontoereikend zijn gebleken, en na een met redenen omkleed verzoek, krijgt de aangemelde instantie eveneens toegang tot de trainings- en getrainde modellen van het AI-systeem, met inbegrip van de relevante parameters ervan. Die toegang is onderworpen aan het bestaande Unierecht inzake de bescherming van intellectuele eigendom en bedrijfsgeheimen."
+   },
+   {
+    "type": "text",
+    "text": "4.6. Het besluit van de aangemelde instantie wordt meegedeeld aan de aanbieder of diens gemachtigde. In deze kennisgeving zijn de conclusies van de beoordeling van de technische documentatie opgenomen, evenals de met redenen omklede beoordelingsbeslissing."
+   },
+   {
+    "type": "text",
+    "text": "Indien het AI-systeem voldoet aan de eisen van hoofdstuk III, afdeling 2, geeft de aangemelde instantie een beoordelingscertificaat technische documentatie van de Unie af. Het certificaat bevat naam en adres van de aanbieder, de controlebevindingen, de eventuele voorwaarden voor de geldigheid van het certificaat en de noodzakelijke gegevens voor de identificatie van het AI-systeem."
+   },
+   {
+    "type": "text",
+    "text": "Het certificaat en de bijlagen daarbij bevatten alle relevante informatie voor de evaluatie van de conformiteit van het AI-systeem en maken het mogelijk het in gebruik zijnde AI-systeem te controleren, indien van toepassing."
+   },
+   {
+    "type": "text",
+    "text": "Indien het AI-systeem niet voldoet aan de eisen van hoofdstuk III, afdeling 2, weigert de aangemelde instantie een beoordelingscertificaat technische documentatie van de Unie te verstrekken en brengt zij de aanvrager hiervan op de hoogte met vermelding van de precieze redenen voor de weigering."
+   },
+   {
+    "type": "text",
+    "text": "Indien het AI-systeem niet voldoet aan de eis met betrekking tot de gebruikte trainingsdata, moet het AI-systeem opnieuw worden getraind voorafgaand aan de aanvraag voor een nieuwe conformiteitsbeoordeling. In dit geval bevat de met redenen omklede beoordelingsbeslissing van de aangemelde instantie waarin het beoordelingscertificaat technische documentatie van de Unie wordt geweigerd de specifieke overwegingen ten aanzien van de kwaliteitsdata die worden gebruikt voor de training van het AI-systeem, met name over de redenen waarom deze niet voldoen."
+   },
+   {
+    "type": "text",
+    "text": "4.7. Eventuele wijzigingen in het AI-systeem die van invloed kunnen zijn op de naleving door het AI-systeem van de eisen of het beoogde doel, worden beoordeeld door de aangemelde instantie die het beoordelingscertificaat technische documentatie van de Unie heeft verstrekt. De aanbieder informeert die aangemelde instantie over zijn voornemen om een van voornoemde wijzigingen door te voeren of wanneer hij zich anderszins bewust wordt van het bestaan van dergelijke wijzigingen. De aangemelde instantie beoordeelt de voorgenomen wijzigingen en beslist of deze een nieuwe conformiteitsbeoordeling vereisen overeenkomstig artikel 43, lid 4, dan wel of een aanvulling op het beoordelingscertificaat technische documentatie van de Unie volstaat. In het laatste geval beoordeelt de aangemelde instantie de wijzigingen, stelt zij de aanbieder in kennis van haar besluit en verstrekt hem, indien de wijzigingen worden goedgekeurd, een aanvulling op het beoordelingscertificaat technische documentatie van de Unie."
    },
    {
     "type": "heading",
     "text": "5. Toezicht op het goedgekeurde kwaliteitsbeheersysteem."
    },
    {
-    "type": "list",
-    "items": [
-     {
-      "marker": "5.1.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Het doel van het door de aangemelde instantie in punt 3 bedoelde uitgevoerde toezicht is te waarborgen dat de aanbieder naar behoren voldoet aan de algemene voorwaarden van het goedgekeurde kwaliteitsbeheersysteem."
-       }
-      ],
-      "anchor": "punt-5-1"
-     },
-     {
-      "marker": "5.2.",
-      "content": [
-       {
-        "type": "text",
-        "text": "De aanbieder stelt de aangemelde instantie in staat om voor beoordelingsdoeleinden toegang te krijgen tot de locatie waar het ontwerp, de ontwikkeling en het testen van de AI-systemen plaatsvindt. De aanbieder deelt voorts alle nodige informatie met de aangemelde instantie."
-       }
-      ],
-      "anchor": "punt-5-2"
-     },
-     {
-      "marker": "5.3.",
-      "content": [
-       {
-        "type": "text",
-        "text": "De aangemelde instantie verricht periodieke audits om te controleren of de aanbieder het kwaliteitsbeheersysteem onderhoudt en toepast en verstrekt de aanbieder een auditverslag. In het kader van deze audits kan de aangemelde instantie aanvullende tests uitvoeren van de AI-systemen waarvoor een beoordelingscertificaat technische documentatie van de Unie is verstrekt."
-       }
-      ],
-      "anchor": "punt-5-3"
-     }
-    ]
+    "type": "text",
+    "text": "5.1. Het doel van het door de aangemelde instantie in punt 3 bedoelde uitgevoerde toezicht is te waarborgen dat de aanbieder naar behoren voldoet aan de algemene voorwaarden van het goedgekeurde kwaliteitsbeheersysteem."
+   },
+   {
+    "type": "text",
+    "text": "5.2. De aanbieder stelt de aangemelde instantie in staat om voor beoordelingsdoeleinden toegang te krijgen tot de locatie waar het ontwerp, de ontwikkeling en het testen van de AI-systemen plaatsvindt. De aanbieder deelt voorts alle nodige informatie met de aangemelde instantie."
+   },
+   {
+    "type": "text",
+    "text": "5.3. De aangemelde instantie verricht periodieke audits om te controleren of de aanbieder het kwaliteitsbeheersysteem onderhoudt en toepast en verstrekt de aanbieder een auditverslag. In het kader van deze audits kan de aangemelde instantie aanvullende tests uitvoeren van de AI-systemen waarvoor een beoordelingscertificaat technische documentatie van de Unie is verstrekt."
    }
   ],
   "footnotes": []
@@ -1837,7 +1601,7 @@
  {
   "roman": "X",
   "ordinal": 10,
-  "title": "Wetgevingshandelingen van de Unie over grootschalige IT-systemen in de ruimte van vrijheid, veiligheid en recht",
+  "title": "Bijlage X",
   "content": [
    {
     "type": "heading",
@@ -2156,39 +1920,16 @@
     "text": "Aanvullende informatie die moet worden verstrekt door aanbieders van AI-modellen met een systeemrisico"
    },
    {
-    "type": "list",
-    "items": [
-     {
-      "marker": "1.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Een gedetailleerde beschrijving van de evaluatiestrategieën, met inbegrip van evaluatieresultaten, op basis van beschikbare openbare evaluatieprotocollen en -instrumenten of andere evaluatiemethoden. De evaluatiestrategieën omvatten evaluatiecriteria, maatstaven en de methoden voor het in kaart brengen van beperkingen."
-       }
-      ],
-      "anchor": "punt-1"
-     },
-     {
-      "marker": "2.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Indien van toepassing, een gedetailleerde beschrijving van de maatregelen die zijn genomen met het oog op het uitvoeren van interne en/of externe tests gericht op het ontdekken van kwetsbaarheden (bv. red teaming), modelaanpassingen, inclusief afstemming en verfijning."
-       }
-      ],
-      "anchor": "punt-2"
-     },
-     {
-      "marker": "3.",
-      "content": [
-       {
-        "type": "text",
-        "text": "Indien van toepassing, een gedetailleerde beschrijving van de systeemarchitectuur met een toelichting bij hoe softwarecomponenten op elkaar voortbouwen of elkaar informatie aanleveren en hoe de integratie in de algemene verwerking plaatsvindt."
-       }
-      ],
-      "anchor": "punt-3"
-     }
-    ]
+    "type": "text",
+    "text": "1. Een gedetailleerde beschrijving van de evaluatiestrategieën, met inbegrip van evaluatieresultaten, op basis van beschikbare openbare evaluatieprotocollen en -instrumenten of andere evaluatiemethoden. De evaluatiestrategieën omvatten evaluatiecriteria, maatstaven en de methoden voor het in kaart brengen van beperkingen."
+   },
+   {
+    "type": "text",
+    "text": "2. Indien van toepassing, een gedetailleerde beschrijving van de maatregelen die zijn genomen met het oog op het uitvoeren van interne en/of externe tests gericht op het ontdekken van kwetsbaarheden (bv. red teaming), modelaanpassingen, inclusief afstemming en verfijning."
+   },
+   {
+    "type": "text",
+    "text": "3. Indien van toepassing, een gedetailleerde beschrijving van de systeemarchitectuur met een toelichting bij hoe softwarecomponenten op elkaar voortbouwen of elkaar informatie aanleveren en hoe de integratie in de algemene verwerking plaatsvindt."
    }
   ],
   "footnotes": []

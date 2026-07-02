@@ -87,8 +87,9 @@ export default function Home() {
       </nav>
 
       <footer className="mt-12 border-t border-line pt-4 text-xs text-muted">
-        Bron: Publicatieblad van de Europese Unie, L-serie, 2024/1689 (Nederlandse taalversie,
-        EUR-Lex). Geen officiële weergave; raadpleeg EUR-Lex voor de authentieke tekst.
+        Bron: geconsolideerde Nederlandse tekst per 12.7.2024 (CELEX 02024R1689-20240712,
+        rectificaties verwerkt); overwegingen uit het Publicatieblad L-serie 2024/1689. Geen
+        officiële weergave; raadpleeg EUR-Lex voor de authentieke tekst.
       </footer>
     </div>
   );
