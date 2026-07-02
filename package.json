@@ -1,0 +1,38 @@
+{
+  "name": "ai-act-explorer-nl",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "npm run parse && npm run verify && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "parse": "tsx scripts/parse-aiact.ts",
+    "verify": "tsx scripts/verify-data.ts"
+  },
+  "dependencies": {
+    "@radix-ui/react-collapsible": "^1.1.15",
+    "@radix-ui/react-dialog": "^1.1.18",
+    "cheerio": "^1.2.0",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "lucide-react": "^1.23.0",
+    "minisearch": "^7.2.0",
+    "next": "16.2.10",
+    "next-themes": "^0.4.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "tailwindcss": "^4",
+    "tsx": "^4.22.5",
+    "typescript": "^5"
+  }
+}
