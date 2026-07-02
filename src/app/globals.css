@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1c1c1c;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --surface: #f8fafc;
+  --accent: #1d4ed8;
+  --highlight: #fef3c7;
+}
+
+.dark {
+  --background: #0b0e14;
+  --foreground: #e7e9ee;
+  --muted: #9aa2b1;
+  --line: #262b36;
+  --surface: #12161f;
+  --accent: #7ba3f7;
+  --highlight: #3a3113;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-highlight: var(--highlight);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* deep-linked paragraph/point gets a fading highlight */
+.target-highlight:target {
+  background-color: var(--highlight);
+  transition: background-color 1.2s ease-in-out;
 }

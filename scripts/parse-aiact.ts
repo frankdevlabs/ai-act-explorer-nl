@@ -13,7 +13,7 @@
  * - footnotes: p.oj-note, referenced inline via <a href="#ntr...">
  */
 import * as cheerio from "cheerio";
-import type { Cheerio, CheerioAPI } from "cheerio";
+import type { Cheerio } from "cheerio";
 import type { Element } from "domhandler";
 import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";

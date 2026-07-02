@@ -1,65 +1,95 @@
-import Image from "next/image";
+import Link from "next/link";
+import { getToc } from "@/lib/data";
 
 export default function Home() {
+  const toc = getToc();
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div>
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight text-balance">
+          AI-verordening <span className="text-accent">(EU) 2024/1689</span>
+        </h1>
+        <p className="mt-3 text-muted">
+          De volledige Nederlandse tekst van de Europese AI-verordening: 113 artikelen,{" "}
+          {toc.recitalCount} overwegingen en {toc.annexes.length} bijlagen. Gebruik de
+          inhoudsopgave of zoek met{" "}
+          <kbd className="rounded border border-line bg-surface px-1.5 py-0.5 text-xs">Ctrl K</kbd>.
+        </p>
+      </header>
+
+      <nav aria-label="Volledige inhoudsopgave" className="space-y-8">
+        {toc.chapters.map((c) => (
+          <section key={c.roman} id={`hoofdstuk-${c.roman.toLowerCase()}`} className="scroll-mt-20">
+            <h2 className="border-b border-line pb-2 text-lg font-semibold">
+              Hoofdstuk {c.roman} — {c.title}
+            </h2>
+            <ul className="mt-3 space-y-1">
+              {c.articles.map((a) => (
+                <li key={a.number}>
+                  <Link
+                    href={`/artikel/${a.number}`}
+                    className="group flex gap-3 rounded px-2 py-1 hover:bg-surface"
+                  >
+                    <span className="w-16 shrink-0 text-sm text-muted">Art. {a.number}</span>
+                    <span className="group-hover:text-accent">{a.title}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            {c.sections.map((s) => (
+              <div key={s.number} className="mt-4">
+                <h3 className="text-sm font-medium uppercase tracking-wide text-muted">
+                  Afdeling {s.number} — {s.title}
+                </h3>
+                <ul className="mt-2 space-y-1">
+                  {s.articles.map((a) => (
+                    <li key={a.number}>
+                      <Link
+                        href={`/artikel/${a.number}`}
+                        className="group flex gap-3 rounded px-2 py-1 hover:bg-surface"
+                      >
+                        <span className="w-16 shrink-0 text-sm text-muted">Art. {a.number}</span>
+                        <span className="group-hover:text-accent">{a.title}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </section>
+        ))}
+
+        <section id="overwegingen">
+          <h2 className="border-b border-line pb-2 text-lg font-semibold">Overwegingen</h2>
+          <p className="mt-3">
+            <Link href="/overwegingen" className="text-accent hover:underline">
+              Alle {toc.recitalCount} overwegingen bekijken →
+            </Link>
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        </section>
+
+        <section id="bijlagen">
+          <h2 className="border-b border-line pb-2 text-lg font-semibold">Bijlagen</h2>
+          <ul className="mt-3 space-y-1">
+            {toc.annexes.map((a) => (
+              <li key={a.roman}>
+                <Link
+                  href={`/bijlage/${a.roman.toLowerCase()}`}
+                  className="group flex gap-3 rounded px-2 py-1 hover:bg-surface"
+                >
+                  <span className="w-16 shrink-0 text-sm text-muted">Blg. {a.roman}</span>
+                  <span className="group-hover:text-accent">{a.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </nav>
+
+      <footer className="mt-12 border-t border-line pt-4 text-xs text-muted">
+        Bron: Publicatieblad van de Europese Unie, L-serie, 2024/1689 (Nederlandse taalversie,
+        EUR-Lex). Geen officiële weergave; raadpleeg EUR-Lex voor de authentieke tekst.
+      </footer>
     </div>
   );
 }
