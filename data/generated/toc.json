@@ -1,0 +1,698 @@
+{
+ "chapters": [
+  {
+   "roman": "I",
+   "title": "ALGEMENE BEPALINGEN",
+   "sections": [],
+   "articles": [
+    {
+     "number": 1,
+     "title": "Onderwerp"
+    },
+    {
+     "number": 2,
+     "title": "Toepassingsgebied"
+    },
+    {
+     "number": 3,
+     "title": "Definities"
+    },
+    {
+     "number": 4,
+     "title": "AI-geletterdheid"
+    }
+   ]
+  },
+  {
+   "roman": "II",
+   "title": "VERBODEN AI-PRAKTIJKEN",
+   "sections": [],
+   "articles": [
+    {
+     "number": 5,
+     "title": "Verboden AI-praktijken"
+    }
+   ]
+  },
+  {
+   "roman": "III",
+   "title": "AI-SYSTEMEN MET EEN HOOG RISICO",
+   "sections": [
+    {
+     "number": 1,
+     "title": "Classificatie van AI-systemen als AI-systemen met een hoog risico",
+     "articles": [
+      {
+       "number": 6,
+       "title": "Classificatieregels voor AI-systemen met een hoog risico"
+      },
+      {
+       "number": 7,
+       "title": "Wijzigingen in bijlage III"
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "title": "Eisen voor AI-systemen met een hoog risico",
+     "articles": [
+      {
+       "number": 8,
+       "title": "Naleving van de eisen"
+      },
+      {
+       "number": 9,
+       "title": "Systeem voor risicobeheer"
+      },
+      {
+       "number": 10,
+       "title": "Data en datagovernance"
+      },
+      {
+       "number": 11,
+       "title": "Technische documentatie"
+      },
+      {
+       "number": 12,
+       "title": "Registratie"
+      },
+      {
+       "number": 13,
+       "title": "Transparantie en informatieverstrekking aan gebruiksverantwoordelijken"
+      },
+      {
+       "number": 14,
+       "title": "Menselijk toezicht"
+      },
+      {
+       "number": 15,
+       "title": "Nauwkeurigheid, robuustheid en cyberbeveiliging"
+      }
+     ]
+    },
+    {
+     "number": 3,
+     "title": "Verplichtingen van aanbieders en gebruiksverantwoordelijken van AI-systemen met een hoog risico en andere partijen",
+     "articles": [
+      {
+       "number": 16,
+       "title": "Verplichtingen van aanbieders van AI-systemen met een hoog risico"
+      },
+      {
+       "number": 17,
+       "title": "Systeem voor kwaliteitsbeheer"
+      },
+      {
+       "number": 18,
+       "title": "Bewaring van documentatie"
+      },
+      {
+       "number": 19,
+       "title": "Automatisch gegenereerde logs"
+      },
+      {
+       "number": 20,
+       "title": "Corrigerende maatregelen en mededelingsverplichting"
+      },
+      {
+       "number": 21,
+       "title": "Samenwerking met bevoegde autoriteiten"
+      },
+      {
+       "number": 22,
+       "title": "Gemachtigden van aanbieders van AI-systemen met een hoog risico"
+      },
+      {
+       "number": 23,
+       "title": "Verplichtingen van importeurs"
+      },
+      {
+       "number": 24,
+       "title": "Verplichtingen van distributeurs"
+      },
+      {
+       "number": 25,
+       "title": "Verantwoordelijkheden in de AI-waardeketen"
+      },
+      {
+       "number": 26,
+       "title": "Verplichtingen van gebruiksverantwoordelijken van AI-systemen met een hoog risico"
+      },
+      {
+       "number": 27,
+       "title": "Beoordeling van de gevolgen voor de grondrechten van AI-systemen met een hoog risico"
+      }
+     ]
+    },
+    {
+     "number": 4,
+     "title": "Aanmeldende autoriteiten en aangemelde instanties",
+     "articles": [
+      {
+       "number": 28,
+       "title": "Aanmeldende autoriteiten"
+      },
+      {
+       "number": 29,
+       "title": "Verzoek om aanmelding van een conformiteitsbeoordelingsinstantie"
+      },
+      {
+       "number": 30,
+       "title": "Aanmeldingsprocedure"
+      },
+      {
+       "number": 31,
+       "title": "Voorschriften in verband met aangemelde instanties"
+      },
+      {
+       "number": 32,
+       "title": "Vermoeden van conformiteit met voorschriften met betrekking tot aangemelde instanties"
+      },
+      {
+       "number": 33,
+       "title": "Dochterondernemingen van aangemelde instanties en onderaanneming"
+      },
+      {
+       "number": 34,
+       "title": "Operationele verplichtingen van aangemelde instanties"
+      },
+      {
+       "number": 35,
+       "title": "Identificatienummers en lijsten van aangemelde instanties"
+      },
+      {
+       "number": 36,
+       "title": "Wijzigingen in de aanmelding"
+      },
+      {
+       "number": 37,
+       "title": "Betwisting van de bekwaamheid van aangemelde instanties"
+      },
+      {
+       "number": 38,
+       "title": "Coördinatie van aangemelde instanties"
+      },
+      {
+       "number": 39,
+       "title": "Conformiteitsbeoordelingsinstanties van derde landen"
+      }
+     ]
+    },
+    {
+     "number": 5,
+     "title": "Normen, conformiteitsbeoordeling, certificaten, registratie",
+     "articles": [
+      {
+       "number": 40,
+       "title": "Geharmoniseerde normen en normalisatieproducten"
+      },
+      {
+       "number": 41,
+       "title": "Gemeenschappelijke specificaties"
+      },
+      {
+       "number": 42,
+       "title": "Vermoeden van conformiteit met bepaalde eisen"
+      },
+      {
+       "number": 43,
+       "title": "Conformiteitsbeoordeling"
+      },
+      {
+       "number": 44,
+       "title": "Certificaten"
+      },
+      {
+       "number": 45,
+       "title": "Informatieverplichtingen voor aangemelde instanties"
+      },
+      {
+       "number": 46,
+       "title": "Afwijking van de conformiteitsbeoordelingsprocedure"
+      },
+      {
+       "number": 47,
+       "title": "EU-conformiteitsverklaring"
+      },
+      {
+       "number": 48,
+       "title": "CE-markering"
+      },
+      {
+       "number": 49,
+       "title": "Registratie"
+      }
+     ]
+    }
+   ],
+   "articles": []
+  },
+  {
+   "roman": "IV",
+   "title": "TRANSPARANTIEVERPLICHTINGEN VOOR AANBIEDERS EN GEBRUIKSVERANTWOORDELIJKEN VAN BEPAALDE AI-SYSTEMEN",
+   "sections": [],
+   "articles": [
+    {
+     "number": 50,
+     "title": "Transparantieverplichtingen voor aanbieders en gebruiksverantwoordelijken van bepaalde AI-systemen"
+    }
+   ]
+  },
+  {
+   "roman": "V",
+   "title": "AI-MODELLEN VOOR ALGEMENE DOELEINDEN",
+   "sections": [
+    {
+     "number": 1,
+     "title": "Classificatieregels",
+     "articles": [
+      {
+       "number": 51,
+       "title": "Classificatie van AI-modellen voor algemene doeleinden als AI-modellen voor algemene doeleinden met een systeemrisico"
+      },
+      {
+       "number": 52,
+       "title": "Procedure"
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "title": "Verplichtingen voor aanbieders van AI-modellen voor algemene doeleinden",
+     "articles": [
+      {
+       "number": 53,
+       "title": "Verplichtingen voor aanbieders van AI-modellen voor algemene doeleinden"
+      },
+      {
+       "number": 54,
+       "title": "Gemachtigden van aanbieders van AI-modellen voor algemene doeleinden"
+      }
+     ]
+    },
+    {
+     "number": 3,
+     "title": "Verplichtingen van aanbieders van AI-modellen voor algemene doeleinden met een systeemrisico",
+     "articles": [
+      {
+       "number": 55,
+       "title": "Verplichtingen van aanbieders van AI-modellen voor algemene doeleinden met een systeemrisico"
+      }
+     ]
+    },
+    {
+     "number": 4,
+     "title": "Praktijkcodes",
+     "articles": [
+      {
+       "number": 56,
+       "title": "Praktijkcodes"
+      }
+     ]
+    }
+   ],
+   "articles": []
+  },
+  {
+   "roman": "VI",
+   "title": "MAATREGELEN TER ONDERSTEUNING VAN INNOVATIE",
+   "sections": [],
+   "articles": [
+    {
+     "number": 57,
+     "title": "AI-testomgevingen voor regelgeving"
+    },
+    {
+     "number": 58,
+     "title": "Gedetailleerde regelingen voor, en werking van, AI-testomgevingen voor regelgeving"
+    },
+    {
+     "number": 59,
+     "title": "Verdere verwerking van persoonsgegevens voor het ontwikkelen van bepaalde AI-systemen in het algemeen belang in de AI-testomgeving voor regelgeving"
+    },
+    {
+     "number": 60,
+     "title": "Testen van AI-systemen met een hoog risico onder reële omstandigheden buiten AI-testomgevingen voor regelgeving"
+    },
+    {
+     "number": 61,
+     "title": "Geïnformeerde toestemming om deel te nemen aan het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving"
+    },
+    {
+     "number": 62,
+     "title": "Maatregelen voor aanbieders en gebruiksverantwoordelijken, met name kmo’s, met inbegrip van start-ups"
+    },
+    {
+     "number": 63,
+     "title": "Afwijkingen voor specifieke operatoren"
+    }
+   ]
+  },
+  {
+   "roman": "VII",
+   "title": "GOVERNANCE",
+   "sections": [
+    {
+     "number": 1,
+     "title": "Governance op Unieniveau",
+     "articles": [
+      {
+       "number": 64,
+       "title": "AI-bureau"
+      },
+      {
+       "number": 65,
+       "title": "Oprichting en structuur van de Europese raad voor artificiële intelligentie"
+      },
+      {
+       "number": 66,
+       "title": "Taken van de AI-board"
+      },
+      {
+       "number": 67,
+       "title": "Adviesforum"
+      },
+      {
+       "number": 68,
+       "title": "Wetenschappelijk panel van onafhankelijke deskundigen"
+      },
+      {
+       "number": 69,
+       "title": "Toegang tot de pool van deskundigen door de lidstaten"
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "title": "Nationale bevoegde autoriteiten",
+     "articles": [
+      {
+       "number": 70,
+       "title": "Aanwijzing van nationale bevoegde autoriteiten en centrale contactpunten"
+      }
+     ]
+    }
+   ],
+   "articles": []
+  },
+  {
+   "roman": "VIII",
+   "title": "EU-DATABANK VOOR AI-SYSTEMEN MET EEN HOOG RISICO",
+   "sections": [],
+   "articles": [
+    {
+     "number": 71,
+     "title": "EU-databank voor in bijlage III vermelde AI-systemen met een hoog risico"
+    }
+   ]
+  },
+  {
+   "roman": "IX",
+   "title": "MONITORING NA HET IN DE HANDEL BRENGEN, INFORMATIE-UITWISSELING EN MARKTTOEZICHT",
+   "sections": [
+    {
+     "number": 1,
+     "title": "Monitoring na het in de handel brengen",
+     "articles": [
+      {
+       "number": 72,
+       "title": "Monitoring door aanbieders na het in de handel brengen en plan voor monitoring na het in de handel brengen voor AI-systemen met een hoog risico"
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "title": "Delen van informatie over ernstige incidenten",
+     "articles": [
+      {
+       "number": 73,
+       "title": "Melding van ernstige incidenten"
+      }
+     ]
+    },
+    {
+     "number": 3,
+     "title": "Handhaving",
+     "articles": [
+      {
+       "number": 74,
+       "title": "Markttoezicht op en controle van AI-systemen op de markt van de Unie"
+      },
+      {
+       "number": 75,
+       "title": "Wederzijdse bijstand, markttoezicht en controle van AI-systemen voor algemene doeleinden"
+      },
+      {
+       "number": 76,
+       "title": "Toezicht op tests onder reële omstandigheden door markttoezichtautoriteiten"
+      },
+      {
+       "number": 77,
+       "title": "Bevoegdheden van de autoriteiten voor de bescherming van de grondrechten"
+      },
+      {
+       "number": 78,
+       "title": "Vertrouwelijkheid"
+      },
+      {
+       "number": 79,
+       "title": "Procedure op nationaal niveau voor de omgang met AI-systemen die een risico vormen"
+      },
+      {
+       "number": 80,
+       "title": "Procedure voor de omgang met AI-systemen die conform bijlage III door de aanbieder zijn ingedeeld als systemen die geen hoog risico met zich meebrengen"
+      },
+      {
+       "number": 81,
+       "title": "Vrijwaringsprocedure van de Unie"
+      },
+      {
+       "number": 82,
+       "title": "Conforme AI-systemen die een risico inhouden"
+      },
+      {
+       "number": 83,
+       "title": "Formele non-conformiteit"
+      },
+      {
+       "number": 84,
+       "title": "Ondersteunende AI-teststructuren van de Unie"
+      }
+     ]
+    },
+    {
+     "number": 4,
+     "title": "Rechtsmiddelen",
+     "articles": [
+      {
+       "number": 85,
+       "title": "Recht om een klacht in te dienen bij een markttoezichtautoriteit"
+      },
+      {
+       "number": 86,
+       "title": "Recht op uitleg bij individuele besluitvorming"
+      },
+      {
+       "number": 87,
+       "title": "Melding van inbreuken en bescherming van melders"
+      }
+     ]
+    },
+    {
+     "number": 5,
+     "title": "Toezicht, onderzoek, handhaving en monitoring ten aanzien van aanbieders van AI-modellen voor algemene doeleinden",
+     "articles": [
+      {
+       "number": 88,
+       "title": "Handhaving van de verplichtingen van aanbieders van AI-modellen voor algemene doeleinden"
+      },
+      {
+       "number": 89,
+       "title": "Monitoringmaatregelen"
+      },
+      {
+       "number": 90,
+       "title": "Waarschuwingen voor systeemrisico’s door het wetenschappelijk panel"
+      },
+      {
+       "number": 91,
+       "title": "Bevoegdheid om documentatie en informatie op te vragen"
+      },
+      {
+       "number": 92,
+       "title": "Bevoegdheid voor het verrichten van evaluaties"
+      },
+      {
+       "number": 93,
+       "title": "Bevoegdheid voor het verzoeken om maatregelen"
+      },
+      {
+       "number": 94,
+       "title": "Procedurele rechten van marktdeelnemers die het AI-model voor algemene doeleinden aanbieden"
+      }
+     ]
+    }
+   ],
+   "articles": []
+  },
+  {
+   "roman": "X",
+   "title": "GEDRAGSCODES EN RICHTSNOEREN",
+   "sections": [],
+   "articles": [
+    {
+     "number": 95,
+     "title": "Gedragscodes voor vrijwillige toepassing van specifieke voorschriften"
+    },
+    {
+     "number": 96,
+     "title": "Richtsnoeren van de Commissie over de uitvoering van deze verordening"
+    }
+   ]
+  },
+  {
+   "roman": "XI",
+   "title": "BEVOEGDHEIDSDELEGATIE EN COMITÉPROCEDURE",
+   "sections": [],
+   "articles": [
+    {
+     "number": 97,
+     "title": "Uitoefening van de bevoegdheidsdelegatie"
+    },
+    {
+     "number": 98,
+     "title": "Comitéprocedure"
+    }
+   ]
+  },
+  {
+   "roman": "XII",
+   "title": "SANCTIES",
+   "sections": [],
+   "articles": [
+    {
+     "number": 99,
+     "title": "Sancties"
+    },
+    {
+     "number": 100,
+     "title": "Administratieve geldboeten voor instellingen, organen en instanties van de Unie"
+    },
+    {
+     "number": 101,
+     "title": "Geldboeten voor aanbieders van AI-systemen voor algemene doeleinden"
+    }
+   ]
+  },
+  {
+   "roman": "XIII",
+   "title": "SLOTBEPALINGEN",
+   "sections": [],
+   "articles": [
+    {
+     "number": 102,
+     "title": "Wijziging van Verordening (EG) nr. 300/2008"
+    },
+    {
+     "number": 103,
+     "title": "Wijziging van Verordening (EU) nr. 167/2013"
+    },
+    {
+     "number": 104,
+     "title": "Wijziging van Verordening (EU) nr. 168/2013"
+    },
+    {
+     "number": 105,
+     "title": "Wijziging van Richtlijn 2014/90/EU"
+    },
+    {
+     "number": 106,
+     "title": "Wijziging van Richtlijn (EU) 2016/797"
+    },
+    {
+     "number": 107,
+     "title": "Wijziging van Verordening (EU) 2018/858"
+    },
+    {
+     "number": 108,
+     "title": "Wijzigingen van Verordening (EU) 2018/1139"
+    },
+    {
+     "number": 109,
+     "title": "Wijziging van Verordening (EU) 2019/2144"
+    },
+    {
+     "number": 110,
+     "title": "Wijziging van Richtlijn (EU) 2020/1828"
+    },
+    {
+     "number": 111,
+     "title": "Reeds in de handel gebrachte of in gebruik gestelde AI-systemen"
+    },
+    {
+     "number": 112,
+     "title": "Evaluatie en toetsing"
+    },
+    {
+     "number": 113,
+     "title": "Inwerkingtreding en toepassing"
+    }
+   ]
+  }
+ ],
+ "annexes": [
+  {
+   "roman": "I",
+   "title": "Lijst van harmonisatiewetgeving van de Unie"
+  },
+  {
+   "roman": "II",
+   "title": "Lijst van in artikel 5, lid 1, eerste alinea, punt h), iii), bedoelde strafbare feiten"
+  },
+  {
+   "roman": "III",
+   "title": "In artikel 6, lid 2, bedoelde AI-systemen met een hoog risico"
+  },
+  {
+   "roman": "IV",
+   "title": "Technische documentatie als bedoeld in artikel 11, lid 1"
+  },
+  {
+   "roman": "V",
+   "title": "EU-conformiteitsverklaring"
+  },
+  {
+   "roman": "VI",
+   "title": "Conformiteitsbeoordelingsprocedure op basis van interne controle"
+  },
+  {
+   "roman": "VII",
+   "title": "Conformiteit op basis van een beoordeling van het kwaliteitsbeheersysteem en een beoordeling van de technische documentatie"
+  },
+  {
+   "roman": "VIII",
+   "title": "Informatie die moet worden verstrekt bij de registratie van AI-systemen met een hoog risico in overeenstemming met artikel 49"
+  },
+  {
+   "roman": "IX",
+   "title": "Informatie die moet worden ingediend bij de registratie van de in bijlage III vermelde AI-systemen met een hoog risico, met betrekking tot tests onder reële omstandigheden overeenkomstig artikel 60"
+  },
+  {
+   "roman": "X",
+   "title": "Wetgevingshandelingen van de Unie over grootschalige IT-systemen in de ruimte van vrijheid, veiligheid en recht"
+  },
+  {
+   "roman": "XI",
+   "title": "Technische documentatie als bedoeld in artikel 53, lid 1, punt a) — technische documentatie voor aanbieders van AI-modellen voor algemene doeleinden"
+  },
+  {
+   "roman": "XII",
+   "title": "Transparantie-informatie als bedoeld in artikel 53, lid 1, punt b) — technische documentatie voor aanbieders van AI-modellen voor algemene doeleinden aan aanbieders verder in de AI-waardeketen die het model in hun AI-systeem integreren"
+  },
+  {
+   "roman": "XIII",
+   "title": "In artikel 51 bedoelde criteria voor de aanwijzing van AI-modellen voor algemene doeleinden met een systeemrisico"
+  }
+ ],
+ "recitalCount": 180
+}
