@@ -210,6 +210,10 @@ keyword scanner (`artikel(en)/bijlage(n)/hoofdstuk(ken)/overweging(en)`) with a
 sticky-regex `Cursor`, number-list parsing (enumerations `53 en 55` and ranges
 `tot en met` emit one span per number token), and a `lid/leden/punt/punten/
 alinea` sub-ref tail mapped onto the existing anchor scheme (`lid-2-c`).
+Article numbers may carry a Latin suffix (`artikel 75 ter` → `/artikel/75ter`,
+the omnibus new-article slug convention); as a side effect, `artikel 6 bis van
+Protocol nr. 21`-style phrases hit the instrument exclusion instead of
+mislinking `/artikel/6`.
 Exclusion lookahead runs before emitting: trailing `VWEU`/`VEU`, and
 `van/bij <other instrument>` (Verordening/Richtlijn/Besluit/…) — the
 self-forms `van deze verordening` and `van Verordening (EU) 2024/1689` stay
@@ -221,14 +225,23 @@ linkable. Articles 102–110 (which quote other acts) parse with
 built — unknown page target throws; a fragment whose anchor doesn't exist (or
 isn't unique) on the target page is stripped to a page-level link.
 
+`parse-amendments.ts` runs the same post-pass over the amendment layer (new
+articles/annexes, `ParagraphDiff.newContent`, and diff segments — see the
+Amendment layer section), with the validator extended by the pages and
+anchors the omnibus itself adds. The parser is the **single authority**:
+hand-curated `refs` in the transcription are stripped by the parser and
+rejected by `verify-amendments.ts`.
+
 Rendering: `ContentNodes` (and the recital page) pass text+refs to
 `LinkedText` (RSC — slices the string at offsets) → `RefLink` (client, Radix
 hover-card; preview title + snippet resolved at build via `getPreview` in
 `data.ts` and inlined in the static HTML).
 
-Verify: pinned total ref count in `verify-data.ts`, independent
-href-resolution recheck, positive and negative spot checks (VWEU refs and
-other-instrument refs must NOT be annotated).
+Verify: pinned total ref counts in `verify-data.ts` (base corpus) and
+`verify-amendments.ts` (amendment layer, segment clips re-merged before
+counting), independent href-resolution rechecks, positive and negative spot
+checks (VWEU refs, other-instrument refs and treaty-Protocol refs must NOT be
+annotated).
 
 ## Amendment layer (digitale omnibus)
 
@@ -264,16 +277,32 @@ Key mechanics in `parse-amendments.ts`:
 - **New provisions**: `NewArticleSpec` (slug `4bis`, display `4 bis`,
   `insertAfter`) and `NewAnnexSpec` drive extra static routes
   (`/artikel/4bis`, `/bijlage/xiv`), sidebar insertion, and prev/next chains.
+- **Line structure**: flattening collapses list/paragraph structure, so
+  `statesToDiffs` splits segments at block boundaries (`flattenWithBreaks` in
+  `flatten.ts`, asserted byte-identical to `flattenNodes`) and flags each
+  boundary chunk `br: true` — eq/ins split at new-text offsets, del at
+  old-text offsets. Same-op adjacency keeps the diff invariant byte-exact;
+  `DiffSegments` renders one `<p>` per `br` line (one definition per line on
+  `/artikel/3` instead of a 20k-char blob).
+- **Cross-references**: a post-pass annotates all amendment text (see the
+  Cross-references section). For segments, `findRefs` runs once over the
+  whole new text and spans are clipped per eq/ins segment
+  (`DiffSegment.refs`, segment-local offsets; `del` never carries refs) —
+  verify re-merges the clips before its span checks.
 
 Verify (`scripts/verify-amendments.ts`) runs in **two regimes** keyed on
 `source.meta.complete`: structural checks always (targets/anchors resolve,
 slugs don't collide, diff reconstruction, search-doc shape, spot checks);
 once `complete: true`, exact instruction/target counts are pinned.
 
-UI surfaces: `AmendedArticleView` (toggle "Toon wijzigingen", `?diff=1` +
-localStorage `omnibus-diff`, both views pre-rendered as hidden siblings,
-change-nav), `DiffArticleBody`/`DiffSegments` (ins/del rendering),
-`/wijzigingen` index, sidebar dots.
+UI surfaces: `AmendedArticleView` (per-article toggle "Toon wijzigingen",
+both views pre-rendered as hidden siblings, change-nav) plus a global header
+toggle — both share the `omnibus-diff` localStorage pref via
+`src/lib/omnibus-pref.ts` (`useSyncExternalStore`; custom event same-tab,
+`storage` event cross-tab). Precedence: `?diff=1` wins at page load, any
+later preference change wins over the URL. `DiffArticleBody`/`DiffSegments`
+(ins/del rendering, `br` line grouping, `LinkedText` cross-links inside
+eq/ins), `/wijzigingen` index, sidebar dots.
 
 **Planned source swap**: once the act is published in the OJ, a deterministic
 parse of the CELEX HTML replaces the curated transcription — only the producer
