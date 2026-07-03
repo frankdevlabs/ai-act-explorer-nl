@@ -213,8 +213,14 @@ export function findRefs(text: string, ctx: RefContext): RefSpan[] {
   return spans;
 }
 
+// "75 ter" → "75ter", matching NewArticleSpec.slug (omnibus-inserted articles)
+function artikelSlug(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
 function parseArtikel(c: Cursor, phraseStart: number, linkBareRefs: boolean): RefSpan[] | null {
-  const numbers = eatNumberList(c, /\d+(?![\d/])(?!\.\d)/y);
+  // optional Latin suffix: "artikel 75 ter" is its own article, not artikel 75
+  const numbers = eatNumberList(c, /\d+(?![\d/])(?!\.\d)(?:[  ]+(?:bis|ter|quater|quinquies)\b)?/y);
   if (numbers.length === 0) return null;
   const sub = numbers.length === 1 ? eatSubRefs(c) : { lids: [], punten: [], end: c.i };
   if (!allowedHere(c, linkBareRefs)) return null;
@@ -224,11 +230,11 @@ function parseArtikel(c: Cursor, phraseStart: number, linkBareRefs: boolean): Re
     return numbers.map((n, i) => ({
       start: i === 0 ? phraseStart : n.start,
       end: n.end,
-      href: `/artikel/${n.value}`,
+      href: `/artikel/${artikelSlug(n.value)}`,
     }));
   }
 
-  const page = `/artikel/${numbers[0].value}`;
+  const page = `/artikel/${artikelSlug(numbers[0].value)}`;
   const { lids, punten } = sub;
   if (lids.length === 0 && punten.length === 0) {
     return [{ start: phraseStart, end: numbers[0].end, href: page }];

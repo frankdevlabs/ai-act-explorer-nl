@@ -180,7 +180,12 @@ export interface AmendmentsGenerated extends AmendmentsSource {
   titleChanges: Record<string, { title: string; seq: number }>;
 }
 
-export type DiffSegment = { op: "eq" | "ins" | "del"; text: string };
+/** Refs offsets index into this segment's `text` (spans crossing a segment
+ *  boundary are clipped into per-segment fragments). Never set on `del`.
+ *  `br` marks a segment that starts a new display line: the parser splits
+ *  segments at block boundaries (flattenWithBreaks) so the diff view can
+ *  restore paragraph/list structure that flattening collapsed. */
+export type DiffSegment = { op: "eq" | "ins" | "del"; text: string; refs?: RefSpan[]; br?: true };
 
 export interface ParagraphDiff {
   anchor: string;

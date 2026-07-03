@@ -61,6 +61,9 @@ See `Amendment` in `src/lib/types.ts`. Conventions:
 - Content nodes mirror the base model (`text` / `list` / `heading` /
   `table`). **Omit anchors in transcribed content** — the parser derives
   them (`lid-5`, `lid-5-a`, `punt-14`) with the same logic as the base parser.
+- **Never hand-curate `refs` — the parser generates them.** A cross-reference
+  post-pass in `parse-amendments.ts` annotates all amendment text (findRefs +
+  validation), and `verify-amendments.ts` rejects any `refs` in the source.
 - Inserted leden: `newParagraphs` after `scope.anchor`; bis-numbered leden get
   `number: null` + `displayNumber: "5 bis"`. Inserted points: `newItems`
   (marker + content) after an existing item's `scope.anchor`.

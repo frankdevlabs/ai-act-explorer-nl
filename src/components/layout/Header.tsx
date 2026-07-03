@@ -1,9 +1,10 @@
 "use client";
 
-import { Menu, Moon, Search, Sun } from "lucide-react";
+import { FileDiff, Menu, Moon, Search, Sun } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
+import { setOmnibusDiff, useOmnibusDiff } from "@/lib/omnibus-pref";
 
 export const OPEN_SEARCH_EVENT = "aiact:open-search";
 export const OPEN_MENU_EVENT = "aiact:open-menu";
@@ -26,6 +27,25 @@ function ThemeToggle() {
       className="flex size-9 items-center justify-center rounded-md border border-line text-muted hover:text-foreground"
     >
       {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
+    </button>
+  );
+}
+
+function GlobalDiffToggle() {
+  const on = useOmnibusDiff();
+  const title = "Omnibus-wijzigingen tonen (op gewijzigde artikelen)";
+  // no SSR placeholder: the icon never changes, only the pressed styling,
+  // and the server snapshot (false) matches the unpressed default
+  return (
+    <button
+      type="button"
+      onClick={() => setOmnibusDiff(!on)}
+      aria-pressed={on}
+      aria-label={title}
+      title={title}
+      className="flex size-9 items-center justify-center rounded-md border border-line text-muted hover:text-foreground aria-pressed:border-accent aria-pressed:text-accent"
+    >
+      <FileDiff className="size-4" />
     </button>
   );
 }
@@ -58,6 +78,7 @@ export function Header() {
               Ctrl K
             </kbd>
           </button>
+          <GlobalDiffToggle />
           <ThemeToggle />
         </div>
       </div>

@@ -239,6 +239,19 @@ export function getPreview(href: string): RefPreview | undefined {
       snippet: clip(flattenNodes((para ?? a.paragraphs[0]).content)),
     };
   }
+  const newArt = page.match(/^\/artikel\/(\d+(?:bis|ter|quater|quinquies))$/);
+  if (newArt) {
+    const spec = getNewArticle(newArt[1]);
+    if (!spec || spec.paragraphs.length === 0) return undefined;
+    const para = fragment
+      ? spec.paragraphs.find((p) => p.anchor === fragment || fragment.startsWith(`${p.anchor}-`))
+      : undefined;
+    const lid = para?.number != null ? `, lid ${para.number}` : "";
+    return {
+      title: `Artikel ${spec.displayNumber}${lid} — ${spec.title}`,
+      snippet: clip(flattenNodes((para ?? spec.paragraphs[0]).content)),
+    };
+  }
   const anx = page.match(/^\/bijlage\/([a-z]+)$/);
   if (anx) {
     const a = getAnnex(anx[1]);

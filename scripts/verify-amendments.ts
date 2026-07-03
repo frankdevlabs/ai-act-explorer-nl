@@ -21,7 +21,9 @@ import type {
   Annex,
   Article,
   ContentNode,
+  Recital,
   SearchDoc,
+  Toc,
 } from "../src/lib/types";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -33,6 +35,8 @@ const diffs = load<AmendmentDiffs>("data/generated/amendment-diffs.json");
 const searchDocs = load<SearchDoc[]>("public/amendment-search-docs.json");
 const articles = load<Article[]>("data/generated/articles.json");
 const annexes = load<Annex[]>("data/generated/annexes.json");
+const recitals = load<Recital[]>("data/generated/recitals.json");
+const toc = load<Toc>("data/generated/toc.json");
 
 // Pinned at transcription completion: 43 numbered instructions in Article 1
 // of PE-CONS 30/26 = 76 entries including sub-instructions.
@@ -216,6 +220,160 @@ for (const d of searchDocs) {
   assert.ok(d.text.length > 0, `search doc ${d.id} has text`);
 }
 
+// ------------------------------------------------- cross-references
+// The parser is the single authority: the transcription must not carry
+// hand-curated refs, and every generated ref (newContent + new articles/
+// annexes + diff segments) must resolve, stay in bounds, and read as a
+// reference. Mirrors verify-data's block, extended with the pages/anchors
+// the omnibus itself adds.
+
+function assertNoSourceRefs(nodes: ContentNode[], where: string): void {
+  for (const n of nodes) {
+    if (n.type === "text")
+      assert.ok(!("refs" in n), `${where}: hand-curated refs in transcription (parser generates them)`);
+    else if (n.type === "list") for (const i of n.items) assertNoSourceRefs(i.content, where);
+  }
+}
+for (const am of amendments) {
+  const where = `instruction ${id(am)}`;
+  if (am.newContent) assertNoSourceRefs(am.newContent, where);
+  for (const p of am.newParagraphs ?? []) assertNoSourceRefs(p.content, where);
+  for (const it of am.newItems ?? []) assertNoSourceRefs(it.content, where);
+  for (const p of am.newArticle?.paragraphs ?? []) assertNoSourceRefs(p.content, where);
+  if (am.newAnnex) assertNoSourceRefs(am.newAnnex.content, where);
+}
+
+// page → anchor sets: base corpus ∪ omnibus additions
+const pageAnchors = new Map<string, Set<string>>();
+function collectAnchors(nodes: ContentNode[], into: Set<string>): void {
+  for (const n of nodes) {
+    if (n.type !== "list") continue;
+    for (const i of n.items) {
+      if (i.anchor) into.add(i.anchor);
+      collectAnchors(i.content, into);
+    }
+  }
+}
+for (const a of articles) pageAnchors.set(`/artikel/${a.number}`, articleAnchors(a));
+for (const a of annexes) pageAnchors.set(`/bijlage/${a.roman.toLowerCase()}`, annexAnchors(a));
+for (const na of generated.newArticles) {
+  const set = new Set<string>();
+  for (const p of na.paragraphs) {
+    set.add(p.anchor);
+    collectAnchors(p.content, set);
+  }
+  pageAnchors.set(`/artikel/${na.slug}`, set);
+}
+for (const na of generated.newAnnexes) {
+  const set = new Set<string>(["inhoud"]);
+  collectAnchors(na.content, set);
+  pageAnchors.set(`/bijlage/${na.roman.toLowerCase()}`, set);
+}
+for (const [key, list] of Object.entries(diffs.articles)) {
+  const set = pageAnchors.get(`/artikel/${key}`)!;
+  for (const p of list) {
+    set.add(p.anchor);
+    if (p.newContent) collectAnchors(p.newContent, set);
+  }
+}
+for (const [roman, list] of Object.entries(diffs.annexes)) {
+  const set = pageAnchors.get(`/bijlage/${roman}`)!;
+  for (const p of list) if (p.newContent) collectAnchors(p.newContent, set);
+}
+const chapterRomans = new Set(toc.chapters.map((c) => c.roman.toLowerCase()));
+const recitalNumbers = new Set(recitals.map((r) => String(r.number)));
+
+interface FlatRef {
+  where: string;
+  text: string;
+  start: number;
+  end: number;
+  href: string;
+}
+const allRefs: FlatRef[] = [];
+function collectRefs(nodes: ContentNode[], where: string): void {
+  for (const n of nodes) {
+    if (n.type === "text" && n.refs) {
+      for (const r of n.refs) allRefs.push({ where, text: n.text, ...r });
+    } else if (n.type === "list") {
+      for (const i of n.items) collectRefs(i.content, where);
+    }
+  }
+}
+for (const na of generated.newArticles)
+  for (const p of na.paragraphs) collectRefs(p.content, `artikel ${na.slug}`);
+for (const na of generated.newAnnexes) collectRefs(na.content, `bijlage ${na.roman}`);
+for (const [kind, lists] of [
+  ["artikel", diffs.articles],
+  ["bijlage", diffs.annexes],
+] as const) {
+  for (const [key, list] of Object.entries(lists)) {
+    for (const p of list) {
+      const where = `${kind} ${key} ${p.anchor}`;
+      if (p.newContent) collectRefs(p.newContent, where);
+      if (!p.segments) continue;
+      // segment refs are clips of spans over the whole new text: rebuild the
+      // global text and offsets, re-merge touching same-href clips, and check
+      // the merged span (a lone clip fragment can be pure punctuation)
+      const newFlat = p.segments.filter((s) => s.op !== "del").map((s) => s.text).join("");
+      const merged: FlatRef[] = [];
+      let off = 0;
+      for (const s of p.segments) {
+        if (s.op === "del") {
+          assert.ok(!s.refs, `${where}: del segment carries refs`);
+          continue;
+        }
+        for (const r of s.refs ?? []) {
+          assert.ok(
+            r.start >= 0 && r.start < r.end && r.end <= s.text.length,
+            `${where}: segment ref offsets out of bounds (${r.href})`,
+          );
+          const g = { where, text: newFlat, start: off + r.start, end: off + r.end, href: r.href };
+          const prev = merged[merged.length - 1];
+          if (prev && prev.href === g.href && prev.end === g.start) prev.end = g.end;
+          else merged.push(g);
+        }
+        off += s.text.length;
+      }
+      allRefs.push(...merged);
+    }
+  }
+}
+
+for (const ref of allRefs) {
+  const [page, fragment] = ref.href.split("#");
+  const label = `${ref.where}: ref ${ref.href}`;
+  if (page === "/") {
+    assert.ok(fragment && chapterRomans.has(fragment.replace(/^hoofdstuk-/, "")), label);
+  } else {
+    const rct = page.match(/^\/overweging\/(\d+)$/);
+    if (rct) assert.ok(recitalNumbers.has(rct[1]), label);
+    else {
+      const anchors = pageAnchors.get(page);
+      assert.ok(anchors, label);
+      if (fragment) assert.ok(anchors!.has(fragment), `${label} (anchor)`);
+    }
+  }
+  assert.ok(
+    ref.start >= 0 && ref.start < ref.end && ref.end <= ref.text.length,
+    `${label} (offsets)`,
+  );
+  // every (re-merged) span reads as a reference; flattened segment text also
+  // contains list markers ("a) …"), so this guards against marker misparses
+  assert.ok(
+    /artikel|bijlage|hoofdstuk|lid|punt|\d|^[a-z]{1,2}\)$|^[IVX]+$/.test(
+      ref.text.slice(ref.start, ref.end),
+    ),
+    `${label} (span text "${ref.text.slice(ref.start, ref.end)}")`,
+  );
+}
+
+// spot check: the omnibus text references its own inserted articles
+assert.ok(
+  allRefs.some((r) => r.href === "/artikel/75ter"),
+  "amendment layer links artikel 75 ter",
+);
+
 // ------------------------------------------------- completeness pin
 
 if (source.meta.complete) {
@@ -241,6 +399,8 @@ if (source.meta.complete) {
     "exact new-annex set",
   );
   assert.equal(Math.max(...amendments.map((a) => a.seq)), 43, "43 numbered instructions");
+  // exact snapshot (clips re-merged): grammar changes must consciously update this
+  assert.equal(allRefs.length, 462, `amendment cross-reference count (got ${allRefs.length})`);
 }
 
 console.log(

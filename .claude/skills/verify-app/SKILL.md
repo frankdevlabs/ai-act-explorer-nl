@@ -1,6 +1,6 @@
 ---
 name: verify-app
-description: Verify the app end-to-end on this VPS - build, curl smoke checks, and optional Playwright browser checks (search palette, deep links, mobile nav, dark mode). Use after parser/data/UI changes or before pushing.
+description: Verify the app end-to-end on this VPS - build, curl smoke checks, and optional Playwright browser checks (search palette, deep links, mobile nav, dark mode, omnibus diff toggle + diff-view links). Use after parser/data/UI changes or before pushing.
 ---
 
 # Verify the app
@@ -78,13 +78,67 @@ await page.waitForSelector("mark");
 await page.setViewportSize({ width: 390, height: 800 });
 await page.goto(BASE + "/artikel/9");
 await page.getByRole("button", { name: "Menu openen" }).click();
-await page.locator('[role="dialog"]').getByRole("link", { name: /Artikel 10/ }).waitFor();
+await page.locator('[role="dialog"]').getByRole("link", { name: /Art\. 10/ }).waitFor();
 await page.keyboard.press("Escape"); // close drawer before clicking behind it
 
 // 5. dark mode
 await page.setViewportSize({ width: 1280, height: 900 });
 await page.getByRole("button", { name: /thema/i }).click();
 if (!(await page.locator("html.dark").count())) throw new Error("dark mode");
+
+// 6. global omnibus toggle (header) flips the diff view and persists across pages
+const headerToggle = () => page.getByRole("button", { name: /Omnibus-wijzigingen tonen/ });
+const diffVisible = () => page.locator("[data-diff-status]").first().isVisible().catch(() => false);
+await page.goto(`${BASE}/artikel/6`);
+await page.evaluate(() => localStorage.removeItem("omnibus-diff"));
+await page.reload();
+await headerToggle().waitFor();
+await headerToggle().click();
+await page.waitForTimeout(200);
+if (!(await diffVisible())) throw new Error("header toggle did not show diff");
+await page.goto(`${BASE}/artikel/10`);
+await page.waitForTimeout(300);
+if (!(await diffVisible())) throw new Error("omnibus pref did not persist across pages");
+
+// 7. ?diff=1 deep link wins at load; a later header toggle wins over the URL
+await page.evaluate(() => localStorage.setItem("omnibus-diff", "0"));
+await page.goto(`${BASE}/artikel/6?diff=1`);
+await page.waitForTimeout(300);
+if (!(await diffVisible())) throw new Error("?diff=1 deep link did not show diff");
+await headerToggle().click(); // pref 0 -> 1
+await headerToggle().click(); // pref 1 -> 0: must override ?diff=1
+await page.waitForTimeout(200);
+if (await diffVisible()) throw new Error("header toggle did not override ?diff=1");
+
+// 8. diff view carries working cross-reference links inside <ins> segments
+await page.evaluate(() => localStorage.setItem("omnibus-diff", "1"));
+await page.goto(`${BASE}/artikel/2`);
+const insLink = page.locator('ins a[href^="/artikel/"], ins a[href^="/bijlage/"]').first();
+await insLink.waitFor();
+const href = await insLink.getAttribute("href");
+await insLink.click();
+await page.waitForURL((u) => u.pathname === href.split("#")[0]);
+
+// 9. omnibus new-article page has cross-links ("artikel 10, lid 2, punten f) en g)")
+await page.goto(`${BASE}/artikel/4bis`);
+if ((await page.locator('article a[href^="/artikel/10#"]').count()) < 2)
+  throw new Error("no cross-links on /artikel/4bis");
+
+// 10. narrow viewport: prev/next nav must not overflow
+await page.setViewportSize({ width: 360, height: 800 });
+await page.goto(`${BASE}/artikel/13`);
+await page.waitForTimeout(300);
+const overflow = await page.evaluate(
+  () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+);
+if (overflow > 0) throw new Error(`horizontal overflow ${overflow}px @360px`);
+
+// 11. diff view restores line structure (one block per definition on artikel 3)
+await page.setViewportSize({ width: 1280, height: 900 });
+await page.goto(`${BASE}/artikel/3`);
+await page.locator("[data-diff-status]").first().waitFor();
+if ((await page.locator("[data-diff-status] p").count()) < 60)
+  throw new Error("artikel 3 diff view collapsed to a flattened blob");
 
 if (errors.length) throw new Error("console errors:\n" + errors.join("\n"));
 console.log("e2e: all checks passed");
@@ -106,9 +160,10 @@ elements the overlay covers.
 ## 4. Static export sanity
 
 ```bash
-ls ~/ai-act-explorer-nl/out/artikel | wc -l    # 240 (113 base + 6 omnibus articles, .html + .txt each, + 2 dirs)
-ls ~/ai-act-explorer-nl/out/overweging | wc -l # 180 pages
-ls ~/ai-act-explorer-nl/out/bijlage | wc -l    # 14 incl. bijlage XIV (digitale omnibus)
+# 3 entries per route: page dir + .html + .txt
+ls ~/ai-act-explorer-nl/out/artikel | wc -l    # 357 = (113 base + 6 omnibus) × 3
+ls ~/ai-act-explorer-nl/out/overweging | wc -l # 540 = 180 × 3
+ls ~/ai-act-explorer-nl/out/bijlage | wc -l    # 42 = 14 × 3, incl. bijlage XIV (digitale omnibus)
 ```
 
 Amendment-layer checks (digitale omnibus, PE-CONS 30/26):

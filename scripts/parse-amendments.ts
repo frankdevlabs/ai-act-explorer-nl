@@ -13,7 +13,8 @@ import { diffWordsWithSpace } from "diff";
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { assignItemAnchors, flattenNodes, markerToSlug } from "../src/lib/flatten";
+import { findRefs, type RefContext } from "../src/lib/crossrefs";
+import { assignItemAnchors, flattenNodes, flattenWithBreaks, markerToSlug } from "../src/lib/flatten";
 import type {
   Amendment,
   AmendmentDiffs,
@@ -27,7 +28,9 @@ import type {
   ListItem,
   NewArticleSpec,
   ParagraphDiff,
+  Recital,
   SearchDoc,
+  Toc,
 } from "../src/lib/types";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -36,6 +39,8 @@ const load = <T>(rel: string): T => JSON.parse(readFileSync(join(root, rel), "ut
 const source = load<AmendmentsSource>("data/source/amendments/pe-cons-30-26.json");
 const articles = load<Article[]>("data/generated/articles.json");
 const annexes = load<Annex[]>("data/generated/annexes.json");
+const recitals = load<Recital[]>("data/generated/recitals.json");
+const toc = load<Toc>("data/generated/toc.json");
 
 const fail = (msg: string): never => {
   throw new Error(`parse-amendments: ${msg}`);
@@ -87,6 +92,44 @@ function segmentsOf(oldFlat: string, newFlat: string): DiffSegment[] {
     op: part.added ? ("ins" as const) : part.removed ? ("del" as const) : ("eq" as const),
     text: part.value,
   }));
+}
+
+/** flattenWithBreaks, asserted byte-identical to the canonical projection. */
+function flatBreaks(nodes: ContentNode[], ctx: string): Set<number> {
+  const fw = flattenWithBreaks(nodes);
+  if (fw.text !== flattenNodes(nodes)) fail(`${ctx}: flattenWithBreaks diverges from flattenNodes`);
+  return new Set(fw.breaks);
+}
+
+/**
+ * Split segments at block boundaries so the renderer can restore the line
+ * structure flattening collapsed. eq/ins segments split at new-text breaks,
+ * del segments at old-text breaks; a chunk starting exactly on a break gets
+ * `br`. Same-op adjacency means concat(eq+ins)/concat(eq+del) are unchanged —
+ * the diff invariant survives, only segmentation granularity changes.
+ */
+function splitAtBreaks(
+  segments: DiffSegment[],
+  oldBreaks: Set<number>,
+  newBreaks: Set<number>,
+): DiffSegment[] {
+  const out: DiffSegment[] = [];
+  let oldOff = 0;
+  let newOff = 0;
+  for (const s of segments) {
+    const breaks = s.op === "del" ? oldBreaks : newBreaks;
+    const base = s.op === "del" ? oldOff : newOff;
+    const cuts = [...breaks].filter((b) => b > base && b < base + s.text.length).sort((a, b) => a - b);
+    let pos = base;
+    for (const cut of [...cuts, base + s.text.length]) {
+      const text = s.text.slice(pos - base, cut - base);
+      if (text) out.push(breaks.has(pos) ? { op: s.op, text, br: true } : { op: s.op, text });
+      pos = cut;
+    }
+    if (s.op !== "ins") oldOff += s.text.length;
+    if (s.op !== "del") newOff += s.text.length;
+  }
+  return out;
 }
 
 function assertInvariant(segments: DiffSegment[], oldFlat: string, newFlat: string, ctx: string) {
@@ -296,13 +339,18 @@ function applyToArticle(states: ParaState[], am: Amendment) {
 
 function statesToDiffs(states: ParaState[], ctx: string): ParagraphDiff[] {
   return states.map((s) => {
+    const where = `${ctx} ${s.anchor}`;
     if (s.status === "unchanged") return { anchor: s.anchor, status: s.status, seq: [] };
     if (s.status === "deleted") {
       const oldFlat = flattenNodes(s.old!);
       return {
         anchor: s.anchor,
         status: s.status,
-        segments: [{ op: "del" as const, text: oldFlat }],
+        segments: splitAtBreaks(
+          [{ op: "del" as const, text: oldFlat }],
+          flatBreaks(s.old!, where),
+          new Set(),
+        ),
         seq: s.seq,
       };
     }
@@ -312,7 +360,11 @@ function statesToDiffs(states: ParaState[], ctx: string): ParagraphDiff[] {
         anchor: s.anchor,
         status: s.status,
         displayNumber: s.displayNumber,
-        segments: [{ op: "ins" as const, text: newFlat }],
+        segments: splitAtBreaks(
+          [{ op: "ins" as const, text: newFlat }],
+          new Set(),
+          flatBreaks(s.next!, where),
+        ),
         newContent: s.next,
         seq: s.seq,
       };
@@ -320,14 +372,14 @@ function statesToDiffs(states: ParaState[], ctx: string): ParagraphDiff[] {
     const oldFlat = flattenNodes(s.old!);
     const newFlat = flattenNodes(s.next!);
     const segments = segmentsOf(oldFlat, newFlat);
-    assertInvariant(segments, oldFlat, newFlat, `${ctx} ${s.anchor}`);
+    assertInvariant(segments, oldFlat, newFlat, where);
     if (!segments.some((x) => x.op !== "eq"))
-      fail(`${ctx} ${s.anchor}: marked modified but diff is empty`);
+      fail(`${where}: marked modified but diff is empty`);
     return {
       anchor: s.anchor,
       status: s.status,
       displayNumber: s.displayNumber,
-      segments,
+      segments: splitAtBreaks(segments, flatBreaks(s.old!, where), flatBreaks(s.next!, where)),
       newContent: s.next,
       seq: s.seq,
     };
@@ -337,6 +389,23 @@ function statesToDiffs(states: ParaState[], ctx: string): ParagraphDiff[] {
 // ------------------------------------------------- main
 
 const amendments = source.amendments;
+
+// never hand-curate refs in the transcription: the cross-reference post-pass
+// below is the single deterministic authority. Strip any that sneak in (the
+// verify script additionally rejects them at the source).
+function stripRefs(nodes: ContentNode[]): void {
+  for (const n of nodes) {
+    if (n.type === "text") delete n.refs;
+    else if (n.type === "list") for (const item of n.items) stripRefs(item.content);
+  }
+}
+for (const am of amendments) {
+  if (am.newContent) stripRefs(am.newContent);
+  for (const p of am.newParagraphs ?? []) stripRefs(p.content);
+  for (const it of am.newItems ?? []) stripRefs(it.content);
+  for (const p of am.newArticle?.paragraphs ?? []) stripRefs(p.content);
+  if (am.newAnnex) stripRefs(am.newAnnex.content);
+}
 
 // schema sanity
 const seenIds = new Set<string>();
@@ -445,6 +514,170 @@ for (const roman of Object.keys(byAnnex)) {
   diffs.annexes[roman] = statesToDiffs(states, `bijlage ${roman}`);
 }
 
+// ------------------------------------------------- cross-reference post-pass
+// Annotate all amendment-layer text via findRefs, mirroring parse-aiact's
+// post-pass semantics: unknown page target → throw, unknown fragment → strip.
+// The validator is the base corpus unioned with what the omnibus itself adds
+// (new articles/annexes, inserted leden/punten in amended targets).
+
+const recitalNumbers = new Set(recitals.map((r) => String(r.number)));
+const chapterRomans = new Set(toc.chapters.map((c) => c.roman.toLowerCase()));
+
+function collectItemAnchors(nodes: ContentNode[], into: Set<string>): void {
+  for (const n of nodes) {
+    if (n.type !== "list") continue;
+    for (const item of n.items) {
+      if (item.anchor) into.add(item.anchor);
+      collectItemAnchors(item.content, into);
+    }
+  }
+}
+
+const articleAnchors = new Map<string, Set<string>>();
+for (const a of articles) {
+  const set = new Set<string>();
+  for (const p of a.paragraphs) {
+    set.add(p.anchor);
+    collectItemAnchors(p.content, set);
+  }
+  articleAnchors.set(String(a.number), set);
+}
+const annexAnchors = new Map<string, Set<string>>();
+for (const a of annexes) {
+  const set = new Set<string>(["inhoud"]);
+  collectItemAnchors(a.content, set);
+  annexAnchors.set(a.roman.toLowerCase(), set);
+}
+for (const na of newArticles) {
+  const set = new Set<string>();
+  for (const p of na.paragraphs) {
+    set.add(p.anchor);
+    collectItemAnchors(p.content, set);
+  }
+  articleAnchors.set(na.slug, set);
+}
+for (const na of newAnnexes) {
+  const set = new Set<string>(["inhoud"]);
+  collectItemAnchors(na.content, set);
+  annexAnchors.set(na.roman.toLowerCase(), set);
+}
+// anchors the omnibus adds inside amended base targets (lid-5bis, new punten)
+for (const [key, list] of Object.entries(diffs.articles)) {
+  const set = articleAnchors.get(key)!;
+  for (const p of list) {
+    set.add(p.anchor);
+    if (p.newContent) collectItemAnchors(p.newContent, set);
+  }
+}
+for (const [roman, list] of Object.entries(diffs.annexes)) {
+  const set = annexAnchors.get(roman)!;
+  for (const p of list) if (p.newContent) collectItemAnchors(p.newContent, set);
+}
+
+/** Validate a candidate href; returns it with the fragment stripped if unanchorable. */
+function resolveAmendmentRef(href: string, where: string): string {
+  const [page, fragment] = href.split("#");
+  if (page === "/") {
+    const roman = fragment?.replace(/^hoofdstuk-/, "") ?? "";
+    if (!chapterRomans.has(roman)) fail(`${where}: unresolvable chapter ref ${href}`);
+    return href;
+  }
+  let anchors: Set<string> | undefined;
+  const art = page.match(/^\/artikel\/([a-z0-9]+)$/);
+  const anx = page.match(/^\/bijlage\/([a-z]+)$/);
+  const rct = page.match(/^\/overweging\/(\d+)$/);
+  if (art) anchors = articleAnchors.get(art[1]);
+  else if (anx) anchors = annexAnchors.get(anx[1]);
+  else if (!rct || !recitalNumbers.has(rct[1]))
+    fail(`${where}: unresolvable cross-reference target ${href}`);
+  if ((art || anx) && !anchors) fail(`${where}: unresolvable cross-reference target ${href}`);
+  if (!fragment) return href;
+  return anchors?.has(fragment) ? href : page;
+}
+
+let refCount = 0;
+
+function annotateNodes(nodes: ContentNode[], ctx: RefContext, selfHref: string, where: string): void {
+  for (const n of nodes) {
+    if (n.type === "text") {
+      const refs = findRefs(n.text, ctx)
+        .map((r) => ({ ...r, href: resolveAmendmentRef(r.href, where) }))
+        // fragment stripping can reduce a deep link to a plain self-page link
+        .filter((r) => r.href !== selfHref);
+      if (refs.length > 0) {
+        n.refs = refs;
+        refCount += refs.length;
+      }
+    } else if (n.type === "list") {
+      for (const item of n.items) annotateNodes(item.content, ctx, selfHref, where);
+    }
+  }
+}
+
+// base rule carried over: amendment articles 102-110 quote text of other acts
+const articleCtx = (key: string): RefContext => ({
+  selfType: "artikel",
+  selfRef: key,
+  linkBareRefs: !/^(10[2-9]|110)$/.test(key),
+});
+
+/** Annotate a diff list: structured newContent plus per-segment ref clips. */
+function annotateDiff(list: ParagraphDiff[], ctx: RefContext, selfHref: string, where: string): void {
+  for (const p of list) {
+    const ctxWhere = `${where} ${p.anchor}`;
+    if (p.newContent) annotateNodes(p.newContent, ctx, selfHref, ctxWhere);
+    if (!p.segments || p.status === "deleted" || p.status === "unchanged") continue;
+    // one findRefs run over the whole new text, then clip each span onto the
+    // eq/ins segments it crosses (offsets become segment-local)
+    const newFlat = p.segments
+      .filter((s) => s.op !== "del")
+      .map((s) => s.text)
+      .join("");
+    const refs = findRefs(newFlat, ctx)
+      .map((r) => ({ ...r, href: resolveAmendmentRef(r.href, ctxWhere) }))
+      .filter((r) => r.href !== selfHref);
+    let off = 0;
+    for (const s of p.segments) {
+      if (s.op === "del") continue;
+      const end = off + s.text.length;
+      const local = refs
+        .filter((r) => r.start < end && r.end > off)
+        .map((r) => ({
+          start: Math.max(r.start, off) - off,
+          end: Math.min(r.end, end) - off,
+          href: r.href,
+        }));
+      if (local.length > 0) {
+        s.refs = local;
+        refCount += local.length;
+      }
+      off = end;
+    }
+  }
+}
+
+for (const na of newArticles)
+  for (const p of na.paragraphs)
+    annotateNodes(p.content, articleCtx(na.slug), `/artikel/${na.slug}`, `artikel ${na.displayNumber}`);
+for (const na of newAnnexes)
+  annotateNodes(
+    na.content,
+    { selfType: "bijlage", selfRef: na.roman },
+    `/bijlage/${na.roman.toLowerCase()}`,
+    `bijlage ${na.roman}`,
+  );
+for (const [key, list] of Object.entries(diffs.articles))
+  annotateDiff(list, articleCtx(key), `/artikel/${key}`, `artikel ${key}`);
+for (const [roman, list] of Object.entries(diffs.annexes)) {
+  const annex = annexes.find((a) => a.roman.toLowerCase() === roman)!;
+  annotateDiff(
+    list,
+    { selfType: "bijlage", selfRef: annex.roman },
+    `/bijlage/${roman}`,
+    `bijlage ${annex.roman}`,
+  );
+}
+
 // ------------------------------------------------- search docs (amendment layer)
 
 const searchDocs: SearchDoc[] = [];
@@ -512,5 +745,6 @@ console.log(
   `parse-amendments: ${amendments.length} instructions, ` +
     `${Object.keys(diffs.articles).length} amended articles, ` +
     `${newArticles.length} new articles, ${newAnnexes.length} new annexes, ` +
+    `${refCount} cross-references, ` +
     `${searchDocs.length} search docs (complete=${source.meta.complete})`,
 );

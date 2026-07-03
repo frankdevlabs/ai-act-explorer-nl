@@ -137,7 +137,10 @@ for (const r of recitals)
 for (const a of annexes) collectRefs(a.content, `bijlage ${a.roman}`);
 
 // exact snapshot: any grammar/source change must consciously update this number
-assert.equal(allRefs.length, 566, `cross-reference count (got ${allRefs.length})`);
+// (566 → 563 when the artikel grammar learned bis/ter suffixes: three false
+// positives into treaty Protocols dropped — recital 40 "artikel 6 bis van
+// Protocol nr. 21", recital 41 "artikelen 2 en 2 bis van Protocol nr. 22")
+assert.equal(allRefs.length, 563, `cross-reference count (got ${allRefs.length})`);
 
 // every href resolves — recheck from the JSON, independent of the parser's own sets
 const articleNums = new Set(articles.map((a) => String(a.number)));
@@ -202,6 +205,11 @@ assert.ok(rct38, "recital 38 mentions artikel 16 VWEU");
 assert.ok(
   !(rct38.refs ?? []).some((r) => rct38.text.slice(r.start, r.end).includes("artikel 16")),
   "recital 38: artikel 16 VWEU not annotated",
+);
+assert.equal(
+  allRefs.filter((r) => /Protocol nr\./.test(r.text.slice(r.end, r.end + 30))).length,
+  0,
+  "refs into treaty Protocols not annotated",
 );
 const gdprRefs = allRefs.filter(
   (r) =>

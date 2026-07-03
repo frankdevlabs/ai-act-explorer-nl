@@ -3,8 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, ChevronDown, ChevronUp, FileDiff } from "lucide-react";
-
-const STORAGE_KEY = "omnibus-diff";
+import { getSnapshot, setOmnibusDiff, subscribe, useOmnibusDiff } from "@/lib/omnibus-pref";
 
 interface ChangedLink {
   href: string;
@@ -24,8 +23,9 @@ interface AmendedArticleViewProps {
 /**
  * Toggle between the current text and the track-changes view of an article
  * amended by the digitale omnibus. Both views are server-rendered siblings;
- * this component only switches visibility. ?diff=1 wins over the persisted
- * preference so deep links are stable.
+ * this component only switches visibility. Precedence: ?diff=1 wins at load
+ * (stable deep links); any preference change after load — this button, the
+ * header toggle, another tab — wins over the URL.
  */
 export function AmendedArticleView({
   clean,
@@ -41,10 +41,12 @@ export function AmendedArticleView({
   const [override, setOverride] = useState<boolean | null>(null);
   const [cursor, setCursor] = useState(-1);
 
-  // this component never prerenders (useSearchParams bails the Suspense
-  // boundary out to CSR under static export), so window is always available
-  const stored = typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY) === "1";
-  const showDiff = override ?? (urlDiff !== null ? urlDiff === "1" : stored);
+  const pref = useOmnibusDiff();
+  const showDiff = override ?? (urlDiff !== null ? urlDiff === "1" : pref);
+
+  // a preference change from elsewhere (header toggle, other tab) overrides
+  // the URL param — without this a ?diff=1 deep link makes the header look dead
+  useEffect(() => subscribe(() => setOverride(getSnapshot())), []);
 
   // the deep-link target is hidden until the state settles, so the browser's
   // own anchor scroll misses — redo it once the view is visible
@@ -57,7 +59,7 @@ export function AmendedArticleView({
   const toggle = () => {
     const next = !showDiff;
     setOverride(next);
-    localStorage.setItem(STORAGE_KEY, next ? "1" : "0");
+    setOmnibusDiff(next);
     router.replace(next ? `${pathname}?diff=1` : pathname, { scroll: false });
   };
 
@@ -122,16 +124,21 @@ export function AmendedArticleView({
             className="mt-8 flex gap-3 rounded-lg border border-line bg-surface px-3 py-2 text-sm"
           >
             {prevChanged && (
-              <a href={prevChanged.href} className="flex items-center gap-1 text-muted hover:text-accent">
-                <ArrowLeft className="size-3.5" /> {prevChanged.label}
+              <a
+                href={prevChanged.href}
+                className="flex min-w-0 max-w-[50%] items-center gap-1 text-muted hover:text-accent"
+              >
+                <ArrowLeft className="size-3.5 shrink-0" />{" "}
+                <span className="truncate">{prevChanged.label}</span>
               </a>
             )}
             {nextChanged && (
               <a
                 href={nextChanged.href}
-                className="ml-auto flex items-center gap-1 text-muted hover:text-accent"
+                className="ml-auto flex min-w-0 max-w-[50%] items-center gap-1 text-muted hover:text-accent"
               >
-                {nextChanged.label} <ArrowRight className="size-3.5" />
+                <span className="truncate">{nextChanged.label}</span>{" "}
+                <ArrowRight className="size-3.5 shrink-0" />
               </a>
             )}
           </nav>
