@@ -72,7 +72,7 @@ for (const a of articles) {
 
 // every recital/annex non-empty
 for (const r of recitals)
-  assert.ok(r.paragraphs.join(" ").length > 40, `recital ${r.number} body`);
+  assert.ok(r.paragraphs.map((p) => p.text).join(" ").length > 40, `recital ${r.number} body`);
 for (const a of annexes) {
   assert.ok(a.title.length > 5 && !/^BIJLAGE/.test(a.title), `annex ${a.roman} title`);
   assert.ok(flatten(a.content).length > 200, `annex ${a.roman} body`);
@@ -81,7 +81,7 @@ for (const a of annexes) {
 // corpus size + search docs
 const corpus =
   articles.map((a) => a.paragraphs.map((p) => flatten(p.content)).join(" ")).join(" ") +
-  recitals.map((r) => r.paragraphs.join(" ")).join(" ") +
+  recitals.map((r) => r.paragraphs.map((p) => p.text).join(" ")).join(" ") +
   annexes.map((a) => flatten(a.content)).join(" ");
 assert.ok(corpus.length > 500_000, `corpus ${corpus.length} chars`);
 assert.ok(searchDocs.length > 700, `search docs ${searchDocs.length}`);
@@ -95,8 +95,11 @@ const art5 = flatten(articles[4].paragraphs[0].content);
 assert.ok(art5.includes("subliminale technieken"), "art 5 lid 1 a");
 assert.equal(articles[4].title, "Verboden AI-praktijken", "art 5 title");
 assert.ok(flatten(articles[112].paragraphs[0].content).includes("2 augustus 2026"), "art 113");
-assert.ok(recitals[0].paragraphs[0].includes("betrouwbare artificiële intelligentie"), "recital 1");
-assert.ok(recitals[179].paragraphs[0].includes("Europese Toezichthouder"), "recital 180");
+assert.ok(
+  recitals[0].paragraphs[0].text.includes("betrouwbare artificiële intelligentie"),
+  "recital 1",
+);
+assert.ok(recitals[179].paragraphs[0].text.includes("Europese Toezichthouder"), "recital 180");
 const anx3 = annexes[2];
 assert.ok(anx3.title.includes("artikel 6, lid 2"), "annex III title");
 assert.ok(
@@ -115,5 +118,137 @@ assert.deepEqual(
 for (const n of [78, 102, 103, 104, 105, 106, 107, 108, 109, 110]) {
   assert.ok(articles[n - 1].footnotes.length === 1, `art ${n} footnote`);
 }
+
+// ------------------------------------------------- internal cross-references
+
+interface FlatRef {
+  where: string;
+  text: string;
+  start: number;
+  end: number;
+  href: string;
+}
+const allRefs: FlatRef[] = [];
+function collectRefs(nodes: ContentNode[], where: string): void {
+  for (const n of nodes) {
+    if (n.type === "text" && n.refs) {
+      for (const r of n.refs) allRefs.push({ where, text: n.text, ...r });
+    } else if (n.type === "list") {
+      for (const i of n.items) collectRefs(i.content, where);
+    }
+  }
+}
+for (const a of articles)
+  for (const p of a.paragraphs) collectRefs(p.content, `artikel ${a.number}`);
+for (const r of recitals)
+  for (const p of r.paragraphs)
+    for (const s of p.refs ?? []) allRefs.push({ where: `overweging ${r.number}`, text: p.text, ...s });
+for (const a of annexes) collectRefs(a.content, `bijlage ${a.roman}`);
+
+// exact snapshot: any grammar/source change must consciously update this number
+assert.equal(allRefs.length, 566, `cross-reference count (got ${allRefs.length})`);
+
+// every href resolves — recheck from the JSON, independent of the parser's own sets
+const articleNums = new Set(articles.map((a) => String(a.number)));
+const annexRomans = new Set(annexes.map((a) => a.roman.toLowerCase()));
+const chapterRomans = new Set(toc.chapters.map((c) => c.roman.toLowerCase()));
+const pageAnchors = new Map<string, Set<string>>();
+function collectAnchors(nodes: ContentNode[], into: Set<string>): void {
+  for (const n of nodes) {
+    if (n.type !== "list") continue;
+    for (const i of n.items) {
+      if (i.anchor) into.add(i.anchor);
+      collectAnchors(i.content, into);
+    }
+  }
+}
+for (const a of articles) {
+  const set = new Set<string>();
+  for (const p of a.paragraphs) {
+    set.add(p.anchor);
+    collectAnchors(p.content, set);
+  }
+  pageAnchors.set(`/artikel/${a.number}`, set);
+}
+for (const a of annexes) {
+  const set = new Set<string>();
+  collectAnchors(a.content, set);
+  pageAnchors.set(`/bijlage/${a.roman.toLowerCase()}`, set);
+}
+for (const ref of allRefs) {
+  const [page, fragment] = ref.href.split("#");
+  const label = `${ref.where}: ref ${ref.href}`;
+  if (page === "/") {
+    assert.ok(fragment && chapterRomans.has(fragment.replace(/^hoofdstuk-/, "")), label);
+  } else {
+    const art = page.match(/^\/artikel\/(\d+)$/);
+    const anx = page.match(/^\/bijlage\/([a-z]+)$/);
+    const rct = page.match(/^\/overweging\/(\d+)$/);
+    if (art) assert.ok(articleNums.has(art[1]), label);
+    else if (anx) assert.ok(annexRomans.has(anx[1]), label);
+    else if (rct) assert.ok(Number(rct[1]) >= 1 && Number(rct[1]) <= recitals.length, label);
+    else assert.fail(label);
+    if (fragment) assert.ok(pageAnchors.get(page)?.has(fragment), `${label} (anchor)`);
+  }
+  // offsets in bounds, slice looks like a reference
+  assert.ok(
+    ref.start >= 0 && ref.start < ref.end && ref.end <= ref.text.length,
+    `${label} (offsets)`,
+  );
+  // every span reads as a reference: keyword/number, or a bare enumeration
+  // continuation token ("c)" in "punten b) en c)", "V" in "hoofdstukken I en V")
+  assert.ok(
+    /artikel|bijlage|hoofdstuk|lid|punt|\d|^[a-z]{1,2}\)$|^[IVX]+$/.test(
+      ref.text.slice(ref.start, ref.end),
+    ),
+    `${label} (span text "${ref.text.slice(ref.start, ref.end)}")`,
+  );
+}
+
+// negative spot checks: references to other instruments stay unannotated
+const rct38 = recitals[37].paragraphs.find((p) => p.text.includes("artikel 16 VWEU"));
+assert.ok(rct38, "recital 38 mentions artikel 16 VWEU");
+assert.ok(
+  !(rct38.refs ?? []).some((r) => rct38.text.slice(r.start, r.end).includes("artikel 16")),
+  "recital 38: artikel 16 VWEU not annotated",
+);
+const gdprRefs = allRefs.filter(
+  (r) =>
+    r.where === "artikel 3" &&
+    r.text.slice(r.end).trimStart().startsWith(", van Verordening (EU) 2016/679"),
+);
+assert.equal(gdprRefs.length, 0, "art 3: refs into GDPR not annotated");
+assert.ok(
+  articles[2].paragraphs.some((p) =>
+    flatten(p.content).includes("artikel 4, punt 1, van Verordening (EU) 2016/679"),
+  ),
+  "art 3 mentions the GDPR definition ref",
+);
+assert.equal(
+  allRefs.filter((r) => /^artikel (10[2-9]|110)$/.test(r.where)).length,
+  0,
+  "amendment articles 102-110 carry no bare-ref annotations",
+);
+
+// positive spot checks
+assert.ok(
+  allRefs.some((r) => r.where === "artikel 6" && r.href === "/bijlage/i"),
+  "art 6 links bijlage I",
+);
+const rangeRefs = allRefs.filter(
+  (r) => r.where === "artikel 2" && r.text.includes("artikelen 102 tot en met 109"),
+);
+assert.ok(
+  rangeRefs.some((r) => r.href === "/artikel/102") && rangeRefs.some((r) => r.href === "/artikel/109"),
+  "tot-en-met range links both endpoints",
+);
+assert.ok(
+  allRefs.some((r) => r.href.startsWith("/#hoofdstuk-")),
+  "chapter refs link homepage anchors",
+);
+assert.ok(
+  allRefs.some((r) => /#lid-\d+-[a-z]/.test(r.href)),
+  "lid+punt refs carry combined anchors",
+);
 
 console.log("verify-data: all assertions passed");

@@ -24,6 +24,7 @@ import type { AnyNode, Element } from "domhandler";
 import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { findRefs, type RefContext } from "../src/lib/crossrefs";
 import type {
   Annex,
   Article,
@@ -314,7 +315,8 @@ $oj("div.eli-subdivision[id]").each((_, el) => {
     .children("p")
     .toArray()
     .map((p) => cleanText($oj(p).text()))
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((text) => ({ text }));
   recitals.push({ number: Number(m[1]), paragraphs });
 });
 recitals.sort((a, b) => a.number - b.number);
@@ -339,6 +341,119 @@ $("div[id]").each((_, el) => {
   });
 });
 annexes.sort((a, b) => a.ordinal - b.ordinal);
+
+// ------------------------------------------------- internal cross-references
+//
+// Post-pass: detect "artikel 6, lid 2"-style references in every text node and
+// attach char-offset RefSpans. Every candidate href is validated against the
+// just-built corpus: an unresolvable page target is a grammar bug (throw); a
+// fragment whose anchor does not exist — or is not unique — on the target page
+// is stripped, leaving the page link.
+
+/** Anchor ids that occur exactly once on a page (duplicates are unreliable jump targets). */
+function uniqueAnchors(ids: string[]): Set<string> {
+  const counts = new Map<string, number>();
+  for (const id of ids) counts.set(id, (counts.get(id) ?? 0) + 1);
+  return new Set([...counts].filter(([, n]) => n === 1).map(([id]) => id));
+}
+
+function collectItemAnchors(nodes: ContentNode[], into: string[]): void {
+  for (const n of nodes) {
+    if (n.type !== "list") continue;
+    for (const item of n.items) {
+      if (item.anchor) into.push(item.anchor);
+      collectItemAnchors(item.content, into);
+    }
+  }
+}
+
+const articleAnchors = new Map<string, Set<string>>();
+for (const a of articles) {
+  const ids: string[] = [];
+  for (const p of a.paragraphs) {
+    ids.push(p.anchor);
+    collectItemAnchors(p.content, ids);
+  }
+  articleAnchors.set(String(a.number), uniqueAnchors(ids));
+}
+const annexAnchors = new Map<string, Set<string>>();
+for (const a of annexes) {
+  const ids: string[] = [];
+  collectItemAnchors(a.content, ids);
+  annexAnchors.set(a.roman.toLowerCase(), uniqueAnchors(ids));
+}
+const chapterRomans = new Set(chapters.map((c) => c.roman.toLowerCase()));
+const recitalNumbers = new Set(recitals.map((r) => String(r.number)));
+
+let refCount = 0;
+
+/** Validate a candidate href; returns it with the fragment stripped if unanchorable. */
+function resolveRefHref(href: string, where: string): string {
+  const [page, fragment] = href.split("#");
+  if (page === "/") {
+    // homepage chapter anchor: /#hoofdstuk-iii
+    const roman = fragment?.replace(/^hoofdstuk-/, "") ?? "";
+    if (!chapterRomans.has(roman)) throw new Error(`${where}: unresolvable chapter ref ${href}`);
+    return href;
+  }
+  let anchors: Set<string> | undefined;
+  const art = page.match(/^\/artikel\/(\d+)$/);
+  const anx = page.match(/^\/bijlage\/([a-z]+)$/);
+  const rct = page.match(/^\/overweging\/(\d+)$/);
+  if (art) anchors = articleAnchors.get(art[1]);
+  else if (anx) anchors = annexAnchors.get(anx[1]);
+  else if (!rct || !recitalNumbers.has(rct[1])) {
+    throw new Error(`${where}: unresolvable cross-reference target ${href}`);
+  }
+  if ((art || anx) && !anchors) throw new Error(`${where}: unresolvable cross-reference target ${href}`);
+  if (!fragment) return href;
+  return anchors?.has(fragment) ? href : page;
+}
+
+function annotateNodes(nodes: ContentNode[], ctx: RefContext, selfHref: string, where: string): void {
+  for (const n of nodes) {
+    if (n.type === "text") {
+      const refs = findRefs(n.text, ctx)
+        .map((r) => ({ ...r, href: resolveRefHref(r.href, where) }))
+        // fragment stripping can reduce a deep link to a plain self-page link
+        .filter((r) => r.href !== selfHref);
+      if (refs.length > 0) {
+        n.refs = refs;
+        refCount += refs.length;
+      }
+    } else if (n.type === "list") {
+      for (const item of n.items) annotateNodes(item.content, ctx, selfHref, where);
+    }
+  }
+}
+
+for (const a of articles) {
+  const ctx: RefContext = {
+    selfType: "artikel",
+    selfRef: String(a.number),
+    // amendment articles quote text of other acts; only explicit self-forms link
+    linkBareRefs: !(a.number >= 102 && a.number <= 110),
+  };
+  for (const p of a.paragraphs) {
+    annotateNodes(p.content, ctx, `/artikel/${a.number}`, `artikel ${a.number}`);
+  }
+}
+for (const r of recitals) {
+  const ctx: RefContext = { selfType: "overweging", selfRef: String(r.number) };
+  for (const p of r.paragraphs) {
+    const refs = findRefs(p.text, ctx)
+      .map((s) => ({ ...s, href: resolveRefHref(s.href, `overweging ${r.number}`) }))
+      .filter((s) => s.href !== `/overweging/${r.number}`);
+    if (refs.length > 0) {
+      p.refs = refs;
+      refCount += refs.length;
+    }
+  }
+}
+for (const a of annexes) {
+  const ctx: RefContext = { selfType: "bijlage", selfRef: a.roman };
+  annotateNodes(a.content, ctx, `/bijlage/${a.roman.toLowerCase()}`, `bijlage ${a.roman}`);
+}
 
 // ------------------------------------------------- toc
 
@@ -398,7 +513,7 @@ for (const r of recitals) {
     ref: String(r.number),
     heading: `Overweging ${r.number}`,
     url: `/overweging/${r.number}`,
-    text: r.paragraphs.join(" "),
+    text: r.paragraphs.map((p) => p.text).join(" "),
   });
 }
 for (const a of annexes) {
@@ -446,5 +561,6 @@ copyFileSync(join(outDir, "search-docs.json"), join(root, "public/search-docs.js
 
 console.log(
   `parsed: ${articles.length} articles, ${recitals.length} recitals, ${annexes.length} annexes, ` +
-    `${chapters.length} chapters, ${footnoteTextById.size} footnotes, ${searchDocs.length} search docs`,
+    `${chapters.length} chapters, ${footnoteTextById.size} footnotes, ${searchDocs.length} search docs, ` +
+    `${refCount} cross-references`,
 );

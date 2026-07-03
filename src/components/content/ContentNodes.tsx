@@ -1,4 +1,5 @@
 import type { ContentNode } from "@/lib/types";
+import { LinkedText } from "./LinkedText";
 
 /** Recursive renderer for parsed OJ content: paragraphs, headings and marker lists. */
 export function ContentNodes({ nodes }: { nodes: ContentNode[] }) {
@@ -15,7 +16,7 @@ export function ContentNodes({ nodes }: { nodes: ContentNode[] }) {
         if (node.type === "text") {
           return (
             <p key={i} className="my-2 leading-relaxed">
-              {node.text}
+              <LinkedText text={node.text} refs={node.refs} />
             </p>
           );
         }

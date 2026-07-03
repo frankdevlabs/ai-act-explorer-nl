@@ -1,6 +1,6 @@
 # Epic 1 — Internal cross-references
 
-**Status**: ready to implement (run plan mode on this doc for final step breakdown).
+**Status**: done (implemented July 2026; 566 refs annotated at parse time).
 **Goal**: plain-text references in the corpus ("artikel 6, lid 1", "bijlage III") become internal links with hover previews, on article, recital and annex pages.
 
 ## Design decisions
@@ -29,7 +29,7 @@ Grammar:
 - `artikel N` / `artikelen N(, N)* (en|of) N` / `artikelen N tot en met M` — enumerations and ranges emit **one span per number**.
 - Sub-ref tail: `, lid N` / `, leden N en M` / `, leden N tot en met M`, then optional `, punt x)` / `, punten a) en b)`; `, eerste/tweede alinea` parsed but not anchored (alinea anchors don't exist).
 - `bijlage ROMAN(, punt N)` / `bijlagen ...`; `hoofdstuk ROMAN(, afdeling N)?`; `overweging N` (rare).
-- Anchor mapping reuses existing convention: `artikel 6, lid 2, punt c)` → `/artikel/6#lid-2-c`; `bijlage III, punt 2` → `/bijlage/iii#punt-2` **only if** anchor exists in parsed annex, else drop fragment; `hoofdstuk III` → `/#hoofdstuk-iii` (verify homepage ids exist on `src/app/page.tsx` — Breadcrumbs already links them).
+- Anchor mapping reuses existing convention: `artikel 6, lid 2, punt c)` → `/artikel/6#lid-2-c`; `bijlage III, punt 2` → `/bijlage/iii#punt-2` **only if** anchor exists in parsed annex **and is unique on the page** (annexes VII/VIII/X repeat `punt-*` markers per afdeling; art 43 duplicates `lid-1-a`), else drop fragment; `hoofdstuk III` → `/#hoofdstuk-iii` (homepage ids confirmed on `src/app/page.tsx:22`).
 
 Exclusions (checked first, order matters):
 1. Trailing `VWEU` / `VEU` — covers `artikel 16 VWEU` and `artikel 4, lid 2, VEU` (~14 occurrences, all recitals).
@@ -47,15 +47,15 @@ Parser post-pass in `scripts/parse-aiact.ts`: walk all ContentNodes (incl. neste
 
 ## Verify additions (`scripts/verify-data.ts`)
 
-- Exact total ref-count snapshot (update deliberately on source updates).
+- Exact total ref-count snapshot: **566** (update deliberately on source updates).
 - Every href resolves — independent recheck from the JSON, not the parser's own sets.
-- Negative spot checks: recital 2 `artikel 16 VWEU` not annotated; art 3 `artikel 4, punt 1, van Verordening (EU) 2016/679` not annotated; art 102 body has no bare-ref annotations.
+- Negative spot checks: recital 38 (not 2 as first drafted) `artikel 16 VWEU` not annotated; art 3 `artikel 4, punt 1, van Verordening (EU) 2016/679` not annotated; arts 102–110 bodies have no bare-ref annotations.
 - Positive spot checks: art 6 lid 1 → `/bijlage/i`; a `tot en met` range yields per-number spans; every span's offsets in bounds and `text.slice(start,end)` matches `/artikel|bijlage|hoofdstuk|lid|punt|\d/`.
 
 ## Files
 
 New: `src/lib/crossrefs.ts`, `src/components/content/LinkedText.tsx`, `src/components/content/RefLink.tsx`.
-Modified: `src/lib/types.ts`, `scripts/parse-aiact.ts`, `scripts/verify-data.ts`, `src/components/content/ContentNodes.tsx`, `src/app/overweging/[nummer]/page.tsx`, `package.json`, regenerated `data/generated/*`.
+Modified: `src/lib/types.ts`, `src/lib/data.ts` (preview helper), `scripts/parse-aiact.ts`, `scripts/verify-data.ts`, `src/components/content/ContentNodes.tsx`, `src/app/overweging/[nummer]/page.tsx`, `src/app/overwegingen/page.tsx` (recital shape consumer), `package.json`, regenerated `data/generated/*`.
 
 ## Order
 

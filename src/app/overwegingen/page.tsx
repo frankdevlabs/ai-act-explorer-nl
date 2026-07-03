@@ -23,7 +23,7 @@ export default function OverwegingenPage() {
             >
               <span className="w-10 shrink-0 text-sm text-muted">({r.number})</span>
               <span className="line-clamp-2 text-sm group-hover:text-accent">
-                {r.paragraphs[0]}
+                {r.paragraphs[0].text}
               </span>
             </Link>
           </li>

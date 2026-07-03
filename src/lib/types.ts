@@ -1,5 +1,16 @@
+/**
+ * Internal cross-reference: text.slice(start, end) reads as a reference to
+ * another part of the regulation ("artikel 6, lid 2"), href is the internal
+ * route it resolves to. Offsets index into the owning node's `text`.
+ */
+export interface RefSpan {
+  start: number;
+  end: number;
+  href: string;
+}
+
 export type ContentNode =
-  | { type: "text"; text: string }
+  | { type: "text"; text: string; refs?: RefSpan[] }
   | { type: "heading"; text: string }
   | { type: "list"; items: ListItem[] };
 
@@ -33,9 +44,14 @@ export interface Article {
   footnotes: Footnote[];
 }
 
+export interface RecitalParagraph {
+  text: string;
+  refs?: RefSpan[];
+}
+
 export interface Recital {
   number: number;
-  paragraphs: string[];
+  paragraphs: RecitalParagraph[];
 }
 
 export interface Annex {

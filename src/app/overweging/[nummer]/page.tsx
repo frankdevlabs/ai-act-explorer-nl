@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { LinkedText } from "@/components/content/LinkedText";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PrevNextNav } from "@/components/layout/PrevNextNav";
 import { getRecital, getRecitals, recitalPrevNext } from "@/lib/data";
@@ -38,7 +39,7 @@ export default async function OverwegingPage({ params }: Props) {
       </header>
       {recital.paragraphs.map((p, i) => (
         <p key={i} className="my-3 leading-relaxed">
-          {p}
+          <LinkedText text={p.text} refs={p.refs} />
         </p>
       ))}
       <PrevNextNav {...recitalPrevNext(recital.number)} />
