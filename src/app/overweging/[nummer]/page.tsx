@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LinkedText } from "@/components/content/LinkedText";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PrevNextNav } from "@/components/layout/PrevNextNav";
-import { getRecital, getRecitals, recitalPrevNext } from "@/lib/data";
+import { getArticlesForRecital, getRecital, getRecitals, recitalPrevNext } from "@/lib/data";
 
 export const dynamicParams = false;
 
@@ -25,6 +26,7 @@ export default async function OverwegingPage({ params }: Props) {
   const { nummer } = await params;
   const recital = getRecital(Number(nummer));
   if (!recital) notFound();
+  const related = getArticlesForRecital(recital.number);
 
   return (
     <article>
@@ -42,6 +44,24 @@ export default async function OverwegingPage({ params }: Props) {
           <LinkedText text={p.text} refs={p.refs} />
         </p>
       ))}
+      {related.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-sm font-medium text-muted">Relevante artikelen</h2>
+          <ul className="mt-2 flex flex-wrap gap-2">
+            {related.map((a) => (
+              <li key={a.slug}>
+                <Link
+                  href={`/artikel/${a.slug}`}
+                  title={a.title}
+                  className="inline-block rounded-full border border-line px-2.5 py-0.5 text-sm hover:border-accent"
+                >
+                  {a.label.replace(/^Artikel/, "Art.")}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <PrevNextNav {...recitalPrevNext(recital.number)} />
     </article>
   );

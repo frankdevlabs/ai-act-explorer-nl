@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { AmendedArticleView } from "@/components/content/AmendedArticleView";
 import { ArticleBody } from "@/components/content/ArticleBody";
 import { DiffArticleBody } from "@/components/content/DiffArticleBody";
+import { RelatedRecitals } from "@/components/content/RelatedRecitals";
 import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
 import { PrevNextNav } from "@/components/layout/PrevNextNav";
 import {
@@ -11,6 +12,7 @@ import {
   changedTargetPrevNext,
   getArticleDiff,
   getArticleOrder,
+  getRecitalsForArticle,
   resolveArticle,
 } from "@/lib/data";
 
@@ -104,6 +106,7 @@ export default async function ArtikelPage({ params }: Props) {
       ) : (
         cleanBody
       )}
+      <RelatedRecitals recitals={getRecitalsForArticle(nummer)} />
       <PrevNextNav {...articlePrevNext(nummer)} />
     </article>
   );

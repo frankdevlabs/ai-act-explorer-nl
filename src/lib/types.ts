@@ -208,3 +208,35 @@ export interface AmendmentDiffs {
   articles: Record<string, ParagraphDiff[]>;
   annexes: Record<string, ParagraphDiff[]>;
 }
+
+// ---------------------------------------------------------------------------
+// Recital↔article map (curated editorial layer, epic 5)
+
+export interface RecitalMapEntry {
+  /** Article slugs the recital motivates: base numbers ("5") or omnibus
+   *  new-article slugs ("4bis"). Empty + reviewed = "none relevant". */
+  articles: string[];
+  /** False while drafted by the curation skill, true after human review. */
+  reviewed: boolean;
+  /** Dutch editorial aid; not rendered in v1. */
+  note?: string;
+}
+
+export interface RecitalMapSource {
+  meta: {
+    version: number;
+    /** False while curation is in progress; verify-recital-map skips
+     *  exact-count assertions until flipped. */
+    complete: boolean;
+  };
+  /** Keyed "1".."180" — every recital present, reviewed or not. */
+  recitals: Record<string, RecitalMapEntry>;
+}
+
+export interface RecitalMapGenerated {
+  meta: { version: number; complete: boolean; reviewedCount: number; pairCount: number };
+  /** Recital number → article slugs in document order (empty entries omitted). */
+  byRecital: Record<string, string[]>;
+  /** Article slug → recital numbers ascending (inverse of byRecital). */
+  byArticle: Record<string, number[]>;
+}

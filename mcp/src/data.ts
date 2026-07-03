@@ -7,6 +7,7 @@ import type {
   Article,
   NewArticleSpec,
   Recital,
+  RecitalMapGenerated,
   SearchDoc,
   Toc,
 } from "../../src/lib/types.js";
@@ -28,6 +29,7 @@ export const annexes = load<Annex[]>(join(DATA_DIR, "annexes.json"));
 export const toc = load<Toc>(join(DATA_DIR, "toc.json"));
 export const amendments = load<AmendmentsGenerated>(join(DATA_DIR, "amendments.json"));
 export const amendmentDiffs = load<AmendmentDiffs>(join(DATA_DIR, "amendment-diffs.json"));
+export const recitalMap = load<RecitalMapGenerated>(join(DATA_DIR, "recital-map.json"));
 
 // Search corpus: base docs live in data/generated; the amendment corpus is
 // only emitted to public/ — tolerate its absence like the site does.

@@ -1,0 +1,740 @@
+{
+  "meta": {
+    "version": 1,
+    "complete": false
+  },
+  "recitals": {
+    "1": {
+      "articles": [],
+      "reviewed": false
+    },
+    "2": {
+      "articles": [],
+      "reviewed": false
+    },
+    "3": {
+      "articles": [],
+      "reviewed": false
+    },
+    "4": {
+      "articles": [],
+      "reviewed": false
+    },
+    "5": {
+      "articles": [],
+      "reviewed": false
+    },
+    "6": {
+      "articles": [],
+      "reviewed": false
+    },
+    "7": {
+      "articles": [],
+      "reviewed": false
+    },
+    "8": {
+      "articles": [],
+      "reviewed": false
+    },
+    "9": {
+      "articles": [],
+      "reviewed": false
+    },
+    "10": {
+      "articles": [],
+      "reviewed": false
+    },
+    "11": {
+      "articles": [],
+      "reviewed": false
+    },
+    "12": {
+      "articles": [],
+      "reviewed": false
+    },
+    "13": {
+      "articles": [],
+      "reviewed": false
+    },
+    "14": {
+      "articles": [],
+      "reviewed": false
+    },
+    "15": {
+      "articles": [],
+      "reviewed": false
+    },
+    "16": {
+      "articles": [],
+      "reviewed": false
+    },
+    "17": {
+      "articles": [],
+      "reviewed": false
+    },
+    "18": {
+      "articles": [],
+      "reviewed": false
+    },
+    "19": {
+      "articles": [],
+      "reviewed": false
+    },
+    "20": {
+      "articles": [],
+      "reviewed": false
+    },
+    "21": {
+      "articles": [],
+      "reviewed": false
+    },
+    "22": {
+      "articles": [],
+      "reviewed": false
+    },
+    "23": {
+      "articles": [],
+      "reviewed": false
+    },
+    "24": {
+      "articles": [],
+      "reviewed": false
+    },
+    "25": {
+      "articles": [],
+      "reviewed": false
+    },
+    "26": {
+      "articles": [],
+      "reviewed": false
+    },
+    "27": {
+      "articles": [],
+      "reviewed": false
+    },
+    "28": {
+      "articles": [],
+      "reviewed": false
+    },
+    "29": {
+      "articles": [],
+      "reviewed": false
+    },
+    "30": {
+      "articles": [],
+      "reviewed": false
+    },
+    "31": {
+      "articles": [],
+      "reviewed": false
+    },
+    "32": {
+      "articles": [],
+      "reviewed": false
+    },
+    "33": {
+      "articles": [],
+      "reviewed": false
+    },
+    "34": {
+      "articles": [],
+      "reviewed": false
+    },
+    "35": {
+      "articles": [],
+      "reviewed": false
+    },
+    "36": {
+      "articles": [],
+      "reviewed": false
+    },
+    "37": {
+      "articles": [],
+      "reviewed": false
+    },
+    "38": {
+      "articles": [],
+      "reviewed": false
+    },
+    "39": {
+      "articles": [],
+      "reviewed": false
+    },
+    "40": {
+      "articles": [
+        "5",
+        "26"
+      ],
+      "reviewed": false,
+      "note": "expliciete verwijzingen naar artikel 5, leden 1 d)/g)/h), 2 en 6, en artikel 26, lid 10"
+    },
+    "41": {
+      "articles": [
+        "5",
+        "26"
+      ],
+      "reviewed": false,
+      "note": "expliciete verwijzingen naar artikel 5, leden 1 d)/g)/h), 2 en 6, en artikel 26, lid 10"
+    },
+    "42": {
+      "articles": [],
+      "reviewed": false
+    },
+    "43": {
+      "articles": [],
+      "reviewed": false
+    },
+    "44": {
+      "articles": [],
+      "reviewed": false
+    },
+    "45": {
+      "articles": [],
+      "reviewed": false
+    },
+    "46": {
+      "articles": [],
+      "reviewed": false
+    },
+    "47": {
+      "articles": [],
+      "reviewed": false
+    },
+    "48": {
+      "articles": [],
+      "reviewed": false
+    },
+    "49": {
+      "articles": [],
+      "reviewed": false
+    },
+    "50": {
+      "articles": [],
+      "reviewed": false
+    },
+    "51": {
+      "articles": [],
+      "reviewed": false
+    },
+    "52": {
+      "articles": [],
+      "reviewed": false
+    },
+    "53": {
+      "articles": [],
+      "reviewed": false
+    },
+    "54": {
+      "articles": [],
+      "reviewed": false
+    },
+    "55": {
+      "articles": [],
+      "reviewed": false
+    },
+    "56": {
+      "articles": [],
+      "reviewed": false
+    },
+    "57": {
+      "articles": [],
+      "reviewed": false
+    },
+    "58": {
+      "articles": [],
+      "reviewed": false
+    },
+    "59": {
+      "articles": [],
+      "reviewed": false
+    },
+    "60": {
+      "articles": [],
+      "reviewed": false
+    },
+    "61": {
+      "articles": [],
+      "reviewed": false
+    },
+    "62": {
+      "articles": [],
+      "reviewed": false
+    },
+    "63": {
+      "articles": [],
+      "reviewed": false
+    },
+    "64": {
+      "articles": [],
+      "reviewed": false
+    },
+    "65": {
+      "articles": [],
+      "reviewed": false
+    },
+    "66": {
+      "articles": [],
+      "reviewed": false
+    },
+    "67": {
+      "articles": [],
+      "reviewed": false
+    },
+    "68": {
+      "articles": [],
+      "reviewed": false
+    },
+    "69": {
+      "articles": [],
+      "reviewed": false
+    },
+    "70": {
+      "articles": [],
+      "reviewed": false
+    },
+    "71": {
+      "articles": [],
+      "reviewed": false
+    },
+    "72": {
+      "articles": [],
+      "reviewed": false
+    },
+    "73": {
+      "articles": [],
+      "reviewed": false
+    },
+    "74": {
+      "articles": [],
+      "reviewed": false
+    },
+    "75": {
+      "articles": [],
+      "reviewed": false
+    },
+    "76": {
+      "articles": [],
+      "reviewed": false
+    },
+    "77": {
+      "articles": [],
+      "reviewed": false
+    },
+    "78": {
+      "articles": [],
+      "reviewed": false
+    },
+    "79": {
+      "articles": [],
+      "reviewed": false
+    },
+    "80": {
+      "articles": [],
+      "reviewed": false
+    },
+    "81": {
+      "articles": [],
+      "reviewed": false
+    },
+    "82": {
+      "articles": [],
+      "reviewed": false
+    },
+    "83": {
+      "articles": [],
+      "reviewed": false
+    },
+    "84": {
+      "articles": [],
+      "reviewed": false
+    },
+    "85": {
+      "articles": [],
+      "reviewed": false
+    },
+    "86": {
+      "articles": [],
+      "reviewed": false
+    },
+    "87": {
+      "articles": [],
+      "reviewed": false
+    },
+    "88": {
+      "articles": [],
+      "reviewed": false
+    },
+    "89": {
+      "articles": [],
+      "reviewed": false
+    },
+    "90": {
+      "articles": [],
+      "reviewed": false
+    },
+    "91": {
+      "articles": [],
+      "reviewed": false
+    },
+    "92": {
+      "articles": [],
+      "reviewed": false
+    },
+    "93": {
+      "articles": [],
+      "reviewed": false
+    },
+    "94": {
+      "articles": [],
+      "reviewed": false
+    },
+    "95": {
+      "articles": [],
+      "reviewed": false
+    },
+    "96": {
+      "articles": [],
+      "reviewed": false
+    },
+    "97": {
+      "articles": [],
+      "reviewed": false
+    },
+    "98": {
+      "articles": [],
+      "reviewed": false
+    },
+    "99": {
+      "articles": [],
+      "reviewed": false
+    },
+    "100": {
+      "articles": [],
+      "reviewed": false
+    },
+    "101": {
+      "articles": [],
+      "reviewed": false
+    },
+    "102": {
+      "articles": [],
+      "reviewed": false
+    },
+    "103": {
+      "articles": [],
+      "reviewed": false
+    },
+    "104": {
+      "articles": [],
+      "reviewed": false
+    },
+    "105": {
+      "articles": [],
+      "reviewed": false
+    },
+    "106": {
+      "articles": [],
+      "reviewed": false
+    },
+    "107": {
+      "articles": [],
+      "reviewed": false
+    },
+    "108": {
+      "articles": [],
+      "reviewed": false
+    },
+    "109": {
+      "articles": [],
+      "reviewed": false
+    },
+    "110": {
+      "articles": [],
+      "reviewed": false
+    },
+    "111": {
+      "articles": [],
+      "reviewed": false
+    },
+    "112": {
+      "articles": [],
+      "reviewed": false
+    },
+    "113": {
+      "articles": [],
+      "reviewed": false
+    },
+    "114": {
+      "articles": [],
+      "reviewed": false
+    },
+    "115": {
+      "articles": [],
+      "reviewed": false
+    },
+    "116": {
+      "articles": [],
+      "reviewed": false
+    },
+    "117": {
+      "articles": [],
+      "reviewed": false
+    },
+    "118": {
+      "articles": [],
+      "reviewed": false
+    },
+    "119": {
+      "articles": [],
+      "reviewed": false
+    },
+    "120": {
+      "articles": [],
+      "reviewed": false
+    },
+    "121": {
+      "articles": [],
+      "reviewed": false
+    },
+    "122": {
+      "articles": [],
+      "reviewed": false
+    },
+    "123": {
+      "articles": [],
+      "reviewed": false
+    },
+    "124": {
+      "articles": [],
+      "reviewed": false
+    },
+    "125": {
+      "articles": [],
+      "reviewed": false
+    },
+    "126": {
+      "articles": [],
+      "reviewed": false
+    },
+    "127": {
+      "articles": [],
+      "reviewed": false
+    },
+    "128": {
+      "articles": [],
+      "reviewed": false
+    },
+    "129": {
+      "articles": [],
+      "reviewed": false
+    },
+    "130": {
+      "articles": [],
+      "reviewed": false
+    },
+    "131": {
+      "articles": [],
+      "reviewed": false
+    },
+    "132": {
+      "articles": [],
+      "reviewed": false
+    },
+    "133": {
+      "articles": [],
+      "reviewed": false
+    },
+    "134": {
+      "articles": [],
+      "reviewed": false
+    },
+    "135": {
+      "articles": [],
+      "reviewed": false
+    },
+    "136": {
+      "articles": [],
+      "reviewed": false
+    },
+    "137": {
+      "articles": [],
+      "reviewed": false
+    },
+    "138": {
+      "articles": [],
+      "reviewed": false
+    },
+    "139": {
+      "articles": [],
+      "reviewed": false
+    },
+    "140": {
+      "articles": [
+        "4",
+        "6"
+      ],
+      "reviewed": false,
+      "note": "expliciete verwijzingen naar artikel 4 en artikel 6, lid 4"
+    },
+    "141": {
+      "articles": [],
+      "reviewed": false
+    },
+    "142": {
+      "articles": [],
+      "reviewed": false
+    },
+    "143": {
+      "articles": [],
+      "reviewed": false
+    },
+    "144": {
+      "articles": [],
+      "reviewed": false
+    },
+    "145": {
+      "articles": [],
+      "reviewed": false
+    },
+    "146": {
+      "articles": [],
+      "reviewed": false
+    },
+    "147": {
+      "articles": [],
+      "reviewed": false
+    },
+    "148": {
+      "articles": [],
+      "reviewed": false
+    },
+    "149": {
+      "articles": [],
+      "reviewed": false
+    },
+    "150": {
+      "articles": [],
+      "reviewed": false
+    },
+    "151": {
+      "articles": [],
+      "reviewed": false
+    },
+    "152": {
+      "articles": [],
+      "reviewed": false
+    },
+    "153": {
+      "articles": [],
+      "reviewed": false
+    },
+    "154": {
+      "articles": [],
+      "reviewed": false
+    },
+    "155": {
+      "articles": [],
+      "reviewed": false
+    },
+    "156": {
+      "articles": [],
+      "reviewed": false
+    },
+    "157": {
+      "articles": [],
+      "reviewed": false
+    },
+    "158": {
+      "articles": [],
+      "reviewed": false
+    },
+    "159": {
+      "articles": [],
+      "reviewed": false
+    },
+    "160": {
+      "articles": [],
+      "reviewed": false
+    },
+    "161": {
+      "articles": [],
+      "reviewed": false
+    },
+    "162": {
+      "articles": [],
+      "reviewed": false
+    },
+    "163": {
+      "articles": [],
+      "reviewed": false
+    },
+    "164": {
+      "articles": [],
+      "reviewed": false
+    },
+    "165": {
+      "articles": [],
+      "reviewed": false
+    },
+    "166": {
+      "articles": [],
+      "reviewed": false
+    },
+    "167": {
+      "articles": [],
+      "reviewed": false
+    },
+    "168": {
+      "articles": [],
+      "reviewed": false
+    },
+    "169": {
+      "articles": [],
+      "reviewed": false
+    },
+    "170": {
+      "articles": [],
+      "reviewed": false
+    },
+    "171": {
+      "articles": [],
+      "reviewed": false
+    },
+    "172": {
+      "articles": [],
+      "reviewed": false
+    },
+    "173": {
+      "articles": [],
+      "reviewed": false
+    },
+    "174": {
+      "articles": [],
+      "reviewed": false
+    },
+    "175": {
+      "articles": [],
+      "reviewed": false
+    },
+    "176": {
+      "articles": [],
+      "reviewed": false
+    },
+    "177": {
+      "articles": [],
+      "reviewed": false
+    },
+    "178": {
+      "articles": [],
+      "reviewed": false
+    },
+    "179": {
+      "articles": [],
+      "reviewed": false
+    },
+    "180": {
+      "articles": [],
+      "reviewed": false
+    }
+  }
+}

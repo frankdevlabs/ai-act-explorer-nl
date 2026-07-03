@@ -31,10 +31,18 @@ procedures: `.claude/skills/` (`update-source`, `verify-app`).
    Scheduled for removal: once published in the OJ, a deterministic parse of
    the CELEX 32026R… HTML replaces the transcription (only the producer of
    `data/generated/amendments.json` changes; everything downstream is stable).
+   **2b. Editorial-metadata layer:** `data/source/recital-article-map.json`
+   is hand/LLM-curated *interpretive* metadata (which articles each recital
+   motivates), clearly not legal text. It must never alter the rendering of
+   legal text — it only feeds the "Relevante overwegingen" / "Relevante
+   artikelen" panels and MCP output. Changes follow
+   `.claude/skills/curate-recital-map/`; gated by
+   `scripts/verify-recital-map.ts`.
 3. `npm run build` = `parse → verify → next build`. If
-   `scripts/verify-data.ts` or `scripts/verify-amendments.ts` fails, fix the
-   parser or transcription (or, after a deliberate source update, the
-   assertions) — don't loosen assertions to pass.
+   `scripts/verify-data.ts`, `scripts/verify-amendments.ts` or
+   `scripts/verify-recital-map.ts` fails, fix the parser or curated source
+   (or, after a deliberate source update, the assertions) — don't loosen
+   assertions to pass.
 4. Commit `data/source/`, `data/generated/`, and generated `public/*.json`
    together with the parser change that produced them.
 

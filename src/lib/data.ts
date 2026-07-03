@@ -4,6 +4,7 @@ import annexesJson from "../../data/generated/annexes.json";
 import tocJson from "../../data/generated/toc.json";
 import amendmentsJson from "../../data/generated/amendments.json";
 import amendmentDiffsJson from "../../data/generated/amendment-diffs.json";
+import recitalMapJson from "../../data/generated/recital-map.json";
 import type {
   AmendmentDiffs,
   AmendmentsGenerated,
@@ -12,6 +13,7 @@ import type {
   NewArticleSpec,
   ParagraphDiff,
   Recital,
+  RecitalMapGenerated,
   Toc,
 } from "./types";
 import { flattenNodes } from "./flatten";
@@ -22,6 +24,7 @@ const annexes = annexesJson as Annex[];
 const toc = tocJson as Toc;
 const amendments = amendmentsJson as unknown as AmendmentsGenerated;
 const amendmentDiffs = amendmentDiffsJson as unknown as AmendmentDiffs;
+const recitalMap = recitalMapJson as unknown as RecitalMapGenerated;
 
 export function getToc(): Toc {
   return toc;
@@ -195,11 +198,31 @@ export function isNewAnnex(roman: string): boolean {
   return amendments.newAnnexes.some((n) => n.roman.toLowerCase() === roman.toLowerCase());
 }
 
-function clip(text: string, max = 200): string {
+export function clip(text: string, max = 200): string {
   const t = text.trim();
   if (t.length <= max) return t;
   const cut = t.slice(0, max);
   return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), 120))}…`;
+}
+
+// ---------------------------------------------------------------------------
+// Recital↔article map (curated editorial layer)
+
+/** Recitals mapped to an article (base number or omnibus slug), with a short
+ *  snippet of the recital's opening text. */
+export function getRecitalsForArticle(slug: string): { number: number; snippet: string }[] {
+  return (recitalMap.byArticle[slug] ?? []).flatMap((n) => {
+    const r = getRecital(n);
+    return r ? [{ number: n, snippet: clip(r.paragraphs[0]?.text ?? "", 100) }] : [];
+  });
+}
+
+/** Articles a recital motivates, in document order, with display label and title. */
+export function getArticlesForRecital(n: number): { slug: string; label: string; title: string }[] {
+  return (recitalMap.byRecital[String(n)] ?? []).flatMap((slug) => {
+    const entry = articleOrder.find((e) => e.slug === slug);
+    return entry ? [entry] : [];
+  });
 }
 
 export interface RefPreview {

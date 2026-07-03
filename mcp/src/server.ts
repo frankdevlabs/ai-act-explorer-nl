@@ -11,6 +11,7 @@ import {
   getRecital,
   index,
   normalizeArticleInput,
+  recitalMap,
   resolveArticle,
   slugRank,
   toc,
@@ -85,6 +86,12 @@ export function createServer(): McpServer {
       if (resolved.kind === "base" && (amendmentDiffs.articles[key] || amendments.titleChanges[key])) {
         md += `\n\n> Let op: dit artikel wordt gewijzigd door de digitale omnibus (PE-CONS 30/26) — zie het tool get_amendments of ${BASE_URL}/artikel/${key}?diff=1.`;
       }
+      const related = recitalMap.byArticle[key];
+      if (related?.length) {
+        md += `\n\n**Relevante overwegingen:** ${related
+          .map((n) => `[${n}](${BASE_URL}/overweging/${n})`)
+          .join(", ")}`;
+      }
       return text(md);
     },
   );
@@ -102,7 +109,16 @@ export function createServer(): McpServer {
       const r = getRecital(number);
       if (!r) return err(`Overweging ${number} niet gevonden (bereik: 1–180).`);
       const body = r.paragraphs.map((p) => renderText(p.text, p.refs)).join("\n\n");
-      return text(`# Overweging ${r.number}\n\n${body}\n\n**Deep link**: ${BASE_URL}/overweging/${r.number}`);
+      const slugs = recitalMap.byRecital[String(r.number)];
+      const related = slugs?.length
+        ? `\n\n**Relevante artikelen:** ${slugs
+            .map((s) => {
+              const display = amendments.newArticles.find((n) => n.slug === s)?.displayNumber ?? s;
+              return `Artikel ${display} — ${BASE_URL}/artikel/${s}`;
+            })
+            .join(" · ")}`
+        : "";
+      return text(`# Overweging ${r.number}\n\n${body}${related}\n\n**Deep link**: ${BASE_URL}/overweging/${r.number}`);
     },
   );
 

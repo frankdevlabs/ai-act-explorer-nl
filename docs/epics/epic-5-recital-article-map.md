@@ -1,6 +1,6 @@
 # Epic 5 — Recital↔article mapping (curated editorial layer)
 
-**Status**: ready to implement (run plan mode on this doc for final step breakdown). Curation of 180 recitals is the long pole — the two-regime verify keeps the site shippable mid-curation.
+**Status**: infrastructure implemented (steps 1–6 of Order, 2026-07-03): source stub + build/verify scripts + accessors + UI + MCP + skill/AGENTS rule 2b all live; recitals 40/41/140 seeded from their explicit refs (`reviewed: false`). Remaining: step 7 — curation in batches via `.claude/skills/curate-recital-map/`, then flip `complete: true` + pin counts in `verify-recital-map.ts`.
 **Goal**: every article page shows its relevant recitals; every recital page shows the articles it motivates. Only 3/180 recitals cite articles explicitly, so this is a **curated editorial layer**, not crossref detection.
 
 ## Source data
