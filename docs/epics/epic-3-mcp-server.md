@@ -51,4 +51,4 @@ Modified: `src/lib/search.ts` (thin wrapper re-exporting from search-core).
 
 ## Open questions
 
-- Which domain/reverse proxy on the VPS fronts `https://<domain>/mcp`? (Nothing found in repo; decide at deploy step.)
+- ~~Which domain/reverse proxy on the VPS fronts `https://<domain>/mcp`?~~ **Resolved**: `aia.mrfrank.dev` (Cloudflare-proxied) → nginx on this VPS → `127.0.0.1:3106`; nginx also serves the static site from `/var/www/aia.mrfrank.dev` (`scripts/deploy-site.sh`). TLS: Cloudflare Origin CA cert. See `mcp/README.md`.

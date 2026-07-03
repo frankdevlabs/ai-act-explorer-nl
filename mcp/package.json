@@ -1,0 +1,21 @@
+{
+  "name": "aiact-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start:stdio": "node dist/mcp/src/stdio.js",
+    "start:http": "node dist/mcp/src/http.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "express": "^5.2.1",
+    "minisearch": "^7.2.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^24",
+    "typescript": "^5"
+  }
+}

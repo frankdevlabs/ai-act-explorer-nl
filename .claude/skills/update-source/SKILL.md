@@ -106,3 +106,14 @@ git commit -m "data: update to consolidated version 02024R1689-YYYYMMDD"
 ```
 
 Then run the `verify-app` skill before pushing.
+
+## 6. Redeploy site + restart MCP server
+
+The MCP server (`mcp/`, systemd user unit `aiact-mcp`) loads the corpus once
+at startup, and nginx serves a copy of `out/` — both go stale after a source
+update:
+
+```bash
+./scripts/deploy-site.sh                 # rebuild + rsync to /var/www/aia.mrfrank.dev
+systemctl --user restart aiact-mcp       # reload corpus in the MCP server
+```
