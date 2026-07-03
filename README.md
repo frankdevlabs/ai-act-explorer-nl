@@ -30,6 +30,13 @@ npm run dev            # of: tmux new-session -d -s aiact-dev 'npm run dev'
 npm run build          # parse → verify → next build (statische export in out/)
 ```
 
+## Voor ontwikkelaars
+
+Zie [`AGENTS.md`](AGENTS.md) (werkinstructies, conventies) en
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) (parser, de twee
+EUR-Lex-HTML-dialecten, datamodel, zoekindex). Herhaalbare procedures —
+brontekst bijwerken, app verifiëren — staan in `.claude/skills/`.
+
 ## Deeplinks
 
 Elk lid en punt is deeplinkbaar: `/artikel/5#lid-1-a`, `/artikel/6#lid-2`, `/bijlage/iii`.
