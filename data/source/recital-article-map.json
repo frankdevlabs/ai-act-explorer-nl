@@ -5,160 +5,270 @@
   },
   "recitals": {
     "1": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "1"
+      ],
+      "reviewed": false,
+      "note": "doel en onderwerp van de verordening; vrij verkeer van AI-systemen"
     },
     "2": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "algemene context: toepassing conform Handvest-waarden, geen operatief artikel"
     },
     "3": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "rechtsgrondslag (art. 114 en 16 VWEU) en noodzaak van harmonisatie; algemene context, geen operatief artikel"
     },
     "4": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "beschrijving van maatschappelijke voordelen van AI; algemene context"
     },
     "5": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "beschrijving van risico's en schade door AI; algemene context"
     },
     "6": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "mensgerichte AI en Uniewaarden (art. 2 en 6 VEU); algemene context"
     },
     "7": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "algemene motivering voor gemeenschappelijke regels voor AI-systemen met een hoog risico (hoofdstuk III); geen specifiek operatief artikel"
     },
     "8": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "1",
+        "62"
+      ],
+      "reviewed": false,
+      "note": "geharmoniseerd rechtskader (onderwerp, art. 1); noemt expliciet innovatiemaatregelen met nadruk op kmo's en start-ups (art. 62)"
     },
     "9": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2"
+      ],
+      "reviewed": false,
+      "note": "verhouding tot bestaand Unierecht en nationaal (arbeids)recht; toepassingsgebied"
     },
     "10": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2"
+      ],
+      "reviewed": false,
+      "note": "verordening laat AVG (2016/679), 2018/1725 en richtlijn 2016/680 onverlet; toepassingsgebied"
     },
     "11": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2"
+      ],
+      "reviewed": false,
+      "note": "aansprakelijkheid tussenhandelsdiensten (Vo. 2022/2065) onverlet; zie art. 2 toepassingsgebied"
     },
     "12": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "definitie van 'AI-systeem'"
     },
     "13": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "definitie van 'gebruiksverantwoordelijke'"
     },
     "14": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "definitie van 'biometrische gegevens'"
     },
     "15": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "definitie van 'biometrische identificatie' en afbakening t.o.v. biometrische verificatie"
     },
     "16": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "definitie van 'biometrische categorisering' incl. uitzondering voor bijkomstige functies"
     },
     "17": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "definitie van 'systeem voor biometrische identificatie op afstand' (realtime vs. achteraf)"
     },
     "18": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "definitie van 'systeem voor het herkennen van emoties'"
     },
     "19": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "definitie van 'openbare ruimte'"
     },
     "20": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "4",
+        "66",
+        "95"
+      ],
+      "reviewed": false,
+      "note": "AI-geletterdheid (art. 4); noemt expliciet ondersteunende rol AI-board (art. 66) en vrijwillige gedragscodes (art. 95)"
     },
     "21": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2"
+      ],
+      "reviewed": false,
+      "note": "Territoriale werkingssfeer: aanbieders ongeacht vestigingsplaats, gebruiksverantwoordelijken in de Unie (art. 2, lid 1)."
     },
     "22": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2"
+      ],
+      "reviewed": false,
+      "note": "Extraterritoriale toepassing wanneer output in de Unie wordt gebruikt, plus uitzondering voor derdelandsautoriteiten bij internationale samenwerking (art. 2, leden 1 en 4)."
     },
     "23": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2"
+      ],
+      "reviewed": false,
+      "note": "Toepasselijkheid op instellingen, organen en instanties van de Unie."
     },
     "24": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2"
+      ],
+      "reviewed": false,
+      "note": "Uitsluiting militaire, defensie- en nationaleveiligheidsdoeleinden (art. 2, lid 3)."
     },
     "25": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2"
+      ],
+      "reviewed": false,
+      "note": "Uitsluiting van AI-systemen en -modellen uitsluitend voor wetenschappelijk onderzoek en ontwikkeling (art. 2, leden 6 en 8)."
     },
     "26": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5",
+        "6",
+        "50"
+      ],
+      "reviewed": false,
+      "note": "Motiveert de risicogebaseerde opbouw: verboden praktijken (art. 5), classificatie hoog risico (art. 6) en transparantieverplichtingen (art. 50)."
     },
     "27": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "95"
+      ],
+      "reviewed": false,
+      "note": "Ethische HLEG-beginselen zijn niet-bindend; de overweging noemt ze expliciet als basis voor gedragscodes (art. 95)."
     },
     "28": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Algemene motivering voor het verbieden van manipulatie-, uitbuitings- en socialecontrolepraktijken."
     },
     "29": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Verbod op manipulatieve/subliminale technieken en uitbuiting van kwetsbaarheden (art. 5, lid 1, punten a en b)."
     },
     "30": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Verbod op biometrische categorisering naar gevoelige kenmerken (art. 5, lid 1, punt g)."
     },
     "31": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Verbod op social scoring (art. 5, lid 1, punt c)."
     },
     "32": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Motivering ingrijpendheid van realtime biometrische identificatie op afstand; grondslag voor het verbod (art. 5, lid 1, punt h)."
     },
     "33": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Limitatieve uitzonderingen op het verbod op realtime biometrische identificatie voor rechtshandhaving (art. 5, lid 1, punt h)."
     },
     "34": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5",
+        "27",
+        "49"
+      ],
+      "reviewed": false,
+      "note": "Voorwaarden voor gebruik (art. 5, lid 2), inclusief vereiste grondrechteneffectbeoordeling (art. 27) en registratie in de EU-databank (art. 49)."
     },
     "35": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Voorafgaande toestemming van gerechtelijke of onafhankelijke administratieve instantie (art. 5, lid 3)."
     },
     "36": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Kennisgeving aan markttoezicht- en gegevensbeschermingsautoriteiten en jaarverslagen aan de Commissie (art. 5, leden 4 en 6)."
     },
     "37": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Nationale wettelijke machtiging als voorwaarde voor gebruik (art. 5, lid 5)."
     },
     "38": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Verbodsregels als lex specialis ten opzichte van art. 10 Richtlijn (EU) 2016/680; duidt reikwijdte van art. 5."
     },
     "39": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Verhouding tot bestaand gegevensbeschermingsrecht (AVG, Richtlijn (EU) 2016/680, Verordening (EU) 2018/1725); geen operatief artikel van deze verordening."
     },
     "40": {
       "articles": [
@@ -166,7 +276,7 @@
         "26"
       ],
       "reviewed": false,
-      "note": "expliciete verwijzingen naar artikel 5, leden 1 d)/g)/h), 2 en 6, en artikel 26, lid 10"
+      "note": "Positie van Ierland (Protocol nr. 21); expliciete verwijzingen naar art. 5, leden 1 en 2-6, en art. 26, lid 10."
     },
     "41": {
       "articles": [
@@ -174,567 +284,992 @@
         "26"
       ],
       "reviewed": false,
-      "note": "expliciete verwijzingen naar artikel 5, leden 1 d)/g)/h), 2 en 6, en artikel 26, lid 10"
+      "note": "Positie van Denemarken (Protocol nr. 22); noemt expliciet artikel 5, lid 1, punten d), g) en h), leden 2-6, en artikel 26, lid 10"
     },
     "42": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Verbod op risicobeoordelingen van natuurlijke personen uitsluitend op basis van profilering (artikel 5, lid 1, punt d)"
     },
     "43": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Verbod op niet-gerichte scraping van gezichtsopnamen voor gezichtsherkenningsdatabanken (artikel 5, lid 1, punt e)"
     },
     "44": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Verbod op emotieherkenning op de werkplek en in het onderwijs (artikel 5, lid 1, punt f)"
     },
     "45": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "5"
+      ],
+      "reviewed": false,
+      "note": "Verduidelijkt dat de verbodsbepalingen praktijken die onder ander Unierecht verboden zijn onverlet laten"
     },
     "46": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6",
+        "8"
+      ],
+      "reviewed": false,
+      "note": "Inleiding hoog-risicoregime: classificatie beperkt tot systemen met aanzienlijke schadelijke gevolgen en dwingende eisen waaraan moet worden voldaan"
     },
     "47": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "AI-systemen als veiligheidscomponent van producten (artikel 6, lid 1)"
     },
     "48": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6",
+        "7"
+      ],
+      "reviewed": false,
+      "note": "Impact op grondrechten als factor bij classificatie en bij wijziging van bijlage III"
     },
     "49": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109"
+      ],
+      "reviewed": false,
+      "note": "Wijziging van de acht genoemde sectorale handelingen (luchtvaart, voertuigen, spoor, uitrusting van zeeschepen enz.)"
     },
     "50": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "Classificatie via conformiteitsbeoordeling onder harmonisatiewetgeving van bijlage I (artikel 6, lid 1)"
     },
     "51": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "Classificatie als hoog risico onder deze verordening impliceert geen hoog risico onder sectorale productwetgeving"
     },
     "52": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6",
+        "7"
+      ],
+      "reviewed": false,
+      "note": "Autonome AI-systemen in bijlage III-gebieden (artikel 6, lid 2) en toekomstige wijzigingen via gedelegeerde handelingen"
     },
     "53": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6",
+        "49"
+      ],
+      "reviewed": false,
+      "note": "Uitzondering van artikel 6, lid 3 (geen wezenlijke invloed op besluitvorming), met documentatie- en registratieplicht"
     },
     "54": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "Hoog-risicoclassificatie van biometrische systemen (bijlage III, punt 1)"
     },
     "55": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "Veiligheidscomponenten van kritieke infrastructuur (bijlage III, punt 2)"
     },
     "56": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "AI-systemen in onderwijs en beroepsopleiding (bijlage III, punt 3)"
     },
     "57": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "AI-systemen bij werkgelegenheid en personeelsbeheer (bijlage III, punt 4)"
     },
     "58": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "Essentiële particuliere en openbare diensten, kredietscore, verzekeringen, noodoproepen (bijlage III, punt 5)"
     },
     "59": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "AI-systemen voor rechtshandhaving (bijlage III, punt 6)"
     },
     "60": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "AI-systemen bij migratie, asiel en grenstoezichtsbeheer (bijlage III, punt 7)"
     },
     "61": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "Hoogrisicoclassificatie rechtsbedeling en democratische processen (bijlage III) via de classificatieregels van art. 6"
     },
     "62": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "6"
+      ],
+      "reviewed": false,
+      "note": "Hoogrisicoclassificatie van AI-systemen die verkiezingen of stemgedrag beïnvloeden (bijlage III) via art. 6"
     },
     "63": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Verduidelijking dat classificatie als hoog risico geen rechtmatigheid of rechtsgrondslag voor gegevensverwerking schept; geen operatief artikel"
     },
     "64": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "8"
+      ],
+      "reviewed": false,
+      "note": "Naleving van de dwingende eisen en samenloop met andere harmonisatiewetgeving (nieuw wetgevingskader), art. 8 lid 2"
     },
     "65": {
-      "articles": [],
+      "articles": [
+        "9"
+      ],
       "reviewed": false
     },
     "66": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15"
+      ],
+      "reviewed": false,
+      "note": "Somt alle eisen van hoofdstuk III afdeling 2 op: risicobeheer, data, documentatie, registratie, transparantie, menselijk toezicht, nauwkeurigheid/robuustheid/cyberbeveiliging"
     },
     "67": {
-      "articles": [],
+      "articles": [
+        "10"
+      ],
       "reviewed": false
     },
     "68": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Context over toegang tot kwalitatief hoogwaardige datasets (Europese gegevensruimten); geen operatief artikel in deze verordening"
     },
     "69": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "10"
+      ],
+      "reviewed": false,
+      "note": "Privacy en gegevensbescherming door ontwerp bij dataverwerking; sluit aan bij de datagovernance-eisen van art. 10"
     },
     "70": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "10"
+      ],
+      "reviewed": false,
+      "note": "Verwerking bijzondere categorieën persoonsgegevens voor opsporing en correctie van bias, art. 10 lid 5"
     },
     "71": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "11",
+        "12"
+      ],
+      "reviewed": false,
+      "note": "Technische documentatie (art. 11) en automatische registratie van gebeurtenissen via logs (art. 12)"
     },
     "72": {
-      "articles": [],
+      "articles": [
+        "13"
+      ],
       "reviewed": false
     },
     "73": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "14"
+      ],
+      "reviewed": false,
+      "note": "Menselijk toezicht, incl. verscherpt toezicht (twee-personenverificatie) voor biometrische identificatie in art. 14 lid 5"
     },
     "74": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "15"
+      ],
+      "reviewed": false,
+      "note": "Nauwkeurigheid, robuustheid en cyberbeveiliging; benchmarks en meetmethoden in art. 15 lid 2"
     },
     "75": {
-      "articles": [],
+      "articles": [
+        "15"
+      ],
       "reviewed": false
     },
     "76": {
-      "articles": [],
+      "articles": [
+        "15"
+      ],
       "reviewed": false
     },
     "77": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "15"
+      ],
+      "reviewed": false,
+      "note": "Vermoeden van naleving van de cyberbeveiligingseisen (art. 15) via de verordening cyberweerbaarheid (CRA); geen afzonderlijk operatief artikel in de basisverordening"
     },
     "78": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "43"
+      ],
+      "reviewed": false,
+      "note": "Samenloop conformiteitsbeoordeling met de verordening cyberweerbaarheid (CRA); betreft de conformiteitsbeoordelingsprocedure van art. 43"
     },
     "79": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "16"
+      ],
+      "reviewed": false,
+      "note": "Verantwoordelijkheid van de aanbieder voor het in de handel brengen, ongeacht wie het systeem ontwierp"
     },
     "80": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "16"
+      ],
+      "reviewed": false,
+      "note": "Toegankelijkheidseisen voor personen met een handicap, art. 16 punt l"
     },
     "81": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "16",
+        "17",
+        "43",
+        "72"
+      ],
+      "reviewed": false,
+      "note": "Samenvatting aanbiedersverplichtingen (art. 16): kwaliteitsbeheersysteem en integratie in sectoraal kwaliteitsbeheer (art. 17), conformiteitsbeoordeling (art. 43), monitoring na het in de handel brengen (art. 72)."
     },
     "82": {
-      "articles": [],
+      "articles": [
+        "22"
+      ],
       "reviewed": false
     },
     "83": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "23",
+        "24",
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Inleiding op de waardeketenverplichtingen: importeurs (art. 23), distributeurs (art. 24) en cumulatie van rollen in de waardeketen (art. 25)."
     },
     "84": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Distributeur, importeur of gebruiksverantwoordelijke wordt aanbieder onder specifieke voorwaarden: art. 25, lid 1."
     },
     "85": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Samenwerking van aanbieders van AI-systemen voor algemene doeleinden in de waardeketen; operatief uitgewerkt in art. 25."
     },
     "86": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Samenwerkingsplicht van de oorspronkelijke aanbieder: art. 25, lid 2."
     },
     "87": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Productfabrikant neemt aanbiedersverplichtingen over bij veiligheidscomponenten: art. 25, lid 3."
     },
     "88": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Schriftelijke overeenkomst met derden die instrumenten, diensten of componenten leveren: art. 25, lid 4."
     },
     "89": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Uitzondering voor vrije en opensource componenten (geen GPAI-modellen): art. 25, lid 4, tweede zin."
     },
     "90": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Vrijwillige modelcontractvoorwaarden (door het AI-bureau): art. 25, lid 4."
     },
     "91": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "26"
+      ],
+      "reviewed": false,
+      "note": "Kernverplichtingen gebruiksverantwoordelijken: gebruik conform gebruiksaanwijzing, monitoring, logs, bekwaam menselijk toezicht (art. 26, leden 1-6)."
     },
     "92": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "26"
+      ],
+      "reviewed": false,
+      "note": "Informeren van werknemers(vertegenwoordigers) bij inzet op de werkplek: art. 26, lid 7."
     },
     "93": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "26",
+        "86"
+      ],
+      "reviewed": false,
+      "note": "Informeren van natuurlijke personen over inzet van het AI-systeem (art. 26, lid 11) en het recht op uitleg (art. 86)."
     },
     "94": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Context: verwerking van biometrische gegevens voor rechtshandhaving moet voldoen aan Richtlijn (EU) 2016/680; geen zelfstandig operatief artikel in deze verordening."
     },
     "95": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "26"
+      ],
+      "reviewed": false,
+      "note": "Waarborgen voor biometrische identificatie op afstand achteraf: art. 26, lid 10; mag het verbod en de uitzonderingen van art. 5 niet omzeilen."
     },
     "96": {
-      "articles": [],
+      "articles": [
+        "27"
+      ],
       "reviewed": false
     },
     "97": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3",
+        "53",
+        "55"
+      ],
+      "reviewed": false,
+      "note": "Definitie van AI-model voor algemene doeleinden (art. 3) en toepasselijkheid van de modelverplichtingen vanaf het in de handel brengen (art. 53, art. 55)."
     },
     "98": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "Invulling van het algemene karakter (parameterdrempel) van de definitie van GPAI-model in art. 3."
     },
     "99": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "Generatieve modellen als typevoorbeeld van de definitie van GPAI-model in art. 3; toelichtend."
     },
     "100": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3"
+      ],
+      "reviewed": false,
+      "note": "Definitie van AI-systeem voor algemene doeleinden (art. 3); toelichtend."
     },
     "101": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53"
+      ],
+      "reviewed": false,
+      "note": "Technische documentatie en informatieverstrekking door GPAI-aanbieders (art. 53, lid 1, punten a en b); bijlagen XI/XII via gedelegeerde handelingen"
     },
     "102": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53"
+      ],
+      "reviewed": false,
+      "note": "Definieert wanneer een licentie als vrij en open source geldt; onderbouwt de opensource-uitzondering van art. 53, lid 2"
     },
     "103": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "2",
+        "25"
+      ],
+      "reviewed": false,
+      "note": "Vrije en opensource-AI-componenten en tegeldemaking: uitsluiting AI-systemen (art. 2, lid 12) en uitzondering voor derden in de waardeketen (art. 25, lid 4)"
     },
     "104": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53"
+      ],
+      "reviewed": false,
+      "note": "Reikwijdte van de opensource-uitzondering (art. 53, lid 2): geldt niet voor auteursrechtbeleid en trainingsdata-samenvatting, en niet bij systeemrisico"
     },
     "105": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53"
+      ],
+      "reviewed": false,
+      "note": "Tekst- en datamining en opt-out ex art. 4, lid 3, Richtlijn (EU) 2019/790; motiveert auteursrechtbeleid van art. 53, lid 1, punt c"
     },
     "106": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53"
+      ],
+      "reviewed": false,
+      "note": "Auteursrechtbeleid ongeacht jurisdictie van de training (art. 53, lid 1, punt c)"
     },
     "107": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53"
+      ],
+      "reviewed": false,
+      "note": "Publicatie voldoende gedetailleerde samenvatting trainingscontent plus AI-bureau-model (art. 53, lid 1, punt d)"
     },
     "108": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53",
+        "88"
+      ],
+      "reviewed": false,
+      "note": "Toezicht door AI-bureau op naleving van art. 53, lid 1, punten c en d; handhaving via art. 88"
     },
     "109": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53"
+      ],
+      "reviewed": false,
+      "note": "Evenredige naleving, kmo-vereenvoudiging en beperking tot wijziging/verfijning van het model"
     },
     "110": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "3",
+        "51"
+      ],
+      "reviewed": false,
+      "note": "Beschrijft aard en bronnen van systeemrisico's; onderbouwt de definitie (art. 3) en de classificatie van art. 51"
     },
     "111": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "51",
+        "52"
+      ],
+      "reviewed": false,
+      "note": "FLOP-drempel en capaciteiten met grote impact (art. 51), aanwijzingsbesluiten en herbeoordeling door de Commissie (art. 52)"
     },
     "112": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "52"
+      ],
+      "reviewed": false,
+      "note": "Kennisgevingsprocedure binnen twee weken en weerlegging van het vermoeden"
     },
     "113": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "52",
+        "90"
+      ],
+      "reviewed": false,
+      "note": "Ambtshalve aanwijzing door de Commissie (art. 52) en gekwalificeerde waarschuwingen van het wetenschappelijk panel (art. 90)"
     },
     "114": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "55"
+      ],
+      "reviewed": false,
+      "note": "Modelevaluaties, risicobeperking en cyberbeveiliging voor GPAI-modellen met systeemrisico"
     },
     "115": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "55"
+      ],
+      "reviewed": false,
+      "note": "Beoordeling/beperking systeemrisico's, melding ernstige incidenten en cyberbeveiliging (art. 55, lid 1)"
     },
     "116": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "56"
+      ],
+      "reviewed": false,
+      "note": "Opstelling en facilitering van praktijkcodes door het AI-bureau"
     },
     "117": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "53",
+        "55",
+        "56"
+      ],
+      "reviewed": false,
+      "note": "Praktijkcodes als nalevingsinstrument (art. 56); beroep op codes, geharmoniseerde normen of alternatieve middelen om naleving aan te tonen (art. 53, lid 4, en art. 55, lid 2)"
     },
     "118": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Verhouding tot Verordening (EU) 2022/2065 (DSA) voor zeer grote onlineplatforms en -zoekmachines; contextueel, geen specifiek operatief artikel"
     },
     "119": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "AI-systemen als tussenhandelsdiensten in de zin van de DSA; algemene context, geen operatief artikel"
     },
     "120": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "50"
+      ],
+      "reviewed": false,
+      "note": "Markering van kunstmatig gegenereerde of gemanipuleerde content (art. 50) als steun voor DSA-handhaving"
     },
     "121": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "40",
+        "41"
+      ],
+      "reviewed": false,
+      "note": "Geharmoniseerde normen (art. 40) en gemeenschappelijke specificaties als uitzonderlijke achtervang (art. 41)."
     },
     "122": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "42"
+      ],
+      "reviewed": false,
+      "note": "Vermoeden van conformiteit inzake datagovernance en cyberbeveiliging (certificering o.g.v. Verordening (EU) 2019/881)."
     },
     "123": {
-      "articles": [],
+      "articles": [
+        "43"
+      ],
       "reviewed": false
     },
     "124": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "43"
+      ],
+      "reviewed": false,
+      "note": "Integratie van de conformiteitsbeoordeling in bestaande harmonisatiewetgeving (art. 43, lid 3)."
     },
     "125": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "43"
+      ],
+      "reviewed": false,
+      "note": "Reikwijdte van conformiteitsbeoordeling door derden: in de regel interne controle, uitzondering biometrie (art. 43, lid 1)."
     },
     "126": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "28",
+        "29",
+        "30",
+        "31"
+      ],
+      "reviewed": false,
+      "note": "Aanmelding van aangemelde instanties door nationale autoriteiten en voorschriften waaraan zij moeten voldoen."
     },
     "127": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "39"
+      ],
+      "reviewed": false,
+      "note": "Wederzijdse erkenning van conformiteitsbeoordelingsinstanties uit derde landen."
     },
     "128": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "43"
+      ],
+      "reviewed": false,
+      "note": "Substantiële wijziging vereist nieuwe conformiteitsbeoordeling; vooraf bepaalde wijzigingen bij lerende systemen uitgezonderd (art. 43, lid 4)."
     },
     "129": {
-      "articles": [],
+      "articles": [
+        "48"
+      ],
       "reviewed": false
     },
     "130": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "46"
+      ],
+      "reviewed": false,
+      "note": "Afwijking van de conformiteitsbeoordelingsprocedure om uitzonderlijke redenen (openbare veiligheid, gezondheid, milieu)."
     },
     "131": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "49",
+        "71"
+      ],
+      "reviewed": false,
+      "note": "Registratieplicht (art. 49) en de EU-databank zelf (art. 71)."
     },
     "132": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "50"
+      ],
+      "reviewed": false,
+      "note": "Transparantie bij interactie met AI, emotieherkenning en biometrische categorisering (art. 50, leden 1 en 3)."
     },
     "133": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "50"
+      ],
+      "reviewed": false,
+      "note": "Machineleesbare markering van synthetische content door aanbieders (art. 50, lid 2)."
     },
     "134": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "50"
+      ],
+      "reviewed": false,
+      "note": "Openbaarmakingsplicht voor deepfakes en AI-gegenereerde tekst door gebruiksverantwoordelijken (art. 50, lid 4)."
     },
     "135": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "50"
+      ],
+      "reviewed": false,
+      "note": "Praktijkcodes ter uitvoering van de opsporings- en markeringsverplichtingen (art. 50, lid 7); niet art. 56, dat AI-modellen voor algemene doeleinden betreft."
     },
     "136": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "50"
+      ],
+      "reviewed": false,
+      "note": "Verhouding van de transparantieverplichtingen tot Verordening (EU) 2022/2065 (digitaledienstenverordening)."
     },
     "137": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "50"
+      ],
+      "reviewed": false,
+      "note": "Naleving van art. 50 impliceert geen rechtmatigheid en laat andere transparantieverplichtingen onverlet."
     },
     "138": {
-      "articles": [],
+      "articles": [
+        "57"
+      ],
       "reviewed": false
     },
     "139": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "57",
+        "58"
+      ],
+      "reviewed": false,
+      "note": "Doelstellingen van testomgevingen (art. 57) en gemeenschappelijke regels voor uitvoering en samenwerking (art. 58)."
     },
     "140": {
       "articles": [
-        "4",
-        "6"
+        "59"
       ],
       "reviewed": false,
-      "note": "expliciete verwijzingen naar artikel 4 en artikel 6, lid 4"
+      "note": "Rechtsgrond voor verdere verwerking van persoonsgegevens in de testomgeving. De refs naar artikel 4 en artikel 6, lid 4 betreffen de AVG en Richtlijn (EU) 2016/680, niet deze verordening (mislinkt)."
     },
     "141": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "60",
+        "61",
+        "76"
+      ],
+      "reviewed": false,
+      "note": "Testen onder reële omstandigheden buiten testomgevingen (art. 60), geïnformeerde toestemming (art. 61), toezicht door markttoezichtautoriteiten (art. 76)."
     },
     "142": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Aanmoediging aan lidstaten om sociaal en ecologisch gunstige AI-projecten te steunen; geen operatief artikel."
     },
     "143": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "62"
+      ],
+      "reviewed": false,
+      "note": "Kmo-maatregelen: prioritaire toegang testomgevingen, communicatiekanalen, verlaagde vergoedingen, sjablonen en informatieplatform — alle in art. 62."
     },
     "144": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Verwijzing naar Uniefinancieringsprogramma's (Digitaal Europa, Horizon Europa); geen operatief artikel."
     },
     "145": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "AI-on-demandplatform, digitale-innovatiehubs en test- en experimenteerfaciliteiten als ondersteuning bij de uitvoering; geen operatief artikel."
     },
     "146": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "63"
+      ],
+      "reviewed": false,
+      "note": "Vereenvoudigd kwaliteitsbeheersysteem voor micro-ondernemingen (afwijking van art. 17-verplichting, geregeld in art. 63)."
     },
     "147": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Toegang tot test- en experimenteerfaciliteiten voor instanties onder andere harmonisatiewetgeving (o.a. medische hulpmiddelen); geen operatief artikel."
     },
     "148": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "64",
+        "65",
+        "67",
+        "68"
+      ],
+      "reviewed": false,
+      "note": "Governancekader als geheel: AI-bureau (art. 64), AI-board (art. 65), adviesforum (art. 67), wetenschappelijk panel (art. 68)."
     },
     "149": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "65",
+        "66"
+      ],
+      "reviewed": false,
+      "note": "Oprichting, samenstelling en subgroepen van de AI-board (art. 65) en zijn adviestaken (art. 66)."
     },
     "150": {
-      "articles": [],
+      "articles": [
+        "67"
+      ],
       "reviewed": false
     },
     "151": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "68",
+        "69"
+      ],
+      "reviewed": false,
+      "note": "Wetenschappelijk panel (art. 68) en toegang van lidstaten tot de deskundigenpool (art. 69)."
     },
     "152": {
-      "articles": [],
+      "articles": [
+        "84"
+      ],
       "reviewed": false
     },
     "153": {
-      "articles": [],
+      "articles": [
+        "70"
+      ],
       "reviewed": false
     },
     "154": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "70"
+      ],
+      "reviewed": false,
+      "note": "Onafhankelijkheid en onpartijdigheid van nationale bevoegde autoriteiten (art. 70 lid 1); vertrouwelijkheidsregels via verwijzing naar art. 78."
     },
     "155": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "72",
+        "73"
+      ],
+      "reviewed": false,
+      "note": "Monitoring na het in de handel brengen (art. 72) en melding van ernstige incidenten (art. 73)."
     },
     "156": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "74"
+      ],
+      "reviewed": false,
+      "note": "Markttoezicht conform Verordening (EU) 2019/1020, incl. EDPS als markttoezichtautoriteit voor Unie-instellingen."
     },
     "157": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "77",
+        "79"
+      ],
+      "reviewed": false,
+      "note": "Toegang tot documentatie voor grondrechtenautoriteiten (art. 77) en vrijwaringsprocedure voor AI-systemen die een risico vormen (art. 79)."
     },
     "158": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "17",
+        "26",
+        "74"
+      ],
+      "reviewed": false,
+      "note": "Financiële toezichthouders als markttoezichtautoriteit (art. 74 lid 6-7); beperkte afwijkingen voor kredietinstellingen inzake kwaliteitsbeheer (art. 17 lid 4) en monitoring door gebruiksverantwoordelijken (art. 26)."
     },
     "159": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "74"
+      ],
+      "reviewed": false,
+      "note": "Gegevensbeschermingsautoriteiten als markttoezichtautoriteit voor biometrische hoogrisicosystemen bij rechtshandhaving, migratie en rechtsbedeling (art. 74 lid 8), met onderzoeksbevoegdheden."
     },
     "160": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "74"
+      ],
+      "reviewed": false,
+      "note": "Gezamenlijke activiteiten en onderzoeken van markttoezichtautoriteiten met coördinatie door het AI-bureau (art. 74 lid 11)."
     },
     "161": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "75"
+      ],
+      "reviewed": false,
+      "note": "Toezichtverdeling Unie/nationaal voor AI-systemen op basis van GPAI-modellen; AI-bureau als markttoezichtautoriteit en wederzijdse bijstand (art. 75)."
     },
     "162": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "88",
+        "89"
+      ],
+      "reviewed": false,
+      "note": "Handhavingsbevoegdheid Commissie/AI-bureau voor GPAI-aanbieders (art. 88) en monitoring incl. klachten van aanbieders verder in de waardeketen (art. 89)."
     },
     "163": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "90",
+        "91"
+      ],
+      "reviewed": false,
+      "note": "Gekwalificeerde waarschuwingen van het wetenschappelijk panel (art. 90) en mechanisme om via de Commissie documentatie op te vragen (art. 91)."
     },
     "164": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "91",
+        "92",
+        "93",
+        "94"
+      ],
+      "reviewed": false,
+      "note": "Bevoegdheden AI-bureau: informatie opvragen, evaluaties, verzoeken om maatregelen en procedurele rechten (incl. art. 18 Vo. 2019/1020 van overeenkomstige toepassing)."
     },
     "165": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "95"
+      ],
+      "reviewed": false,
+      "note": "Vrijwillige gedragscodes voor niet-hoogrisico-AI-systemen."
     },
     "166": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Vangnetwerking van Verordening (EU) 2023/988 (algemene productveiligheid); geen operatief artikel in deze verordening."
     },
     "167": {
-      "articles": [],
+      "articles": [
+        "78"
+      ],
       "reviewed": false
     },
     "168": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "99",
+        "100"
+      ],
+      "reviewed": false,
+      "note": "Sancties door lidstaten (art. 99) en boetebevoegdheid EDPS jegens Unie-instellingen (art. 100)."
     },
     "169": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "101"
+      ],
+      "reviewed": false,
+      "note": "Geldboeten voor aanbieders van AI-modellen voor algemene doeleinden; toetsing door het Hof van Justitie."
     },
     "170": {
-      "articles": [],
+      "articles": [
+        "85"
+      ],
       "reviewed": false
     },
     "171": {
-      "articles": [],
+      "articles": [
+        "86"
+      ],
       "reviewed": false
     },
     "172": {
-      "articles": [],
+      "articles": [
+        "87"
+      ],
       "reviewed": false
     },
     "173": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "97"
+      ],
+      "reviewed": false,
+      "note": "Bevoegdheidsdelegatie ex art. 290 VWEU."
     },
     "174": {
-      "articles": [],
+      "articles": [
+        "112"
+      ],
       "reviewed": false
     },
     "175": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "98"
+      ],
+      "reviewed": false,
+      "note": "Uitvoeringsbevoegdheden conform Vo. (EU) nr. 182/2011 (comitéprocedure)."
     },
     "176": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Subsidiariteits- en evenredigheidsbeginsel (art. 5 VEU); algemene context, geen operatief artikel."
     },
     "177": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "111"
+      ],
+      "reviewed": false,
+      "note": "Overgangsregeling voor reeds in de handel gebrachte of in gebruik gestelde AI-systemen."
     },
     "178": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Aanmoediging tot vrijwillige naleving tijdens de overgangsperiode; geen operatief artikel."
     },
     "179": {
-      "articles": [],
-      "reviewed": false
+      "articles": [
+        "113"
+      ],
+      "reviewed": false,
+      "note": "Gefaseerde toepassingsdata (2-2-2025, 2-8-2025, 2-8-2026)."
     },
     "180": {
       "articles": [],
-      "reviewed": false
+      "reviewed": false,
+      "note": "Vermelding raadpleging EDPS en EDPB (art. 42 Vo. 2018/1725); procedureel, geen operatief artikel."
     }
   }
 }
