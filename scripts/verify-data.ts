@@ -139,8 +139,12 @@ for (const a of annexes) collectRefs(a.content, `bijlage ${a.roman}`);
 // exact snapshot: any grammar/source change must consciously update this number
 // (566 → 563 when the artikel grammar learned bis/ter suffixes: three false
 // positives into treaty Protocols dropped — recital 40 "artikel 6 bis van
-// Protocol nr. 21", recital 41 "artikelen 2 en 2 bis van Protocol nr. 22")
-assert.equal(allRefs.length, 563, `cross-reference count (got ${allRefs.length})`);
+// Protocol nr. 21", recital 41 "artikelen 2 en 2 bis van Protocol nr. 22";
+// 563 → 561 when instrument qualifiers learned to distribute over
+// conjunctions — recital 140 "artikel 6, lid 4, en artikel 9 … van
+// Verordening (EU) 2016/679" and "artikel 4, lid 2, en artikel 10 van
+// Richtlijn (EU) 2016/680" dropped)
+assert.equal(allRefs.length, 561, `cross-reference count (got ${allRefs.length})`);
 
 // every href resolves — recheck from the JSON, independent of the parser's own sets
 const articleNums = new Set(articles.map((a) => String(a.number)));
@@ -217,6 +221,11 @@ const gdprRefs = allRefs.filter(
     r.text.slice(r.end).trimStart().startsWith(", van Verordening (EU) 2016/679"),
 );
 assert.equal(gdprRefs.length, 0, "art 3: refs into GDPR not annotated");
+// conjunction distribution: recital 140 cites only GDPR/2016/680 articles
+assert.ok(
+  recitals[139].paragraphs.every((p) => (p.refs ?? []).length === 0),
+  "recital 140: conjunct refs into GDPR/Richtlijn 2016/680 not annotated",
+);
 assert.ok(
   articles[2].paragraphs.some((p) =>
     flatten(p.content).includes("artikel 4, punt 1, van Verordening (EU) 2016/679"),

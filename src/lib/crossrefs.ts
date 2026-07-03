@@ -41,6 +41,12 @@ const TREATY = /,?[  ]*VW?EU\b/y;
 const ORDINAL =
   /(?:eerste|tweede|derde|vierde|vijfde|zesde|zevende|achtste|negende|tiende|laatste)/;
 
+const ARTIKEL_NUM = /\d+(?![\d/])(?!\.\d)(?:[  ]+(?:bis|ter|quater|quinquies)\b)?/y;
+const PLAIN_NUM = /\d+(?![\d/])(?!\.\d)/y;
+// ", en artikel …" / " of de artikelen …" — a conjunction chaining to another
+// reference phrase, whose trailing instrument qualifier distributes back
+const CONJ = /,?[  ]*(?:en|of)[  ]+(?:onverminderd[  ]+)?(?:de[  ]+|het[  ]+)?/y;
+
 function slug(token: string): string {
   return token
     .toLowerCase()
@@ -166,8 +172,14 @@ function eatSubRefs(c: Cursor): SubRefs {
   return out;
 }
 
-/** Excluded / allowed lookahead at the end of a parsed phrase. */
-function allowedHere(c: Cursor, linkBareRefs: boolean): boolean {
+/** Excluded / allowed lookahead at the end of a parsed phrase.
+ *
+ * An instrument qualifier after the last conjunct distributes over the whole
+ * conjunction ("artikel 6, lid 4, en artikel 9, lid 2, punt g), van
+ * Verordening (EU) 2016/679" excludes artikel 6 too), so a bare-looking
+ * phrase followed by ", en <reference phrase>" defers to whatever qualifies
+ * that next phrase. */
+function allowedHere(c: Cursor, linkBareRefs: boolean, depth = 0): boolean {
   const at = (re: RegExp) => {
     re.lastIndex = c.i;
     return re.test(c.s);
@@ -175,6 +187,32 @@ function allowedHere(c: Cursor, linkBareRefs: boolean): boolean {
   if (at(SELF_INSTRUMENT)) return true;
   if (at(TREATY)) return false;
   if (at(OTHER_INSTRUMENT)) return false;
+  if (depth < 4) {
+    const look = new Cursor(c.s, c.i);
+    if (look.eat(CONJ)) {
+      const kw = look.eat(/(artikel(?:en)?|bijlagen?|hoofdstuk(?:ken)?|overweging(?:en)?)[  ]+/y);
+      if (kw) {
+        const kind = kw[1];
+        let parsed = false;
+        if (kind.startsWith("artikel")) {
+          const ns = eatNumberList(look, ARTIKEL_NUM);
+          if (ns.length > 0) {
+            if (ns.length === 1) eatSubRefs(look);
+            parsed = true;
+          }
+        } else if (kind.startsWith("bijlage") || kind.startsWith("hoofdstuk")) {
+          const ns = eatNumberList(look, ROMAN);
+          if (ns.length > 0) {
+            if (kind.startsWith("bijlage") && ns.length === 1) eatSubRefs(look);
+            parsed = true;
+          }
+        } else {
+          parsed = eatNumberList(look, PLAIN_NUM).length > 0;
+        }
+        if (parsed) return allowedHere(look, linkBareRefs, depth + 1);
+      }
+    }
+  }
   return linkBareRefs;
 }
 
@@ -220,7 +258,7 @@ function artikelSlug(value: string): string {
 
 function parseArtikel(c: Cursor, phraseStart: number, linkBareRefs: boolean): RefSpan[] | null {
   // optional Latin suffix: "artikel 75 ter" is its own article, not artikel 75
-  const numbers = eatNumberList(c, /\d+(?![\d/])(?!\.\d)(?:[  ]+(?:bis|ter|quater|quinquies)\b)?/y);
+  const numbers = eatNumberList(c, ARTIKEL_NUM);
   if (numbers.length === 0) return null;
   const sub = numbers.length === 1 ? eatSubRefs(c) : { lids: [], punten: [], end: c.i };
   if (!allowedHere(c, linkBareRefs)) return null;
@@ -306,7 +344,7 @@ function parseHoofdstuk(c: Cursor, phraseStart: number, linkBareRefs: boolean): 
 }
 
 function parseOverweging(c: Cursor, phraseStart: number, linkBareRefs: boolean): RefSpan[] | null {
-  const numbers = eatNumberList(c, /\d+(?![\d/])(?!\.\d)/y);
+  const numbers = eatNumberList(c, PLAIN_NUM);
   if (numbers.length === 0) return null;
   if (!allowedHere(c, linkBareRefs)) return null;
   return numbers.map((n, i) => ({

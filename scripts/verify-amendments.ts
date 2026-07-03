@@ -399,8 +399,11 @@ if (source.meta.complete) {
     "exact new-annex set",
   );
   assert.equal(Math.max(...amendments.map((a) => a.seq)), 43, "43 numbered instructions");
-  // exact snapshot (clips re-merged): grammar changes must consciously update this
-  assert.equal(allRefs.length, 462, `amendment cross-reference count (got ${allRefs.length})`);
+  // exact snapshot (clips re-merged): grammar changes must consciously update
+  // this (462 → 460 when instrument qualifiers learned to distribute over
+  // conjunctions: two "artikel 14, lid 4, en/of artikel 16, lid 3, van
+  // Verordening (EU) 2019/1020" false positives dropped)
+  assert.equal(allRefs.length, 460, `amendment cross-reference count (got ${allRefs.length})`);
 }
 
 console.log(
