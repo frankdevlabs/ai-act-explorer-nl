@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Annex, Article, ContentNode, Recital, SearchDoc, Toc } from "../src/lib/types";
+import { flattenNodes as flatten } from "../src/lib/flatten";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const load = <T>(name: string): T =>
@@ -14,16 +15,6 @@ const recitals = load<Recital[]>("recitals.json");
 const annexes = load<Annex[]>("annexes.json");
 const toc = load<Toc>("toc.json");
 const searchDocs = load<SearchDoc[]>("search-docs.json");
-
-function flatten(nodes: ContentNode[]): string {
-  return nodes
-    .map((n) =>
-      n.type === "list"
-        ? n.items.map((i) => `${i.marker} ${flatten(i.content)}`).join(" ")
-        : n.text,
-    )
-    .join(" ");
-}
 
 // counts and numbering
 assert.equal(articles.length, 113, "113 articles");

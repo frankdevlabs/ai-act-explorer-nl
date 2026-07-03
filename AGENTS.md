@@ -15,15 +15,27 @@ procedures: `.claude/skills/` (`update-source`, `verify-app`).
 
 ## Golden rules
 
-1. **Never hand-edit `data/generated/*` or `public/search-docs.json`.** They
-   are parser output. Change `scripts/parse-aiact.ts` and run `npm run parse`.
-2. **Never edit the legal text itself.** All content comes deterministically
-   from the two EUR-Lex HTML files in `data/source/` — no manual or
-   LLM transcription, ever. Wording bugs are parser bugs.
+1. **Never hand-edit `data/generated/*`, `public/search-docs.json` or
+   `public/amendment-search-docs.json`.** They are parser output. Change
+   `scripts/parse-aiact.ts` / `scripts/parse-amendments.ts` and run
+   `npm run parse`.
+2. **Never edit the legal text itself.** All base-corpus content comes
+   deterministically from the two EUR-Lex HTML files in `data/source/` — no
+   manual or LLM transcription, ever. Wording bugs are parser bugs.
+   **Approved carve-out (amendment layer only):**
+   `data/source/amendments/pe-cons-30-26.json` is a curated, hand-verified
+   transcription of PE-CONS 30/26 (digitale omnibus inzake AI, 2025/0359 COD);
+   the PDF's text layer is too lossy for deterministic parsing. Procedure:
+   `.claude/skills/transcribe-amendments/`. Every wording change must cite the
+   PDF page and pass the page-image cross-check — never edit it from memory.
+   Scheduled for removal: once published in the OJ, a deterministic parse of
+   the CELEX 32026R… HTML replaces the transcription (only the producer of
+   `data/generated/amendments.json` changes; everything downstream is stable).
 3. `npm run build` = `parse → verify → next build`. If
-   `scripts/verify-data.ts` fails, fix the parser (or, after a deliberate
-   source update, the assertions) — don't loosen assertions to pass.
-4. Commit `data/source/`, `data/generated/`, and `public/search-docs.json`
+   `scripts/verify-data.ts` or `scripts/verify-amendments.ts` fails, fix the
+   parser or transcription (or, after a deliberate source update, the
+   assertions) — don't loosen assertions to pass.
+4. Commit `data/source/`, `data/generated/`, and generated `public/*.json`
    together with the parser change that produced them.
 
 ## Data flow
@@ -32,6 +44,11 @@ procedures: `.claude/skills/` (`update-source`, `verify-app`).
 `data/generated/*.json` → statically imported by `src/lib/data.ts`;
 `search-docs.json` is also copied to `public/` and lazily fetched in the
 browser (`src/lib/search.ts`).
+
+Amendment layer (digitale omnibus): `data/source/amendments/pe-cons-30-26.json`
+(curated — see golden rule 2) → `scripts/parse-amendments.ts` (jsdiff word
+diffs vs the base corpus) → `data/generated/amendments.json` +
+`amendment-diffs.json` + `public/amendment-search-docs.json`.
 
 Two sources on purpose: the **consolidated** text (CELEX 02024R1689-20240712,
 corrigenda incorporated) provides articles/annexes/TOC; the **original OJ**

@@ -7,8 +7,10 @@
     "build": "npm run parse && npm run verify && next build",
     "start": "next start",
     "lint": "eslint",
-    "parse": "tsx scripts/parse-aiact.ts",
-    "verify": "tsx scripts/verify-data.ts"
+    "parse": "tsx scripts/parse-aiact.ts && tsx scripts/parse-amendments.ts",
+    "verify": "tsx scripts/verify-data.ts && tsx scripts/verify-amendments.ts",
+    "parse:amendments": "tsx scripts/parse-amendments.ts",
+    "verify:amendments": "tsx scripts/verify-amendments.ts"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.15",
@@ -30,6 +32,7 @@
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "diff": "^9.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "tailwindcss": "^4",

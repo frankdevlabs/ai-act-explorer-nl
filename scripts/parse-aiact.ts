@@ -25,6 +25,7 @@ import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { findRefs, type RefContext } from "../src/lib/crossrefs";
+import { assignItemAnchors, flattenNodes } from "../src/lib/flatten";
 import type {
   Annex,
   Article,
@@ -154,24 +155,6 @@ function parseGridItem(grid: Element): ListItem {
   const marker = cleanText($grid.children(".grid-list-column-1").first().text());
   const contentCell = $grid.children(".grid-list-column-2").first().get(0);
   return { marker, content: contentCell ? parseBlocks(contentCell) : [] };
-}
-
-function markerToSlug(marker: string): string {
-  return marker
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-/** Anchor slugs for the top-level list items of a paragraph (lid-1-a, punt-12). */
-function assignItemAnchors(content: ContentNode[], prefix: string): void {
-  for (const node of content) {
-    if (node.type !== "list") continue;
-    for (const item of node.items) {
-      const slug = markerToSlug(item.marker);
-      if (slug) item.anchor = prefix ? `${prefix}-${slug}` : `punt-${slug}`;
-    }
-  }
 }
 
 // ------------------------------------------------- footnotes (global, ref-attached)
@@ -480,17 +463,6 @@ const toc: Toc = {
 };
 
 // ------------------------------------------------- search docs
-
-function flattenNodes(nodes: ContentNode[]): string {
-  return nodes
-    .map((n) => {
-      if (n.type === "list")
-        return n.items.map((i) => `${i.marker} ${flattenNodes(i.content)}`).join(" ");
-      return n.text;
-    })
-    .join(" ")
-    .trim();
-}
 
 const searchDocs: SearchDoc[] = [];
 for (const a of articles) {

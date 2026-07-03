@@ -2,7 +2,8 @@ import articlesJson from "../../data/generated/articles.json";
 import recitalsJson from "../../data/generated/recitals.json";
 import annexesJson from "../../data/generated/annexes.json";
 import tocJson from "../../data/generated/toc.json";
-import type { Annex, Article, ContentNode, Recital, Toc } from "./types";
+import type { Annex, Article, Recital, Toc } from "./types";
+import { flattenNodes } from "./flatten";
 
 const articles = articlesJson as Article[];
 const recitals = recitalsJson as Recital[];
@@ -35,17 +36,6 @@ export function getAnnexes(): Annex[] {
 
 export function getAnnex(roman: string): Annex | undefined {
   return annexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
-}
-
-function flattenNodes(nodes: ContentNode[]): string {
-  return nodes
-    .map((n) =>
-      n.type === "list"
-        ? n.items.map((i) => `${i.marker} ${flattenNodes(i.content)}`).join(" ")
-        : n.text,
-    )
-    .join(" ")
-    .trim();
 }
 
 function clip(text: string, max = 200): string {

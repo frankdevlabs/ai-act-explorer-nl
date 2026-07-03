@@ -20,6 +20,38 @@ export function ContentNodes({ nodes }: { nodes: ContentNode[] }) {
             </p>
           );
         }
+        if (node.type === "table") {
+          const [head, ...body] = node.rows;
+          return (
+            <div key={i} className="my-4 overflow-x-auto">
+              <table className="w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    {head?.map((cell, j) => (
+                      <th
+                        key={j}
+                        className="border border-line bg-surface px-3 py-2 text-left font-semibold align-top"
+                      >
+                        {cell}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {body.map((row, j) => (
+                    <tr key={j}>
+                      {row.map((cell, k) => (
+                        <td key={k} className="border border-line px-3 py-2 align-top">
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
         return (
           <ul key={i} className="my-2 space-y-2">
             {node.items.map((item, j) => (
