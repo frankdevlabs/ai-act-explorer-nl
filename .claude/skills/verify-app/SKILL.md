@@ -12,8 +12,11 @@ cd ~/ai-act-explorer-nl && npm run build
 ```
 
 Must end green: `parse` logs counts (expect `113 articles, 180 recitals,
-13 annexes, 13 chapters, ... search docs`), `verify` prints
-`verify-data: all assertions passed`, `next build` exports ~313 static pages.
+13 annexes, 13 chapters, ... search docs` plus `parse-amendments: 76
+instructions, 36 amended articles, 6 new articles, 1 new annexes ...
+(complete=true)`), `verify` prints `verify-data: all assertions passed` and
+`verify-amendments: all assertions passed`, `next build` exports ~321 static
+pages.
 
 ## 2. Dev server + curl smoke checks
 
@@ -103,7 +106,17 @@ elements the overlay covers.
 ## 4. Static export sanity
 
 ```bash
-ls ~/ai-act-explorer-nl/out/artikel | wc -l    # 113
-ls ~/ai-act-explorer-nl/out/overweging | wc -l # 180
-ls ~/ai-act-explorer-nl/out/bijlage | wc -l    # 13
+ls ~/ai-act-explorer-nl/out/artikel | wc -l    # 240 (113 base + 6 omnibus articles, .html + .txt each, + 2 dirs)
+ls ~/ai-act-explorer-nl/out/overweging | wc -l # 180 pages
+ls ~/ai-act-explorer-nl/out/bijlage | wc -l    # 14 incl. bijlage XIV (digitale omnibus)
+```
+
+Amendment-layer checks (digitale omnibus, PE-CONS 30/26):
+
+```bash
+curl -s "http://localhost:$PORT/artikel/4bis"   | grep -c "Ingevoegd door de digitale omnibus"  # >= 1
+curl -s "http://localhost:$PORT/bijlage/xiv"    | grep -c "Toegevoegd door de digitale omnibus" # >= 1
+curl -s "http://localhost:$PORT/wijzigingen"    | grep -c "PE-CONS 30/26"                       # >= 1
+curl -s "http://localhost:$PORT/artikel/2"      | grep -c 'id="w-lid-13"'                       # >= 1 (diff view prerendered)
+curl -s "http://localhost:$PORT/amendment-search-docs.json" | head -c 100                       # JSON array
 ```

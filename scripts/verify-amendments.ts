@@ -34,10 +34,15 @@ const searchDocs = load<SearchDoc[]>("public/amendment-search-docs.json");
 const articles = load<Article[]>("data/generated/articles.json");
 const annexes = load<Annex[]>("data/generated/annexes.json");
 
-// To pin in the final transcription commit (meta.complete = true):
+// Pinned at transcription completion: 43 numbered instructions in Article 1
+// of PE-CONS 30/26 = 76 entries including sub-instructions.
 const EXPECTED: { instructions: number | null; affectedArticles: string[] | null } = {
-  instructions: null,
-  affectedArticles: null,
+  instructions: 76,
+  affectedArticles: [
+    "1", "2", "3", "4", "5", "6", "10", "11", "17", "25", "27", "28", "29", "30",
+    "40", "42", "43", "50", "56", "57", "58", "60", "63", "64", "69", "70", "72",
+    "75", "76", "77", "95", "96", "97", "99", "111", "113",
+  ],
 };
 
 const amendments = source.amendments;
@@ -224,6 +229,18 @@ if (source.meta.complete) {
     EXPECTED.affectedArticles,
     "exact affected-article set",
   );
+  assert.deepEqual(
+    generated.newArticles.map((n) => n.slug).sort(),
+    ["4bis", "60bis", "75bis", "75quater", "75quinquies", "75ter"],
+    "exact new-article set",
+  );
+  assert.deepEqual(Object.keys(diffs.annexes).sort(), ["i", "viii"], "exact amended-annex set");
+  assert.deepEqual(
+    generated.newAnnexes.map((n) => n.roman),
+    ["XIV"],
+    "exact new-annex set",
+  );
+  assert.equal(Math.max(...amendments.map((a) => a.seq)), 43, "43 numbered instructions");
 }
 
 console.log(

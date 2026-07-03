@@ -1,6 +1,6 @@
 # Epic 2 — Digitale-omnibus track changes
 
-**Status**: designed; transcription is the long pole — budget it explicitly. Run plan mode on this doc before starting.
+**Status**: implemented (Jul 2026). All 43 instructions of Article 1 transcribed (76 entries incl. sub-instructions, `meta.complete: true`, exact counts pinned in `verify-amendments.ts`); UI, `/wijzigingen`, search merge and sidebar insertion live. Remaining: the OJ swap plan below.
 **Goal**: show upcoming AI Act changes from the digital omnibus on AI (2025/0359 COD) as track changes on article pages, with navigation across all changes.
 
 ## Source
