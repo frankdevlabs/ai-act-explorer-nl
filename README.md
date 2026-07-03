@@ -35,7 +35,9 @@ npm run build          # parse → verify → next build (statische export in ou
 Zie [`AGENTS.md`](AGENTS.md) (werkinstructies, conventies) en
 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) (parser, de twee
 EUR-Lex-HTML-dialecten, datamodel, zoekindex). Herhaalbare procedures —
-brontekst bijwerken, app verifiëren — staan in `.claude/skills/`.
+brontekst bijwerken, app verifiëren — staan in `.claude/skills/`. Geplande
+features (kruisverwijzingen, omnibus-track-changes, MCP-server) staan
+uitgewerkt in [`docs/epics/`](docs/epics/).
 
 ## Deeplinks
 
