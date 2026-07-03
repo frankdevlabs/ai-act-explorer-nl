@@ -7,7 +7,9 @@
   "amendments": [
     {
       "seq": 1,
-      "target": { "article": "1" },
+      "target": {
+        "article": "1"
+      },
       "operation": "replace",
       "scope": {
         "anchor": "lid-2-g",
@@ -23,7 +25,9 @@
     {
       "seq": 2,
       "sub": "a",
-      "target": { "article": "2" },
+      "target": {
+        "article": "2"
+      },
       "operation": "replace",
       "scope": {
         "anchor": "lid-2",
@@ -39,7 +43,9 @@
     {
       "seq": 2,
       "sub": "b",
-      "target": { "article": "2" },
+      "target": {
+        "article": "2"
+      },
       "operation": "replace",
       "scope": {
         "anchor": "lid-7",
@@ -54,7 +60,9 @@
     },
     {
       "seq": 3,
-      "target": { "article": "2" },
+      "target": {
+        "article": "2"
+      },
       "operation": "add",
       "scope": {
         "description": "aan artikel 2 wordt het volgende lid toegevoegd (PE-CONS 30/26, blz. 42)"
@@ -100,8 +108,103 @@
       ]
     },
     {
+      "seq": 4,
+      "sub": "a",
+      "target": {
+        "article": "3"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "punt-14",
+        "description": "artikel 3, punt 14, wordt als volgt gewijzigd (PE-CONS 30/26, blz. 43)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "“veiligheidscomponent”: een component van een product of van een AI-systeem die een veiligheidsfunctie voor dat product of AI-systeem vervult of waarvan het falen of gebrekkig functioneren de gezondheid en veiligheid van personen of eigendom in gevaar brengt; voor de toepassing van deze definitie vervult een component een veiligheidsfunctie wanneer het beoogde doel ervan is om risico’s voor de gezondheid en veiligheid van personen of eigendom te voorkomen of te beperken;"
+        }
+      ]
+    },
+    {
+      "seq": 4,
+      "sub": "b",
+      "target": {
+        "article": "3"
+      },
+      "operation": "insert",
+      "scope": {
+        "anchor": "punt-14",
+        "description": "in artikel 3 worden de punten 14 bis) en 14 ter) ingevoegd (PE-CONS 30/26, blz. 43)"
+      },
+      "newItems": [
+        {
+          "marker": "14 bis)",
+          "content": [
+            {
+              "type": "text",
+              "text": "“micro-, kleine en middelgrote onderneming” of “kmo”: een kleine, middelgrote of micro-onderneming zoals gedefinieerd in artikel 2 van de bijlage bij Aanbeveling 2003/361/EG;"
+            }
+          ]
+        },
+        {
+          "marker": "14 ter)",
+          "content": [
+            {
+              "type": "text",
+              "text": "“kleine midcaponderneming”: een kleine midcaponderneming zoals gedefinieerd in punt 2 van de bijlage bij Aanbeveling (EU) 2025/1099 van de Commissie;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seq": 5,
+      "target": {
+        "article": "4"
+      },
+      "operation": "replace",
+      "scope": {
+        "wholeArticle": true,
+        "description": "artikel 4 wordt vervangen (PE-CONS 30/26, blz. 44)"
+      },
+      "newParagraphs": [
+        {
+          "number": 1,
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Aanbieders en gebruiksverantwoordelijken van AI-systemen nemen maatregelen om de ontwikkeling van AI-geletterdheid van hun personeel en andere personen die namens hen AI-systemen exploiteren en gebruiken, te ondersteunen, en houden daarbij rekening met hun technische kennis, ervaring, onderwijs en opleiding en de context waarin de AI-systemen zullen worden gebruikt, evenals met de personen of groepen personen ten aanzien van wie de AI-systemen zullen worden gebruikt. Deze verplichting houdt niet in dat aanbieders of gebruiksverantwoordelijken een bepaald niveau van AI-geletterdheid moeten waarborgen voor personen."
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "De Commissie en de lidstaten ondersteunen en faciliteren de inspanningen van aanbieders en gebruiksverantwoordelijken van AI-systemen, met name kmo’s, bij het nakomen van hun verplichting uit hoofde van lid 1 van dit artikel. Daartoe publiceert de Commissie op het in artikel 62, lid 3, punt b), bedoelde centraal informatieplatform praktische voorbeelden van hoe die verplichting na te leven."
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "De AI-board stelt, rekening houdend met Europese competentiekaders, aanbevelingen vast om de Commissie en de lidstaten te ondersteunen bij de bevordering van de krachtens lid 1 vereiste AI-geletterdheid, onder meer door gemeenschappelijke doelstellingen vast te stellen."
+            }
+          ]
+        }
+      ]
+    },
+    {
       "seq": 6,
-      "target": { "article": "4bis" },
+      "target": {
+        "article": "4bis"
+      },
       "operation": "insert",
       "scope": {
         "description": "het volgende artikel wordt ingevoegd (PE-CONS 30/26, blz. 45-46)"
@@ -220,6 +323,462 @@
           }
         ]
       }
+    },
+    {
+      "seq": 7,
+      "sub": "a",
+      "target": {
+        "article": "5"
+      },
+      "operation": "insert",
+      "scope": {
+        "anchor": "lid-1-b",
+        "description": "in artikel 5, lid 1, eerste alinea, worden de punten b bis) en b ter) ingevoegd (PE-CONS 30/26, blz. 47)"
+      },
+      "newItems": [
+        {
+          "marker": "b bis)",
+          "content": [
+            {
+              "type": "text",
+              "text": "het in de handel brengen, het in gebruik stellen of het gebruiken van een AI-systeem dat realistische beelden, video’s, audio of soortgelijk materiaal genereert of manipuleert van de intieme delen van een identificeerbare natuurlijke persoon, of van een identificeerbare natuurlijke persoon die expliciete seksuele gedragingen verricht, zonder de vrijelijk gegeven, specifieke, geïnformeerde, ondubbelzinnige en uitdrukkelijke toestemming van die persoon voor die generatie of manipulatie;"
+            }
+          ]
+        },
+        {
+          "marker": "b ter)",
+          "content": [
+            {
+              "type": "text",
+              "text": "het in de handel brengen, in gebruik stellen of gebruiken van een AI-systeem dat materiaal of een voorstelling genereert of manipuleert in de zin van artikel 2, punten c) en e), van Richtlijn 2011/93/EU, behalve wanneer krachtens het nationale recht een “wederrechtelijke” verdediging van toepassing is;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seq": 7,
+      "sub": "b",
+      "target": {
+        "article": "5"
+      },
+      "operation": "insert",
+      "scope": {
+        "anchor": "lid-1",
+        "description": "in artikel 5 worden de leden 1 bis en 1 ter ingevoegd (PE-CONS 30/26, blz. 47-48)"
+      },
+      "newParagraphs": [
+        {
+          "number": null,
+          "displayNumber": "1 bis",
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Voor de toepassing van lid 1, eerste alinea, punten b bis) en b ter), is:"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "marker": "a)",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "het in lid 1, eerste alinea, punt b bis) of b ter), bedoelde in de handel brengen of in gebruik stellen van een AI-systeem dat het materiaal of de voorstelling genereert of manipuleert, alleen verboden indien:"
+                    },
+                    {
+                      "type": "list",
+                      "items": [
+                        {
+                          "marker": "i)",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "die generatie of manipulatie het beoogde doel van het AI-systeem is; of"
+                            }
+                          ]
+                        },
+                        {
+                          "marker": "ii)",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "het ontwerp, de training, de architectuur, de capaciteiten of de gebruikersgerichte functionaliteiten van het systeem maken dat het genereren of manipuleren een redelijkerwijs te voorzien en reproduceerbaar resultaat oplevert, zonder dat daarvoor aanzienlijke technische wijzigingen nodig zijn, en het systeem niet beschikt over redelijke en adequate technische veiligheidsmaatregelen en andere waarborgen om het genereren of manipuleren op betrouwbare wijze te voorkomen, rekening houdend met redelijkerwijs te voorzien misbruik, en om waargenomen of gemeld misbruik te corrigeren;"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "marker": "b)",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "het in lid 1, eerste alinea, punten b bis) en b ter, bedoelde gebruik van een AI-systeem dat het materiaal of de voorstelling genereert of manipuleert, alleen verboden wanneer de gebruiksverantwoordelijke het systeem gebruikt voor het genereren of manipuleren van dergelijk materiaal of een dergelijke voorstelling."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "number": null,
+          "displayNumber": "1 ter",
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Voor de toepassing van lid 1, eerste alinea, punt b bis), vormt een AI-systeem dat materiaal zodanig manipuleert dat de blootstelling aan afgebeelde intieme delen niet toeneemt of dat de aard van afgebeelde seksueel expliciete gedragingen niet wordt gewijzigd, geen manipulatie."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seq": 8,
+      "target": {
+        "article": "6"
+      },
+      "operation": "insert",
+      "scope": {
+        "anchor": "lid-1",
+        "description": "in artikel 6 worden de volgende leden ingevoegd (PE-CONS 30/26, blz. 48-49)"
+      },
+      "newParagraphs": [
+        {
+          "number": null,
+          "displayNumber": "1 bis",
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Voor de toepassing van deze verordening, met inbegrip van lid 1 van dit artikel, worden AI-systemen die uitsluitend worden gebruikt voor niet-veiligheidsgerelateerde aspecten van bijstand aan gebruikers, optimalisering van de prestaties, efficiëntie van de dienstverlening, automatisering of gemak of kwaliteitscontrole, niet als veiligheidscomponenten aangemerkt."
+            }
+          ]
+        },
+        {
+          "number": null,
+          "displayNumber": "1 ter",
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Niettegenstaande lid 1 bis worden AI-systemen waarvan het falen of gebrekkig functioneren de gezondheid en veiligheid in gevaar zou brengen, beschouwd als veiligheidscomponenten."
+            }
+          ]
+        },
+        {
+          "number": null,
+          "displayNumber": "1 quater",
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Een product dat uitsluitend vanwege andere risico’s dan risico’s voor de gezondheid en veiligheid, met name risico’s in verband met de verdeling van het radiospectrum of elektromagnetische interferentie die geen gevolgen hebben voor de gezondheid en veiligheid, aan een conformiteitsbeoordeling door een derde partij moet worden onderworpen, wordt niet geacht aan de voorwaarde van lid 1, punt b), te voldoen."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seq": 9,
+      "sub": "a",
+      "target": {
+        "article": "10"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-1",
+        "description": "artikel 10, lid 1, wordt vervangen (PE-CONS 30/26, blz. 49)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "AI-systemen met een hoog risico die technieken gebruiken die het trainen van AI-modellen met data omvatten, worden ontwikkeld op basis van datasets voor training, validatie en tests die voldoen aan de in de leden 2, 3 en 4 van dit artikel en de in artikel 4 bis, lid 1, bedoelde kwaliteitscriteria, telkens wanneer dergelijke datasets worden gebruikt."
+        }
+      ]
+    },
+    {
+      "seq": 9,
+      "sub": "b",
+      "target": {
+        "article": "10"
+      },
+      "operation": "delete",
+      "scope": {
+        "anchor": "lid-5",
+        "description": "artikel 10, lid 5, wordt geschrapt (PE-CONS 30/26, blz. 49)"
+      }
+    },
+    {
+      "seq": 9,
+      "sub": "c",
+      "target": {
+        "article": "10"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-6",
+        "description": "artikel 10, lid 6, wordt vervangen (PE-CONS 30/26, blz. 49)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Voor de ontwikkeling van AI-systemen met een hoog risico die geen technieken voor de training van AI-modellen gebruiken, zijn de leden 2, 3 en 4 van dit artikel en artikel 4 bis, lid 1, uitsluitend van toepassing op de datasets voor tests."
+        }
+      ]
+    },
+    {
+      "seq": 10,
+      "target": {
+        "article": "11"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-1",
+        "description": "in artikel 11, lid 1, wordt de tweede alinea vervangen (PE-CONS 30/26, blz. 50)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De technische documentatie van een AI-systeem met een hoog risico wordt opgesteld voordat dit systeem in de handel wordt gebracht of in gebruik wordt gesteld, en wordt geactualiseerd."
+        },
+        {
+          "type": "text",
+          "text": "Die technische documentatie wordt op zodanige wijze opgesteld dat wordt aangetoond dat het AI-systeem met een hoog risico in overeenstemming is met de eisen van deze afdeling en dat nationale bevoegde autoriteiten en aangemelde instanties over de noodzakelijke, op heldere en begrijpelijke wijze gestelde informatie beschikken om de overeenstemming van het AI-systeem met deze voorschriften te kunnen beoordelen. De documentatie omvat ten minste de in bijlage IV uiteengezette elementen. Kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen, kunnen de elementen van de in bijlage IV gespecificeerde technische documentatie op vereenvoudigde wijze verstrekken. Daartoe stelt de Commissie een vereenvoudigd formulier voor technische documentatie op dat is afgestemd op de behoeften van kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen. Kmo’s, met inbegrip van start-ups, of kleine midcapondernemingen die ervoor kiezen de in bijlage IV vereiste informatie op vereenvoudigde wijze te verstrekken, gebruiken het in dit lid bedoelde formulier. Aangemelde instanties aanvaarden het formulier met het oog op de conformiteitsbeoordeling."
+        }
+      ]
+    },
+    {
+      "seq": 11,
+      "target": {
+        "article": "17"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-2",
+        "description": "in artikel 17 wordt lid 2 vervangen (PE-CONS 30/26, blz. 50)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De uitvoering van de in lid 1 bedoelde aspecten is evenredig aan de omvang van de organisatie van de aanbieder, met name als de aanbieder een kmo is, met inbegrip van een start-up, of een kleine midcaponderneming. Aanbieders voldoen hoe dan ook aan de striktheid en het beschermingsniveau die nodig zijn om te garanderen dat hun AI-systemen met een hoog risico aan deze verordening voldoen."
+        }
+      ]
+    },
+    {
+      "seq": 12,
+      "sub": "a",
+      "target": {
+        "article": "25"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-2",
+        "description": "artikel 25, lid 2, wordt vervangen (PE-CONS 30/26, blz. 51-52)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Wanneer sprake is van de in lid 1 bedoelde omstandigheden, wordt de aanbieder die het AI-systeem voor het eerst in de handel heeft gebracht of in gebruik heeft gesteld, niet langer beschouwd als aanbieder van dat specifieke AI-systeem voor de toepassing van deze verordening."
+        },
+        {
+          "type": "text",
+          "text": "Die oorspronkelijke aanbieder werkt nauw samen met nieuwe aanbieders, stelt de nodige informatie beschikbaar en verstrekt de redelijkerwijs verwachte technische toegang en andere bijstand die nodig zijn om te voldoen aan de verplichtingen van deze verordening, met name wat betreft de naleving van de conformiteitsbeoordeling van AI-systemen met een hoog risico."
+        },
+        {
+          "type": "text",
+          "text": "De in de tweede alinea vastgestelde verplichting omvat met name, indien relevant voor de daarin vermelde doeleinden, het volgende:"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "marker": "a)",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "het beschikbaar stellen van technische documentatie die toereikend is om de naleving van de vereisten van artikel 16 te beoordelen;"
+                }
+              ]
+            },
+            {
+              "marker": "b)",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "het informeren van de nieuwe aanbieders over bekende beperkingen en potentiële fouten; en"
+                }
+              ]
+            },
+            {
+              "marker": "c)",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "het bieden van gerichte technische toegang aan de nieuwe aanbieders, onder meer voor testen en validatie."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Dit lid is niet van toepassing in gevallen waarin de oorspronkelijke aanbieder duidelijk heeft aangegeven dat zijn AI-systeem niet mag worden gewijzigd in een AI-systeem met een hoog risico en derhalve niet onder de verplichting valt om samen te werken met de nieuwe aanbieders en om de documentatie te verstrekken."
+        }
+      ]
+    },
+    {
+      "seq": 12,
+      "sub": "b",
+      "target": {
+        "article": "25"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-4",
+        "description": "in artikel 25, lid 4, wordt de eerste alinea vervangen (PE-CONS 30/26, blz. 52)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De aanbieder van een AI-systeem met een hoog risico en de derde partij die een AI-systeem, een AI-model, instrumenten, diensten, onderdelen of processen levert die worden gebruikt of geïntegreerd in een AI-systeem met een hoog risico, preciseren in een schriftelijke overeenkomst de nodige informatie, capaciteiten, technische toegang en andere bijstand, op basis van de algemeen erkende stand van de techniek, om de aanbieder van het AI-systeem met een hoog risico in staat te stellen volledig te voldoen aan de verplichtingen van deze verordening. Dit lid is niet van toepassing op derden die andere instrumenten, diensten, processen of onderdelen dan AI-modellen voor algemene doeleinden onder een kosteloze en opensource licentie toegankelijk maken voor het publiek."
+        },
+        {
+          "type": "text",
+          "text": "Het AI-bureau kan vrijwillige modelvoorwaarden ontwikkelen en aanbevelen voor contracten tussen aanbieders van AI-systemen met een hoog risico en derden die instrumenten, diensten, componenten of processen leveren die worden gebruikt of geïntegreerd in AI-systemen met een hoog risico. Bij de ontwikkeling van die vrijwillige modelvoorwaarden moet het AI-bureau rekening houden met de contractuele eisen die kunnen gelden in specifieke sectoren of businesscases. De vrijwillige modelvoorwaarden worden gepubliceerd en kosteloos beschikbaar gesteld in een gemakkelijk bruikbaar elektronisch formaat."
+        }
+      ]
+    },
+    {
+      "seq": 13,
+      "sub": "a",
+      "target": {
+        "article": "27"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-4",
+        "description": "artikel 27, lid 4, wordt vervangen (PE-CONS 30/26, blz. 52)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Indien een van de in dit artikel vastgelegde verplichtingen reeds is nagekomen door de gegevensbeschermingseffectbeoordeling die is uitgevoerd op grond van artikel 35 van Verordening (EU) 2016/679 of artikel 27 van Richtlijn (EU) 2016/680, kan de gebruiksverantwoordelijke, bij het uitvoeren van de in lid 1 van dit artikel bedoelde effectbeoordeling op het gebied van de grondrechten, kruisverwijzingen naar de desbetreffende delen van die gegevensbeschermingseffectbeoordeling, dan wel relevante delen daarvan opnemen in de effectbeoordeling op het gebied van de grondrechten."
+        }
+      ]
+    },
+    {
+      "seq": 13,
+      "sub": "b",
+      "target": {
+        "article": "27"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-5",
+        "description": "artikel 27, lid 5, wordt vervangen (PE-CONS 30/26, blz. 53)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Het AI-bureau ontwikkelt een model voor een vragenlijst, onder meer via een geautomatiseerd instrument, om gebruiksverantwoordelijken te helpen hun verplichtingen uit hoofde van dit artikel op vereenvoudigde wijze na te komen. Dit model biedt gebruiksverantwoordelijken in voorkomend geval de mogelijkheid om kruisverwijzingen naar de desbetreffende delen van de gegevensbeschermingseffectbeoordeling, dan wel relevante delen daarvan, op te nemen in de effectbeoordeling op het gebied van de grondrechten op grond van lid 4."
+        }
+      ]
+    },
+    {
+      "seq": 14,
+      "target": {
+        "article": "28"
+      },
+      "operation": "add",
+      "scope": {
+        "description": "aan artikel 28 worden de volgende leden toegevoegd (PE-CONS 30/26, blz. 53-54)"
+      },
+      "newParagraphs": [
+        {
+          "number": 8,
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "De uit hoofde van deze verordening aanmeldende autoriteiten, die verantwoordelijk zijn voor AI-systemen die onder de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie vallen, zorgen ervoor dat een conformiteitsbeoordelingsinstantie die een aanvraag tot aanwijzing indient op grond van zowel deze verordening als de in afdeling A van bijlage I bedoelde harmonisatiewetgeving van de Unie, de mogelijkheid krijgt om één enkele aanvraag in te dienen en een procedure voor één uniforme beoordeling ondergaat om te worden aangewezen uit hoofde van deze verordening en de in afdeling A van bijlage I bedoelde harmonisatiewetgeving van de Unie, indien de relevante harmonisatiewetgeving van de Unie voorziet in een dergelijke procedure voor één enkele aanvraag en één uniforme beoordeling. Daartoe werken de op grond van deze verordening aangewezen aanmeldende autoriteiten en de op grond van de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie aangewezen autoriteiten samen bij hun beoordelingen."
+            },
+            {
+              "type": "text",
+              "text": "De in dit lid bedoelde procedure voor één enkele aanvraag en één uniforme beoordeling wordt ook ter beschikking gesteld aan aangemelde instanties die reeds uit hoofde van de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie zijn aangewezen, wanneer die aangemelde instanties uit hoofde van deze verordening een aanvraag voor aanwijzing indienen, mits de relevante harmonisatiewetgeving van de Unie in een dergelijke procedure voorziet."
+            },
+            {
+              "type": "text",
+              "text": "Een conformiteitsbeoordelingsinstantie die is aangewezen uit hoofde van meer dan één onderdeel van de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie, moet slechts eenmaal een aanvraag indienen om uit hoofde van deze verordening te worden aangewezen. Een aanwijzing op grond van deze verordening is van toepassing op alle in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie waarvoor de conformiteitsbeoordelingsinstantie is aangewezen."
+            },
+            {
+              "type": "text",
+              "text": "De procedure voor één enkele aanvraag en één uniforme beoordeling voorkomt onnodig dubbel werk bouwt voort op de bestaande procedures voor aanwijzing overeenkomstig de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie en waarborgt de naleving van de eisen met betrekking tot aangemelde instanties uit hoofde van zowel deze verordening als de relevante harmonisatiewetgeving van de Unie."
+            }
+          ]
+        },
+        {
+          "number": 9,
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Een aanmeldende autoriteit die is aangewezen uit hoofde van de in afdeling A van bijlage I bedoelde harmonisatiewetgeving van de Unie, is ook de aanmeldende autoriteit voor de toepassing van de in lid 8 bedoelde procedure voor één enkele aanvraag en één uniforme beoordeling, tenzij de lidstaat voor deze verordening een andere aanmeldende autoriteit aanwijst."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seq": 15,
+      "target": {
+        "article": "29"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-4",
+        "description": "in artikel 29 wordt lid 4 vervangen (PE-CONS 30/26, blz. 55)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Voor aangemelde instanties die uit hoofde van andere harmonisatiewetgeving van de Unie zijn aangewezen, kunnen waar passend alle documenten en certificaten met betrekking tot die aanwijzingen worden gebruikt om hun aanwijzingsprocedure krachtens deze verordening te ondersteunen en te bespoedigen."
+        },
+        {
+          "type": "text",
+          "text": "Aangemelde instanties die hoofde van de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie zijn aangewezen en de in artikel 28, lid 8, bedoelde procedure voor één uniforme beoordeling ondergaan, dienen de enkele aanvraag voor beoordeling in bij de aanmeldende autoriteit die uit hoofde van die harmonisatiewetgeving van de Unie is aangewezen."
+        },
+        {
+          "type": "text",
+          "text": "Om de voor aangemelde instanties verantwoordelijke autoriteit in staat te stellen de continue naleving van alle eisen van artikel 31 te monitoren en te verifiëren, werkt de aangemelde instantie de in de leden 2 en 3 bij dit artikel bedoelde documentatie telkens bij wanneer relevante veranderingen plaatsvinden."
+        }
+      ]
+    },
+    {
+      "seq": 16,
+      "target": {
+        "article": "30"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-2",
+        "description": "in artikel 30 wordt lid 2 vervangen (PE-CONS 30/26, blz. 55-56)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Aanmeldende autoriteiten melden elke in lid 1 bedoelde conformiteitsbeoordelingsinstantie aan bij de Commissie en de andere lidstaten op basis van de in bijlage XIV bedoelde lijst met codes, categorieën en overeenkomstige soorten AI-systemen, gebruikmakend van het door de Commissie ontwikkelde en beheerde elektronische aanmeldingssysteem."
+        },
+        {
+          "type": "text",
+          "text": "De Commissie is bevoegd overeenkomstig artikel 97 gedelegeerde handelingen vast te stellen om bijlage XIV te wijzigen in het licht van de technische vooruitgang, voortschrijdende kennis of nieuw wetenschappelijk bewijs, door aan de lijst met codes, categorieën en overeenkomstige soorten AI-systemen, een nieuwe code, nieuwe categorie of nieuw soort AI-systeem toe te voegen, een bestaande code, bestaande categorie of bestaande soort AI-systeem van de lijst te schrappen, of een code of soort AI-systeem van de ene naar de andere categorie te verplaatsen."
+        }
+      ]
     }
   ]
 }
