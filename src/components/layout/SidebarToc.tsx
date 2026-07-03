@@ -8,7 +8,40 @@ import { useMemo, useState } from "react";
 import type { Toc, TocEntry } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-function ArticleLink({ entry, active, onNavigate }: { entry: TocEntry; active: boolean; onNavigate?: () => void }) {
+export interface NewTocEntry {
+  slug: string;
+  title: string;
+}
+
+interface SidebarTocProps {
+  toc: Toc;
+  /** Article numbers (as strings) amended by the digitale omnibus. */
+  amended?: string[];
+  /** Omnibus-inserted articles, keyed by the base article they follow. */
+  newEntries?: Record<string, NewTocEntry[]>;
+  onNavigate?: () => void;
+}
+
+function OmnibusDot({ title }: { title: string }) {
+  return (
+    <span
+      title={title}
+      className="ml-1 inline-block size-1.5 shrink-0 rounded-full bg-accent align-middle"
+    />
+  );
+}
+
+function ArticleLink({
+  entry,
+  active,
+  amended,
+  onNavigate,
+}: {
+  entry: TocEntry;
+  active: boolean;
+  amended: boolean;
+  onNavigate?: () => void;
+}) {
   return (
     <Link
       href={`/artikel/${entry.number}`}
@@ -19,30 +52,85 @@ function ArticleLink({ entry, active, onNavigate }: { entry: TocEntry; active: b
       )}
     >
       <span className="text-muted">Art. {entry.number}</span> {entry.title}
+      {amended && <OmnibusDot title="Gewijzigd door de digitale omnibus" />}
+    </Link>
+  );
+}
+
+function NewArticleLink({
+  entry,
+  active,
+  onNavigate,
+}: {
+  entry: NewTocEntry;
+  active: boolean;
+  onNavigate?: () => void;
+}) {
+  const display = entry.slug.replace(/^(\d+)(.+)$/, "$1 $2");
+  return (
+    <Link
+      href={`/artikel/${entry.slug}`}
+      onClick={onNavigate}
+      className={cn(
+        "block rounded px-2 py-1 text-sm hover:bg-surface hover:text-foreground",
+        active ? "bg-surface font-medium text-accent" : "text-muted",
+      )}
+    >
+      <span className="text-muted">Art. {display}</span> {entry.title}
+      <OmnibusDot title="Ingevoegd door de digitale omnibus" />
     </Link>
   );
 }
 
 /** Collapsible chapter/section tree; current article's chapter auto-expands. */
-export function SidebarToc({ toc, onNavigate }: { toc: Toc; onNavigate?: () => void }) {
+export function SidebarToc({ toc, amended = [], newEntries = {}, onNavigate }: SidebarTocProps) {
   const pathname = usePathname();
   const currentArticle = useMemo(() => {
-    const m = pathname.match(/^\/artikel\/(\d+)/);
-    return m ? Number(m[1]) : null;
+    const m = pathname.match(/^\/artikel\/(\d+(?:bis|ter|quater|quinquies)?)/);
+    return m ? m[1] : null;
   }, [pathname]);
+  const amendedSet = useMemo(() => new Set(amended), [amended]);
 
   const activeChapter = useMemo(() => {
     if (currentArticle === null) return null;
+    // slug articles activate their insertAfter neighbor's chapter
+    const baseNumber = Number(
+      /^\d+$/.test(currentArticle)
+        ? currentArticle
+        : (Object.entries(newEntries).find(([, list]) =>
+            list.some((e) => e.slug === currentArticle),
+          )?.[0] ?? NaN),
+    );
+    if (Number.isNaN(baseNumber)) return null;
     return (
       toc.chapters.find((c) =>
         [...c.articles, ...c.sections.flatMap((s) => s.articles)].some(
-          (a) => a.number === currentArticle,
+          (a) => a.number === baseNumber,
         ),
       )?.roman ?? null
     );
-  }, [toc, currentArticle]);
+  }, [toc, currentArticle, newEntries]);
 
   const [open, setOpen] = useState<Record<string, boolean>>({});
+
+  const renderEntry = (a: TocEntry) => (
+    <div key={a.number}>
+      <ArticleLink
+        entry={a}
+        active={String(a.number) === currentArticle}
+        amended={amendedSet.has(String(a.number))}
+        onNavigate={onNavigate}
+      />
+      {(newEntries[String(a.number)] ?? []).map((n) => (
+        <NewArticleLink
+          key={n.slug}
+          entry={n}
+          active={n.slug === currentArticle}
+          onNavigate={onNavigate}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <nav aria-label="Inhoudsopgave" className="space-y-1 text-sm">
@@ -65,17 +153,13 @@ export function SidebarToc({ toc, onNavigate }: { toc: Toc; onNavigate?: () => v
               />
             </Collapsible.Trigger>
             <Collapsible.Content className="ml-2 border-l border-line pl-2">
-              {c.articles.map((a) => (
-                <ArticleLink key={a.number} entry={a} active={a.number === currentArticle} onNavigate={onNavigate} />
-              ))}
+              {c.articles.map(renderEntry)}
               {c.sections.map((s) => (
                 <div key={s.number} className="mt-1">
                   <p className="px-2 py-1 text-xs font-medium uppercase tracking-wide text-muted">
                     Afdeling {s.number} — {s.title}
                   </p>
-                  {s.articles.map((a) => (
-                    <ArticleLink key={a.number} entry={a} active={a.number === currentArticle} onNavigate={onNavigate} />
-                  ))}
+                  {s.articles.map(renderEntry)}
                 </div>
               ))}
             </Collapsible.Content>

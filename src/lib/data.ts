@@ -145,6 +145,17 @@ export function getArticleOrder(): { slug: string; label: string; title: string 
   return articleOrder;
 }
 
+/** Omnibus-inserted articles per base-article number, for TOC insertion.
+ *  Plain object (not Map/Set) so it can cross the RSC boundary. */
+export function getNewArticleTocEntries(): Record<string, { slug: string; title: string }[]> {
+  const out: Record<string, { slug: string; title: string }[]> = {};
+  for (const n of amendments.newArticles) {
+    (out[String(n.insertAfter)] ??= []).push({ slug: n.slug, title: n.title });
+  }
+  for (const list of Object.values(out)) list.sort((a, b) => slugRank(a.slug) - slugRank(b.slug));
+  return out;
+}
+
 /** All annex romans (lowercase) in order, omnibus additions appended after
  *  their insertAfter neighbor. */
 const annexOrder: string[] = annexes.flatMap((a) => [
@@ -153,6 +164,14 @@ const annexOrder: string[] = annexes.flatMap((a) => [
     .filter((n) => n.insertAfter.toLowerCase() === a.roman.toLowerCase())
     .map((n) => n.roman.toLowerCase()),
 ]);
+
+export function getAnnexOrder(): string[] {
+  return annexOrder;
+}
+
+export function isNewAnnex(roman: string): boolean {
+  return amendments.newAnnexes.some((n) => n.roman.toLowerCase() === roman.toLowerCase());
+}
 
 function clip(text: string, max = 200): string {
   const t = text.trim();

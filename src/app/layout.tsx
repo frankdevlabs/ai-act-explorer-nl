@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { SidebarToc } from "@/components/layout/SidebarToc";
 import { SearchPalette } from "@/components/search/SearchPalette";
-import { getToc } from "@/lib/data";
+import { getAmendedArticleNumbers, getNewArticleTocEntries, getToc } from "@/lib/data";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,6 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const toc = getToc();
+  const amended = [...getAmendedArticleNumbers()];
+  const newEntries = getNewArticleTocEntries();
   return (
     <html
       lang="nl"
@@ -42,11 +44,11 @@ export default function RootLayout({
       <body className="min-h-full font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
-          <MobileNav toc={toc} />
+          <MobileNav toc={toc} amended={amended} newEntries={newEntries} />
           <SearchPalette />
           <div className="mx-auto flex max-w-7xl px-4">
             <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-80 shrink-0 overflow-y-auto border-r border-line py-6 pr-4 lg:block">
-              <SidebarToc toc={toc} />
+              <SidebarToc toc={toc} amended={amended} newEntries={newEntries} />
             </aside>
             <main className="min-w-0 flex-1 py-8 lg:pl-8">
               <div className="mx-auto max-w-3xl">{children}</div>

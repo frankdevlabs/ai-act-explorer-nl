@@ -21,9 +21,14 @@ export type SearchHit = SearchResult & Pick<SearchDoc, "heading" | "url" | "type
 let indexPromise: Promise<MiniSearch<SearchDoc>> | null = null;
 
 async function buildIndex(): Promise<MiniSearch<SearchDoc>> {
-  const res = await fetch("/search-docs.json");
+  const [res, amendmentRes] = await Promise.all([
+    fetch("/search-docs.json"),
+    fetch("/amendment-search-docs.json"),
+  ]);
   if (!res.ok) throw new Error(`search-docs.json: HTTP ${res.status}`);
   const docs: SearchDoc[] = await res.json();
+  // amendment layer (digitale omnibus) — optional second corpus
+  if (amendmentRes.ok) docs.push(...((await amendmentRes.json()) as SearchDoc[]));
   const mini = new MiniSearch<SearchDoc>({
     fields: ["heading", "text"],
     storeFields: ["heading", "url", "type", "text", "ref"],
