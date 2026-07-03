@@ -1,6 +1,6 @@
 # Epic 3 — MCP server (stdio + remote on VPS)
 
-**Status**: ready to implement after (or in parallel with) epic 1. Run plan mode on this doc for final step breakdown.
+**Status**: implemented (Jul 2026). Live: stdio via `mcp/dist/stdio.js`, remote at `https://aia.mrfrank.dev/mcp` (nginx → `127.0.0.1:3106`). Operational reference: `mcp/README.md`.
 **Goal**: expose the corpus to Claude Desktop/Code (stdio) and claude.ai custom connectors (streamable HTTP on this VPS).
 
 ## Design decisions

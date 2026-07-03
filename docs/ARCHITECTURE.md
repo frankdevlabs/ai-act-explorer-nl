@@ -18,10 +18,17 @@ data/source/aiact_nl.html ──────────────┤→ scrip
                                         │       ↓                          ↓
                                         └─ next build (static import   fetched lazily in the browser,
                                            via src/lib/data.ts)        indexed by MiniSearch (src/lib/search.ts)
+
+data/source/amendments/pe-cons-30-26.json (curated, see Amendment layer)
+    → scripts/parse-amendments.ts (after parse-aiact; diffs against the base corpus)
+    → data/generated/{amendments,amendment-diffs}.json + public/amendment-search-docs.json
+    → scripts/verify-amendments.ts
 ```
 
-`npm run build` = `parse → verify → next build`. The verify step is a hard
-gate: if any assertion in `scripts/verify-data.ts` fails, the build stops.
+`npm run build` = `parse → verify → next build`, where `parse` runs
+`parse-aiact.ts` then `parse-amendments.ts` and `verify` runs `verify-data.ts`
+then `verify-amendments.ts`. Verify is a hard gate: any failed assertion stops
+the build.
 
 ## Why two source files
 
@@ -129,14 +136,20 @@ then `search-docs.json` is copied to `public/`.
 ## Data model (`src/lib/types.ts`)
 
 ```
-ContentNode = text | heading | list{ items: ListItem[] }
+RefSpan     = { start, end, href }                          // char offsets into the sibling text
+ContentNode = text{ text, refs? } | heading | list{ items: ListItem[] } | table{ rows }
 ListItem    = { marker, content: ContentNode[], anchor? }   // anchor only on top-level items
 ArticleParagraph = { number: number|null, anchor, content } // null = flat article
 Article     = { number, title, chapter, chapterTitle, section, sectionTitle, paragraphs, footnotes }
-Recital     = { number, paragraphs: string[] }              // plain strings, no nesting
+Recital     = { number, paragraphs: { text, refs? }[] }
 Annex       = { roman, ordinal, title, content, footnotes }
 SearchDoc   = { id, type: artikel|overweging|bijlage, ref, heading, url, text }
 ```
+
+The `table` node exists only for amendment content (Bijlage XIV); the base
+parser never emits it. Amendment-layer types (`Amendment`, `NewArticleSpec`,
+`ParagraphDiff`, `DiffSegment`, …) live in the same file — see the Amendment
+layer section.
 
 Anchor scheme: `#lid-3`, `#lid-3-a` (point a of lid 3), `#punt-12` (top-level
 points of flat articles/annexes), `#inhoud` (flat article body).
@@ -180,6 +193,121 @@ diff — never loosen them to "make the build pass".
   `Highlight.tsx` wraps matches in `<mark>` by splitting on a single
   capture-group regex — **matches land at odd indices**. Don't refactor to
   `re.test()` per part: a stateful `/g` regex alternates true/false.
+
+## Cross-references (RefSpans)
+
+Plain-text references ("artikel 6, lid 2, punt c)", "bijlage III", "hoofdstuk
+V") are detected **at parse time** and stored as char-offset annotations on
+text nodes (`refs?: RefSpan[]`), never by splitting the text. Design intent:
+
+- `text` stays byte-identical, so search-doc flattening and verify's corpus
+  checks are unaffected by linking.
+- The verify gate can pin the exact ref count and re-check every href — a
+  render-time regex would ship grammar regressions silently.
+
+The grammar lives in `src/lib/crossrefs.ts` (`findRefs(text, ctx)`, pure): a
+keyword scanner (`artikel(en)/bijlage(n)/hoofdstuk(ken)/overweging(en)`) with a
+sticky-regex `Cursor`, number-list parsing (enumerations `53 en 55` and ranges
+`tot en met` emit one span per number token), and a `lid/leden/punt/punten/
+alinea` sub-ref tail mapped onto the existing anchor scheme (`lid-2-c`).
+Exclusion lookahead runs before emitting: trailing `VWEU`/`VEU`, and
+`van/bij <other instrument>` (Verordening/Richtlijn/Besluit/…) — the
+self-forms `van deze verordening` and `van Verordening (EU) 2024/1689` stay
+linkable. Articles 102–110 (which quote other acts) parse with
+`linkBareRefs: false`: only explicit self-form references link there.
+
+`parse-aiact.ts` runs a post-pass over all articles/annexes/recitals: attach
+`findRefs` output, then **validate** each href against the corpus it just
+built — unknown page target throws; a fragment whose anchor doesn't exist (or
+isn't unique) on the target page is stripped to a page-level link.
+
+Rendering: `ContentNodes` (and the recital page) pass text+refs to
+`LinkedText` (RSC — slices the string at offsets) → `RefLink` (client, Radix
+hover-card; preview title + snippet resolved at build via `getPreview` in
+`data.ts` and inlined in the static HTML).
+
+Verify: pinned total ref count in `verify-data.ts`, independent
+href-resolution recheck, positive and negative spot checks (VWEU refs and
+other-instrument refs must NOT be annotated).
+
+## Amendment layer (digitale omnibus)
+
+Tracks the changes PE-CONS 30/26 (2025/0359 COD) makes to this regulation.
+Everything is build-time; the site stays fully static.
+
+```
+data/source/amendments/pe-cons-30-26.json   ← curated transcription (AGENTS.md golden rule 2 carve-out;
+        ↓                                      procedure: .claude/skills/transcribe-amendments/)
+scripts/parse-amendments.ts                 ← runs after parse-aiact.ts
+        ↓
+data/generated/amendments.json              ← normalized instructions + indexes {byArticle, byAnnex,
+        │                                      orderedTargets}, newArticles/newAnnexes, title changes
+data/generated/amendment-diffs.json         ← per target, per paragraph: ParagraphDiff
+public/amendment-search-docs.json           ← "omnibus-" prefixed SearchDocs, merged into the
+                                               MiniSearch index (site + MCP)
+```
+
+Key mechanics in `parse-amendments.ts`:
+
+- **Apply-then-diff**: base paragraphs become `ParaState`s; each instruction
+  (`replace`/`insert`/`add`/`delete`, scoped by anchor or whole article)
+  mutates the state; `statesToDiffs` then word-diffs old vs new flattened text
+  (`diffWordsWithSpace` from the `diff` package) into
+  `DiffSegment { op: eq|ins|del, text }` lists.
+- **Diff invariant** (asserted here AND re-checked in `verify-amendments.ts`):
+  `concat(eq+del) === flatten(old)` and `concat(eq+ins) === flatten(new)`,
+  byte-exact. This is the strongest guard on transcription/diff integrity.
+- **Anchors**: `withAnchors`/`paragraphAnchor` fill in anchors the
+  transcription may omit, including bis-paragraph forms (`lid-5bis` via
+  `displayNumber`). Shared flatten/anchor helpers live in `src/lib/flatten.ts`
+  (used by parse-aiact, parse-amendments, and verify).
+- **New provisions**: `NewArticleSpec` (slug `4bis`, display `4 bis`,
+  `insertAfter`) and `NewAnnexSpec` drive extra static routes
+  (`/artikel/4bis`, `/bijlage/xiv`), sidebar insertion, and prev/next chains.
+
+Verify (`scripts/verify-amendments.ts`) runs in **two regimes** keyed on
+`source.meta.complete`: structural checks always (targets/anchors resolve,
+slugs don't collide, diff reconstruction, search-doc shape, spot checks);
+once `complete: true`, exact instruction/target counts are pinned.
+
+UI surfaces: `AmendedArticleView` (toggle "Toon wijzigingen", `?diff=1` +
+localStorage `omnibus-diff`, both views pre-rendered as hidden siblings,
+change-nav), `DiffArticleBody`/`DiffSegments` (ins/del rendering),
+`/wijzigingen` index, sidebar dots.
+
+**Planned source swap**: once the act is published in the OJ, a deterministic
+parse of the CELEX HTML replaces the curated transcription — only the producer
+of `amendments.json` changes; diffs, UI and verify stay as-is (see
+`docs/epics/epic-2-omnibus-track-changes.md`).
+
+## MCP server (`mcp/`)
+
+Self-contained npm package (own `package.json`, tsc → `dist/`) exposing the
+corpus to Claude clients; the site build never sees it. Full reference:
+[`mcp/README.md`](../mcp/README.md).
+
+- `mcp/src/data.ts` reads `data/generated/*.json` +
+  `public/{search-docs,amendment-search-docs}.json` **once at startup** —
+  after `update-source` or amendment changes, restart the service.
+- Search relevance is shared with the site via `src/lib/search-core.ts`
+  (stopwords, normalization, MiniSearch options); `src/lib/search.ts` is the
+  thin browser wrapper around it.
+- One `createServer()` factory, two transports: `stdio.ts` (Claude
+  Desktop/Code) and `http.ts` (stateless streamable HTTP on `127.0.0.1:3106`,
+  behind nginx at `https://aia.mrfrank.dev`).
+
+## Runbook — which script, when
+
+| Command / script | When | Gates / output |
+|---|---|---|
+| `npm run parse` | after changing parser code, source HTML, or the amendment transcription | regenerates `data/generated/*` + `public/*-search-docs.json` (commit together with the change — golden rule 4) |
+| `npm run verify` | automatically before every build; run standalone while iterating | hard assertions; update pins only deliberately (golden rule 3) |
+| `npm run build` | before deploying | parse → verify → static export in `out/` |
+| `scripts/deploy-site.sh` | publish the site | build + rsync `out/` → `/var/www/aia.mrfrank.dev` + nginx reload (needs sudo) |
+| MCP restart (systemd unit / tmux, see `mcp/README.md`) | after any data regeneration reaches `main` | picks up new JSON (loaded at startup only) |
+| `.claude/skills/update-source` | new consolidated version on EUR-Lex | fetch → re-parse → corpus diff → assertion updates |
+| `.claude/skills/transcribe-amendments` | wording fixes / new instructions in the amendment layer | curated-source edit procedure with page-image cross-check |
+| `.claude/skills/verify-app` | after parser/data/UI changes, before pushing | build + curl smoke + Playwright checks |
 
 ## Frontend notes
 
