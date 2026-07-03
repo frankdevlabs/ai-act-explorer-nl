@@ -169,6 +169,28 @@ export function getAnnexOrder(): string[] {
   return annexOrder;
 }
 
+/** Previous/next amended target (article or annex with a computed diff) in
+ *  document order, for stepping through the omnibus changes. */
+export function changedTargetPrevNext(
+  kind: "article" | "annex",
+  slug: string,
+): { prevChanged?: { href: string; label: string }; nextChanged?: { href: string; label: string } } {
+  const targets = amendments.orderedTargets.filter((t) =>
+    t.kind === "article" ? !!amendmentDiffs.articles[t.slug] : !!amendmentDiffs.annexes[t.slug],
+  );
+  const idx = targets.findIndex((t) => t.kind === kind && t.slug === slug.toLowerCase());
+  const link = (t?: { kind: "article" | "annex"; slug: string }) => {
+    if (!t) return undefined;
+    return t.kind === "article"
+      ? { href: `/artikel/${t.slug}?diff=1`, label: `Artikel ${t.slug}` }
+      : { href: `/bijlage/${t.slug}?diff=1`, label: `Bijlage ${t.slug.toUpperCase()}` };
+  };
+  return {
+    prevChanged: link(idx > 0 ? targets[idx - 1] : undefined),
+    nextChanged: link(idx >= 0 ? targets[idx + 1] : undefined),
+  };
+}
+
 export function isNewAnnex(roman: string): boolean {
   return amendments.newAnnexes.some((n) => n.roman.toLowerCase() === roman.toLowerCase());
 }

@@ -188,6 +188,17 @@ export function SidebarToc({ toc, amended = [], newEntries = {}, onNavigate }: S
         >
           Bijlagen <span className="text-xs font-normal text-muted">(I–{toc.annexes[toc.annexes.length - 1]?.roman})</span>
         </Link>
+        <Link
+          href="/wijzigingen"
+          onClick={onNavigate}
+          className={cn(
+            "block rounded px-2 py-1.5 font-medium hover:bg-surface",
+            pathname.startsWith("/wijzigingen") && "text-accent",
+          )}
+        >
+          Wijzigingen{" "}
+          <span className="text-xs font-normal text-muted">(digitale omnibus)</span>
+        </Link>
       </div>
     </nav>
   );

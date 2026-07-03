@@ -6,7 +6,13 @@ import { ArticleBody } from "@/components/content/ArticleBody";
 import { DiffArticleBody } from "@/components/content/DiffArticleBody";
 import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
 import { PrevNextNav } from "@/components/layout/PrevNextNav";
-import { articlePrevNext, getArticleDiff, getArticleOrder, resolveArticle } from "@/lib/data";
+import {
+  articlePrevNext,
+  changedTargetPrevNext,
+  getArticleDiff,
+  getArticleOrder,
+  resolveArticle,
+} from "@/lib/data";
 
 export const dynamicParams = false;
 
@@ -89,6 +95,10 @@ export default async function ArtikelPage({ params }: Props) {
                 idPrefix="w-"
               />
             }
+            changedAnchors={diff
+              .filter((d) => d.status !== "unchanged")
+              .map((d) => `w-${d.anchor}`)}
+            {...changedTargetPrevNext("article", nummer)}
           />
         </Suspense>
       ) : (

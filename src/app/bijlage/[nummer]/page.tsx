@@ -7,7 +7,14 @@ import { DiffArticleBody } from "@/components/content/DiffArticleBody";
 import { FootnoteList } from "@/components/content/FootnoteList";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PrevNextNav } from "@/components/layout/PrevNextNav";
-import { annexPrevNext, getAnnex, getAnnexDiff, getAnnexOrder, isNewAnnex } from "@/lib/data";
+import {
+  annexPrevNext,
+  changedTargetPrevNext,
+  getAnnex,
+  getAnnexDiff,
+  getAnnexOrder,
+  isNewAnnex,
+} from "@/lib/data";
 
 export const dynamicParams = false;
 
@@ -71,6 +78,10 @@ export default async function BijlagePage({ params }: Props) {
                 idPrefix="w-"
               />
             }
+            changedAnchors={diff
+              .filter((d) => d.status !== "unchanged")
+              .map((d) => `w-${d.anchor}`)}
+            {...changedTargetPrevNext("annex", nummer)}
           />
         </Suspense>
       ) : (
