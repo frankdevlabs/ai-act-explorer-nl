@@ -2653,6 +2653,2323 @@
     "status": "unchanged",
     "seq": []
    }
+  ],
+  "40": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Overeenkomstig artikel 10 van Verordening (EU) nr. 1025/2012 dient de Commissie zonder onnodige vertraging normalisatieverzoeken in die betrekking hebben op alle eisen van afdeling 2 van dit hoofdstuk en, in voorkomend geval, normalisatieverzoeken die betrekking hebben op verplichtingen van hoofdstuk V, afdelingen 2 en 3, van deze verordening. In het normalisatieverzoek wordt ook gevraagd om producten met betrekking tot rapporterings- en documentatieprocessen om de prestaties van hulpbronnen van AI-systemen te verbeteren, zoals het verminderen van het energieverbruik en het verbruik van andere hulpbronnen van AI-systemen met een hoog risico tijdens de levenscyclus ervan, en met betrekking tot de energie-efficiënte ontwikkeling van AI-modellen voor algemene doeleinden. Bij het opstellen van een normalisatieverzoek raadpleegt de Commissie de AI-board en de relevante belanghebbenden, met inbegrip van het adviesforum. Bij het richten van een normalisatieverzoek aan Europese normalisatie-instellingen specificeert de Commissie dat normen duidelijk en consistent moeten zijn, met inbegrip van de normen die in de verschillende sectoren ontwikkeld zijn voor producten die onder de in bijlage I vermelde bestaande harmonisatiewetgeving van de Unie vallen, en tot doel hebben ervoor te zorgen dat AI-systemen met een hoog risico of AI-modellen voor algemene doeleinden die in de Unie in de handel worden gebracht of in gebruik worden gesteld, voldoen aan de relevante eisen of verplichtingen van deze verordening. De Commissie verzoekt de Europese normalisatieorganisaties aan te tonen dat zij alles in het werk stellen om de in de eerste en tweede alinea van dit lid bedoelde doelstellingen te verwezenlijken overeenkomstig artikel 24 van Verordening (EU) nr. 1025/2012."
+     },
+     {
+      "op": "ins",
+      "text": " De Commissie verzoekt de Europese normalisatieorganisaties overeenkomstig Verordening (EU) nr. 1025/2012 van het Europees Parlement en de Raad en zonder onnodige vertraging normalisatieproducten te ontwikkelen, met inbegrip van, waar passend, geharmoniseerde normen, om gezamenlijke naleving en het vermoeden van conformiteit met de eisen of verplichtingen die zijn vastgesteld in hoofdstuk III, afdelingen 2 en 3, van deze verordening, en met de desbetreffende eisen en verplichtingen die zijn vastgesteld in de in bijlage I bij deze verordening vermelde harmonisatiewetgeving van de Unie te vergemakkelijken."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Overeenkomstig artikel 10 van Verordening (EU) nr. 1025/2012 dient de Commissie zonder onnodige vertraging normalisatieverzoeken in die betrekking hebben op alle eisen van afdeling 2 van dit hoofdstuk en, in voorkomend geval, normalisatieverzoeken die betrekking hebben op verplichtingen van hoofdstuk V, afdelingen 2 en 3, van deze verordening. In het normalisatieverzoek wordt ook gevraagd om producten met betrekking tot rapporterings- en documentatieprocessen om de prestaties van hulpbronnen van AI-systemen te verbeteren, zoals het verminderen van het energieverbruik en het verbruik van andere hulpbronnen van AI-systemen met een hoog risico tijdens de levenscyclus ervan, en met betrekking tot de energie-efficiënte ontwikkeling van AI-modellen voor algemene doeleinden. Bij het opstellen van een normalisatieverzoek raadpleegt de Commissie de AI-board en de relevante belanghebbenden, met inbegrip van het adviesforum."
+     },
+     {
+      "type": "text",
+      "text": "Bij het richten van een normalisatieverzoek aan Europese normalisatie-instellingen specificeert de Commissie dat normen duidelijk en consistent moeten zijn, met inbegrip van de normen die in de verschillende sectoren ontwikkeld zijn voor producten die onder de in bijlage I vermelde bestaande harmonisatiewetgeving van de Unie vallen, en tot doel hebben ervoor te zorgen dat AI-systemen met een hoog risico of AI-modellen voor algemene doeleinden die in de Unie in de handel worden gebracht of in gebruik worden gesteld, voldoen aan de relevante eisen of verplichtingen van deze verordening."
+     },
+     {
+      "type": "text",
+      "text": "De Commissie verzoekt de Europese normalisatieorganisaties aan te tonen dat zij alles in het werk stellen om de in de eerste en tweede alinea van dit lid bedoelde doelstellingen te verwezenlijken overeenkomstig artikel 24 van Verordening (EU) nr. 1025/2012."
+     },
+     {
+      "type": "text",
+      "text": "De Commissie verzoekt de Europese normalisatieorganisaties overeenkomstig Verordening (EU) nr. 1025/2012 van het Europees Parlement en de Raad en zonder onnodige vertraging normalisatieproducten te ontwikkelen, met inbegrip van, waar passend, geharmoniseerde normen, om gezamenlijke naleving en het vermoeden van conformiteit met de eisen of verplichtingen die zijn vastgesteld in hoofdstuk III, afdelingen 2 en 3, van deze verordening, en met de desbetreffende eisen en verplichtingen die zijn vastgesteld in de in bijlage I bij deze verordening vermelde harmonisatiewetgeving van de Unie te vergemakkelijken."
+     }
+    ],
+    "seq": [
+     17
+    ]
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "42": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "inserted",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Wanneer AI-systemen met een hoog risico binnen het toepassingsgebied van Verordening (EU) 2024/2847 vallen en aan de voorwaarden van artikel 12, lid 1, van die verordening is voldaan, worden zij geacht te voldoen aan de cyberbeveiligingsvereisten van artikel 15 van deze verordening."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Wanneer AI-systemen met een hoog risico binnen het toepassingsgebied van Verordening (EU) 2024/2847 vallen en aan de voorwaarden van artikel 12, lid 1, van die verordening is voldaan, worden zij geacht te voldoen aan de cyberbeveiligingsvereisten van artikel 15 van deze verordening."
+     }
+    ],
+    "seq": [
+     18
+    ]
+   }
+  ],
+  "43": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Voor AI-systemen met een hoog risico die onder de in "
+     },
+     {
+      "op": "del",
+      "text": "afdeling A van "
+     },
+     {
+      "op": "eq",
+      "text": "bijlage I"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "afdeling A, "
+     },
+     {
+      "op": "eq",
+      "text": "vermelde harmonisatiewetgeving van de Unie vallen, volgt de aanbieder "
+     },
+     {
+      "op": "ins",
+      "text": "van het systeem "
+     },
+     {
+      "op": "eq",
+      "text": "de relevante conformiteitsbeoordelingsprocedure zoals vereist volgens "
+     },
+     {
+      "op": "del",
+      "text": "die"
+     },
+     {
+      "op": "ins",
+      "text": "de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "rechtshandelingen"
+     },
+     {
+      "op": "ins",
+      "text": "relevante harmonisatiewetgeving van de Unie"
+     },
+     {
+      "op": "eq",
+      "text": ". De in afdeling 2 van dit hoofdstuk "
+     },
+     {
+      "op": "del",
+      "text": "beschreven"
+     },
+     {
+      "op": "ins",
+      "text": "vastgestelde"
+     },
+     {
+      "op": "eq",
+      "text": " voorschriften zijn van toepassing op die AI-systemen met een hoog risico en maken deel uit van die beoordeling. "
+     },
+     {
+      "op": "del",
+      "text": "De"
+     },
+     {
+      "op": "ins",
+      "text": "Een"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "beoordeling van het in artikel 17 bedoelde kwaliteitsbeheersysteem wordt eveneens uitgevoerd, en de "
+     },
+     {
+      "op": "eq",
+      "text": "punten "
+     },
+     {
+      "op": "ins",
+      "text": "3, "
+     },
+     {
+      "op": "eq",
+      "text": "4.3, 4.4"
+     },
+     {
+      "op": "del",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "en "
+     },
+     {
+      "op": "eq",
+      "text": "4.5"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "punt"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "4.6,"
+     },
+     {
+      "op": "eq",
+      "text": " vijfde alinea"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "van"
+     },
+     {
+      "op": "ins",
+      "text": "en"
+     },
+     {
+      "op": "eq",
+      "text": " punt "
+     },
+     {
+      "op": "del",
+      "text": "4.6"
+     },
+     {
+      "op": "ins",
+      "text": "5"
+     },
+     {
+      "op": "eq",
+      "text": " van bijlage VII zijn "
+     },
+     {
+      "op": "del",
+      "text": "eveneens "
+     },
+     {
+      "op": "eq",
+      "text": "van toepassing. "
+     },
+     {
+      "op": "del",
+      "text": "Voor"
+     },
+     {
+      "op": "ins",
+      "text": "Ten"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "behoeve van "
+     },
+     {
+      "op": "eq",
+      "text": "die "
+     },
+     {
+      "op": "del",
+      "text": "beoordeling"
+     },
+     {
+      "op": "ins",
+      "text": "conformiteitsbeoordeling"
+     },
+     {
+      "op": "eq",
+      "text": " hebben aangemelde instanties die "
+     },
+     {
+      "op": "del",
+      "text": "volgens"
+     },
+     {
+      "op": "ins",
+      "text": "uit"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "die"
+     },
+     {
+      "op": "ins",
+      "text": "hoofde"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "rechtshandelingen"
+     },
+     {
+      "op": "ins",
+      "text": "van"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie "
+     },
+     {
+      "op": "eq",
+      "text": "zijn aangemeld"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "het"
+     },
+     {
+      "op": "ins",
+      "text": "de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "recht"
+     },
+     {
+      "op": "ins",
+      "text": "bevoegdheid"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "om "
+     },
+     {
+      "op": "eq",
+      "text": "de conformiteit van de AI-systemen met een hoog risico "
+     },
+     {
+      "op": "del",
+      "text": "met"
+     },
+     {
+      "op": "ins",
+      "text": "te"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "beoordelen aan "
+     },
+     {
+      "op": "eq",
+      "text": "de "
+     },
+     {
+      "op": "ins",
+      "text": "hand van de "
+     },
+     {
+      "op": "eq",
+      "text": "in afdeling 2 "
+     },
+     {
+      "op": "del",
+      "text": "beschreven"
+     },
+     {
+      "op": "ins",
+      "text": "van"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "voorschriften"
+     },
+     {
+      "op": "ins",
+      "text": "dit"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "te"
+     },
+     {
+      "op": "ins",
+      "text": "hoofdstuk"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "controleren"
+     },
+     {
+      "op": "ins",
+      "text": "vastgestelde voorschriften"
+     },
+     {
+      "op": "eq",
+      "text": ", mits de overeenstemming van die aangemelde instanties met "
+     },
+     {
+      "op": "del",
+      "text": "voorschriften"
+     },
+     {
+      "op": "ins",
+      "text": "de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "van"
+     },
+     {
+      "op": "ins",
+      "text": "in"
+     },
+     {
+      "op": "eq",
+      "text": " artikel 31, leden 4, "
+     },
+     {
+      "op": "ins",
+      "text": "5, "
+     },
+     {
+      "op": "eq",
+      "text": "10 en 11, "
+     },
+     {
+      "op": "ins",
+      "text": "vastgestelde voorschriften is beoordeeld "
+     },
+     {
+      "op": "eq",
+      "text": "in de context van de aanmeldingsprocedure volgens "
+     },
+     {
+      "op": "del",
+      "text": "die"
+     },
+     {
+      "op": "ins",
+      "text": "de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "rechtshandelingen"
+     },
+     {
+      "op": "ins",
+      "text": "relevante"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "is"
+     },
+     {
+      "op": "ins",
+      "text": "harmonisatiewetgeving"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "beoordeeld"
+     },
+     {
+      "op": "ins",
+      "text": "van de Unie, hetgeen blijkt uit de beoordeling als onderdeel van de bestaande aanmelding"
+     },
+     {
+      "op": "eq",
+      "text": ". "
+     },
+     {
+      "op": "del",
+      "text": "Wanneer"
+     },
+     {
+      "op": "ins",
+      "text": "Onverminderd"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "een"
+     },
+     {
+      "op": "ins",
+      "text": "artikel"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "28 dienen dergelijke aangemelde instanties die uit hoofde van de "
+     },
+     {
+      "op": "eq",
+      "text": "in "
+     },
+     {
+      "op": "ins",
+      "text": "bijlage I, "
+     },
+     {
+      "op": "eq",
+      "text": "afdeling A"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "vermelde harmonisatiewetgeving "
+     },
+     {
+      "op": "eq",
+      "text": "van "
+     },
+     {
+      "op": "ins",
+      "text": "de Unie zijn aangemeld, uiterlijk op … [18 maanden na de datum van inwerkingtreding van deze verordening] overeenkomstig afdeling 4 van dit hoofdstuk een aanvraag om aanmelding in. Wanneer de in "
+     },
+     {
+      "op": "eq",
+      "text": "bijlage I"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "afdeling A, "
+     },
+     {
+      "op": "eq",
+      "text": "vermelde "
+     },
+     {
+      "op": "del",
+      "text": "rechtshandeling"
+     },
+     {
+      "op": "ins",
+      "text": "harmonisatiewetgeving"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "van "
+     },
+     {
+      "op": "eq",
+      "text": "de "
+     },
+     {
+      "op": "ins",
+      "text": "Unie de "
+     },
+     {
+      "op": "eq",
+      "text": "productfabrikant "
+     },
+     {
+      "op": "del",
+      "text": "in"
+     },
+     {
+      "op": "ins",
+      "text": "de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "staat"
+     },
+     {
+      "op": "ins",
+      "text": "mogelijkheid"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "stelt"
+     },
+     {
+      "op": "ins",
+      "text": "biedt"
+     },
+     {
+      "op": "eq",
+      "text": " zich te "
+     },
+     {
+      "op": "del",
+      "text": "onttrekken"
+     },
+     {
+      "op": "ins",
+      "text": "baseren"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "aan"
+     },
+     {
+      "op": "ins",
+      "text": "op"
+     },
+     {
+      "op": "eq",
+      "text": " een conformiteitsbeoordeling "
+     },
+     {
+      "op": "del",
+      "text": "door"
+     },
+     {
+      "op": "ins",
+      "text": "waarbij"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "een"
+     },
+     {
+      "op": "ins",
+      "text": "geen"
+     },
+     {
+      "op": "eq",
+      "text": " derde partij"
+     },
+     {
+      "op": "ins",
+      "text": " betrokken is"
+     },
+     {
+      "op": "eq",
+      "text": ", mits die fabrikant "
+     },
+     {
+      "op": "del",
+      "text": "alle "
+     },
+     {
+      "op": "eq",
+      "text": "geharmoniseerde normen "
+     },
+     {
+      "op": "del",
+      "text": "voor"
+     },
+     {
+      "op": "ins",
+      "text": "heeft"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "toegepast om de naleving van "
+     },
+     {
+      "op": "eq",
+      "text": "alle relevante voorschriften "
+     },
+     {
+      "op": "del",
+      "text": "heeft"
+     },
+     {
+      "op": "ins",
+      "text": "te"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "toegepast"
+     },
+     {
+      "op": "ins",
+      "text": "waarborgen"
+     },
+     {
+      "op": "eq",
+      "text": ", kan "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "die"
+     },
+     {
+      "op": "eq",
+      "text": " fabrikant alleen van die mogelijkheid gebruikmaken als hij ook geharmoniseerde normen of"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " in voorkomend geval"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " gemeenschappelijke specificaties als bedoeld in artikel 41 heeft toegepast"
+     },
+     {
+      "op": "del",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " voor alle in afdeling 2 van dit hoofdstuk "
+     },
+     {
+      "op": "del",
+      "text": "beschreven"
+     },
+     {
+      "op": "ins",
+      "text": "vastgestelde"
+     },
+     {
+      "op": "eq",
+      "text": " voorschriften."
+     },
+     {
+      "op": "ins",
+      "text": " De classificatie van een product als AI-systeem met een hoog risico overeenkomstig artikel 6, lid 1, heeft geen invloed op de keuze van de conformiteitsbeoordelingsprocedure die ter beschikking wordt gesteld aan fabrikanten van producten die vallen onder in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie, met inbegrip van, in voorkomend geval, de mogelijkheid om gebruik te maken van geharmoniseerde normen. De fabrikanten van dergelijke producten zijn niet verplicht te kiezen voor een conformiteitsbeoordelingsprocedure die een conformiteitsbeoordeling door derden omvat uitsluitend omdat het product een AI-systeem met een hoog risico als veiligheidscomponent bevat, als dit niet vereist is door de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie. Voor AI-systemen met een hoog risico die zowel onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, als onder één van de in bijlage III genoemde categorieën, volgt de aanbieder van dat systeem de relevante conformiteitsbeoordelingsprocedure zoals vereist uit hoofde van de relevante in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Voor AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, volgt de aanbieder van het systeem de relevante conformiteitsbeoordelingsprocedure zoals vereist volgens de relevante harmonisatiewetgeving van de Unie. De in afdeling 2 van dit hoofdstuk vastgestelde voorschriften zijn van toepassing op die AI-systemen met een hoog risico en maken deel uit van die beoordeling. Een beoordeling van het in artikel 17 bedoelde kwaliteitsbeheersysteem wordt eveneens uitgevoerd, en de punten 3, 4.3, 4.4 en 4.5, punt 4.6, vijfde alinea, en punt 5 van bijlage VII zijn van toepassing."
+     },
+     {
+      "type": "text",
+      "text": "Ten behoeve van die conformiteitsbeoordeling hebben aangemelde instanties die uit hoofde van de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie zijn aangemeld, de bevoegdheid om de conformiteit van de AI-systemen met een hoog risico te beoordelen aan de hand van de in afdeling 2 van dit hoofdstuk vastgestelde voorschriften, mits de overeenstemming van die aangemelde instanties met de in artikel 31, leden 4, 5, 10 en 11, vastgestelde voorschriften is beoordeeld in de context van de aanmeldingsprocedure volgens de relevante harmonisatiewetgeving van de Unie, hetgeen blijkt uit de beoordeling als onderdeel van de bestaande aanmelding. Onverminderd artikel 28 dienen dergelijke aangemelde instanties die uit hoofde van de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie zijn aangemeld, uiterlijk op … [18 maanden na de datum van inwerkingtreding van deze verordening] overeenkomstig afdeling 4 van dit hoofdstuk een aanvraag om aanmelding in."
+     },
+     {
+      "type": "text",
+      "text": "Wanneer de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie de productfabrikant de mogelijkheid biedt zich te baseren op een conformiteitsbeoordeling waarbij geen derde partij betrokken is, mits die fabrikant geharmoniseerde normen heeft toegepast om de naleving van alle relevante voorschriften te waarborgen, kan die fabrikant alleen van die mogelijkheid gebruikmaken als hij ook geharmoniseerde normen of, in voorkomend geval, gemeenschappelijke specificaties als bedoeld in artikel 41 heeft toegepast voor alle in afdeling 2 van dit hoofdstuk vastgestelde voorschriften. De classificatie van een product als AI-systeem met een hoog risico overeenkomstig artikel 6, lid 1, heeft geen invloed op de keuze van de conformiteitsbeoordelingsprocedure die ter beschikking wordt gesteld aan fabrikanten van producten die vallen onder in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie, met inbegrip van, in voorkomend geval, de mogelijkheid om gebruik te maken van geharmoniseerde normen. De fabrikanten van dergelijke producten zijn niet verplicht te kiezen voor een conformiteitsbeoordelingsprocedure die een conformiteitsbeoordeling door derden omvat uitsluitend omdat het product een AI-systeem met een hoog risico als veiligheidscomponent bevat, als dit niet vereist is door de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie."
+     },
+     {
+      "type": "text",
+      "text": "Voor AI-systemen met een hoog risico die zowel onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, als onder één van de in bijlage III genoemde categorieën, volgt de aanbieder van dat systeem de relevante conformiteitsbeoordelingsprocedure zoals vereist uit hoofde van de relevante in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie."
+     }
+    ],
+    "seq": [
+     19
+    ]
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "50": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-7",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "del",
+      "text": "Het"
+     },
+     {
+      "op": "ins",
+      "text": "De"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "AI-bureau"
+     },
+     {
+      "op": "ins",
+      "text": "Commissie"
+     },
+     {
+      "op": "eq",
+      "text": " stimuleert en faciliteert de opstelling van praktijkcodes op het niveau van de Unie om de doeltreffende uitvoering van de verplichtingen met betrekking tot "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "het"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "opsporing"
+     },
+     {
+      "op": "ins",
+      "text": "opsporen,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "markeren "
+     },
+     {
+      "op": "eq",
+      "text": "en "
+     },
+     {
+      "op": "del",
+      "text": "het "
+     },
+     {
+      "op": "eq",
+      "text": "labelen van kunstmatig gegenereerde of "
+     },
+     {
+      "op": "del",
+      "text": "bewerkte"
+     },
+     {
+      "op": "ins",
+      "text": "gemanipuleerde"
+     },
+     {
+      "op": "eq",
+      "text": " content te vergemakkelijken. De Commissie"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "kan"
+     },
+     {
+      "op": "ins",
+      "text": "die"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "uitvoeringshandelingen"
+     },
+     {
+      "op": "ins",
+      "text": "zoveel"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "vaststellen"
+     },
+     {
+      "op": "ins",
+      "text": "mogelijk"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "om"
+     },
+     {
+      "op": "ins",
+      "text": "rekening"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "houdt met het advies van de AI-board, beoordeelt of de naleving van "
+     },
+     {
+      "op": "eq",
+      "text": "die praktijkcodes "
+     },
+     {
+      "op": "del",
+      "text": "overeenkomstig"
+     },
+     {
+      "op": "ins",
+      "text": "toereikend"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "is om te voldoen aan "
+     },
+     {
+      "op": "eq",
+      "text": "de "
+     },
+     {
+      "op": "del",
+      "text": "procedure"
+     },
+     {
+      "op": "ins",
+      "text": "in"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "de leden 2 en 4 "
+     },
+     {
+      "op": "eq",
+      "text": "van "
+     },
+     {
+      "op": "ins",
+      "text": "dit "
+     },
+     {
+      "op": "eq",
+      "text": "artikel "
+     },
+     {
+      "op": "ins",
+      "text": "bedoelde verplichtingen, overeenkomstig de in artikel "
+     },
+     {
+      "op": "eq",
+      "text": "56, lid 6, "
+     },
+     {
+      "op": "del",
+      "text": "goed"
+     },
+     {
+      "op": "ins",
+      "text": "uiteengezette"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "te keuren"
+     },
+     {
+      "op": "ins",
+      "text": "procedure"
+     },
+     {
+      "op": "eq",
+      "text": ". Indien zij de "
+     },
+     {
+      "op": "del",
+      "text": "code"
+     },
+     {
+      "op": "ins",
+      "text": "praktijkcode"
+     },
+     {
+      "op": "eq",
+      "text": " ontoereikend acht, kan de Commissie "
+     },
+     {
+      "op": "del",
+      "text": "volgens"
+     },
+     {
+      "op": "ins",
+      "text": "overeenkomstig"
+     },
+     {
+      "op": "eq",
+      "text": " de onderzoeksprocedure van artikel 98, lid 2, een uitvoeringshandeling vaststellen waarin gemeenschappelijke regels voor de uitvoering van die verplichtingen worden gespecificeerd."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De Commissie stimuleert en faciliteert de opstelling van praktijkcodes op het niveau van de Unie om de doeltreffende uitvoering van de verplichtingen met betrekking tot het opsporen, markeren en labelen van kunstmatig gegenereerde of gemanipuleerde content te vergemakkelijken. De Commissie, die zoveel mogelijk rekening houdt met het advies van de AI-board, beoordeelt of de naleving van die praktijkcodes toereikend is om te voldoen aan de in de leden 2 en 4 van dit artikel bedoelde verplichtingen, overeenkomstig de in artikel 56, lid 6, uiteengezette procedure. Indien zij de praktijkcode ontoereikend acht, kan de Commissie overeenkomstig de onderzoeksprocedure van artikel 98, lid 2, een uitvoeringshandeling vaststellen waarin gemeenschappelijke regels voor de uitvoering van die verplichtingen worden gespecificeerd."
+     }
+    ],
+    "seq": [
+     20
+    ]
+   }
+  ],
+  "56": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "del",
+      "text": "Het"
+     },
+     {
+      "op": "ins",
+      "text": "De"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "AI-bureau"
+     },
+     {
+      "op": "ins",
+      "text": "Commissie"
+     },
+     {
+      "op": "eq",
+      "text": " en de AI-board monitoren en evalueren regelmatig of de deelnemers de doelstellingen van de praktijkcodes verwezenlijken en bijdragen aan de correcte toepassing van deze verordening. "
+     },
+     {
+      "op": "del",
+      "text": "Het"
+     },
+     {
+      "op": "ins",
+      "text": "De"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "AI-bureau"
+     },
+     {
+      "op": "ins",
+      "text": "Commissie,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "die"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "zoveel mogelijk rekening houdt met het advies van "
+     },
+     {
+      "op": "eq",
+      "text": "de AI-board"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "beoordelen"
+     },
+     {
+      "op": "ins",
+      "text": "beoordeelt"
+     },
+     {
+      "op": "eq",
+      "text": " of de praktijkcodes betrekking hebben op de verplichtingen van de artikelen 53 en 55, en "
+     },
+     {
+      "op": "del",
+      "text": "monitoren"
+     },
+     {
+      "op": "ins",
+      "text": "monitort"
+     },
+     {
+      "op": "eq",
+      "text": " en "
+     },
+     {
+      "op": "del",
+      "text": "evalueren"
+     },
+     {
+      "op": "ins",
+      "text": "evalueert"
+     },
+     {
+      "op": "eq",
+      "text": " regelmatig of de doelstellingen daarvan worden verwezenlijkt. "
+     },
+     {
+      "op": "del",
+      "text": "Zij"
+     },
+     {
+      "op": "ins",
+      "text": "De"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "maken"
+     },
+     {
+      "op": "ins",
+      "text": "Commissie"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "hun"
+     },
+     {
+      "op": "ins",
+      "text": "publiceert"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "haar "
+     },
+     {
+      "op": "eq",
+      "text": "beoordeling of de praktijkcodes toereikend zijn"
+     },
+     {
+      "op": "del",
+      "text": " bekend"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     },
+     {
+      "op": "del",
+      "text": " De Commissie kan door middel van een uitvoeringshandeling een praktijkcode goedkeuren en deze binnen de Unie een algemene geldigheid verlenen. Die uitvoeringshandeling wordt vastgesteld volgens de in artikel 98, lid 2, bedoelde onderzoeksprocedure."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De Commissie en de AI-board monitoren en evalueren regelmatig of de deelnemers de doelstellingen van de praktijkcodes verwezenlijken en bijdragen aan de correcte toepassing van deze verordening. De Commissie, die zoveel mogelijk rekening houdt met het advies van de AI-board, beoordeelt of de praktijkcodes betrekking hebben op de verplichtingen van de artikelen 53 en 55, en monitort en evalueert regelmatig of de doelstellingen daarvan worden verwezenlijkt. De Commissie publiceert haar beoordeling of de praktijkcodes toereikend zijn."
+     }
+    ],
+    "seq": [
+     21
+    ]
+   },
+   {
+    "anchor": "lid-7",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-8",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-9",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "57": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "De lidstaten zorgen ervoor dat hun bevoegde autoriteiten ten minste één AI-testomgeving voor regelgeving op nationaal niveau opzetten, die uiterlijk op 2 augustus "
+     },
+     {
+      "op": "del",
+      "text": "2026"
+     },
+     {
+      "op": "ins",
+      "text": "2027"
+     },
+     {
+      "op": "eq",
+      "text": " operationeel is. Die testomgeving kan ook samen met de bevoegde autoriteiten van andere lidstaten worden opgezet. De Commissie kan technische ondersteuning"
+     },
+     {
+      "op": "del",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "en "
+     },
+     {
+      "op": "eq",
+      "text": "advies en instrumenten verstrekken voor de oprichting en werking van AI-testomgevingen voor regelgeving. Aan de verplichting uit hoofde van de eerste alinea kan ook worden voldaan door deel te nemen aan een bestaande testomgeving, voor zover die deelname de deelnemende lidstaten een gelijkwaardig niveau van nationale dekking biedt."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De lidstaten zorgen ervoor dat hun bevoegde autoriteiten ten minste één AI-testomgeving voor regelgeving op nationaal niveau opzetten, die uiterlijk op 2 augustus 2027 operationeel is. Die testomgeving kan ook samen met de bevoegde autoriteiten van andere lidstaten worden opgezet. De Commissie kan technische ondersteuning en advies en instrumenten verstrekken voor de oprichting en werking van AI-testomgevingen voor regelgeving."
+     },
+     {
+      "type": "text",
+      "text": "Aan de verplichting uit hoofde van de eerste alinea kan ook worden voldaan door deel te nemen aan een bestaande testomgeving, voor zover die deelname de deelnemende lidstaten een gelijkwaardig niveau van nationale dekking biedt."
+     }
+    ],
+    "seq": [
+     22
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "De Europese Toezichthouder voor gegevensbescherming kan "
+     },
+     {
+      "op": "del",
+      "text": "ook "
+     },
+     {
+      "op": "eq",
+      "text": "een AI-testomgeving voor regelgeving opzetten voor de instellingen, organen en instanties van de Unie"
+     },
+     {
+      "op": "del",
+      "text": ","
+     },
+     {
+      "op": "ins",
+      "text": "."
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "Daartoe"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "kan"
+     },
+     {
+      "op": "ins",
+      "text": "gelden"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "verwijzingen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "rollen"
+     },
+     {
+      "op": "ins",
+      "text": "naar"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en taken van de "
+     },
+     {
+      "op": "eq",
+      "text": "nationale bevoegde autoriteiten "
+     },
+     {
+      "op": "del",
+      "text": "overeenkomstig"
+     },
+     {
+      "op": "ins",
+      "text": "in"
+     },
+     {
+      "op": "eq",
+      "text": " dit hoofdstuk "
+     },
+     {
+      "op": "del",
+      "text": "uitoefenen"
+     },
+     {
+      "op": "ins",
+      "text": "als verwijzingen naar de Europese Toezichthouder voor gegevensbescherming"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De Europese Toezichthouder voor gegevensbescherming kan een AI-testomgeving voor regelgeving opzetten voor de instellingen, organen en instanties van de Unie. Daartoe gelden verwijzingen naar nationale bevoegde autoriteiten in dit hoofdstuk als verwijzingen naar de Europese Toezichthouder voor gegevensbescherming."
+     }
+    ],
+    "seq": [
+     22
+    ]
+   },
+   {
+    "anchor": "lid-3bis",
+    "status": "inserted",
+    "displayNumber": "3 bis",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Het AI-bureau kan een AI-testomgeving voor regelgeving op Unieniveau opzetten voor AI-systemen die onder artikel 75, lid 1, vallen. Daartoe gelden verwijzingen naar nationale bevoegde autoriteiten in dit hoofdstuk in voorkomend geval als verwijzingen naar het AI-bureau. Die AI-testomgeving voor regelgeving wordt uitgevoerd in nauwe samenwerking met de relevante bevoegde autoriteiten, met name wanneer in deze AI-testomgeving voor regelgeving wordt toegezien op de naleving van andere dan in deze verordening bedoelde Uniewetgeving, en biedt prioritaire toegang aan kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen. De oprichting van een AI-testomgeving voor regelgeving op Unieniveau door het AI-bureau doet geen afbreuk aan de bevoegdheden van de lidstaten om AI-testomgevingen voor regelgeving op te richten voor AI-systemen die onder hun toezicht staan, en toezicht te houden op deze testomgevingen."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Het AI-bureau kan een AI-testomgeving voor regelgeving op Unieniveau opzetten voor AI-systemen die onder artikel 75, lid 1, vallen. Daartoe gelden verwijzingen naar nationale bevoegde autoriteiten in dit hoofdstuk in voorkomend geval als verwijzingen naar het AI-bureau. Die AI-testomgeving voor regelgeving wordt uitgevoerd in nauwe samenwerking met de relevante bevoegde autoriteiten, met name wanneer in deze AI-testomgeving voor regelgeving wordt toegezien op de naleving van andere dan in deze verordening bedoelde Uniewetgeving, en biedt prioritaire toegang aan kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen."
+     },
+     {
+      "type": "text",
+      "text": "De oprichting van een AI-testomgeving voor regelgeving op Unieniveau door het AI-bureau doet geen afbreuk aan de bevoegdheden van de lidstaten om AI-testomgevingen voor regelgeving op te richten voor AI-systemen die onder hun toezicht staan, en toezicht te houden op deze testomgevingen."
+     }
+    ],
+    "seq": [
+     22
+    ]
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Uit hoofde van "
+     },
+     {
+      "op": "del",
+      "text": "lid"
+     },
+     {
+      "op": "ins",
+      "text": "dit"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "1"
+     },
+     {
+      "op": "ins",
+      "text": "artikel"
+     },
+     {
+      "op": "eq",
+      "text": " opgerichte AI-testomgevingen voor regelgeving "
+     },
+     {
+      "op": "del",
+      "text": "voorzien"
+     },
+     {
+      "op": "ins",
+      "text": "bieden"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "in "
+     },
+     {
+      "op": "eq",
+      "text": "een gecontroleerde omgeving ter bevordering van innovatie en ter vergemakkelijking van het ontwikkelen, trainen, testen en valideren van innovatieve AI-systemen, volgens een specifiek, tussen de aanbieders of potentiële aanbieders en de bevoegde "
+     },
+     {
+      "op": "del",
+      "text": "autoriteit"
+     },
+     {
+      "op": "ins",
+      "text": "autoriteiten"
+     },
+     {
+      "op": "eq",
+      "text": " overeengekomen testomgevingsplan, voor een beperkte duur voordat zij in de handel worden gebracht of in gebruik worden gesteld"
+     },
+     {
+      "op": "ins",
+      "text": ", waarbij er wordt gezorgd voor passende waarborgen"
+     },
+     {
+      "op": "eq",
+      "text": ". Dergelijke testomgevingen kunnen inhouden dat er "
+     },
+     {
+      "op": "ins",
+      "text": "testen "
+     },
+     {
+      "op": "eq",
+      "text": "onder reële omstandigheden wordt getest onder toezicht"
+     },
+     {
+      "op": "ins",
+      "text": "."
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "binnen"
+     },
+     {
+      "op": "ins",
+      "text": "In"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "voorkomend geval bevat het testomgevingsplan het in "
+     },
+     {
+      "op": "eq",
+      "text": "de "
+     },
+     {
+      "op": "del",
+      "text": "testomgeving"
+     },
+     {
+      "op": "ins",
+      "text": "artikelen 60 en 60 bis bedoelde plan voor testen onder reële omstandigheden"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Uit hoofde van dit artikel opgerichte AI-testomgevingen voor regelgeving bieden een gecontroleerde omgeving ter bevordering van innovatie en ter vergemakkelijking van het ontwikkelen, trainen, testen en valideren van innovatieve AI-systemen, volgens een specifiek, tussen de aanbieders of potentiële aanbieders en de bevoegde autoriteiten overeengekomen testomgevingsplan, voor een beperkte duur voordat zij in de handel worden gebracht of in gebruik worden gesteld, waarbij er wordt gezorgd voor passende waarborgen. Dergelijke testomgevingen kunnen inhouden dat er testen onder reële omstandigheden wordt getest onder toezicht. In voorkomend geval bevat het testomgevingsplan het in de artikelen 60 en 60 bis bedoelde plan voor testen onder reële omstandigheden."
+     }
+    ],
+    "seq": [
+     22
+    ]
+   },
+   {
+    "anchor": "lid-6",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-7",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-8",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-9",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Het opzetten van AI-testomgevingen voor regelgeving is erop gericht bij te dragen aan de volgende doelstellingen: a) het verbeteren van de rechtszekerheid met betrekking tot het bereiken van naleving van deze verordening of, in voorkomend geval, van ander toepasselijk Unie- en nationaal recht; b) ondersteunen van de uitwisseling van beste praktijken door middel van samenwerking met de autoriteiten die betrokken zijn bij de AI-testomgeving voor regelgeving; c) bevorderen van innovatie en concurrentievermogen en faciliteren van de ontwikkeling van een AI-ecosysteem; d) bijdragen aan empirisch onderbouwd leren op het gebied van regelgeving; e) vergemakkelijken en versnellen van de toegang tot de markt van de Unie voor AI-systemen, met name wanneer ze worden aangeboden door kmo"
+     },
+     {
+      "op": "del",
+      "text": "'"
+     },
+     {
+      "op": "ins",
+      "text": "’"
+     },
+     {
+      "op": "eq",
+      "text": "s, met inbegrip van start-ups"
+     },
+     {
+      "op": "ins",
+      "text": ", en kleine midcapondernemingen"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Het opzetten van AI-testomgevingen voor regelgeving is erop gericht bij te dragen aan de volgende doelstellingen:"
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "het verbeteren van de rechtszekerheid met betrekking tot het bereiken van naleving van deze verordening of, in voorkomend geval, van ander toepasselijk Unie- en nationaal recht;"
+         }
+        ],
+        "anchor": "lid-9-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "ondersteunen van de uitwisseling van beste praktijken door middel van samenwerking met de autoriteiten die betrokken zijn bij de AI-testomgeving voor regelgeving;"
+         }
+        ],
+        "anchor": "lid-9-b"
+       },
+       {
+        "marker": "c)",
+        "content": [
+         {
+          "type": "text",
+          "text": "bevorderen van innovatie en concurrentievermogen en faciliteren van de ontwikkeling van een AI-ecosysteem;"
+         }
+        ],
+        "anchor": "lid-9-c"
+       },
+       {
+        "marker": "d)",
+        "content": [
+         {
+          "type": "text",
+          "text": "bijdragen aan empirisch onderbouwd leren op het gebied van regelgeving;"
+         }
+        ],
+        "anchor": "lid-9-d"
+       },
+       {
+        "marker": "e)",
+        "content": [
+         {
+          "type": "text",
+          "text": "vergemakkelijken en versnellen van de toegang tot de markt van de Unie voor AI-systemen, met name wanneer ze worden aangeboden door kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen."
+         }
+        ],
+        "anchor": "lid-9-e"
+       }
+      ]
+     }
+    ],
+    "seq": [
+     22
+    ]
+   },
+   {
+    "anchor": "lid-10",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "De nationale bevoegde autoriteiten zorgen ervoor dat voor zover de innovatieve AI-systemen betrekking hebben op de verwerking van persoonsgegevens of anderszins onder het toezicht van andere nationale autoriteiten of bevoegde autoriteiten vallen"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " die toegang tot gegevens verstrekken of ondersteunen, de "
+     },
+     {
+      "op": "del",
+      "text": "nationale"
+     },
+     {
+      "op": "ins",
+      "text": "bevoegde"
+     },
+     {
+      "op": "eq",
+      "text": " gegevensbeschermingsautoriteiten en die andere nationale of bevoegde autoriteiten betrokken zijn bij de werking van de AI-testomgeving voor regelgeving en bij het toezicht op de aspecten die onder hun respectieve taken en bevoegdheden vallen."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De nationale bevoegde autoriteiten zorgen ervoor dat voor zover de innovatieve AI-systemen betrekking hebben op de verwerking van persoonsgegevens of anderszins onder het toezicht van andere nationale autoriteiten of bevoegde autoriteiten vallen, die toegang tot gegevens verstrekken of ondersteunen, de bevoegde gegevensbeschermingsautoriteiten en die andere nationale of bevoegde autoriteiten betrokken zijn bij de werking van de AI-testomgeving voor regelgeving en bij het toezicht op de aspecten die onder hun respectieve taken en bevoegdheden vallen."
+     }
+    ],
+    "seq": [
+     22
+    ]
+   },
+   {
+    "anchor": "lid-11",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-12",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-13",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-14",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "De nationale bevoegde autoriteiten"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "de Europese Toezichthouder voor gegevensbescherming en het AI-bureau "
+     },
+     {
+      "op": "eq",
+      "text": "coördineren"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "waar passend en binnen "
+     },
+     {
+      "op": "eq",
+      "text": "hun "
+     },
+     {
+      "op": "ins",
+      "text": "bevoegdheden, hun "
+     },
+     {
+      "op": "eq",
+      "text": "activiteiten en werken samen binnen het kader van de AI-board."
+     },
+     {
+      "op": "ins",
+      "text": " Zij kunnen de gezamenlijke oprichting en werking van AI-testomgevingen voor regelgeving ondersteunen, onder meer in verschillende sectoren, en beste praktijken over aanverwante kwesties uitwisselen."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De nationale bevoegde autoriteiten, de Europese Toezichthouder voor gegevensbescherming en het AI-bureau coördineren, waar passend en binnen hun bevoegdheden, hun activiteiten en werken samen binnen het kader van de AI-board. Zij kunnen de gezamenlijke oprichting en werking van AI-testomgevingen voor regelgeving ondersteunen, onder meer in verschillende sectoren, en beste praktijken over aanverwante kwesties uitwisselen."
+     }
+    ],
+    "seq": [
+     22
+    ]
+   },
+   {
+    "anchor": "lid-15",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-16",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-17",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "58": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Om versnippering in de Unie te voorkomen, stelt de Commissie uitvoeringshandelingen vast waarin de gedetailleerde regelingen worden gespecificeerd voor de "
+     },
+     {
+      "op": "del",
+      "text": "instelling"
+     },
+     {
+      "op": "ins",
+      "text": "oprichting"
+     },
+     {
+      "op": "eq",
+      "text": ", "
+     },
+     {
+      "op": "del",
+      "text": "de "
+     },
+     {
+      "op": "eq",
+      "text": "ontwikkeling, "
+     },
+     {
+      "op": "del",
+      "text": "de "
+     },
+     {
+      "op": "eq",
+      "text": "uitvoering"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "werking "
+     },
+     {
+      "op": "eq",
+      "text": "en "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "governance"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "werking "
+     },
+     {
+      "op": "eq",
+      "text": "van "
+     },
+     {
+      "op": "ins",
+      "text": "en het toezicht op "
+     },
+     {
+      "op": "eq",
+      "text": "AI-testomgevingen voor regelgeving"
+     },
+     {
+      "op": "del",
+      "text": " en voor het toezicht erop"
+     },
+     {
+      "op": "eq",
+      "text": ". De uitvoeringshandelingen bevatten gemeenschappelijke beginselen met betrekking tot de volgende punten: a) toelatings- en selectiecriteria voor deelname aan de AI-testomgeving voor regelgeving; b) procedures voor de toepassing, deelname, monitoring, uittreding uit en beëindiging van de AI-testomgeving voor regelgeving, met inbegrip van het testomgevingsplan en het eindverslag; c) de voor de deelnemers geldende voorwaarden. "
+     },
+     {
+      "op": "ins",
+      "text": "d) de gedetailleerde regels die van toepassing zijn op de governance van AI-testomgevingen voor regelgeving uit hoofde van artikel 57, onder meer met betrekking tot de betrokkenheid van en het toezicht door de bevoegde gegevensbeschermingsautoriteiten, in voorkomend geval, en de coördinatie en samenwerking op nationaal en Unieniveau. "
+     },
+     {
+      "op": "eq",
+      "text": "Die uitvoeringshandelingen worden vastgesteld volgens de in artikel 98, lid 2, bedoelde onderzoeksprocedure."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Om versnippering in de Unie te voorkomen, stelt de Commissie uitvoeringshandelingen vast waarin de gedetailleerde regelingen worden gespecificeerd voor de oprichting, ontwikkeling, uitvoering, werking en governance van en het toezicht op AI-testomgevingen voor regelgeving. De uitvoeringshandelingen bevatten gemeenschappelijke beginselen met betrekking tot de volgende punten:"
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "toelatings- en selectiecriteria voor deelname aan de AI-testomgeving voor regelgeving;"
+         }
+        ],
+        "anchor": "lid-1-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "procedures voor de toepassing, deelname, monitoring, uittreding uit en beëindiging van de AI-testomgeving voor regelgeving, met inbegrip van het testomgevingsplan en het eindverslag;"
+         }
+        ],
+        "anchor": "lid-1-b"
+       },
+       {
+        "marker": "c)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de voor de deelnemers geldende voorwaarden."
+         }
+        ],
+        "anchor": "lid-1-c"
+       },
+       {
+        "marker": "d)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de gedetailleerde regels die van toepassing zijn op de governance van AI-testomgevingen voor regelgeving uit hoofde van artikel 57, onder meer met betrekking tot de betrokkenheid van en het toezicht door de bevoegde gegevensbeschermingsautoriteiten, in voorkomend geval, en de coördinatie en samenwerking op nationaal en Unieniveau."
+         }
+        ],
+        "anchor": "lid-1-d"
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Die uitvoeringshandelingen worden vastgesteld volgens de in artikel 98, lid 2, bedoelde onderzoeksprocedure.",
+      "refs": [
+       {
+        "start": 60,
+        "end": 77,
+        "href": "/artikel/98#lid-2"
+       }
+      ]
+     }
+    ],
+    "seq": [
+     23
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "60": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "AI-systemen met een hoog risico kunnen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving worden getest door aanbieders of potentiële aanbieders van in bijlage III vermelde AI-systemen met een hoog risico "
+     },
+     {
+      "op": "ins",
+      "text": "of van AI-systemen met een hoog risico die onder de "
+     },
+     {
+      "op": "eq",
+      "text": "in "
+     },
+     {
+      "op": "ins",
+      "text": "bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, in "
+     },
+     {
+      "op": "eq",
+      "text": "overeenstemming met dit artikel en het in dit artikel bedoelde plan voor "
+     },
+     {
+      "op": "del",
+      "text": "tests"
+     },
+     {
+      "op": "ins",
+      "text": "testen"
+     },
+     {
+      "op": "eq",
+      "text": " onder reële omstandigheden, onverminderd de verbodsbepalingen krachtens artikel 5. De Commissie specificeert, door middel van uitvoeringshandelingen, de precieze onderdelen van het plan voor tests onder reële omstandigheden. Die uitvoeringshandelingen worden vastgesteld volgens de in artikel 98, lid 2, bedoelde onderzoeksprocedure. Dit lid doet geen afbreuk aan Unie- of nationale wetgeving voor het testen onder reële omstandigheden van AI-systemen met een hoog risico die verband houden met producten die onder de in bijlage I vermelde harmonisatiewetgeving van de Unie vallen."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "AI-systemen met een hoog risico kunnen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving worden getest door aanbieders of potentiële aanbieders van in bijlage III vermelde AI-systemen met een hoog risico of van AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, in overeenstemming met dit artikel en het in dit artikel bedoelde plan voor testen onder reële omstandigheden, onverminderd de verbodsbepalingen krachtens artikel 5."
+     },
+     {
+      "type": "text",
+      "text": "De Commissie specificeert, door middel van uitvoeringshandelingen, de precieze onderdelen van het plan voor tests onder reële omstandigheden. Die uitvoeringshandelingen worden vastgesteld volgens de in artikel 98, lid 2, bedoelde onderzoeksprocedure."
+     },
+     {
+      "type": "text",
+      "text": "Dit lid doet geen afbreuk aan Unie- of nationale wetgeving voor het testen onder reële omstandigheden van AI-systemen met een hoog risico die verband houden met producten die onder de in bijlage I vermelde harmonisatiewetgeving van de Unie vallen."
+     }
+    ],
+    "seq": [
+     24
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Aanbieders of potentiële aanbieders kunnen zelf of in samenwerking met een of meer gebruiksverantwoordelijken of potentiële gebruiksverantwoordelijken onder reële omstandigheden tests uitvoeren op in bijlage III bedoelde AI-systemen met een hoog risico "
+     },
+     {
+      "op": "ins",
+      "text": "of AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, "
+     },
+     {
+      "op": "eq",
+      "text": "op elk moment vóór het in de handel brengen of in gebruik "
+     },
+     {
+      "op": "del",
+      "text": "nemen"
+     },
+     {
+      "op": "ins",
+      "text": "stellen"
+     },
+     {
+      "op": "eq",
+      "text": " van het AI-systeem"
+     },
+     {
+      "op": "ins",
+      "text": " met een hoog risico"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Aanbieders of potentiële aanbieders kunnen zelf of in samenwerking met een of meer gebruiksverantwoordelijken of potentiële gebruiksverantwoordelijken onder reële omstandigheden tests uitvoeren op in bijlage III bedoelde AI-systemen met een hoog risico of AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, op elk moment vóór het in de handel brengen of in gebruik stellen van het AI-systeem met een hoog risico."
+     }
+    ],
+    "seq": [
+     24
+    ]
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-7",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-8",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-9",
+    "status": "unchanged",
+    "seq": []
+   }
   ]
  },
  "annexes": {}

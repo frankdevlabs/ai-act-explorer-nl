@@ -779,6 +779,350 @@
           "text": "De Commissie is bevoegd overeenkomstig artikel 97 gedelegeerde handelingen vast te stellen om bijlage XIV te wijzigen in het licht van de technische vooruitgang, voortschrijdende kennis of nieuw wetenschappelijk bewijs, door aan de lijst met codes, categorieën en overeenkomstige soorten AI-systemen, een nieuwe code, nieuwe categorie of nieuw soort AI-systeem toe te voegen, een bestaande code, bestaande categorie of bestaande soort AI-systeem van de lijst te schrappen, of een code of soort AI-systeem van de ene naar de andere categorie te verplaatsen."
         }
       ]
+    },
+    {
+      "seq": 17,
+      "target": {
+        "article": "40"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-2",
+        "description": "aan artikel 40, lid 2, wordt de volgende alinea toegevoegd (PE-CONS 30/26, blz. 56)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Overeenkomstig artikel 10 van Verordening (EU) nr. 1025/2012 dient de Commissie zonder onnodige vertraging normalisatieverzoeken in die betrekking hebben op alle eisen van afdeling 2 van dit hoofdstuk en, in voorkomend geval, normalisatieverzoeken die betrekking hebben op verplichtingen van hoofdstuk V, afdelingen 2 en 3, van deze verordening. In het normalisatieverzoek wordt ook gevraagd om producten met betrekking tot rapporterings- en documentatieprocessen om de prestaties van hulpbronnen van AI-systemen te verbeteren, zoals het verminderen van het energieverbruik en het verbruik van andere hulpbronnen van AI-systemen met een hoog risico tijdens de levenscyclus ervan, en met betrekking tot de energie-efficiënte ontwikkeling van AI-modellen voor algemene doeleinden. Bij het opstellen van een normalisatieverzoek raadpleegt de Commissie de AI-board en de relevante belanghebbenden, met inbegrip van het adviesforum."
+        },
+        {
+          "type": "text",
+          "text": "Bij het richten van een normalisatieverzoek aan Europese normalisatie-instellingen specificeert de Commissie dat normen duidelijk en consistent moeten zijn, met inbegrip van de normen die in de verschillende sectoren ontwikkeld zijn voor producten die onder de in bijlage I vermelde bestaande harmonisatiewetgeving van de Unie vallen, en tot doel hebben ervoor te zorgen dat AI-systemen met een hoog risico of AI-modellen voor algemene doeleinden die in de Unie in de handel worden gebracht of in gebruik worden gesteld, voldoen aan de relevante eisen of verplichtingen van deze verordening."
+        },
+        {
+          "type": "text",
+          "text": "De Commissie verzoekt de Europese normalisatieorganisaties aan te tonen dat zij alles in het werk stellen om de in de eerste en tweede alinea van dit lid bedoelde doelstellingen te verwezenlijken overeenkomstig artikel 24 van Verordening (EU) nr. 1025/2012."
+        },
+        {
+          "type": "text",
+          "text": "De Commissie verzoekt de Europese normalisatieorganisaties overeenkomstig Verordening (EU) nr. 1025/2012 van het Europees Parlement en de Raad en zonder onnodige vertraging normalisatieproducten te ontwikkelen, met inbegrip van, waar passend, geharmoniseerde normen, om gezamenlijke naleving en het vermoeden van conformiteit met de eisen of verplichtingen die zijn vastgesteld in hoofdstuk III, afdelingen 2 en 3, van deze verordening, en met de desbetreffende eisen en verplichtingen die zijn vastgesteld in de in bijlage I bij deze verordening vermelde harmonisatiewetgeving van de Unie te vergemakkelijken."
+        }
+      ],
+      "note": "Toegevoegde alinea; de eerste drie alinea's zijn ongewijzigde basistekst van artikel 40, lid 2. In de PDF draagt \"de Raad\" in de nieuwe alinea voetnootverwijzing 21 (verwijzing naar Verordening (EU) nr. 1025/2012, PB L 316 van 14.11.2012, blz. 12)."
+    },
+    {
+      "seq": 18,
+      "target": {
+        "article": "42"
+      },
+      "operation": "add",
+      "scope": {
+        "description": "aan artikel 42 wordt het volgende lid toegevoegd (PE-CONS 30/26, blz. 56)"
+      },
+      "newParagraphs": [
+        {
+          "number": 3,
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Wanneer AI-systemen met een hoog risico binnen het toepassingsgebied van Verordening (EU) 2024/2847 vallen en aan de voorwaarden van artikel 12, lid 1, van die verordening is voldaan, worden zij geacht te voldoen aan de cyberbeveiligingsvereisten van artikel 15 van deze verordening."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seq": 19,
+      "target": {
+        "article": "43"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-3",
+        "description": "in artikel 43 wordt lid 3 vervangen (PE-CONS 30/26, blz. 57-58)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Voor AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, volgt de aanbieder van het systeem de relevante conformiteitsbeoordelingsprocedure zoals vereist volgens de relevante harmonisatiewetgeving van de Unie. De in afdeling 2 van dit hoofdstuk vastgestelde voorschriften zijn van toepassing op die AI-systemen met een hoog risico en maken deel uit van die beoordeling. Een beoordeling van het in artikel 17 bedoelde kwaliteitsbeheersysteem wordt eveneens uitgevoerd, en de punten 3, 4.3, 4.4 en 4.5, punt 4.6, vijfde alinea, en punt 5 van bijlage VII zijn van toepassing."
+        },
+        {
+          "type": "text",
+          "text": "Ten behoeve van die conformiteitsbeoordeling hebben aangemelde instanties die uit hoofde van de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie zijn aangemeld, de bevoegdheid om de conformiteit van de AI-systemen met een hoog risico te beoordelen aan de hand van de in afdeling 2 van dit hoofdstuk vastgestelde voorschriften, mits de overeenstemming van die aangemelde instanties met de in artikel 31, leden 4, 5, 10 en 11, vastgestelde voorschriften is beoordeeld in de context van de aanmeldingsprocedure volgens de relevante harmonisatiewetgeving van de Unie, hetgeen blijkt uit de beoordeling als onderdeel van de bestaande aanmelding. Onverminderd artikel 28 dienen dergelijke aangemelde instanties die uit hoofde van de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie zijn aangemeld, uiterlijk op … [18 maanden na de datum van inwerkingtreding van deze verordening] overeenkomstig afdeling 4 van dit hoofdstuk een aanvraag om aanmelding in."
+        },
+        {
+          "type": "text",
+          "text": "Wanneer de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie de productfabrikant de mogelijkheid biedt zich te baseren op een conformiteitsbeoordeling waarbij geen derde partij betrokken is, mits die fabrikant geharmoniseerde normen heeft toegepast om de naleving van alle relevante voorschriften te waarborgen, kan die fabrikant alleen van die mogelijkheid gebruikmaken als hij ook geharmoniseerde normen of, in voorkomend geval, gemeenschappelijke specificaties als bedoeld in artikel 41 heeft toegepast voor alle in afdeling 2 van dit hoofdstuk vastgestelde voorschriften. De classificatie van een product als AI-systeem met een hoog risico overeenkomstig artikel 6, lid 1, heeft geen invloed op de keuze van de conformiteitsbeoordelingsprocedure die ter beschikking wordt gesteld aan fabrikanten van producten die vallen onder in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie, met inbegrip van, in voorkomend geval, de mogelijkheid om gebruik te maken van geharmoniseerde normen. De fabrikanten van dergelijke producten zijn niet verplicht te kiezen voor een conformiteitsbeoordelingsprocedure die een conformiteitsbeoordeling door derden omvat uitsluitend omdat het product een AI-systeem met een hoog risico als veiligheidscomponent bevat, als dit niet vereist is door de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie."
+        },
+        {
+          "type": "text",
+          "text": "Voor AI-systemen met een hoog risico die zowel onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, als onder één van de in bijlage III genoemde categorieën, volgt de aanbieder van dat systeem de relevante conformiteitsbeoordelingsprocedure zoals vereist uit hoofde van de relevante in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie."
+        }
+      ]
+    },
+    {
+      "seq": 20,
+      "target": {
+        "article": "50"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-7",
+        "description": "in artikel 50 wordt lid 7 vervangen (PE-CONS 30/26, blz. 59)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De Commissie stimuleert en faciliteert de opstelling van praktijkcodes op het niveau van de Unie om de doeltreffende uitvoering van de verplichtingen met betrekking tot het opsporen, markeren en labelen van kunstmatig gegenereerde of gemanipuleerde content te vergemakkelijken. De Commissie, die zoveel mogelijk rekening houdt met het advies van de AI-board, beoordeelt of de naleving van die praktijkcodes toereikend is om te voldoen aan de in de leden 2 en 4 van dit artikel bedoelde verplichtingen, overeenkomstig de in artikel 56, lid 6, uiteengezette procedure. Indien zij de praktijkcode ontoereikend acht, kan de Commissie overeenkomstig de onderzoeksprocedure van artikel 98, lid 2, een uitvoeringshandeling vaststellen waarin gemeenschappelijke regels voor de uitvoering van die verplichtingen worden gespecificeerd."
+        }
+      ]
+    },
+    {
+      "seq": 21,
+      "target": {
+        "article": "56"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-6",
+        "description": "in artikel 56 wordt lid 6 vervangen (PE-CONS 30/26, blz. 59)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De Commissie en de AI-board monitoren en evalueren regelmatig of de deelnemers de doelstellingen van de praktijkcodes verwezenlijken en bijdragen aan de correcte toepassing van deze verordening. De Commissie, die zoveel mogelijk rekening houdt met het advies van de AI-board, beoordeelt of de praktijkcodes betrekking hebben op de verplichtingen van de artikelen 53 en 55, en monitort en evalueert regelmatig of de doelstellingen daarvan worden verwezenlijkt. De Commissie publiceert haar beoordeling of de praktijkcodes toereikend zijn."
+        }
+      ]
+    },
+    {
+      "seq": 22,
+      "sub": "a",
+      "target": {
+        "article": "57"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-1",
+        "description": "in artikel 57 wordt in lid 1 de eerste alinea vervangen (PE-CONS 30/26, blz. 60)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De lidstaten zorgen ervoor dat hun bevoegde autoriteiten ten minste één AI-testomgeving voor regelgeving op nationaal niveau opzetten, die uiterlijk op 2 augustus 2027 operationeel is. Die testomgeving kan ook samen met de bevoegde autoriteiten van andere lidstaten worden opgezet. De Commissie kan technische ondersteuning en advies en instrumenten verstrekken voor de oprichting en werking van AI-testomgevingen voor regelgeving."
+        },
+        {
+          "type": "text",
+          "text": "Aan de verplichting uit hoofde van de eerste alinea kan ook worden voldaan door deel te nemen aan een bestaande testomgeving, voor zover die deelname de deelnemende lidstaten een gelijkwaardig niveau van nationale dekking biedt."
+        }
+      ],
+      "note": "Alleen de eerste alinea is nieuw; de tweede alinea is ongewijzigde basistekst van artikel 57, lid 1."
+    },
+    {
+      "seq": 22,
+      "sub": "b",
+      "target": {
+        "article": "57"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-3",
+        "description": "in artikel 57 wordt lid 3 vervangen (PE-CONS 30/26, blz. 60)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De Europese Toezichthouder voor gegevensbescherming kan een AI-testomgeving voor regelgeving opzetten voor de instellingen, organen en instanties van de Unie. Daartoe gelden verwijzingen naar nationale bevoegde autoriteiten in dit hoofdstuk als verwijzingen naar de Europese Toezichthouder voor gegevensbescherming."
+        }
+      ]
+    },
+    {
+      "seq": 22,
+      "sub": "c",
+      "target": {
+        "article": "57"
+      },
+      "operation": "insert",
+      "scope": {
+        "anchor": "lid-3",
+        "description": "in artikel 57 wordt het volgende lid ingevoegd (PE-CONS 30/26, blz. 60-61)"
+      },
+      "newParagraphs": [
+        {
+          "number": null,
+          "displayNumber": "3 bis",
+          "anchor": "",
+          "content": [
+            {
+              "type": "text",
+              "text": "Het AI-bureau kan een AI-testomgeving voor regelgeving op Unieniveau opzetten voor AI-systemen die onder artikel 75, lid 1, vallen. Daartoe gelden verwijzingen naar nationale bevoegde autoriteiten in dit hoofdstuk in voorkomend geval als verwijzingen naar het AI-bureau. Die AI-testomgeving voor regelgeving wordt uitgevoerd in nauwe samenwerking met de relevante bevoegde autoriteiten, met name wanneer in deze AI-testomgeving voor regelgeving wordt toegezien op de naleving van andere dan in deze verordening bedoelde Uniewetgeving, en biedt prioritaire toegang aan kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen."
+            },
+            {
+              "type": "text",
+              "text": "De oprichting van een AI-testomgeving voor regelgeving op Unieniveau door het AI-bureau doet geen afbreuk aan de bevoegdheden van de lidstaten om AI-testomgevingen voor regelgeving op te richten voor AI-systemen die onder hun toezicht staan, en toezicht te houden op deze testomgevingen."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seq": 22,
+      "sub": "d",
+      "target": {
+        "article": "57"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-5",
+        "description": "in artikel 57 wordt lid 5 vervangen (PE-CONS 30/26, blz. 61)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Uit hoofde van dit artikel opgerichte AI-testomgevingen voor regelgeving bieden een gecontroleerde omgeving ter bevordering van innovatie en ter vergemakkelijking van het ontwikkelen, trainen, testen en valideren van innovatieve AI-systemen, volgens een specifiek, tussen de aanbieders of potentiële aanbieders en de bevoegde autoriteiten overeengekomen testomgevingsplan, voor een beperkte duur voordat zij in de handel worden gebracht of in gebruik worden gesteld, waarbij er wordt gezorgd voor passende waarborgen. Dergelijke testomgevingen kunnen inhouden dat er testen onder reële omstandigheden wordt getest onder toezicht. In voorkomend geval bevat het testomgevingsplan het in de artikelen 60 en 60 bis bedoelde plan voor testen onder reële omstandigheden."
+        }
+      ],
+      "note": "De zin \"Dergelijke testomgevingen kunnen inhouden dat er testen onder reële omstandigheden wordt getest onder toezicht.\" staat zo (grammaticaal opmerkelijk) in de PDF."
+    },
+    {
+      "seq": 22,
+      "sub": "e",
+      "target": {
+        "article": "57"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-9-e",
+        "description": "in artikel 57 wordt in lid 9 punt e) vervangen (PE-CONS 30/26, blz. 61)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "vergemakkelijken en versnellen van de toegang tot de markt van de Unie voor AI-systemen, met name wanneer ze worden aangeboden door kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen."
+        }
+      ]
+    },
+    {
+      "seq": 22,
+      "sub": "f",
+      "target": {
+        "article": "57"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-10",
+        "description": "in artikel 57 wordt lid 10 vervangen (PE-CONS 30/26, blz. 62)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De nationale bevoegde autoriteiten zorgen ervoor dat voor zover de innovatieve AI-systemen betrekking hebben op de verwerking van persoonsgegevens of anderszins onder het toezicht van andere nationale autoriteiten of bevoegde autoriteiten vallen, die toegang tot gegevens verstrekken of ondersteunen, de bevoegde gegevensbeschermingsautoriteiten en die andere nationale of bevoegde autoriteiten betrokken zijn bij de werking van de AI-testomgeving voor regelgeving en bij het toezicht op de aspecten die onder hun respectieve taken en bevoegdheden vallen."
+        }
+      ]
+    },
+    {
+      "seq": 22,
+      "sub": "g",
+      "target": {
+        "article": "57"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-14",
+        "description": "in artikel 57 wordt lid 14 vervangen (PE-CONS 30/26, blz. 62)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "De nationale bevoegde autoriteiten, de Europese Toezichthouder voor gegevensbescherming en het AI-bureau coördineren, waar passend en binnen hun bevoegdheden, hun activiteiten en werken samen binnen het kader van de AI-board. Zij kunnen de gezamenlijke oprichting en werking van AI-testomgevingen voor regelgeving ondersteunen, onder meer in verschillende sectoren, en beste praktijken over aanverwante kwesties uitwisselen."
+        }
+      ]
+    },
+    {
+      "seq": 23,
+      "sub": "a",
+      "target": {
+        "article": "58"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-1-aanhef",
+        "description": "in artikel 58, lid 1, eerste alinea, wordt de aanhef vervangen (PE-CONS 30/26, blz. 62)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Om versnippering in de Unie te voorkomen, stelt de Commissie uitvoeringshandelingen vast waarin de gedetailleerde regelingen worden gespecificeerd voor de oprichting, ontwikkeling, uitvoering, werking en governance van en het toezicht op AI-testomgevingen voor regelgeving. De uitvoeringshandelingen bevatten gemeenschappelijke beginselen met betrekking tot de volgende punten:"
+        }
+      ]
+    },
+    {
+      "seq": 23,
+      "sub": "b",
+      "target": {
+        "article": "58"
+      },
+      "operation": "insert",
+      "scope": {
+        "anchor": "lid-1-c",
+        "description": "in artikel 58, lid 1, eerste alinea, wordt het volgende punt toegevoegd (PE-CONS 30/26, blz. 63)"
+      },
+      "newItems": [
+        {
+          "marker": "d)",
+          "content": [
+            {
+              "type": "text",
+              "text": "de gedetailleerde regels die van toepassing zijn op de governance van AI-testomgevingen voor regelgeving uit hoofde van artikel 57, onder meer met betrekking tot de betrokkenheid van en het toezicht door de bevoegde gegevensbeschermingsautoriteiten, in voorkomend geval, en de coördinatie en samenwerking op nationaal en Unieniveau."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seq": 24,
+      "sub": "a",
+      "target": {
+        "article": "60"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-1",
+        "description": "in artikel 60 wordt in lid 1 de eerste alinea vervangen (PE-CONS 30/26, blz. 63)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "AI-systemen met een hoog risico kunnen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving worden getest door aanbieders of potentiële aanbieders van in bijlage III vermelde AI-systemen met een hoog risico of van AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, in overeenstemming met dit artikel en het in dit artikel bedoelde plan voor testen onder reële omstandigheden, onverminderd de verbodsbepalingen krachtens artikel 5."
+        },
+        {
+          "type": "text",
+          "text": "De Commissie specificeert, door middel van uitvoeringshandelingen, de precieze onderdelen van het plan voor tests onder reële omstandigheden. Die uitvoeringshandelingen worden vastgesteld volgens de in artikel 98, lid 2, bedoelde onderzoeksprocedure."
+        },
+        {
+          "type": "text",
+          "text": "Dit lid doet geen afbreuk aan Unie- of nationale wetgeving voor het testen onder reële omstandigheden van AI-systemen met een hoog risico die verband houden met producten die onder de in bijlage I vermelde harmonisatiewetgeving van de Unie vallen."
+        }
+      ],
+      "note": "Alleen de eerste alinea is nieuw; de tweede en derde alinea zijn ongewijzigde basistekst van artikel 60, lid 1. In de PDF begint de nieuwe alinea met een dubbel openingsaanhalingsteken (“1. “AI-systemen …); het overtollige binnenste aanhalingsteken is als drukfout weggelaten."
+    },
+    {
+      "seq": 24,
+      "sub": "b",
+      "target": {
+        "article": "60"
+      },
+      "operation": "replace",
+      "scope": {
+        "anchor": "lid-2",
+        "description": "in artikel 60 wordt lid 2 vervangen (PE-CONS 30/26, blz. 63)"
+      },
+      "newContent": [
+        {
+          "type": "text",
+          "text": "Aanbieders of potentiële aanbieders kunnen zelf of in samenwerking met een of meer gebruiksverantwoordelijken of potentiële gebruiksverantwoordelijken onder reële omstandigheden tests uitvoeren op in bijlage III bedoelde AI-systemen met een hoog risico of AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, op elk moment vóór het in de handel brengen of in gebruik stellen van het AI-systeem met een hoog risico."
+        }
+      ]
     }
   ]
 }
