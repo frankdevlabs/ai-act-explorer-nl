@@ -4970,7 +4970,3797 @@
     "status": "unchanged",
     "seq": []
    }
+  ],
+  "63": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "del",
+      "text": "Micro-ondernemingen"
+     },
+     {
+      "op": "ins",
+      "text": "Kmo’s,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "in"
+     },
+     {
+      "op": "ins",
+      "text": "met"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "inbegrip"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "zin "
+     },
+     {
+      "op": "eq",
+      "text": "van "
+     },
+     {
+      "op": "del",
+      "text": "Aanbeveling"
+     },
+     {
+      "op": "ins",
+      "text": "start-ups,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "2003/361/EG "
+     },
+     {
+      "op": "eq",
+      "text": "kunnen op vereenvoudigde wijze voldoen aan bepaalde elementen van het bij artikel 17 "
+     },
+     {
+      "op": "del",
+      "text": "van deze verordening "
+     },
+     {
+      "op": "eq",
+      "text": "vereiste systeem voor kwaliteitsbeheer, mits zij geen partnerondernemingen of verbonden ondernemingen in de zin van "
+     },
+     {
+      "op": "del",
+      "text": "die"
+     },
+     {
+      "op": "ins",
+      "text": "Aanbeveling"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "aanbeveling"
+     },
+     {
+      "op": "ins",
+      "text": "2003/361/EG"
+     },
+     {
+      "op": "eq",
+      "text": " hebben. Daartoe ontwikkelt de Commissie richtsnoeren over de elementen van het systeem voor kwaliteitsbeheer waaraan op vereenvoudigde wijze kan worden voldaan, rekening houdend met de behoeften van "
+     },
+     {
+      "op": "del",
+      "text": "micro-ondernemingen"
+     },
+     {
+      "op": "ins",
+      "text": "kmo’s"
+     },
+     {
+      "op": "eq",
+      "text": ", zonder afbreuk te doen aan het beschermingsniveau of de noodzaak om de verplichtingen voor AI-systemen met een hoog risico na te leven."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Kmo’s, met inbegrip van start-ups, kunnen op vereenvoudigde wijze voldoen aan bepaalde elementen van het bij artikel 17 vereiste systeem voor kwaliteitsbeheer, mits zij geen partnerondernemingen of verbonden ondernemingen in de zin van Aanbeveling 2003/361/EG hebben. Daartoe ontwikkelt de Commissie richtsnoeren over de elementen van het systeem voor kwaliteitsbeheer waaraan op vereenvoudigde wijze kan worden voldaan, rekening houdend met de behoeften van kmo’s, zonder afbreuk te doen aan het beschermingsniveau of de noodzaak om de verplichtingen voor AI-systemen met een hoog risico na te leven."
+     }
+    ],
+    "seq": [
+     26
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "64": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "inserted",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Onverminderd de begrotingsprocedure worden aan het AI-bureau voldoende middelen toegewezen om zijn taken doeltreffend uit te voeren en zijn bevoegdheden met betrekking tot de handhaving van deze verordening uit te oefenen."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Onverminderd de begrotingsprocedure worden aan het AI-bureau voldoende middelen toegewezen om zijn taken doeltreffend uit te voeren en zijn bevoegdheden met betrekking tot de handhaving van deze verordening uit te oefenen."
+     }
+    ],
+    "seq": [
+     27
+    ]
+   }
+  ],
+  "69": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "De lidstaten "
+     },
+     {
+      "op": "del",
+      "text": "kan"
+     },
+     {
+      "op": "ins",
+      "text": "kunnen"
+     },
+     {
+      "op": "eq",
+      "text": " worden "
+     },
+     {
+      "op": "del",
+      "text": "voorgeschreven"
+     },
+     {
+      "op": "ins",
+      "text": "verplicht"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "dat"
+     },
+     {
+      "op": "ins",
+      "text": "vergoedingen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "zij"
+     },
+     {
+      "op": "ins",
+      "text": "te"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "een vergoeding "
+     },
+     {
+      "op": "eq",
+      "text": "betalen voor het advies en de ondersteuning van de deskundigen"
+     },
+     {
+      "op": "del",
+      "text": "."
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "De"
+     },
+     {
+      "op": "ins",
+      "text": "tegen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "structuur"
+     },
+     {
+      "op": "ins",
+      "text": "een"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "tarief"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "dat"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "hoogte"
+     },
+     {
+      "op": "ins",
+      "text": "gelijkwaardig"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "van"
+     },
+     {
+      "op": "ins",
+      "text": "is"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "aan"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "vergoedingen"
+     },
+     {
+      "op": "ins",
+      "text": "dat"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "van"
+     },
+     {
+      "op": "eq",
+      "text": " de "
+     },
+     {
+      "op": "del",
+      "text": "schaal"
+     },
+     {
+      "op": "ins",
+      "text": "vergoedingen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "die"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "structuur"
+     },
+     {
+      "op": "ins",
+      "text": "op"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "grond "
+     },
+     {
+      "op": "eq",
+      "text": "van de "
+     },
+     {
+      "op": "del",
+      "text": "invorderbare kosten worden "
+     },
+     {
+      "op": "eq",
+      "text": "in "
+     },
+     {
+      "op": "del",
+      "text": "de in "
+     },
+     {
+      "op": "eq",
+      "text": "artikel 68, lid 1"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " bedoelde uitvoeringshandeling "
+     },
+     {
+      "op": "del",
+      "text": "vermeld,"
+     },
+     {
+      "op": "ins",
+      "text": "op"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "rekening houdend met "
+     },
+     {
+      "op": "eq",
+      "text": "de "
+     },
+     {
+      "op": "del",
+      "text": "doelstellingen"
+     },
+     {
+      "op": "ins",
+      "text": "Commissie"
+     },
+     {
+      "op": "eq",
+      "text": " van "
+     },
+     {
+      "op": "del",
+      "text": "een"
+     },
+     {
+      "op": "ins",
+      "text": "toepassing"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "Adequate uitvoering van deze verordening, de kosteneffectiviteit en de noodzaak ervoor te zorgen dat alle lidstaten daadwerkelijk toegang tot de deskundigen hebben"
+     },
+     {
+      "op": "ins",
+      "text": "zijn"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De lidstaten kunnen worden verplicht vergoedingen te betalen voor het advies en de ondersteuning van de deskundigen tegen een tarief dat gelijkwaardig is aan dat van de vergoedingen die op grond van de in artikel 68, lid 1, bedoelde uitvoeringshandeling op de Commissie van toepassing zijn."
+     }
+    ],
+    "seq": [
+     28
+    ]
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "70": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-7",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-8",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Nationale bevoegde autoriteiten kunnen begeleiding bij en advies over de uitvoering van deze verordening verstrekken, met name aan kmo’s, met inbegrip van start-ups, "
+     },
+     {
+      "op": "ins",
+      "text": "en kleine midcapondernemingen, "
+     },
+     {
+      "op": "eq",
+      "text": "rekening houdend met de begeleiding en het advies van de AI-board en, indien nodig, de Commissie. Wanneer nationale bevoegde autoriteiten van plan zijn te voorzien in begeleiding en advies ten aanzien van een AI-systeem op gebieden die onder ander Unierecht vallen, worden in voorkomend geval de nationale bevoegde autoriteiten onder dat Unierecht geraadpleegd."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Nationale bevoegde autoriteiten kunnen begeleiding bij en advies over de uitvoering van deze verordening verstrekken, met name aan kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen, rekening houdend met de begeleiding en het advies van de AI-board en, indien nodig, de Commissie. Wanneer nationale bevoegde autoriteiten van plan zijn te voorzien in begeleiding en advies ten aanzien van een AI-systeem op gebieden die onder ander Unierecht vallen, worden in voorkomend geval de nationale bevoegde autoriteiten onder dat Unierecht geraadpleegd."
+     }
+    ],
+    "seq": [
+     29
+    ]
+   },
+   {
+    "anchor": "lid-9",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "72": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Het systeem voor monitoring na het in de handel brengen"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " is gebaseerd op een plan voor monitoring na het in de handel brengen. Het plan voor monitoring na het in de handel brengen"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " maakt deel uit van de in bijlage IV bedoelde technische documentatie. De Commissie stelt uiterlijk op 2 "
+     },
+     {
+      "op": "del",
+      "text": "februari"
+     },
+     {
+      "op": "ins",
+      "text": "september"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "2026"
+     },
+     {
+      "op": "ins",
+      "text": "2027"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "een"
+     },
+     {
+      "op": "ins",
+      "text": "richtsnoeren"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "uitvoeringshandeling "
+     },
+     {
+      "op": "eq",
+      "text": "vast"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " met "
+     },
+     {
+      "op": "del",
+      "text": "gedetailleerde"
+     },
+     {
+      "op": "ins",
+      "text": "inbegrip"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "bepalingen voor het opstellen "
+     },
+     {
+      "op": "eq",
+      "text": "van een model"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " voor het plan voor monitoring na het in de handel brengen en "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "houdt"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "lijst"
+     },
+     {
+      "op": "ins",
+      "text": "daarbij"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "van"
+     },
+     {
+      "op": "ins",
+      "text": "zoveel"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "elementen"
+     },
+     {
+      "op": "ins",
+      "text": "mogelijk"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "die"
+     },
+     {
+      "op": "ins",
+      "text": "rekening"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "in"
+     },
+     {
+      "op": "ins",
+      "text": "met"
+     },
+     {
+      "op": "eq",
+      "text": " het "
+     },
+     {
+      "op": "del",
+      "text": "plan"
+     },
+     {
+      "op": "ins",
+      "text": "advies"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "moeten"
+     },
+     {
+      "op": "ins",
+      "text": "van"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "worden opgenomen. De uitvoeringshandeling wordt volgens "
+     },
+     {
+      "op": "eq",
+      "text": "de "
+     },
+     {
+      "op": "del",
+      "text": "in artikel 98, lid 2, bedoelde onderzoeksprocedure vastgesteld"
+     },
+     {
+      "op": "ins",
+      "text": "AI-board"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Het systeem voor monitoring na het in de handel brengen, is gebaseerd op een plan voor monitoring na het in de handel brengen. Het plan voor monitoring na het in de handel brengen, maakt deel uit van de in bijlage IV bedoelde technische documentatie. De Commissie stelt uiterlijk op 2 september 2027 richtsnoeren vast, met inbegrip van een model, voor het plan voor monitoring na het in de handel brengen en houdt daarbij zoveel mogelijk rekening met het advies van de AI-board."
+     }
+    ],
+    "seq": [
+     30
+    ]
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "75": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "del",
+      "text": "Indien"
+     },
+     {
+      "op": "ins",
+      "text": "Het"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "een"
+     },
+     {
+      "op": "ins",
+      "text": "AI-bureau"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "is exclusief bevoegd voor het toezicht op en de handhaving van de verplichtingen uit hoofde van deze verordening met betrekking tot de volgende "
+     },
+     {
+      "op": "eq",
+      "text": "AI-"
+     },
+     {
+      "op": "del",
+      "text": "systeem"
+     },
+     {
+      "op": "ins",
+      "text": "systemen:"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "a) AI-systemen die "
+     },
+     {
+      "op": "eq",
+      "text": "gebaseerd "
+     },
+     {
+      "op": "del",
+      "text": "is"
+     },
+     {
+      "op": "ins",
+      "text": "zijn"
+     },
+     {
+      "op": "eq",
+      "text": " op "
+     },
+     {
+      "op": "del",
+      "text": "een "
+     },
+     {
+      "op": "eq",
+      "text": "AI-"
+     },
+     {
+      "op": "del",
+      "text": "model"
+     },
+     {
+      "op": "ins",
+      "text": "modellen"
+     },
+     {
+      "op": "eq",
+      "text": " voor algemene doeleinden "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "wanneer"
+     },
+     {
+      "op": "eq",
+      "text": " het model en het systeem door dezelfde aanbieder "
+     },
+     {
+      "op": "del",
+      "text": "worden"
+     },
+     {
+      "op": "ins",
+      "text": "zijn"
+     },
+     {
+      "op": "eq",
+      "text": " ontwikkeld, "
+     },
+     {
+      "op": "del",
+      "text": "moet"
+     },
+     {
+      "op": "ins",
+      "text": "of"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "het"
+     },
+     {
+      "op": "ins",
+      "text": "door"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "aanbieders die deel uitmaken van dezelfde onderneming als die aanbieder, met uitzondering van: i) "
+     },
+     {
+      "op": "eq",
+      "text": "AI-"
+     },
+     {
+      "op": "del",
+      "text": "bureau"
+     },
+     {
+      "op": "ins",
+      "text": "systemen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "bevoegd"
+     },
+     {
+      "op": "ins",
+      "text": "die"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "zijn"
+     },
+     {
+      "op": "ins",
+      "text": "verband"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "om"
+     },
+     {
+      "op": "ins",
+      "text": "houden"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "met producten die onder "
+     },
+     {
+      "op": "eq",
+      "text": "de "
+     },
+     {
+      "op": "del",
+      "text": "naleving"
+     },
+     {
+      "op": "ins",
+      "text": "in"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "bijlage I vermelde harmonisatiewetgeving "
+     },
+     {
+      "op": "eq",
+      "text": "van de "
+     },
+     {
+      "op": "del",
+      "text": "verplichtingen"
+     },
+     {
+      "op": "ins",
+      "text": "Unie"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "krachtens"
+     },
+     {
+      "op": "ins",
+      "text": "vallen;"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "deze"
+     },
+     {
+      "op": "ins",
+      "text": "ii)"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "verordening"
+     },
+     {
+      "op": "ins",
+      "text": "AI-systemen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "door"
+     },
+     {
+      "op": "ins",
+      "text": "zoals"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "dat"
+     },
+     {
+      "op": "ins",
+      "text": "bedoeld"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "in bijlage III, punt 2; iii) "
+     },
+     {
+      "op": "eq",
+      "text": "AI-"
+     },
+     {
+      "op": "del",
+      "text": "systeem"
+     },
+     {
+      "op": "ins",
+      "text": "systemen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "te"
+     },
+     {
+      "op": "ins",
+      "text": "die"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "monitoren"
+     },
+     {
+      "op": "ins",
+      "text": "worden"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "aangeboden door rechtshandhavingsinstanties, grensbeheerautoriteiten "
+     },
+     {
+      "op": "eq",
+      "text": "en "
+     },
+     {
+      "op": "del",
+      "text": "te"
+     },
+     {
+      "op": "ins",
+      "text": "financiële"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "bewaken."
+     },
+     {
+      "op": "ins",
+      "text": "instellingen,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "Om"
+     },
+     {
+      "op": "ins",
+      "text": "voor"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "zijn"
+     },
+     {
+      "op": "ins",
+      "text": "zover"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "monitoring"
+     },
+     {
+      "op": "ins",
+      "text": "die AI"
+     },
+     {
+      "op": "eq",
+      "text": "-"
+     },
+     {
+      "op": "ins",
+      "text": "systemen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "onder"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "toezichttaken"
+     },
+     {
+      "op": "ins",
+      "text": "artikel"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "uit"
+     },
+     {
+      "op": "ins",
+      "text": "74,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "te"
+     },
+     {
+      "op": "ins",
+      "text": "lid"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "voeren"
+     },
+     {
+      "op": "ins",
+      "text": "6"
+     },
+     {
+      "op": "eq",
+      "text": ", "
+     },
+     {
+      "op": "del",
+      "text": "moet"
+     },
+     {
+      "op": "ins",
+      "text": "vallen;"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "het"
+     },
+     {
+      "op": "ins",
+      "text": "en"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "iv) "
+     },
+     {
+      "op": "eq",
+      "text": "AI-"
+     },
+     {
+      "op": "del",
+      "text": "bureau"
+     },
+     {
+      "op": "ins",
+      "text": "systemen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "beschikken"
+     },
+     {
+      "op": "ins",
+      "text": "zoals"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "over"
+     },
+     {
+      "op": "ins",
+      "text": "bedoeld"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "alle "
+     },
+     {
+      "op": "eq",
+      "text": "in "
+     },
+     {
+      "op": "del",
+      "text": "deze"
+     },
+     {
+      "op": "ins",
+      "text": "bijlage"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "afdeling"
+     },
+     {
+      "op": "ins",
+      "text": "III,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "en"
+     },
+     {
+      "op": "ins",
+      "text": "punt"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "8, wat betreft de rechtsbedeling; b) AI-systemen die een overeenkomstig "
+     },
+     {
+      "op": "eq",
+      "text": "Verordening (EU) "
+     },
+     {
+      "op": "del",
+      "text": "2019"
+     },
+     {
+      "op": "ins",
+      "text": "2022"
+     },
+     {
+      "op": "eq",
+      "text": "/"
+     },
+     {
+      "op": "del",
+      "text": "1020"
+     },
+     {
+      "op": "ins",
+      "text": "2065"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "bepaalde"
+     },
+     {
+      "op": "ins",
+      "text": "aangewezen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "bevoegdheden"
+     },
+     {
+      "op": "ins",
+      "text": "zeer"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "groot onlineplatform of zeer grote onlinezoekmachine vormen of daarin zijn geïntegreerd. De exclusieve bevoegdheid zoals bedoeld in de eerste alinea is "
+     },
+     {
+      "op": "eq",
+      "text": "van "
+     },
+     {
+      "op": "del",
+      "text": "een"
+     },
+     {
+      "op": "ins",
+      "text": "toepassing"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "markttoezichtautoriteit"
+     },
+     {
+      "op": "ins",
+      "text": "op de aanbieders van die systemen"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     },
+     {
+      "op": "ins",
+      "text": " Zij is alleen op de gebruiksverantwoordelijken van die systemen van toepassing wanneer zij ook de aanbieder zijn of deel uitmaken van dezelfde onderneming als de aanbieder."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Het AI-bureau is exclusief bevoegd voor het toezicht op en de handhaving van de verplichtingen uit hoofde van deze verordening met betrekking tot de volgende AI-systemen:"
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "AI-systemen die gebaseerd zijn op AI-modellen voor algemene doeleinden wanneer het model en het systeem door dezelfde aanbieder zijn ontwikkeld, of door aanbieders die deel uitmaken van dezelfde onderneming als die aanbieder, met uitzondering van:"
+         },
+         {
+          "type": "list",
+          "items": [
+           {
+            "marker": "i)",
+            "content": [
+             {
+              "type": "text",
+              "text": "AI-systemen die verband houden met producten die onder de in bijlage I vermelde harmonisatiewetgeving van de Unie vallen;"
+             }
+            ]
+           },
+           {
+            "marker": "ii)",
+            "content": [
+             {
+              "type": "text",
+              "text": "AI-systemen zoals bedoeld in bijlage III, punt 2;"
+             }
+            ]
+           },
+           {
+            "marker": "iii)",
+            "content": [
+             {
+              "type": "text",
+              "text": "AI-systemen die worden aangeboden door rechtshandhavingsinstanties, grensbeheerautoriteiten en financiële instellingen, voor zover die AI-systemen onder artikel 74, lid 6, vallen; en"
+             }
+            ]
+           },
+           {
+            "marker": "iv)",
+            "content": [
+             {
+              "type": "text",
+              "text": "AI-systemen zoals bedoeld in bijlage III, punt 8, wat betreft de rechtsbedeling;"
+             }
+            ]
+           }
+          ]
+         }
+        ],
+        "anchor": "lid-1-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "AI-systemen die een overeenkomstig Verordening (EU) 2022/2065 aangewezen zeer groot onlineplatform of zeer grote onlinezoekmachine vormen of daarin zijn geïntegreerd."
+         }
+        ],
+        "anchor": "lid-1-b"
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "text": "De exclusieve bevoegdheid zoals bedoeld in de eerste alinea is van toepassing op de aanbieders van die systemen. Zij is alleen op de gebruiksverantwoordelijken van die systemen van toepassing wanneer zij ook de aanbieder zijn of deel uitmaken van dezelfde onderneming als de aanbieder."
+     }
+    ],
+    "seq": [
+     31
+    ]
+   },
+   {
+    "anchor": "lid-1bis",
+    "status": "inserted",
+    "displayNumber": "1 bis",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "In afwijking van artikel 73 melden aanbieders van AI-systemen met een hoog risico die op grond van lid 1 van dit artikel onder de bevoegdheid van het AI-bureau vallen, elk ernstig incident aan het AI-bureau. Artikel 73, leden 2 tot en met 9, is van overeenkomstige toepassing. Het AI-bureau geeft de relevante informatie onverwijld door aan de markttoezichtautoriteit van de lidstaat op het grondgebied waarvan de aanbieder of zijn wettelijke vertegenwoordiger zich bevindt."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "In afwijking van artikel 73 melden aanbieders van AI-systemen met een hoog risico die op grond van lid 1 van dit artikel onder de bevoegdheid van het AI-bureau vallen, elk ernstig incident aan het AI-bureau. Artikel 73, leden 2 tot en met 9, is van overeenkomstige toepassing. Het AI-bureau geeft de relevante informatie onverwijld door aan de markttoezichtautoriteit van de lidstaat op het grondgebied waarvan de aanbieder of zijn wettelijke vertegenwoordiger zich bevindt."
+     }
+    ],
+    "seq": [
+     31
+    ]
+   },
+   {
+    "anchor": "lid-1ter",
+    "status": "inserted",
+    "displayNumber": "1 ter",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "De autoriteiten die betrokken zijn bij de toepassing van deze verordening werken actief samen met het AI-bureau en bieden het AI-bureau de nodige bijstand voor de uitoefening van zijn bevoegdheden, met inbegrip van, in voorkomend geval, met betrekking tot inspecties of andere handhavingsmaatregelen die op het grondgebied van een lidstaat moeten worden uitgevoerd. Daartoe beschikken die autoriteiten over de bevoegdheden waarin wordt voorzien op grond van deze verordening en Verordening (EU) 2019/1020, en in voorkomend geval en beperkt tot wat nodig is om hun taken uit hoofde van dit lid te vervullen, overeenkomstig de toepasselijke nationale procedures."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De autoriteiten die betrokken zijn bij de toepassing van deze verordening werken actief samen met het AI-bureau en bieden het AI-bureau de nodige bijstand voor de uitoefening van zijn bevoegdheden, met inbegrip van, in voorkomend geval, met betrekking tot inspecties of andere handhavingsmaatregelen die op het grondgebied van een lidstaat moeten worden uitgevoerd. Daartoe beschikken die autoriteiten over de bevoegdheden waarin wordt voorzien op grond van deze verordening en Verordening (EU) 2019/1020, en in voorkomend geval en beperkt tot wat nodig is om hun taken uit hoofde van dit lid te vervullen, overeenkomstig de toepasselijke nationale procedures."
+     }
+    ],
+    "seq": [
+     31
+    ]
+   },
+   {
+    "anchor": "lid-1quater",
+    "status": "inserted",
+    "displayNumber": "1 quater",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Bij het nemen van onderzoeks- of handhavingsmaatregelen op het grondgebied van een lidstaat waarbij toegang tot de gegevens of het AI-systeem van een overheidsinstantie betrokken is, wordt het AI-bureau bijgestaan door de relevante markttoezichtautoriteit."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Bij het nemen van onderzoeks- of handhavingsmaatregelen op het grondgebied van een lidstaat waarbij toegang tot de gegevens of het AI-systeem van een overheidsinstantie betrokken is, wordt het AI-bureau bijgestaan door de relevante markttoezichtautoriteit."
+     }
+    ],
+    "seq": [
+     31
+    ]
+   },
+   {
+    "anchor": "lid-1quinquies",
+    "status": "inserted",
+    "displayNumber": "1 quinquies",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Alvorens een besluit te nemen dat tot gevolg zou hebben dat het op een nationale markt aanbieden of in gebruik stellen van het AI-systeem wordt verboden of beperkt, of een besluit om het AI-systeem uit de handel te nemen of terug te roepen van die markt, stelt het AI-bureau de voor die markt bevoegde markttoezichtautoriteit zonder onnodige vertraging in kennis van zijn voornemen om een dergelijk besluit te nemen. Het AI-bureau raadpleegt in voorkomend geval de bij de toepassing van deze verordening betrokken autoriteiten over alle aangelegenheden die verband houden met de toepassing en handhaving van deze verordening."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Alvorens een besluit te nemen dat tot gevolg zou hebben dat het op een nationale markt aanbieden of in gebruik stellen van het AI-systeem wordt verboden of beperkt, of een besluit om het AI-systeem uit de handel te nemen of terug te roepen van die markt, stelt het AI-bureau de voor die markt bevoegde markttoezichtautoriteit zonder onnodige vertraging in kennis van zijn voornemen om een dergelijk besluit te nemen. Het AI-bureau raadpleegt in voorkomend geval de bij de toepassing van deze verordening betrokken autoriteiten over alle aangelegenheden die verband houden met de toepassing en handhaving van deze verordening."
+     }
+    ],
+    "seq": [
+     31
+    ]
+   },
+   {
+    "anchor": "lid-1sexies",
+    "status": "inserted",
+    "displayNumber": "1 sexies",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Het AI-bureau is bevoegd voor conformiteitsbeoordelingen en tests ten aanzien van in lid 1 van dit artikel bedoelde AI-systemen als die zijn ingedeeld als AI-systemen met een hoog risico en onderworpen zijn aan conformiteitsbeoordelingen door derden op grond van artikel 43, voordat dergelijke AI-systemen in de handel worden gebracht of in gebruik worden gesteld. Bij deze tests en beoordelingen wordt nagegaan of de systemen voldoen aan de desbetreffende eisen van deze verordening en overeenkomstig deze verordening in de Unie in de handel mogen worden gebracht of in gebruik worden gesteld. De Commissie vertrouwt de uitvoering van deze tests of beoordelingen toe aan overeenkomstig deze verordening aangewezen aangemelde instanties, in welk geval de aangemelde instantie namens de Commissie optreedt. Indien een aangemelde instantie waaraan de Commissie uit hoofde van dit lid taken heeft gedelegeerd, deze taken niet naar behoren uitvoert, kan de Commissie de delegatie met onmiddellijke ingang intrekken. De vergoedingen voor test- en beoordelingsactiviteiten worden opgelegd aan de aanbieder van een AI-systeem met een hoog risico die bij de Commissie een conformiteitsbeoordeling door een derde partij heeft aangevraagd. De aanbieder betaalt de kosten in verband met de diensten die de Commissie overeenkomstig dit artikel aan de aangemelde instanties toevertrouwt rechtstreeks aan de aangemelde instantie."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Het AI-bureau is bevoegd voor conformiteitsbeoordelingen en tests ten aanzien van in lid 1 van dit artikel bedoelde AI-systemen als die zijn ingedeeld als AI-systemen met een hoog risico en onderworpen zijn aan conformiteitsbeoordelingen door derden op grond van artikel 43, voordat dergelijke AI-systemen in de handel worden gebracht of in gebruik worden gesteld. Bij deze tests en beoordelingen wordt nagegaan of de systemen voldoen aan de desbetreffende eisen van deze verordening en overeenkomstig deze verordening in de Unie in de handel mogen worden gebracht of in gebruik worden gesteld. De Commissie vertrouwt de uitvoering van deze tests of beoordelingen toe aan overeenkomstig deze verordening aangewezen aangemelde instanties, in welk geval de aangemelde instantie namens de Commissie optreedt. Indien een aangemelde instantie waaraan de Commissie uit hoofde van dit lid taken heeft gedelegeerd, deze taken niet naar behoren uitvoert, kan de Commissie de delegatie met onmiddellijke ingang intrekken."
+     },
+     {
+      "type": "text",
+      "text": "De vergoedingen voor test- en beoordelingsactiviteiten worden opgelegd aan de aanbieder van een AI-systeem met een hoog risico die bij de Commissie een conformiteitsbeoordeling door een derde partij heeft aangevraagd. De aanbieder betaalt de kosten in verband met de diensten die de Commissie overeenkomstig dit artikel aan de aangemelde instanties toevertrouwt rechtstreeks aan de aangemelde instantie."
+     }
+    ],
+    "seq": [
+     31
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2bis",
+    "status": "inserted",
+    "displayNumber": "2 bis",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Wanneer een markttoezichtautoriteit gegronde en voldoende redenen heeft om te vermoeden dat een aanbieder of gebruiksverantwoordelijke van een in lid 1 van dit artikel bedoeld AI-systeem inbreuk heeft gemaakt op deze verordening, kan zij het AI-bureau via het desbetreffende overeenkomstig artikel 70, lid 2, aangewezen centrale contactpunt verzoeken de zaak te beoordelen om de nodige toezichts- en handhavingsmaatregelen te nemen om een snelle naleving van deze verordening te waarborgen. Een dergelijk verzoek wordt terdege gemotiveerd en bevat ten minste het volgende: a) de naam van de betrokken aanbieder of gebruiksverantwoordelijke; b) een beschrijving van de relevante feiten, de bepalingen van deze verordening waarop inbreuk zou zijn gemaakt en alle gegronde en voldoende redenen om een inbreuk te vermoeden, waaronder in voorkomend geval een beschrijving van de negatieve gevolgen van de vermeende inbreuk; c) de markttoezichtautoriteit die het verzoek indient. Het AI-bureau houdt zoveel mogelijk rekening met het verzoek en de markttoezichtautoriteit werkt actief samen met het AI-bureau en verleent het de nodige bijstand bij de uitoefening van zijn bevoegdheden overeenkomstig lid 1 bis. Het AI-bureau stelt het centrale contactpunt zonder onnodige vertraging en in elk geval uiterlijk vier maanden na ontvangst van het verzoek in kennis van zijn voornemen om zijn bevoegdheden overeenkomstig artikel 75 bis uit te oefenen of van de redenen waarom het zijn bevoegdheden niet uitoefent. Indien het AI-bureau besluit zijn bevoegdheden overeenkomstig artikel 75 bis uit te oefenen, stelt het dat centrale contactpunt periodiek in kennis van belangrijke ontwikkelingen in de procedure en de uitkomst van die procedure, zonder vertrouwelijke informatie openbaar te maken."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Wanneer een markttoezichtautoriteit gegronde en voldoende redenen heeft om te vermoeden dat een aanbieder of gebruiksverantwoordelijke van een in lid 1 van dit artikel bedoeld AI-systeem inbreuk heeft gemaakt op deze verordening, kan zij het AI-bureau via het desbetreffende overeenkomstig artikel 70, lid 2, aangewezen centrale contactpunt verzoeken de zaak te beoordelen om de nodige toezichts- en handhavingsmaatregelen te nemen om een snelle naleving van deze verordening te waarborgen. Een dergelijk verzoek wordt terdege gemotiveerd en bevat ten minste het volgende:"
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de naam van de betrokken aanbieder of gebruiksverantwoordelijke;"
+         }
+        ],
+        "anchor": "lid-2bis-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "een beschrijving van de relevante feiten, de bepalingen van deze verordening waarop inbreuk zou zijn gemaakt en alle gegronde en voldoende redenen om een inbreuk te vermoeden, waaronder in voorkomend geval een beschrijving van de negatieve gevolgen van de vermeende inbreuk;"
+         }
+        ],
+        "anchor": "lid-2bis-b"
+       },
+       {
+        "marker": "c)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de markttoezichtautoriteit die het verzoek indient."
+         }
+        ],
+        "anchor": "lid-2bis-c"
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Het AI-bureau houdt zoveel mogelijk rekening met het verzoek en de markttoezichtautoriteit werkt actief samen met het AI-bureau en verleent het de nodige bijstand bij de uitoefening van zijn bevoegdheden overeenkomstig lid 1 bis."
+     },
+     {
+      "type": "text",
+      "text": "Het AI-bureau stelt het centrale contactpunt zonder onnodige vertraging en in elk geval uiterlijk vier maanden na ontvangst van het verzoek in kennis van zijn voornemen om zijn bevoegdheden overeenkomstig artikel 75 bis uit te oefenen of van de redenen waarom het zijn bevoegdheden niet uitoefent. Indien het AI-bureau besluit zijn bevoegdheden overeenkomstig artikel 75 bis uit te oefenen, stelt het dat centrale contactpunt periodiek in kennis van belangrijke ontwikkelingen in de procedure en de uitkomst van die procedure, zonder vertrouwelijke informatie openbaar te maken."
+     }
+    ],
+    "seq": [
+     31
+    ]
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "76": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "De markttoezichtautoriteiten hebben de bevoegdheden om ervoor te zorgen dat tests onder reële omstandigheden in overeenstemming zijn met deze verordening."
+     },
+     {
+      "op": "ins",
+      "text": " Wanneer het testen onder reële omstandigheden is gebaseerd op artikel 60 bis, wordt elke verwijzing naar een markttoezichtautoriteit in dit artikel opgevat als een verwijzing naar de nationale bevoegde autoriteit of de bevoegde autoriteit uit hoofde van de in bijlage I, afdeling B, opgenomen harmonisatiewetgeving van de Unie, en worden verwijzingen naar artikel 60 in voorkomend geval gelezen als verwijzingen naar artikel 60 bis."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De markttoezichtautoriteiten hebben de bevoegdheden om ervoor te zorgen dat tests onder reële omstandigheden in overeenstemming zijn met deze verordening."
+     },
+     {
+      "type": "text",
+      "text": "Wanneer het testen onder reële omstandigheden is gebaseerd op artikel 60 bis, wordt elke verwijzing naar een markttoezichtautoriteit in dit artikel opgevat als een verwijzing naar de nationale bevoegde autoriteit of de bevoegde autoriteit uit hoofde van de in bijlage I, afdeling B, opgenomen harmonisatiewetgeving van de Unie, en worden verwijzingen naar artikel 60 in voorkomend geval gelezen als verwijzingen naar artikel 60 bis."
+     }
+    ],
+    "seq": [
+     33
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "77": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Nationale overheidsinstanties of -organen die de nakoming van verplichtingen krachtens "
+     },
+     {
+      "op": "ins",
+      "text": "het "
+     },
+     {
+      "op": "eq",
+      "text": "Unierecht ter bescherming van "
+     },
+     {
+      "op": "ins",
+      "text": "de "
+     },
+     {
+      "op": "eq",
+      "text": "grondrechten, waaronder het recht op non-discriminatie, "
+     },
+     {
+      "op": "del",
+      "text": "met betrekking tot het gebruik van de in bijlage III vermelde AI-systemen met een hoog risico "
+     },
+     {
+      "op": "eq",
+      "text": "controleren of handhaven, zijn bevoegd om krachtens deze verordening opgestelde of bijgehouden "
+     },
+     {
+      "op": "ins",
+      "text": "informatie of "
+     },
+     {
+      "op": "eq",
+      "text": "documentatie in een toegankelijke taal en "
+     },
+     {
+      "op": "ins",
+      "text": "in "
+     },
+     {
+      "op": "eq",
+      "text": "een "
+     },
+     {
+      "op": "del",
+      "text": "toegankelijk"
+     },
+     {
+      "op": "ins",
+      "text": "machineleesbaar"
+     },
+     {
+      "op": "eq",
+      "text": " formaat "
+     },
+     {
+      "op": "del",
+      "text": "aan"
+     },
+     {
+      "op": "ins",
+      "text": "elektronisch"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "op "
+     },
+     {
+      "op": "eq",
+      "text": "te vragen en in te zien "
+     },
+     {
+      "op": "ins",
+      "text": "bij de relevante markttoezichtautoriteit "
+     },
+     {
+      "op": "eq",
+      "text": "wanneer toegang tot die "
+     },
+     {
+      "op": "ins",
+      "text": "informatie of "
+     },
+     {
+      "op": "eq",
+      "text": "documentatie nodig is voor het doeltreffend uitoefenen van de bevoegdheden onder hun mandaat binnen de grenzen van hun rechtsgebied. "
+     },
+     {
+      "op": "del",
+      "text": "De"
+     },
+     {
+      "op": "ins",
+      "text": "Dit"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "overheidsinstantie"
+     },
+     {
+      "op": "ins",
+      "text": "artikel"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "of"
+     },
+     {
+      "op": "ins",
+      "text": "doet"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "het"
+     },
+     {
+      "op": "ins",
+      "text": "geen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "overheidsorgaan"
+     },
+     {
+      "op": "ins",
+      "text": "afbreuk"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "in"
+     },
+     {
+      "op": "ins",
+      "text": "aan"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "kwestie"
+     },
+     {
+      "op": "ins",
+      "text": "de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "stelt"
+     },
+     {
+      "op": "ins",
+      "text": "competenties,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "de"
+     },
+     {
+      "op": "ins",
+      "text": "taken,"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "markttoezichtautoriteit"
+     },
+     {
+      "op": "ins",
+      "text": "bevoegdheden"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "en onafhankelijkheid "
+     },
+     {
+      "op": "eq",
+      "text": "van de "
+     },
+     {
+      "op": "del",
+      "text": "betrokken"
+     },
+     {
+      "op": "ins",
+      "text": "relevante"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "lidstaat"
+     },
+     {
+      "op": "ins",
+      "text": "nationale"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "van"
+     },
+     {
+      "op": "ins",
+      "text": "overheidsinstanties"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "een"
+     },
+     {
+      "op": "ins",
+      "text": "of"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "dergelijke"
+     },
+     {
+      "op": "ins",
+      "text": "-organen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "aanvraag "
+     },
+     {
+      "op": "eq",
+      "text": "in "
+     },
+     {
+      "op": "del",
+      "text": "kennis"
+     },
+     {
+      "op": "ins",
+      "text": "het kader van hun mandaten"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Nationale overheidsinstanties of -organen die de nakoming van verplichtingen krachtens het Unierecht ter bescherming van de grondrechten, waaronder het recht op non-discriminatie, controleren of handhaven, zijn bevoegd om krachtens deze verordening opgestelde of bijgehouden informatie of documentatie in een toegankelijke taal en in een machineleesbaar formaat elektronisch op te vragen en in te zien bij de relevante markttoezichtautoriteit wanneer toegang tot die informatie of documentatie nodig is voor het doeltreffend uitoefenen van de bevoegdheden onder hun mandaat binnen de grenzen van hun rechtsgebied. Dit artikel doet geen afbreuk aan de competenties, taken, bevoegdheden en onafhankelijkheid van de relevante nationale overheidsinstanties of -organen in het kader van hun mandaten."
+     }
+    ],
+    "seq": [
+     34
+    ]
+   },
+   {
+    "anchor": "lid-1bis",
+    "status": "inserted",
+    "displayNumber": "1 bis",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Onder de in dit artikel gespecificeerde voorwaarden verleent de markttoezichtautoriteit de relevante overheidsinstantie of het relevante overheidsorgaan als bedoeld in lid 1, toegang tot die informatie of documentatie, onder meer door, indien nodig, die informatie of documentatie onverwijld op te vragen bij de aanbieder of de gebruiksverantwoordelijke."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Onder de in dit artikel gespecificeerde voorwaarden verleent de markttoezichtautoriteit de relevante overheidsinstantie of het relevante overheidsorgaan als bedoeld in lid 1, toegang tot die informatie of documentatie, onder meer door, indien nodig, die informatie of documentatie onverwijld op te vragen bij de aanbieder of de gebruiksverantwoordelijke."
+     }
+    ],
+    "seq": [
+     34
+    ]
+   },
+   {
+    "anchor": "lid-1ter",
+    "status": "inserted",
+    "displayNumber": "1 ter",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "De markttoezichtautoriteiten en de in lid 1 bedoelde overheidsinstanties of -organen werken nauw samen en verlenen elkaar de wederzijdse bijstand die nodig is voor het uitoefenen van de bevoegdheden onder hun mandaat, teneinde te zorgen voor de coherente toepassing van deze verordening en het Unierecht gericht op de bescherming van de grondrechten en het stroomlijnen van de procedures, met eerbiediging van hun respectieve competenties, taken, bevoegdheden en onafhankelijkheid. Dit omvat met name de uitwisseling van informatie waar dit nodig is voor het effectieve toezicht op of de effectieve handhaving van deze verordening en de respectieve andere wetgeving van de Unie."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De markttoezichtautoriteiten en de in lid 1 bedoelde overheidsinstanties of -organen werken nauw samen en verlenen elkaar de wederzijdse bijstand die nodig is voor het uitoefenen van de bevoegdheden onder hun mandaat, teneinde te zorgen voor de coherente toepassing van deze verordening en het Unierecht gericht op de bescherming van de grondrechten en het stroomlijnen van de procedures, met eerbiediging van hun respectieve competenties, taken, bevoegdheden en onafhankelijkheid. Dit omvat met name de uitwisseling van informatie waar dit nodig is voor het effectieve toezicht op of de effectieve handhaving van deze verordening en de respectieve andere wetgeving van de Unie."
+     }
+    ],
+    "seq": [
+     34
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "95": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Het AI-bureau en de lidstaten houden rekening met de specifieke belangen en behoeften van kmo’s, waaronder start-ups, "
+     },
+     {
+      "op": "ins",
+      "text": "en kleine midcapondernemingen "
+     },
+     {
+      "op": "eq",
+      "text": "bij het stimuleren en faciliteren van het opstellen van gedragscodes."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Het AI-bureau en de lidstaten houden rekening met de specifieke belangen en behoeften van kmo’s, waaronder start-ups, en kleine midcapondernemingen bij het stimuleren en faciliteren van het opstellen van gedragscodes."
+     }
+    ],
+    "seq": [
+     35
+    ]
+   }
+  ],
+  "96": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "De Commissie ontwikkelt richtsnoeren over de praktische uitvoering van deze verordening, en met name over: a) de toepassing van de in de artikelen 8 tot en met 15 en "
+     },
+     {
+      "op": "del",
+      "text": "artikel"
+     },
+     {
+      "op": "ins",
+      "text": "de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "artikelen "
+     },
+     {
+      "op": "eq",
+      "text": "25 "
+     },
+     {
+      "op": "ins",
+      "text": "en 26 "
+     },
+     {
+      "op": "eq",
+      "text": "bedoelde vereisten en verplichtingen; b) de in artikel 5 bedoelde verboden praktijken; c) de praktische uitvoering van de bepalingen in verband met substantiële wijziging; d) de praktische uitvoering van de in artikel 50 vastgelegde transparantieverplichtingen; e) gedetailleerde informatie over het verband van deze verordening met de in bijlage I vermelde harmonisatiewetgeving van de Unie en met andere relevante onderdelen van het Unierecht, onder meer wat betreft de consistentie bij de handhaving ervan; f) de toepassing van de definitie van een AI-systeem als gedefinieerd in artikel 3, punt 1). "
+     },
+     {
+      "op": "ins",
+      "text": "g) de praktische uitvoering van artikel 8, lid 2, artikel 9, lid 10, en artikel 17, lid 3, overeenkomstig het beginsel van complementariteit en evenredigheid, om consistentie te waarborgen, dubbel werk te voorkomen en extra lasten tot een minimum te beperken bij de naleving van de vereisten van deze verordening en de vereisten van de in bijlage I, deel A, vermelde harmonisatiewetgeving van de Unie; deze richtsnoeren worden uiterlijk op 1 augustus 2027 bekendgemaakt. "
+     },
+     {
+      "op": "eq",
+      "text": "Bij het uitvaardigen van dergelijke richtsnoeren "
+     },
+     {
+      "op": "del",
+      "text": "besteedt"
+     },
+     {
+      "op": "ins",
+      "text": "betrekt"
+     },
+     {
+      "op": "eq",
+      "text": " de Commissie "
+     },
+     {
+      "op": "ins",
+      "text": "de AI-board en besteedt zij "
+     },
+     {
+      "op": "eq",
+      "text": "bijzondere aandacht aan de behoeften van kmo’s"
+     },
+     {
+      "op": "ins",
+      "text": " en"
+     },
+     {
+      "op": "eq",
+      "text": ", met inbegrip van start-ups, "
+     },
+     {
+      "op": "ins",
+      "text": "en kleine midcapondernemingen, "
+     },
+     {
+      "op": "eq",
+      "text": "lokale overheidsinstanties en sectoren die het waarschijnlijkst door deze verordening zullen worden beïnvloed. In de in de eerste alinea van dit lid bedoelde richtsnoeren wordt terdege rekening gehouden met de algemeen erkende stand van de techniek op het gebied van AI en met de relevante in de artikelen 40 en 41 bedoelde geharmoniseerde normen en gemeenschappelijke specificaties, dan wel met de krachtens de harmonisatiewetgeving van de Unie vastgestelde geharmoniseerde normen of technische specificaties."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De Commissie ontwikkelt richtsnoeren over de praktische uitvoering van deze verordening, en met name over:"
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de toepassing van de in de artikelen 8 tot en met 15 en de artikelen 25 en 26 bedoelde vereisten en verplichtingen;"
+         }
+        ],
+        "anchor": "lid-1-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de in artikel 5 bedoelde verboden praktijken;"
+         }
+        ],
+        "anchor": "lid-1-b"
+       },
+       {
+        "marker": "c)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de praktische uitvoering van de bepalingen in verband met substantiële wijziging;"
+         }
+        ],
+        "anchor": "lid-1-c"
+       },
+       {
+        "marker": "d)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de praktische uitvoering van de in artikel 50 vastgelegde transparantieverplichtingen;"
+         }
+        ],
+        "anchor": "lid-1-d"
+       },
+       {
+        "marker": "e)",
+        "content": [
+         {
+          "type": "text",
+          "text": "gedetailleerde informatie over het verband van deze verordening met de in bijlage I vermelde harmonisatiewetgeving van de Unie en met andere relevante onderdelen van het Unierecht, onder meer wat betreft de consistentie bij de handhaving ervan;"
+         }
+        ],
+        "anchor": "lid-1-e"
+       },
+       {
+        "marker": "f)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de toepassing van de definitie van een AI-systeem als gedefinieerd in artikel 3, punt 1)."
+         }
+        ],
+        "anchor": "lid-1-f"
+       },
+       {
+        "marker": "g)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de praktische uitvoering van artikel 8, lid 2, artikel 9, lid 10, en artikel 17, lid 3, overeenkomstig het beginsel van complementariteit en evenredigheid, om consistentie te waarborgen, dubbel werk te voorkomen en extra lasten tot een minimum te beperken bij de naleving van de vereisten van deze verordening en de vereisten van de in bijlage I, deel A, vermelde harmonisatiewetgeving van de Unie; deze richtsnoeren worden uiterlijk op 1 augustus 2027 bekendgemaakt."
+         }
+        ],
+        "anchor": "lid-1-g"
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Bij het uitvaardigen van dergelijke richtsnoeren betrekt de Commissie de AI-board en besteedt zij bijzondere aandacht aan de behoeften van kmo’s en, met inbegrip van start-ups, en kleine midcapondernemingen, lokale overheidsinstanties en sectoren die het waarschijnlijkst door deze verordening zullen worden beïnvloed."
+     },
+     {
+      "type": "text",
+      "text": "In de in de eerste alinea van dit lid bedoelde richtsnoeren wordt terdege rekening gehouden met de algemeen erkende stand van de techniek op het gebied van AI en met de relevante in de artikelen 40 en 41 bedoelde geharmoniseerde normen en gemeenschappelijke specificaties, dan wel met de krachtens de harmonisatiewetgeving van de Unie vastgestelde geharmoniseerde normen of technische specificaties."
+     }
+    ],
+    "seq": [
+     36
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "97": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "De in artikel 6, leden 6 en 7, artikel 7, leden 1 en 3, artikel 11, lid 3, artikel 43, leden 5 en 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, en artikel 53, leden 5 en 6, bedoelde bevoegdheid om gedelegeerde handelingen vast te stellen, wordt aan de Commissie toegekend voor een termijn van vijf jaar met ingang van 1 augustus 2024. De "
+     },
+     {
+      "op": "ins",
+      "text": "in artikel 2, lid 13, en artikel 30, lid 2, bedoelde bevoegdheid om gedelegeerde handelingen vast te stellen, wordt aan de "
+     },
+     {
+      "op": "eq",
+      "text": "Commissie "
+     },
+     {
+      "op": "ins",
+      "text": "toegekend voor een termijn van vijf jaar met ingang van … [datum van inwerkingtreding van deze wijzigingsverordening].De Commissie "
+     },
+     {
+      "op": "eq",
+      "text": "stelt uiterlijk negen maanden voor het einde van de termijn van vijf jaar een verslag op over de bevoegdheidsdelegatie. De bevoegdheidsdelegatie wordt stilzwijgend met termijnen van dezelfde duur verlengd, tenzij het Europees Parlement of de Raad zich uiterlijk drie maanden voor het einde van elke termijn tegen deze verlenging verzet."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "De in artikel 6, leden 6 en 7, artikel 7, leden 1 en 3, artikel 11, lid 3, artikel 43, leden 5 en 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, en artikel 53, leden 5 en 6, bedoelde bevoegdheid om gedelegeerde handelingen vast te stellen, wordt aan de Commissie toegekend voor een termijn van vijf jaar met ingang van 1 augustus 2024. De in artikel 2, lid 13, en artikel 30, lid 2, bedoelde bevoegdheid om gedelegeerde handelingen vast te stellen, wordt aan de Commissie toegekend voor een termijn van vijf jaar met ingang van … [datum van inwerkingtreding van deze wijzigingsverordening].De Commissie stelt uiterlijk negen maanden voor het einde van de termijn van vijf jaar een verslag op over de bevoegdheidsdelegatie. De bevoegdheidsdelegatie wordt stilzwijgend met termijnen van dezelfde duur verlengd, tenzij het Europees Parlement of de Raad zich uiterlijk drie maanden voor het einde van elke termijn tegen deze verlenging verzet."
+     }
+    ],
+    "seq": [
+     37
+    ]
+   },
+   {
+    "anchor": "lid-3",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Het Europees Parlement of de Raad kan de in artikel "
+     },
+     {
+      "op": "ins",
+      "text": "2, lid 13, artikel "
+     },
+     {
+      "op": "eq",
+      "text": "6, leden 6 en 7, artikel 7, leden 1 en 3, artikel 11, lid 3, artikel "
+     },
+     {
+      "op": "ins",
+      "text": "30, lid 2, artikel "
+     },
+     {
+      "op": "eq",
+      "text": "43, leden 5 en 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, en artikel 53, leden 5 en 6, bedoelde bevoegdheidsdelegatie te allen tijde intrekken. Het besluit tot intrekking beëindigt de delegatie van de in dat besluit genoemde bevoegdheid. Het wordt van kracht op de dag na die van de bekendmaking ervan in het Publicatieblad van de Europese Unie of op een daarin genoemde latere datum. Het laat de geldigheid van de reeds van kracht zijnde gedelegeerde handelingen onverlet."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Het Europees Parlement of de Raad kan de in artikel 2, lid 13, artikel 6, leden 6 en 7, artikel 7, leden 1 en 3, artikel 11, lid 3, artikel 30, lid 2, artikel 43, leden 5 en 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, en artikel 53, leden 5 en 6, bedoelde bevoegdheidsdelegatie te allen tijde intrekken. Het besluit tot intrekking beëindigt de delegatie van de in dat besluit genoemde bevoegdheid. Het wordt van kracht op de dag na die van de bekendmaking ervan in het Publicatieblad van de Europese Unie of op een daarin genoemde latere datum. Het laat de geldigheid van de reeds van kracht zijnde gedelegeerde handelingen onverlet."
+     }
+    ],
+    "seq": [
+     37
+    ]
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Een op grond van artikel "
+     },
+     {
+      "op": "ins",
+      "text": "2, lid 13, artikel "
+     },
+     {
+      "op": "eq",
+      "text": "6, lid 6 of lid 7, artikel 7, lid 1 of lid 3, artikel 11, lid 3,"
+     },
+     {
+      "op": "ins",
+      "text": "artikel"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "30, lid 2, "
+     },
+     {
+      "op": "eq",
+      "text": "artikel 43, lid 5 of lid 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, of artikel 53, lid 5 of lid 6, vastgestelde gedelegeerde handeling treedt alleen in werking indien het Europees Parlement noch de Raad daartegen binnen een termijn van drie maanden na de kennisgeving van de handeling aan het Europees Parlement en de Raad bezwaar heeft gemaakt, of indien zowel het Europees Parlement als de Raad voor het verstrijken van die termijn de Commissie hebben meegedeeld dat zij daartegen geen bezwaar zullen maken. Die termijn wordt op initiatief van het Europees Parlement of de Raad met drie maanden verlengd."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Een op grond van artikel 2, lid 13, artikel 6, lid 6 of lid 7, artikel 7, lid 1 of lid 3, artikel 11, lid 3,artikel 30, lid 2, artikel 43, lid 5 of lid 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, of artikel 53, lid 5 of lid 6, vastgestelde gedelegeerde handeling treedt alleen in werking indien het Europees Parlement noch de Raad daartegen binnen een termijn van drie maanden na de kennisgeving van de handeling aan het Europees Parlement en de Raad bezwaar heeft gemaakt, of indien zowel het Europees Parlement als de Raad voor het verstrijken van die termijn de Commissie hebben meegedeeld dat zij daartegen geen bezwaar zullen maken. Die termijn wordt op initiatief van het Europees Parlement of de Raad met drie maanden verlengd."
+     }
+    ],
+    "seq": [
+     37
+    ]
+   }
+  ],
+  "99": [
+   {
+    "anchor": "lid-1",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Overeenkomstig de voorwaarden van deze verordening stellen de lidstaten de voorschriften vast voor sancties en andere handhavingsmaatregelen, die ook "
+     },
+     {
+      "op": "ins",
+      "text": "administratieve boeten, "
+     },
+     {
+      "op": "eq",
+      "text": "waarschuwingen en niet-monetaire maatregelen kunnen omvatten, die van toepassing zijn op "
+     },
+     {
+      "op": "del",
+      "text": "inbreuken"
+     },
+     {
+      "op": "ins",
+      "text": "elke"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "inbreuk "
+     },
+     {
+      "op": "eq",
+      "text": "op deze verordening door operatoren, en nemen zij alle nodige maatregelen om ervoor te zorgen dat deze naar behoren en doeltreffend worden uitgevoerd, daarbij rekening houdend met de richtsnoeren die de Commissie op grond van artikel 96 heeft uitgevaardigd. De "
+     },
+     {
+      "op": "ins",
+      "text": "vastgestelde "
+     },
+     {
+      "op": "eq",
+      "text": "sancties moeten doeltreffend, evenredig en afschrikkend zijn. "
+     },
+     {
+      "op": "del",
+      "text": "Hierbij"
+     },
+     {
+      "op": "ins",
+      "text": "Bij"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "wordt"
+     },
+     {
+      "op": "ins",
+      "text": "het"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "rekening"
+     },
+     {
+      "op": "ins",
+      "text": "opleggen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "gehouden"
+     },
+     {
+      "op": "ins",
+      "text": "van"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "sancties houden de lidstaten rekening "
+     },
+     {
+      "op": "eq",
+      "text": "met de belangen van kmo’s, met inbegrip van start-ups, en "
+     },
+     {
+      "op": "ins",
+      "text": "kleine midcapondernemingen, en met "
+     },
+     {
+      "op": "eq",
+      "text": "hun economische levensvatbaarheid."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Overeenkomstig de voorwaarden van deze verordening stellen de lidstaten de voorschriften vast voor sancties en andere handhavingsmaatregelen, die ook administratieve boeten, waarschuwingen en niet-monetaire maatregelen kunnen omvatten, die van toepassing zijn op elke inbreuk op deze verordening door operatoren, en nemen zij alle nodige maatregelen om ervoor te zorgen dat deze naar behoren en doeltreffend worden uitgevoerd, daarbij rekening houdend met de richtsnoeren die de Commissie op grond van artikel 96 heeft uitgevaardigd. De vastgestelde sancties moeten doeltreffend, evenredig en afschrikkend zijn. Bij het opleggen van sancties houden de lidstaten rekening met de belangen van kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen, en met hun economische levensvatbaarheid."
+     }
+    ],
+    "seq": [
+     38
+    ]
+   },
+   {
+    "anchor": "lid-2",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Voor de niet-naleving van een van de volgende bepalingen in verband met operatoren of aangemelde instanties, uitgezonderd die welke zijn neergelegd in artikel 5, gelden administratieve geldboeten tot 15 000 000 EUR of, indien de overtreder een onderneming is, tot 3 % van haar totale wereldwijde jaarlijkse omzet voor het voorafgaande boekjaar, indien dat hoger is: a) verplichtingen voor aanbieders op grond van artikel 16; b) verplichtingen voor gemachtigden op grond van artikel 22; c) verplichtingen voor importeurs op grond van artikel 23; d) verplichtingen voor distributeurs op grond van artikel 24; "
+     },
+     {
+      "op": "ins",
+      "text": "d bis) verplichtingen voor aanbieders en operatoren op grond van artikel 25, leden 2 en 4; "
+     },
+     {
+      "op": "eq",
+      "text": "e) verplichtingen voor gebruiksverantwoordelijken op grond van artikel 26; f) eisen en verplichtingen voor aangemelde instanties op grond van artikel 31, artikel 33, lid 1, 3 of 4, of artikel 34; g) transparantieverplichtingen voor aanbieders en gebruiksverantwoordelijken op grond van artikel 50."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Voor de niet-naleving van een van de volgende bepalingen in verband met operatoren of aangemelde instanties, uitgezonderd die welke zijn neergelegd in artikel 5, gelden administratieve geldboeten tot 15 000 000 EUR of, indien de overtreder een onderneming is, tot 3 % van haar totale wereldwijde jaarlijkse omzet voor het voorafgaande boekjaar, indien dat hoger is:",
+      "refs": [
+       {
+        "start": 151,
+        "end": 160,
+        "href": "/artikel/5"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "verplichtingen voor aanbieders op grond van artikel 16;",
+          "refs": [
+           {
+            "start": 44,
+            "end": 54,
+            "href": "/artikel/16"
+           }
+          ]
+         }
+        ],
+        "anchor": "lid-4-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "verplichtingen voor gemachtigden op grond van artikel 22;",
+          "refs": [
+           {
+            "start": 46,
+            "end": 56,
+            "href": "/artikel/22"
+           }
+          ]
+         }
+        ],
+        "anchor": "lid-4-b"
+       },
+       {
+        "marker": "c)",
+        "content": [
+         {
+          "type": "text",
+          "text": "verplichtingen voor importeurs op grond van artikel 23;",
+          "refs": [
+           {
+            "start": 44,
+            "end": 54,
+            "href": "/artikel/23"
+           }
+          ]
+         }
+        ],
+        "anchor": "lid-4-c"
+       },
+       {
+        "marker": "d)",
+        "content": [
+         {
+          "type": "text",
+          "text": "verplichtingen voor distributeurs op grond van artikel 24;",
+          "refs": [
+           {
+            "start": 47,
+            "end": 57,
+            "href": "/artikel/24"
+           }
+          ]
+         }
+        ],
+        "anchor": "lid-4-d"
+       },
+       {
+        "marker": "d bis)",
+        "content": [
+         {
+          "type": "text",
+          "text": "verplichtingen voor aanbieders en operatoren op grond van artikel 25, leden 2 en 4;"
+         }
+        ],
+        "anchor": "lid-4-d-bis"
+       },
+       {
+        "marker": "e)",
+        "content": [
+         {
+          "type": "text",
+          "text": "verplichtingen voor gebruiksverantwoordelijken op grond van artikel 26;",
+          "refs": [
+           {
+            "start": 60,
+            "end": 70,
+            "href": "/artikel/26"
+           }
+          ]
+         }
+        ],
+        "anchor": "lid-4-e"
+       },
+       {
+        "marker": "f)",
+        "content": [
+         {
+          "type": "text",
+          "text": "eisen en verplichtingen voor aangemelde instanties op grond van artikel 31, artikel 33, lid 1, 3 of 4, of artikel 34;",
+          "refs": [
+           {
+            "start": 64,
+            "end": 74,
+            "href": "/artikel/31"
+           },
+           {
+            "start": 76,
+            "end": 93,
+            "href": "/artikel/33#lid-1"
+           },
+           {
+            "start": 106,
+            "end": 116,
+            "href": "/artikel/34"
+           }
+          ]
+         }
+        ],
+        "anchor": "lid-4-f"
+       },
+       {
+        "marker": "g)",
+        "content": [
+         {
+          "type": "text",
+          "text": "transparantieverplichtingen voor aanbieders en gebruiksverantwoordelijken op grond van artikel 50.",
+          "refs": [
+           {
+            "start": 87,
+            "end": 97,
+            "href": "/artikel/50"
+           }
+          ]
+         }
+        ],
+        "anchor": "lid-4-g"
+       }
+      ]
+     }
+    ],
+    "seq": [
+     38
+    ]
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6bis",
+    "status": "inserted",
+    "displayNumber": "6 bis",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "In het geval van kleine midcapondernemingen bedraagt elke in de leden 4 en 5 bedoelde geldboete ten hoogste de daarin bedoelde percentages of bedragen, indien deze lager zijn."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "In het geval van kleine midcapondernemingen bedraagt elke in de leden 4 en 5 bedoelde geldboete ten hoogste de daarin bedoelde percentages of bedragen, indien deze lager zijn."
+     }
+    ],
+    "seq": [
+     38
+    ]
+   },
+   {
+    "anchor": "lid-7",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-8",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-9",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-10",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-11",
+    "status": "unchanged",
+    "seq": []
+   }
+  ],
+  "111": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Onverminderd de toepassing van artikel 5 als bedoeld in artikel 113, "
+     },
+     {
+      "op": "del",
+      "text": "lid"
+     },
+     {
+      "op": "ins",
+      "text": "derde"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "3"
+     },
+     {
+      "op": "ins",
+      "text": "alinea"
+     },
+     {
+      "op": "eq",
+      "text": ", punt a), is deze verordening alleen van toepassing op operatoren van AI-systemen met een hoog risico, met uitzondering van de in lid 1 van dit artikel bedoelde systemen, die vóór "
+     },
+     {
+      "op": "del",
+      "text": "2"
+     },
+     {
+      "op": "ins",
+      "text": "de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "augustus"
+     },
+     {
+      "op": "ins",
+      "text": "in"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "2026"
+     },
+     {
+      "op": "ins",
+      "text": "artikel"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "113 vermelde toepassingsdatum voor hoofdstuk III "
+     },
+     {
+      "op": "eq",
+      "text": "in de handel zijn gebracht of in gebruik zijn gesteld"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " indien die systemen vanaf die datum aanzienlijke wijzigingen in hun ontwerp ondergaan. In ieder geval ondernemen de aanbieders en gebruiksverantwoordelijken van AI-systemen met een hoog risico die bedoeld zijn om door overheidsinstanties te worden gebruikt, de nodige stappen om uiterlijk op 2 augustus 2030 aan de eisen en verplichtingen van deze verordening te voldoen."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Onverminderd de toepassing van artikel 5 als bedoeld in artikel 113, derde alinea, punt a), is deze verordening alleen van toepassing op operatoren van AI-systemen met een hoog risico, met uitzondering van de in lid 1 van dit artikel bedoelde systemen, die vóór de in artikel 113 vermelde toepassingsdatum voor hoofdstuk III in de handel zijn gebracht of in gebruik zijn gesteld, indien die systemen vanaf die datum aanzienlijke wijzigingen in hun ontwerp ondergaan. In ieder geval ondernemen de aanbieders en gebruiksverantwoordelijken van AI-systemen met een hoog risico die bedoeld zijn om door overheidsinstanties te worden gebruikt, de nodige stappen om uiterlijk op 2 augustus 2030 aan de eisen en verplichtingen van deze verordening te voldoen."
+     }
+    ],
+    "seq": [
+     39
+    ]
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "inserted",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Aanbieders van AI-systemen, met inbegrip van AI-systemen voor algemene doeleinden, die synthetische audio-, beeld-, video- of tekstinhoud genereren en vóór 2 augustus 2026 in de handel zijn gebracht, nemen de nodige stappen om uiterlijk op 2 december 2026 aan artikel 50, lid 2, te voldoen."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Aanbieders van AI-systemen, met inbegrip van AI-systemen voor algemene doeleinden, die synthetische audio-, beeld-, video- of tekstinhoud genereren en vóór 2 augustus 2026 in de handel zijn gebracht, nemen de nodige stappen om uiterlijk op 2 december 2026 aan artikel 50, lid 2, te voldoen."
+     }
+    ],
+    "seq": [
+     39
+    ]
+   }
+  ],
+  "113": [
+   {
+    "anchor": "inhoud",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Deze verordening treedt in werking op de twintigste dag na die van de bekendmaking ervan in het Publicatieblad van de Europese Unie. Zij is van toepassing met ingang van 2 augustus 2026. Evenwel zijn: a) de hoofdstukken I en II van toepassing met ingang van 2 februari 2025"
+     },
+     {
+      "op": "ins",
+      "text": ", met uitzondering van artikel 5, lid 1, eerste alinea, punten b bis) en b ter), en artikel 5, leden 1 bis en lid 1 ter, die van toepassing zijn met ingang van 2 december 2026"
+     },
+     {
+      "op": "eq",
+      "text": "; b) hoofdstuk III, afdeling 4, hoofdstuk V, hoofdstuk VII en hoofdstuk XII en artikel 78 van toepassing met ingang van 2 augustus 2025, met uitzondering van artikel 101; c) "
+     },
+     {
+      "op": "ins",
+      "text": "hoofdstuk III, de afdelingen 1, 2 en 3, met uitzondering van "
+     },
+     {
+      "op": "eq",
+      "text": "artikel 6, lid "
+     },
+     {
+      "op": "ins",
+      "text": "5, van toepassing met ingang van: i) 2 december 2027 voor wat betreft AI-systemen die op grond van artikel 6, lid 2, en bijlage III als AI-systemen met een hoog risico zijn aangemerkt, en ii) 2 augustus 2028 voor wat betreft AI-systemen die op grond van artikel 6, lid "
+     },
+     {
+      "op": "eq",
+      "text": "1, en "
+     },
+     {
+      "op": "ins",
+      "text": "bijlage I als AI-systemen met een hoog risico zijn aangemerkt. d) "
+     },
+     {
+      "op": "eq",
+      "text": "de "
+     },
+     {
+      "op": "del",
+      "text": "overeenkomstige"
+     },
+     {
+      "op": "ins",
+      "text": "artikelen"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "verplichtingen"
+     },
+     {
+      "op": "ins",
+      "text": "102"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "van"
+     },
+     {
+      "op": "ins",
+      "text": "tot"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "deze"
+     },
+     {
+      "op": "ins",
+      "text": "en"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "verordening"
+     },
+     {
+      "op": "ins",
+      "text": "met"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "110 "
+     },
+     {
+      "op": "eq",
+      "text": "van toepassing met ingang van "
+     },
+     {
+      "op": "del",
+      "text": "2"
+     },
+     {
+      "op": "ins",
+      "text": "…"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "augustus"
+     },
+     {
+      "op": "ins",
+      "text": "[de"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "2027"
+     },
+     {
+      "op": "ins",
+      "text": "datum van inwerkingtreding van deze wijzigingsrichtlijn]"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Deze verordening treedt in werking op de twintigste dag na die van de bekendmaking ervan in het Publicatieblad van de Europese Unie."
+     },
+     {
+      "type": "text",
+      "text": "Zij is van toepassing met ingang van 2 augustus 2026."
+     },
+     {
+      "type": "text",
+      "text": "Evenwel zijn:"
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de hoofdstukken I en II van toepassing met ingang van 2 februari 2025, met uitzondering van artikel 5, lid 1, eerste alinea, punten b bis) en b ter), en artikel 5, leden 1 bis en lid 1 ter, die van toepassing zijn met ingang van 2 december 2026;"
+         }
+        ],
+        "anchor": "punt-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "hoofdstuk III, afdeling 4, hoofdstuk V, hoofdstuk VII en hoofdstuk XII en artikel 78 van toepassing met ingang van 2 augustus 2025, met uitzondering van artikel 101;",
+          "refs": [
+           {
+            "start": 0,
+            "end": 25,
+            "href": "/#hoofdstuk-iii"
+           },
+           {
+            "start": 27,
+            "end": 38,
+            "href": "/#hoofdstuk-v"
+           },
+           {
+            "start": 40,
+            "end": 53,
+            "href": "/#hoofdstuk-vii"
+           },
+           {
+            "start": 57,
+            "end": 70,
+            "href": "/#hoofdstuk-xii"
+           },
+           {
+            "start": 74,
+            "end": 84,
+            "href": "/artikel/78"
+           },
+           {
+            "start": 153,
+            "end": 164,
+            "href": "/artikel/101"
+           }
+          ]
+         }
+        ],
+        "anchor": "punt-b"
+       },
+       {
+        "marker": "c)",
+        "content": [
+         {
+          "type": "text",
+          "text": "hoofdstuk III, de afdelingen 1, 2 en 3, met uitzondering van artikel 6, lid 5, van toepassing met ingang van:"
+         },
+         {
+          "type": "list",
+          "items": [
+           {
+            "marker": "i)",
+            "content": [
+             {
+              "type": "text",
+              "text": "2 december 2027 voor wat betreft AI-systemen die op grond van artikel 6, lid 2, en bijlage III als AI-systemen met een hoog risico zijn aangemerkt, en"
+             }
+            ]
+           },
+           {
+            "marker": "ii)",
+            "content": [
+             {
+              "type": "text",
+              "text": "2 augustus 2028 voor wat betreft AI-systemen die op grond van artikel 6, lid 1, en bijlage I als AI-systemen met een hoog risico zijn aangemerkt."
+             }
+            ]
+           }
+          ]
+         }
+        ],
+        "anchor": "punt-c"
+       },
+       {
+        "marker": "d)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de artikelen 102 tot en met 110 van toepassing met ingang van … [de datum van inwerkingtreding van deze wijzigingsrichtlijn]."
+         }
+        ],
+        "anchor": "punt-d"
+       }
+      ]
+     }
+    ],
+    "seq": [
+     40
+    ]
+   }
   ]
  },
- "annexes": {}
+ "annexes": {
+  "i": [
+   {
+    "anchor": "inhoud",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Afdeling A — Lijst van harmonisatiewetgeving van de Unie op basis van het nieuwe wetgevingskader "
+     },
+     {
+      "op": "del",
+      "text": "1. Richtlijn 2006/42/EG van het Europees Parlement en de Raad van 17 mei 2006 betreffende machines en tot wijziging van Richtlijn 95/16/EG (PB L 157 van 9.6.2006, blz. 24) "
+     },
+     {
+      "op": "eq",
+      "text": "2. Richtlijn 2009/48/EG van het Europees Parlement en de Raad van 18 juni 2009 betreffende de veiligheid van speelgoed (PB L 170 van 30.6.2009, blz. 1) 3. Richtlijn 2013/53/EU van het Europees Parlement en de Raad van 20 november 2013 betreffende pleziervaartuigen en waterscooters en tot intrekking van Richtlijn 94/25/EG (PB L 354 van 28.12.2013, blz. 90) 4. Richtlijn 2014/33/EU van het Europees Parlement en de Raad van 26 februari 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake liften en veiligheidscomponenten voor liften (PB L 96 van 29.3.2014, blz. 251) 5. Richtlijn 2014/34/EU van het Europees Parlement en de Raad van 26 februari 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake apparaten en beveiligingssystemen bedoeld voor gebruik op plaatsen waar ontploffingsgevaar kan heersen (PB L 96 van 29.3.2014, blz. 309) 6. Richtlijn 2014/53/EU van het Europees Parlement en de Raad van 16 april 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake het op de markt aanbieden van radioapparatuur en tot intrekking van Richtlijn 1999/5/EG (PB L 153 van 22.5.2014, blz. 62) 7. Richtlijn 2014/68/EU van het Europees Parlement en de Raad van 15 mei 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake het op de markt aanbieden van drukapparatuur (PB L 189 van 27.6.2014, blz. 164) 8. Verordening (EU) 2016/424 van het Europees Parlement en de Raad van 9 maart 2016 betreffende kabelbaaninstallaties en tot intrekking van Richtlijn 2000/9/EG (PB L 81 van 31.3.2016, blz. 1) 9. Verordening (EU) 2016/425 van het Europees Parlement en de Raad van 9 maart 2016 betreffende persoonlijke beschermingsmiddelen en tot intrekking van Richtlijn 89/686/EEG van de Raad (PB L 81 van 31.3.2016, blz. 51) 10. Verordening (EU) 2016/426 van het Europees Parlement en de Raad van 9 maart 2016 betreffende gasverbrandingstoestellen en tot intrekking van Richtlijn 2009/142/EG (PB L 81 van 31.3.2016, blz. 99) 11. Verordening (EU) 2017/745 van het Europees Parlement en de Raad van 5 april 2017 betreffende medische hulpmiddelen, tot wijziging van Richtlijn 2001/83/EG, Verordening (EG) nr. 178/2002 en Verordening (EG) nr. 1223/2009, en tot intrekking van Richtlijnen 90/385/EEG en 93/42/EEG van de Raad (PB L 117 van 5.5.2017, blz. 1) 12. Verordening (EU) 2017/746 van het Europees Parlement en de Raad van 5 april 2017 betreffende medische hulpmiddelen voor in-vitrodiagnostiek en tot intrekking van Richtlijn 98/79/EG en Besluit 2010/227/EU van de Commissie (PB L 117 van 5.5.2017, blz. 176) Afdeling B — Lijst van andere harmonisatiewetgeving van de Unie 13. Verordening (EG) nr. 300/2008 van het Europees Parlement en de Raad van 11 maart 2008 inzake gemeenschappelijke regels op het gebied van de beveiliging van de burgerluchtvaart en tot intrekking van Verordening (EG) nr. 2320/2002 (PB L 97 van 9.4.2008, blz. 72) 14. Verordening (EU) nr. 168/2013 van het Europees Parlement en de Raad van 15 januari 2013 betreffende de goedkeuring van en het markttoezicht op twee- of driewielige voertuigen en vierwielers (PB L 60 van 2.3.2013, blz. 52) 15. Verordening (EU) nr. 167/2013 van het Europees Parlement en de Raad van 5 februari 2013 inzake de goedkeuring van en het markttoezicht op landbouw- en bosbouwvoertuigen (PB L 60 van 2.3.2013, blz. 1) 16. Richtlijn 2014/90/EU van het Europees Parlement en de Raad van 23 juli 2014 inzake uitrusting van zeeschepen en tot intrekking van Richtlijn 96/98/EG van de Raad (PB L 257 van 28.8.2014, blz. 146) 17. Richtlijn (EU) 2016/797 van het Europees Parlement en de Raad van 11 mei 2016 betreffende de interoperabiliteit van het spoorwegsysteem in de Europese Unie (PB L 138 van 26.5.2016, blz. 44) 18. Verordening (EU) 2018/858 van het Europees Parlement en de Raad van 30 mei 2018 betreffende de goedkeuring van en het markttoezicht op motorvoertuigen en aanhangwagens daarvan en systemen, onderdelen en technische eenheden die voor dergelijke voertuigen zijn bestemd, tot wijziging van Verordeningen (EG) nr. 715/2007 en (EG) nr. 595/2009 en tot intrekking van Richtlijn 2007/46/EG (PB L 151 van 14.6.2018, blz. 1) 19. Verordening (EU) 2019/2144 van het Europees Parlement en de Raad van 27 november 2019 betreffende de voorschriften voor de typegoedkeuring van motorvoertuigen en aanhangwagens daarvan en van systemen, onderdelen en technische eenheden die voor dergelijke voertuigen zijn bestemd wat de algemene veiligheid ervan en de bescherming van de inzittenden van voertuigen en kwetsbare weggebruikers betreft, tot wijziging van Verordening (EU) 2018/858 van het Europees Parlement en de Raad en tot intrekking van de Verordeningen (EG) nr. 78/2009, (EG) nr. 79/2009 en (EG) nr. 661/2009 van het Europees Parlement en de Raad en de Verordeningen (EG) nr. 631/2009, (EU) nr. 406/2010, (EU) nr. 672/2010, (EU) nr. 1003/2010, (EU) nr. 1005/2010, (EU) nr. 1008/2010, (EU) nr. 1009/2010, (EU) nr. 19/2011, (EU) nr. 109/2011, (EU) nr. 458/2011, (EU) nr. 65/2012, (EU) nr. 130/2012, (EU) nr. 347/2012, (EU) nr. 351/2012, (EU) nr. 1230/2012 en (EU) 2015/166 van de Commissie (PB L 325 van 16.12.2019, blz. 1) 20. Verordening (EU) 2018/1139 van het Europees Parlement en de Raad van 4 juli 2018 inzake gemeenschappelijke regels op het gebied van burgerluchtvaart en tot oprichting van een Agentschap van de Europese Unie voor de veiligheid van de luchtvaart, en tot wijziging van de Verordeningen (EG) nr. 2111/2005, (EG) nr. 1008/2008, (EU) nr. 996/2010, (EU) nr. 376/2014 en de Richtlijnen 2014/30/EU en 2014/53/EU van het Europees Parlement en de Raad, en tot intrekking van de Verordeningen (EG) nr. 552/2004 en (EG) nr. 216/2008 van het Europees Parlement en de Raad en Verordening (EEG) nr. 3922/91 van de Raad (PB L 212 van 22.8.2018, blz. 1), voor zover het gaat om het ontwerp, de productie en het in de handel brengen van luchtvaartuigen als bedoeld in artikel 2, lid 1, punten a) en b), wat betreft onbemande luchtvaartuigen, en hun motoren, propellers, onderdelen en apparatuur om het luchtvaartuig op afstand te besturen."
+     },
+     {
+      "op": "ins",
+      "text": " 21. Verordening (EU) 2023/1230 van het Europees Parlement en de Raad van 14 juni 2023 betreffende machines en tot intrekking van Richtlijn 2006/42/EG van het Europees Parlement en de Raad en Richtlijn 73/361/EEG van de Raad (PB L 165 van 29.6.2023, blz. 1, ELI: http://data.europa.eu/eli/reg/2023/1230/oj)."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "heading",
+      "text": "Afdeling A — Lijst van harmonisatiewetgeving van de Unie op basis van het nieuwe wetgevingskader"
+     },
+     {
+      "type": "text",
+      "text": "2. Richtlijn 2009/48/EG van het Europees Parlement en de Raad van 18 juni 2009 betreffende de veiligheid van speelgoed (PB L 170 van 30.6.2009, blz. 1)"
+     },
+     {
+      "type": "text",
+      "text": "3. Richtlijn 2013/53/EU van het Europees Parlement en de Raad van 20 november 2013 betreffende pleziervaartuigen en waterscooters en tot intrekking van Richtlijn 94/25/EG (PB L 354 van 28.12.2013, blz. 90)"
+     },
+     {
+      "type": "text",
+      "text": "4. Richtlijn 2014/33/EU van het Europees Parlement en de Raad van 26 februari 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake liften en veiligheidscomponenten voor liften (PB L 96 van 29.3.2014, blz. 251)"
+     },
+     {
+      "type": "text",
+      "text": "5. Richtlijn 2014/34/EU van het Europees Parlement en de Raad van 26 februari 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake apparaten en beveiligingssystemen bedoeld voor gebruik op plaatsen waar ontploffingsgevaar kan heersen (PB L 96 van 29.3.2014, blz. 309)"
+     },
+     {
+      "type": "text",
+      "text": "6. Richtlijn 2014/53/EU van het Europees Parlement en de Raad van 16 april 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake het op de markt aanbieden van radioapparatuur en tot intrekking van Richtlijn 1999/5/EG (PB L 153 van 22.5.2014, blz. 62)"
+     },
+     {
+      "type": "text",
+      "text": "7. Richtlijn 2014/68/EU van het Europees Parlement en de Raad van 15 mei 2014 betreffende de harmonisatie van de wetgevingen van de lidstaten inzake het op de markt aanbieden van drukapparatuur (PB L 189 van 27.6.2014, blz. 164)"
+     },
+     {
+      "type": "text",
+      "text": "8. Verordening (EU) 2016/424 van het Europees Parlement en de Raad van 9 maart 2016 betreffende kabelbaaninstallaties en tot intrekking van Richtlijn 2000/9/EG (PB L 81 van 31.3.2016, blz. 1)"
+     },
+     {
+      "type": "text",
+      "text": "9. Verordening (EU) 2016/425 van het Europees Parlement en de Raad van 9 maart 2016 betreffende persoonlijke beschermingsmiddelen en tot intrekking van Richtlijn 89/686/EEG van de Raad (PB L 81 van 31.3.2016, blz. 51)"
+     },
+     {
+      "type": "text",
+      "text": "10. Verordening (EU) 2016/426 van het Europees Parlement en de Raad van 9 maart 2016 betreffende gasverbrandingstoestellen en tot intrekking van Richtlijn 2009/142/EG (PB L 81 van 31.3.2016, blz. 99)"
+     },
+     {
+      "type": "text",
+      "text": "11. Verordening (EU) 2017/745 van het Europees Parlement en de Raad van 5 april 2017 betreffende medische hulpmiddelen, tot wijziging van Richtlijn 2001/83/EG, Verordening (EG) nr. 178/2002 en Verordening (EG) nr. 1223/2009, en tot intrekking van Richtlijnen 90/385/EEG en 93/42/EEG van de Raad (PB L 117 van 5.5.2017, blz. 1)"
+     },
+     {
+      "type": "text",
+      "text": "12. Verordening (EU) 2017/746 van het Europees Parlement en de Raad van 5 april 2017 betreffende medische hulpmiddelen voor in-vitrodiagnostiek en tot intrekking van Richtlijn 98/79/EG en Besluit 2010/227/EU van de Commissie (PB L 117 van 5.5.2017, blz. 176)"
+     },
+     {
+      "type": "heading",
+      "text": "Afdeling B — Lijst van andere harmonisatiewetgeving van de Unie"
+     },
+     {
+      "type": "text",
+      "text": "13. Verordening (EG) nr. 300/2008 van het Europees Parlement en de Raad van 11 maart 2008 inzake gemeenschappelijke regels op het gebied van de beveiliging van de burgerluchtvaart en tot intrekking van Verordening (EG) nr. 2320/2002 (PB L 97 van 9.4.2008, blz. 72)"
+     },
+     {
+      "type": "text",
+      "text": "14. Verordening (EU) nr. 168/2013 van het Europees Parlement en de Raad van 15 januari 2013 betreffende de goedkeuring van en het markttoezicht op twee- of driewielige voertuigen en vierwielers (PB L 60 van 2.3.2013, blz. 52)"
+     },
+     {
+      "type": "text",
+      "text": "15. Verordening (EU) nr. 167/2013 van het Europees Parlement en de Raad van 5 februari 2013 inzake de goedkeuring van en het markttoezicht op landbouw- en bosbouwvoertuigen (PB L 60 van 2.3.2013, blz. 1)"
+     },
+     {
+      "type": "text",
+      "text": "16. Richtlijn 2014/90/EU van het Europees Parlement en de Raad van 23 juli 2014 inzake uitrusting van zeeschepen en tot intrekking van Richtlijn 96/98/EG van de Raad (PB L 257 van 28.8.2014, blz. 146)"
+     },
+     {
+      "type": "text",
+      "text": "17. Richtlijn (EU) 2016/797 van het Europees Parlement en de Raad van 11 mei 2016 betreffende de interoperabiliteit van het spoorwegsysteem in de Europese Unie (PB L 138 van 26.5.2016, blz. 44)"
+     },
+     {
+      "type": "text",
+      "text": "18. Verordening (EU) 2018/858 van het Europees Parlement en de Raad van 30 mei 2018 betreffende de goedkeuring van en het markttoezicht op motorvoertuigen en aanhangwagens daarvan en systemen, onderdelen en technische eenheden die voor dergelijke voertuigen zijn bestemd, tot wijziging van Verordeningen (EG) nr. 715/2007 en (EG) nr. 595/2009 en tot intrekking van Richtlijn 2007/46/EG (PB L 151 van 14.6.2018, blz. 1)"
+     },
+     {
+      "type": "text",
+      "text": "19. Verordening (EU) 2019/2144 van het Europees Parlement en de Raad van 27 november 2019 betreffende de voorschriften voor de typegoedkeuring van motorvoertuigen en aanhangwagens daarvan en van systemen, onderdelen en technische eenheden die voor dergelijke voertuigen zijn bestemd wat de algemene veiligheid ervan en de bescherming van de inzittenden van voertuigen en kwetsbare weggebruikers betreft, tot wijziging van Verordening (EU) 2018/858 van het Europees Parlement en de Raad en tot intrekking van de Verordeningen (EG) nr. 78/2009, (EG) nr. 79/2009 en (EG) nr. 661/2009 van het Europees Parlement en de Raad en de Verordeningen (EG) nr. 631/2009, (EU) nr. 406/2010, (EU) nr. 672/2010, (EU) nr. 1003/2010, (EU) nr. 1005/2010, (EU) nr. 1008/2010, (EU) nr. 1009/2010, (EU) nr. 19/2011, (EU) nr. 109/2011, (EU) nr. 458/2011, (EU) nr. 65/2012, (EU) nr. 130/2012, (EU) nr. 347/2012, (EU) nr. 351/2012, (EU) nr. 1230/2012 en (EU) 2015/166 van de Commissie (PB L 325 van 16.12.2019, blz. 1)"
+     },
+     {
+      "type": "text",
+      "text": "20. Verordening (EU) 2018/1139 van het Europees Parlement en de Raad van 4 juli 2018 inzake gemeenschappelijke regels op het gebied van burgerluchtvaart en tot oprichting van een Agentschap van de Europese Unie voor de veiligheid van de luchtvaart, en tot wijziging van de Verordeningen (EG) nr. 2111/2005, (EG) nr. 1008/2008, (EU) nr. 996/2010, (EU) nr. 376/2014 en de Richtlijnen 2014/30/EU en 2014/53/EU van het Europees Parlement en de Raad, en tot intrekking van de Verordeningen (EG) nr. 552/2004 en (EG) nr. 216/2008 van het Europees Parlement en de Raad en Verordening (EEG) nr. 3922/91 van de Raad (PB L 212 van 22.8.2018, blz. 1), voor zover het gaat om het ontwerp, de productie en het in de handel brengen van luchtvaartuigen als bedoeld in artikel 2, lid 1, punten a) en b), wat betreft onbemande luchtvaartuigen, en hun motoren, propellers, onderdelen en apparatuur om het luchtvaartuig op afstand te besturen.",
+      "refs": [
+       {
+        "start": 753,
+        "end": 780,
+        "href": "/artikel/2#lid-1-a"
+       },
+       {
+        "start": 784,
+        "end": 786,
+        "href": "/artikel/2#lid-1-b"
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "text": "21. Verordening (EU) 2023/1230 van het Europees Parlement en de Raad van 14 juni 2023 betreffende machines en tot intrekking van Richtlijn 2006/42/EG van het Europees Parlement en de Raad en Richtlijn 73/361/EEG van de Raad (PB L 165 van 29.6.2023, blz. 1, ELI: http://data.europa.eu/eli/reg/2023/1230/oj)."
+     }
+    ],
+    "seq": [
+     41
+    ]
+   }
+  ],
+  "viii": [
+   {
+    "anchor": "inhoud",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Afdeling A — Informatie die moet worden ingediend door aanbieders van AI-systemen met een hoog risico overeenkomstig artikel 49, lid 1 Voor wat betreft AI-systemen met een hoog risico die moeten worden geregistreerd in overeenstemming met artikel 49, lid 1, wordt de volgende informatie verstrekt en daarna actueel gehouden: 1. de naam, het adres en de contactgegevens van de aanbieder; 2. indien de informatie wordt ingediend door een andere persoon namens de aanbieder, de naam, het adres en de contactgegevens van die persoon; 3. de naam, het adres en de contactgegevens van de gemachtigde, indien van toepassing; 4. de handelsnaam van het AI-systeem, evenals eventuele aanvullende ondubbelzinnige verwijzingen waarmee het AI-systeem kan worden geïdentificeerd en getraceerd; 5. een beschrijving van het beoogde doel van het AI-systeem en van de componenten en functies die door dit AI-systeem worden ondersteund; 6. een basale en beknopte beschrijving van de door het systeem gebruikte informatie (data, input) en de operationele logica ervan; 7. de status van het AI-systeem (in de handel, in gebruik, niet langer in de handel/in gebruik, teruggeroepen); 8. het type, het nummer en de verloopdatum van het door de aangemelde instantie verstrekte certificaat en de naam of het identificatienummer van die aangemelde instantie, indien van toepassing; 9. een gescand exemplaar van het in punt 8 bedoelde certificaat, indien van toepassing; 10. de lidstaten waarin het AI-systeem in de handel is gebracht, in gebruik is gesteld of op de markt in de Unie is aangeboden; 11. een exemplaar van de in artikel 47 bedoelde EU-conformiteitsverklaring; 12. een elektronische gebruiksaanwijzing; deze informatie wordt niet verstrekt voor AI-systemen met een hoog risico op het gebied van rechtshandhaving of migratie-, asiel- en grenstoezichtsbeheer, als bedoeld in bijlage III, punten 1, 6 en 7; 13. een URL voor aanvullende informatie (facultatief). Afdeling B — Informatie die moet worden ingediend door aanbieders van AI-systemen met een hoog risico overeenkomstig artikel 49, lid 2 Voor wat betreft AI-systemen met een hoog risico die moeten worden geregistreerd in overeenstemming met artikel 49, lid 2, wordt de volgende informatie verstrekt en daarna actueel gehouden: 1. de naam, het adres en de contactgegevens van de aanbieder; 2. indien de informatie wordt ingediend door een andere persoon namens de aanbieder, de naam, het adres en de contactgegevens van die persoon; 3. de naam, het adres en de contactgegevens van de gemachtigde, indien van toepassing; 4. de handelsnaam van het AI-systeem, evenals eventuele aanvullende ondubbelzinnige verwijzingen waarmee het AI-systeem kan worden geïdentificeerd en getraceerd; 5. een beschrijving van het beoogde doel van het AI-systeem; 6. de voorwaarde of voorwaarden uit hoofde van artikel 6, lid 3, waaronder het AI-systeem niet wordt beschouwd als een systeem met een hoog risico; "
+     },
+     {
+      "op": "del",
+      "text": "7. een korte samenvatting van de redenen waarom het AI-systeem bij de toepassing van de procedure uit hoofde van artikel 6, lid 3, niet als een systeem met een hoog risico wordt beschouwd; "
+     },
+     {
+      "op": "eq",
+      "text": "8. de status van het AI-systeem (in de handel, in gebruik, niet langer in de handel/in gebruik, teruggeroepen); "
+     },
+     {
+      "op": "del",
+      "text": "9. de lidstaten waarin het AI-systeem in de handel is gebracht, in gebruik is gesteld of op de markt in de Unie is aangeboden. "
+     },
+     {
+      "op": "eq",
+      "text": "Afdeling C — Informatie die moet worden ingediend door gebruiksverantwoordelijken van AI-systemen met een hoog risico overeenkomstig artikel 49, lid 3 Voor wat betreft AI-systemen met een hoog risico die moeten worden geregistreerd in overeenstemming met artikel 49, lid 3, wordt de volgende informatie verstrekt en daarna actueel gehouden: 1. de naam, het adres en de contactgegevens van de gebruiksverantwoordelijke; 2. de naam, het adres en de contactgegevens van de persoon die namens de gebruiksverantwoordelijke informatie indient; 3. de URL van de invoer van het AI-systeem in de EU-databank door de aanbieder ervan; 4. een samenvatting van de bevindingen van de overeenkomstig artikel 27 uitgevoerde effectbeoordeling op het gebied van de grondrechten; 5. een samenvatting van de gegevensbeschermingeffectbeoordeling die is uitgevoerd overeenkomstig artikel 35 van Verordening (EU) 2016/679 of artikel 27 van Richtlijn (EU) 2016/680, als nader bepaald in artikel 26, lid 8, van deze verordening, indien van toepassing."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "heading",
+      "text": "Afdeling A — Informatie die moet worden ingediend door aanbieders van AI-systemen met een hoog risico overeenkomstig artikel 49, lid 1"
+     },
+     {
+      "type": "text",
+      "text": "Voor wat betreft AI-systemen met een hoog risico die moeten worden geregistreerd in overeenstemming met artikel 49, lid 1, wordt de volgende informatie verstrekt en daarna actueel gehouden:",
+      "refs": [
+       {
+        "start": 104,
+        "end": 121,
+        "href": "/artikel/49#lid-1"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "1.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de naam, het adres en de contactgegevens van de aanbieder;"
+         }
+        ],
+        "anchor": "punt-1"
+       },
+       {
+        "marker": "2.",
+        "content": [
+         {
+          "type": "text",
+          "text": "indien de informatie wordt ingediend door een andere persoon namens de aanbieder, de naam, het adres en de contactgegevens van die persoon;"
+         }
+        ],
+        "anchor": "punt-2"
+       },
+       {
+        "marker": "3.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de naam, het adres en de contactgegevens van de gemachtigde, indien van toepassing;"
+         }
+        ],
+        "anchor": "punt-3"
+       },
+       {
+        "marker": "4.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de handelsnaam van het AI-systeem, evenals eventuele aanvullende ondubbelzinnige verwijzingen waarmee het AI-systeem kan worden geïdentificeerd en getraceerd;"
+         }
+        ],
+        "anchor": "punt-4"
+       },
+       {
+        "marker": "5.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een beschrijving van het beoogde doel van het AI-systeem en van de componenten en functies die door dit AI-systeem worden ondersteund;"
+         }
+        ],
+        "anchor": "punt-5"
+       },
+       {
+        "marker": "6.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een basale en beknopte beschrijving van de door het systeem gebruikte informatie (data, input) en de operationele logica ervan;"
+         }
+        ],
+        "anchor": "punt-6"
+       },
+       {
+        "marker": "7.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de status van het AI-systeem (in de handel, in gebruik, niet langer in de handel/in gebruik, teruggeroepen);"
+         }
+        ],
+        "anchor": "punt-7"
+       },
+       {
+        "marker": "8.",
+        "content": [
+         {
+          "type": "text",
+          "text": "het type, het nummer en de verloopdatum van het door de aangemelde instantie verstrekte certificaat en de naam of het identificatienummer van die aangemelde instantie, indien van toepassing;"
+         }
+        ],
+        "anchor": "punt-8"
+       },
+       {
+        "marker": "9.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een gescand exemplaar van het in punt 8 bedoelde certificaat, indien van toepassing;"
+         }
+        ],
+        "anchor": "punt-9"
+       },
+       {
+        "marker": "10.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de lidstaten waarin het AI-systeem in de handel is gebracht, in gebruik is gesteld of op de markt in de Unie is aangeboden;"
+         }
+        ],
+        "anchor": "punt-10"
+       },
+       {
+        "marker": "11.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een exemplaar van de in artikel 47 bedoelde EU-conformiteitsverklaring;",
+          "refs": [
+           {
+            "start": 24,
+            "end": 34,
+            "href": "/artikel/47"
+           }
+          ]
+         }
+        ],
+        "anchor": "punt-11"
+       },
+       {
+        "marker": "12.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een elektronische gebruiksaanwijzing; deze informatie wordt niet verstrekt voor AI-systemen met een hoog risico op het gebied van rechtshandhaving of migratie-, asiel- en grenstoezichtsbeheer, als bedoeld in bijlage III, punten 1, 6 en 7;",
+          "refs": [
+           {
+            "start": 208,
+            "end": 229,
+            "href": "/bijlage/iii#punt-1"
+           },
+           {
+            "start": 231,
+            "end": 232,
+            "href": "/bijlage/iii#punt-6"
+           },
+           {
+            "start": 236,
+            "end": 237,
+            "href": "/bijlage/iii#punt-7"
+           }
+          ]
+         }
+        ],
+        "anchor": "punt-12"
+       },
+       {
+        "marker": "13.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een URL voor aanvullende informatie (facultatief)."
+         }
+        ],
+        "anchor": "punt-13"
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "text": "Afdeling B — Informatie die moet worden ingediend door aanbieders van AI-systemen met een hoog risico overeenkomstig artikel 49, lid 2"
+     },
+     {
+      "type": "text",
+      "text": "Voor wat betreft AI-systemen met een hoog risico die moeten worden geregistreerd in overeenstemming met artikel 49, lid 2, wordt de volgende informatie verstrekt en daarna actueel gehouden:",
+      "refs": [
+       {
+        "start": 104,
+        "end": 121,
+        "href": "/artikel/49#lid-2"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "1.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de naam, het adres en de contactgegevens van de aanbieder;"
+         }
+        ],
+        "anchor": "punt-1"
+       },
+       {
+        "marker": "2.",
+        "content": [
+         {
+          "type": "text",
+          "text": "indien de informatie wordt ingediend door een andere persoon namens de aanbieder, de naam, het adres en de contactgegevens van die persoon;"
+         }
+        ],
+        "anchor": "punt-2"
+       },
+       {
+        "marker": "3.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de naam, het adres en de contactgegevens van de gemachtigde, indien van toepassing;"
+         }
+        ],
+        "anchor": "punt-3"
+       },
+       {
+        "marker": "4.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de handelsnaam van het AI-systeem, evenals eventuele aanvullende ondubbelzinnige verwijzingen waarmee het AI-systeem kan worden geïdentificeerd en getraceerd;"
+         }
+        ],
+        "anchor": "punt-4"
+       },
+       {
+        "marker": "5.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een beschrijving van het beoogde doel van het AI-systeem;"
+         }
+        ],
+        "anchor": "punt-5"
+       },
+       {
+        "marker": "6.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de voorwaarde of voorwaarden uit hoofde van artikel 6, lid 3, waaronder het AI-systeem niet wordt beschouwd als een systeem met een hoog risico;",
+          "refs": [
+           {
+            "start": 44,
+            "end": 60,
+            "href": "/artikel/6#lid-3"
+           }
+          ]
+         }
+        ],
+        "anchor": "punt-6"
+       },
+       {
+        "marker": "8.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de status van het AI-systeem (in de handel, in gebruik, niet langer in de handel/in gebruik, teruggeroepen);"
+         }
+        ],
+        "anchor": "punt-8"
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "text": "Afdeling C — Informatie die moet worden ingediend door gebruiksverantwoordelijken van AI-systemen met een hoog risico overeenkomstig artikel 49, lid 3"
+     },
+     {
+      "type": "text",
+      "text": "Voor wat betreft AI-systemen met een hoog risico die moeten worden geregistreerd in overeenstemming met artikel 49, lid 3, wordt de volgende informatie verstrekt en daarna actueel gehouden:",
+      "refs": [
+       {
+        "start": 104,
+        "end": 121,
+        "href": "/artikel/49#lid-3"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "1.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de naam, het adres en de contactgegevens van de gebruiksverantwoordelijke;"
+         }
+        ],
+        "anchor": "punt-1"
+       },
+       {
+        "marker": "2.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de naam, het adres en de contactgegevens van de persoon die namens de gebruiksverantwoordelijke informatie indient;"
+         }
+        ],
+        "anchor": "punt-2"
+       },
+       {
+        "marker": "3.",
+        "content": [
+         {
+          "type": "text",
+          "text": "de URL van de invoer van het AI-systeem in de EU-databank door de aanbieder ervan;"
+         }
+        ],
+        "anchor": "punt-3"
+       },
+       {
+        "marker": "4.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een samenvatting van de bevindingen van de overeenkomstig artikel 27 uitgevoerde effectbeoordeling op het gebied van de grondrechten;",
+          "refs": [
+           {
+            "start": 58,
+            "end": 68,
+            "href": "/artikel/27"
+           }
+          ]
+         }
+        ],
+        "anchor": "punt-4"
+       },
+       {
+        "marker": "5.",
+        "content": [
+         {
+          "type": "text",
+          "text": "een samenvatting van de gegevensbeschermingeffectbeoordeling die is uitgevoerd overeenkomstig artikel 35 van Verordening (EU) 2016/679 of artikel 27 van Richtlijn (EU) 2016/680, als nader bepaald in artikel 26, lid 8, van deze verordening, indien van toepassing.",
+          "refs": [
+           {
+            "start": 199,
+            "end": 216,
+            "href": "/artikel/26#lid-8"
+           }
+          ]
+         }
+        ],
+        "anchor": "punt-5"
+       }
+      ]
+     }
+    ],
+    "seq": [
+     42
+    ]
+   }
+  ]
+ }
 }

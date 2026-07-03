@@ -16,6 +16,54 @@
   "text": "Aanbieders en gebruiksverantwoordelijken van andere AI-systemen en -modellen en gebruiksverantwoordelijken van AI-systemen met een hoog risico mogen bij wijze van uitzondering bijzondere categorieën persoonsgegevens verwerken, voor zover: a) deze verwerking strikt noodzakelijk is om te zorgen voor opsporing en correctie van vooringenomenheid met het oog op mogelijke vooringenomenheid die waarschijnlijk gevolgen heeft voor de gezondheid en veiligheid van personen, nadelige effecten heeft op de grondrechten of leidt tot discriminatie die op grond van het Unierecht verboden is, vooral wanneer data-outputs invloed hebben op inputs voor toekomstige operaties; en b) alle in lid 1 vervatte voorwaarden en waarborgen worden toegepast. Dit lid schept geen verplichting om dergelijke vooringenomenheid op te sporen en te corrigeren."
  },
  {
+  "id": "omnibus-art-60bis-lid-1",
+  "type": "artikel",
+  "ref": "Artikel 60 bis, lid 1",
+  "heading": "Het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving van AI-systemen met een hoog risico die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen (digitale omnibus)",
+  "url": "/artikel/60bis#lid-1",
+  "text": "De lidstaten kunnen overeenkomstig dit artikel toestaan dat AI-systemen met een hoog risico onder reële omstandigheden buiten AI-testomgevingen voor regelgeving worden getest door aanbieders of potentiële aanbieders van op AI gebaseerde producten die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen, teneinde de conformiteit van die systemen met de in de artikelen 8 tot en met 15 vastgestelde vereisten te beoordelen en te verifiëren."
+ },
+ {
+  "id": "omnibus-art-60bis-lid-2",
+  "type": "artikel",
+  "ref": "Artikel 60 bis, lid 2",
+  "heading": "Het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving van AI-systemen met een hoog risico die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen (digitale omnibus)",
+  "url": "/artikel/60bis#lid-2",
+  "text": "Lidstaten die ervoor kiezen tests als bedoeld in lid 1 toe te staan, stellen afzonderlijk of samen een kader voor testen onder reële omstandigheden vast."
+ },
+ {
+  "id": "omnibus-art-60bis-lid-3",
+  "type": "artikel",
+  "ref": "Artikel 60 bis, lid 3",
+  "heading": "Het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving van AI-systemen met een hoog risico die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen (digitale omnibus)",
+  "url": "/artikel/60bis#lid-3",
+  "text": "Elke lidstaat stelt de Commissie in kennis van elk kader voor tests onder reële omstandigheden dat hij vaststelt, alvorens het ten uitvoer te leggen. Dit laat de bevoegdheden van de Commissie uit hoofde van de onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie onverlet."
+ },
+ {
+  "id": "omnibus-art-60bis-lid-4",
+  "type": "artikel",
+  "ref": "Artikel 60 bis, lid 4",
+  "heading": "Het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving van AI-systemen met een hoog risico die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen (digitale omnibus)",
+  "url": "/artikel/60bis#lid-4",
+  "text": "De lidstaten die een kader voor testen onder reële omstandigheden hebben vastgesteld, zorgen ervoor dat de relevante nationale bevoegde autoriteiten, bevoegde autoriteiten en overheidsinstanties die verantwoordelijk zijn voor het beheer en de exploitatie van de infrastructuur en producten die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen, nauw en te goeder trouw met elkaar samenwerken en alle praktische belemmeringen wegnemen, onder meer met betrekking tot procedureregels die toegang bieden tot fysieke openbare infrastructuur, indien dit nodig is, om die kaders voor testen onder reële omstandigheden met succes uit te voeren en op AI gebaseerde producten die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen, te testen."
+ },
+ {
+  "id": "omnibus-art-60bis-lid-5",
+  "type": "artikel",
+  "ref": "Artikel 60 bis, lid 5",
+  "heading": "Het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving van AI-systemen met een hoog risico die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen (digitale omnibus)",
+  "url": "/artikel/60bis#lid-5",
+  "text": "In de kaders voor testen onder reële omstandigheden worden de voorwaarden vastgesteld voor het testen onder reële omstandigheden. Die kaders: a) omvatten een verplicht plan voor testen onder reële omstandigheden dat moet worden overeengekomen tussen de aanbieder of potentiële aanbieder en de nationale bevoegde autoriteit of relevante autoriteit overeenkomstig de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie; b) waarborgen de naleving van de in artikel 60, leden 2 en 3, lid 4, punten d) tot en met j), en leden 5 tot en met 9, vastgestelde vereisten, waarbij elke verwijzing naar markttoezichtautoriteiten in die bepalingen wordt gelezen als een verwijzing naar de nationale bevoegde autoriteit of relevante autoriteit, naargelang het geval, overeenkomstig de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie; c) omvatten doeltreffende regelingen inzake bestuur en verantwoordingsplicht; d) waarborgen een hoog niveau van bescherming van gezondheid, veiligheid en de grondrechten."
+ },
+ {
+  "id": "omnibus-art-60bis-lid-6",
+  "type": "artikel",
+  "ref": "Artikel 60 bis, lid 6",
+  "heading": "Het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving van AI-systemen met een hoog risico die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen (digitale omnibus)",
+  "url": "/artikel/60bis#lid-6",
+  "text": "Het testen onder reële omstandigheden voldoet aan de toepasselijke bepalingen die zijn vastgesteld in de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie. De in die bepalingen vastgestelde vereisten doen geen afbreuk aan de toepassing van dit artikel, voor zover dat nodig is om de in lid 1 bedoelde tests mogelijk te maken."
+ },
+ {
   "id": "omnibus-art-75bis-lid-1",
   "type": "artikel",
   "ref": "Artikel 75 bis, lid 1",
@@ -190,6 +238,14 @@
   "heading": "Vrijwaringsmaatregelen en verdere specificatie (digitale omnibus)",
   "url": "/artikel/75quinquies#lid-4",
   "text": "Het AI-bureau maakt de besluiten bekend die het op grond van de artikelen 75 ter en 75 quater neemt. In de bekendmaking worden de namen van de partijen en de hoofdpunten van het besluit, waaronder opgelegde sancties, vermeld. Bij de bekendmaking wordt rekening gehouden met de rechten en het rechtmatige belang van betrokken personen bij de bescherming van hun vertrouwelijke informatie."
+ },
+ {
+  "id": "omnibus-anx-xiv",
+  "type": "bijlage",
+  "ref": "Bijlage XIV",
+  "heading": "De lijst met codes, categorieën en overeenkomstige soorten AI-systemen ten behoeve van de in artikel 30 bedoelde aanmeldingsprocedure ter omschrijving van de reikwijdte van de aanwijzing van de aangemelde instanties (digitale omnibus)",
+  "url": "/bijlage/xiv",
+  "text": "1. Inleiding Voor de conformiteitsbeoordeling van AI-systemen met een hoog risico uit hoofde van deze verordening kan de betrokkenheid van conformiteitsbeoordelingsinstanties vereist zijn. Alleen conformiteitsbeoordelingsinstanties die uit hoofde van deze verordening zijn aangewezen, mogen conformiteitsbeoordelingen uitvoeren, en dan alleen voor de activiteiten in verband met de betrokken soorten AI-systemen. De lijst met codes, categorieën en overeenkomstige soorten AI-systemen bepaalt de reikwijdte van de aanwijzing van conformiteitsbeoordelingsinstanties die krachtens artikel 30 zijn aangemeld. 2. Lijst met codes, categorieën en overeenkomstige soorten AI-systemen a. AI-systemen die onder bijlage I, punt 1, vallen Code AI-verordening  AIP 0102 AI-systemen die onder bijlage I, afdeling A, punt 2, vallen. AIP 0103 AI-systemen die onder bijlage I, afdeling A, punt 3, vallen. AIP 0104 AI-systemen die onder bijlage I, afdeling A, punt 4, vallen. AIP 0105 AI-systemen die onder bijlage I, afdeling A, punt 5, vallen. AIP 0106 AI-systemen die onder bijlage I, afdeling A, punt 6, vallen. AIP 0107 AI-systemen die onder bijlage I, afdeling A, punt 7, vallen. AIP 0108 AI-systemen die onder bijlage I, afdeling A, punt 8, vallen. AIP 0109 AI-systemen die onder bijlage I, afdeling A, punt 9, vallen. AIP 0110 AI-systemen die onder bijlage I, afdeling A, punt 10, vallen. AIP 0111 AI-systemen die onder bijlage I, afdeling A, punt 11, vallen. AIP 0112 AI-systemen die onder bijlage I, afdeling A, punt 12, vallen. b. AI-systemen die onder bijlage III, punt 1, vallen Code AI-verordening  AIB 0201 Systemen voor biometrische identificatie op afstand AIB 0202 AI-systemen voor biometrische categorisering AIB 0203 AI-systemen voor het herkennen van emoties 3. AI-technologiespecifieke codes a. Symbolische AI- en expertsystemen Code AI-verordening  AIH 0101 AI-systemen op basis van symbolische AI, expert- en op kennis gebaseerde systemen, en AI-systemen op basis van zoekopdrachten en optimalisatie b. Machinaal leren, met uitzondering van generatieve AI en AI-systemen voor algemene doeleinden Code AI-verordening  AIH 0201 AI-systemen voor de verwerking van gestructureerde gegevens AIH 0202 AI-systemen voor de verwerking van signaal- en audiogegevens AIH 0203 AI-systemen voor de verwerking van tekstgegevens AIH 0204 AI-systemen voor de verwerking van beelden en video’s AIH 0205 AI-systemen die van hun omgeving leren, met uitzondering van AI-systemen die onder AIH 0401 vallen c. AI-systemen op basis van AI-modellen voor algemene doeleinden of generatieve AI Code AI-verordening  AIH 0301 Generatieve AI-systemen, met inbegrip van AI-systemen die zijn gebaseerd op AI-modellen voor algemene doeleinden d. Opkomende AI-technologieën Code AI-verordening  AIH 0401 AI-systemen op basis van andere opkomende AI-technologieën die niet onder andere codes vallen, met inbegrip van agentische AI 4. Verzoek om aanwijzing De conformiteitsbeoordelingsinstanties maken gebruik van de lijsten met codes, categorieën en overeenkomstige soorten AI-systemen in deze bijlage bij het specificeren van de soorten AI-systemen in het in artikel 29 bedoelde verzoek om aanwijzing."
  },
  {
   "id": "omnibus-art-1-lid-2",
@@ -518,5 +574,221 @@
   "heading": "Testen van AI-systemen met een hoog risico onder reële omstandigheden buiten AI-testomgevingen voor regelgeving (digitale omnibus)",
   "url": "/artikel/60?diff=1#w-lid-2",
   "text": "Aanbieders of potentiële aanbieders kunnen zelf of in samenwerking met een of meer gebruiksverantwoordelijken of potentiële gebruiksverantwoordelijken onder reële omstandigheden tests uitvoeren op in bijlage III bedoelde AI-systemen met een hoog risico of AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, op elk moment vóór het in de handel brengen of in gebruik stellen van het AI-systeem met een hoog risico."
+ },
+ {
+  "id": "omnibus-art-63-lid-1",
+  "type": "artikel",
+  "ref": "Artikel 63",
+  "heading": "Afwijkingen voor specifieke operatoren (digitale omnibus)",
+  "url": "/artikel/63?diff=1#w-lid-1",
+  "text": "Kmo’s, met inbegrip van start-ups, kunnen op vereenvoudigde wijze voldoen aan bepaalde elementen van het bij artikel 17 vereiste systeem voor kwaliteitsbeheer, mits zij geen partnerondernemingen of verbonden ondernemingen in de zin van Aanbeveling 2003/361/EG hebben. Daartoe ontwikkelt de Commissie richtsnoeren over de elementen van het systeem voor kwaliteitsbeheer waaraan op vereenvoudigde wijze kan worden voldaan, rekening houdend met de behoeften van kmo’s, zonder afbreuk te doen aan het beschermingsniveau of de noodzaak om de verplichtingen voor AI-systemen met een hoog risico na te leven."
+ },
+ {
+  "id": "omnibus-art-64-lid-3",
+  "type": "artikel",
+  "ref": "Artikel 64",
+  "heading": "AI-bureau (digitale omnibus)",
+  "url": "/artikel/64?diff=1#w-lid-3",
+  "text": "Onverminderd de begrotingsprocedure worden aan het AI-bureau voldoende middelen toegewezen om zijn taken doeltreffend uit te voeren en zijn bevoegdheden met betrekking tot de handhaving van deze verordening uit te oefenen."
+ },
+ {
+  "id": "omnibus-art-69-lid-2",
+  "type": "artikel",
+  "ref": "Artikel 69",
+  "heading": "Toegang tot de pool van deskundigen door de lidstaten (digitale omnibus)",
+  "url": "/artikel/69?diff=1#w-lid-2",
+  "text": "De lidstaten kunnen worden verplicht vergoedingen te betalen voor het advies en de ondersteuning van de deskundigen tegen een tarief dat gelijkwaardig is aan dat van de vergoedingen die op grond van de in artikel 68, lid 1, bedoelde uitvoeringshandeling op de Commissie van toepassing zijn."
+ },
+ {
+  "id": "omnibus-art-70-lid-8",
+  "type": "artikel",
+  "ref": "Artikel 70",
+  "heading": "Aanwijzing van nationale bevoegde autoriteiten en centrale contactpunten (digitale omnibus)",
+  "url": "/artikel/70?diff=1#w-lid-8",
+  "text": "Nationale bevoegde autoriteiten kunnen begeleiding bij en advies over de uitvoering van deze verordening verstrekken, met name aan kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen, rekening houdend met de begeleiding en het advies van de AI-board en, indien nodig, de Commissie. Wanneer nationale bevoegde autoriteiten van plan zijn te voorzien in begeleiding en advies ten aanzien van een AI-systeem op gebieden die onder ander Unierecht vallen, worden in voorkomend geval de nationale bevoegde autoriteiten onder dat Unierecht geraadpleegd."
+ },
+ {
+  "id": "omnibus-art-72-lid-3",
+  "type": "artikel",
+  "ref": "Artikel 72",
+  "heading": "Monitoring door aanbieders na het in de handel brengen en plan voor monitoring na het in de handel brengen voor AI-systemen met een hoog risico (digitale omnibus)",
+  "url": "/artikel/72?diff=1#w-lid-3",
+  "text": "Het systeem voor monitoring na het in de handel brengen, is gebaseerd op een plan voor monitoring na het in de handel brengen. Het plan voor monitoring na het in de handel brengen, maakt deel uit van de in bijlage IV bedoelde technische documentatie. De Commissie stelt uiterlijk op 2 september 2027 richtsnoeren vast, met inbegrip van een model, voor het plan voor monitoring na het in de handel brengen en houdt daarbij zoveel mogelijk rekening met het advies van de AI-board."
+ },
+ {
+  "id": "omnibus-art-75-lid-1",
+  "type": "artikel",
+  "ref": "Artikel 75",
+  "heading": "Markttoezicht en controle van AI-systemen en wederzijdse bijstand (digitale omnibus)",
+  "url": "/artikel/75?diff=1#w-lid-1",
+  "text": "Het AI-bureau is exclusief bevoegd voor het toezicht op en de handhaving van de verplichtingen uit hoofde van deze verordening met betrekking tot de volgende AI-systemen: a) AI-systemen die gebaseerd zijn op AI-modellen voor algemene doeleinden wanneer het model en het systeem door dezelfde aanbieder zijn ontwikkeld, of door aanbieders die deel uitmaken van dezelfde onderneming als die aanbieder, met uitzondering van: i) AI-systemen die verband houden met producten die onder de in bijlage I vermelde harmonisatiewetgeving van de Unie vallen; ii) AI-systemen zoals bedoeld in bijlage III, punt 2; iii) AI-systemen die worden aangeboden door rechtshandhavingsinstanties, grensbeheerautoriteiten en financiële instellingen, voor zover die AI-systemen onder artikel 74, lid 6, vallen; en iv) AI-systemen zoals bedoeld in bijlage III, punt 8, wat betreft de rechtsbedeling; b) AI-systemen die een overeenkomstig Verordening (EU) 2022/2065 aangewezen zeer groot onlineplatform of zeer grote onlinezoekmachine vormen of daarin zijn geïntegreerd. De exclusieve bevoegdheid zoals bedoeld in de eerste alinea is van toepassing op de aanbieders van die systemen. Zij is alleen op de gebruiksverantwoordelijken van die systemen van toepassing wanneer zij ook de aanbieder zijn of deel uitmaken van dezelfde onderneming als de aanbieder."
+ },
+ {
+  "id": "omnibus-art-75-lid-1bis",
+  "type": "artikel",
+  "ref": "Artikel 75",
+  "heading": "Markttoezicht en controle van AI-systemen en wederzijdse bijstand (digitale omnibus)",
+  "url": "/artikel/75?diff=1#w-lid-1bis",
+  "text": "In afwijking van artikel 73 melden aanbieders van AI-systemen met een hoog risico die op grond van lid 1 van dit artikel onder de bevoegdheid van het AI-bureau vallen, elk ernstig incident aan het AI-bureau. Artikel 73, leden 2 tot en met 9, is van overeenkomstige toepassing. Het AI-bureau geeft de relevante informatie onverwijld door aan de markttoezichtautoriteit van de lidstaat op het grondgebied waarvan de aanbieder of zijn wettelijke vertegenwoordiger zich bevindt."
+ },
+ {
+  "id": "omnibus-art-75-lid-1ter",
+  "type": "artikel",
+  "ref": "Artikel 75",
+  "heading": "Markttoezicht en controle van AI-systemen en wederzijdse bijstand (digitale omnibus)",
+  "url": "/artikel/75?diff=1#w-lid-1ter",
+  "text": "De autoriteiten die betrokken zijn bij de toepassing van deze verordening werken actief samen met het AI-bureau en bieden het AI-bureau de nodige bijstand voor de uitoefening van zijn bevoegdheden, met inbegrip van, in voorkomend geval, met betrekking tot inspecties of andere handhavingsmaatregelen die op het grondgebied van een lidstaat moeten worden uitgevoerd. Daartoe beschikken die autoriteiten over de bevoegdheden waarin wordt voorzien op grond van deze verordening en Verordening (EU) 2019/1020, en in voorkomend geval en beperkt tot wat nodig is om hun taken uit hoofde van dit lid te vervullen, overeenkomstig de toepasselijke nationale procedures."
+ },
+ {
+  "id": "omnibus-art-75-lid-1quater",
+  "type": "artikel",
+  "ref": "Artikel 75",
+  "heading": "Markttoezicht en controle van AI-systemen en wederzijdse bijstand (digitale omnibus)",
+  "url": "/artikel/75?diff=1#w-lid-1quater",
+  "text": "Bij het nemen van onderzoeks- of handhavingsmaatregelen op het grondgebied van een lidstaat waarbij toegang tot de gegevens of het AI-systeem van een overheidsinstantie betrokken is, wordt het AI-bureau bijgestaan door de relevante markttoezichtautoriteit."
+ },
+ {
+  "id": "omnibus-art-75-lid-1quinquies",
+  "type": "artikel",
+  "ref": "Artikel 75",
+  "heading": "Markttoezicht en controle van AI-systemen en wederzijdse bijstand (digitale omnibus)",
+  "url": "/artikel/75?diff=1#w-lid-1quinquies",
+  "text": "Alvorens een besluit te nemen dat tot gevolg zou hebben dat het op een nationale markt aanbieden of in gebruik stellen van het AI-systeem wordt verboden of beperkt, of een besluit om het AI-systeem uit de handel te nemen of terug te roepen van die markt, stelt het AI-bureau de voor die markt bevoegde markttoezichtautoriteit zonder onnodige vertraging in kennis van zijn voornemen om een dergelijk besluit te nemen. Het AI-bureau raadpleegt in voorkomend geval de bij de toepassing van deze verordening betrokken autoriteiten over alle aangelegenheden die verband houden met de toepassing en handhaving van deze verordening."
+ },
+ {
+  "id": "omnibus-art-75-lid-1sexies",
+  "type": "artikel",
+  "ref": "Artikel 75",
+  "heading": "Markttoezicht en controle van AI-systemen en wederzijdse bijstand (digitale omnibus)",
+  "url": "/artikel/75?diff=1#w-lid-1sexies",
+  "text": "Het AI-bureau is bevoegd voor conformiteitsbeoordelingen en tests ten aanzien van in lid 1 van dit artikel bedoelde AI-systemen als die zijn ingedeeld als AI-systemen met een hoog risico en onderworpen zijn aan conformiteitsbeoordelingen door derden op grond van artikel 43, voordat dergelijke AI-systemen in de handel worden gebracht of in gebruik worden gesteld. Bij deze tests en beoordelingen wordt nagegaan of de systemen voldoen aan de desbetreffende eisen van deze verordening en overeenkomstig deze verordening in de Unie in de handel mogen worden gebracht of in gebruik worden gesteld. De Commissie vertrouwt de uitvoering van deze tests of beoordelingen toe aan overeenkomstig deze verordening aangewezen aangemelde instanties, in welk geval de aangemelde instantie namens de Commissie optreedt. Indien een aangemelde instantie waaraan de Commissie uit hoofde van dit lid taken heeft gedelegeerd, deze taken niet naar behoren uitvoert, kan de Commissie de delegatie met onmiddellijke ingang intrekken. De vergoedingen voor test- en beoordelingsactiviteiten worden opgelegd aan de aanbieder van een AI-systeem met een hoog risico die bij de Commissie een conformiteitsbeoordeling door een derde partij heeft aangevraagd. De aanbieder betaalt de kosten in verband met de diensten die de Commissie overeenkomstig dit artikel aan de aangemelde instanties toevertrouwt rechtstreeks aan de aangemelde instantie."
+ },
+ {
+  "id": "omnibus-art-75-lid-2bis",
+  "type": "artikel",
+  "ref": "Artikel 75",
+  "heading": "Markttoezicht en controle van AI-systemen en wederzijdse bijstand (digitale omnibus)",
+  "url": "/artikel/75?diff=1#w-lid-2bis",
+  "text": "Wanneer een markttoezichtautoriteit gegronde en voldoende redenen heeft om te vermoeden dat een aanbieder of gebruiksverantwoordelijke van een in lid 1 van dit artikel bedoeld AI-systeem inbreuk heeft gemaakt op deze verordening, kan zij het AI-bureau via het desbetreffende overeenkomstig artikel 70, lid 2, aangewezen centrale contactpunt verzoeken de zaak te beoordelen om de nodige toezichts- en handhavingsmaatregelen te nemen om een snelle naleving van deze verordening te waarborgen. Een dergelijk verzoek wordt terdege gemotiveerd en bevat ten minste het volgende: a) de naam van de betrokken aanbieder of gebruiksverantwoordelijke; b) een beschrijving van de relevante feiten, de bepalingen van deze verordening waarop inbreuk zou zijn gemaakt en alle gegronde en voldoende redenen om een inbreuk te vermoeden, waaronder in voorkomend geval een beschrijving van de negatieve gevolgen van de vermeende inbreuk; c) de markttoezichtautoriteit die het verzoek indient. Het AI-bureau houdt zoveel mogelijk rekening met het verzoek en de markttoezichtautoriteit werkt actief samen met het AI-bureau en verleent het de nodige bijstand bij de uitoefening van zijn bevoegdheden overeenkomstig lid 1 bis. Het AI-bureau stelt het centrale contactpunt zonder onnodige vertraging en in elk geval uiterlijk vier maanden na ontvangst van het verzoek in kennis van zijn voornemen om zijn bevoegdheden overeenkomstig artikel 75 bis uit te oefenen of van de redenen waarom het zijn bevoegdheden niet uitoefent. Indien het AI-bureau besluit zijn bevoegdheden overeenkomstig artikel 75 bis uit te oefenen, stelt het dat centrale contactpunt periodiek in kennis van belangrijke ontwikkelingen in de procedure en de uitkomst van die procedure, zonder vertrouwelijke informatie openbaar te maken."
+ },
+ {
+  "id": "omnibus-art-76-lid-1",
+  "type": "artikel",
+  "ref": "Artikel 76",
+  "heading": "Toezicht op tests onder reële omstandigheden door markttoezichtautoriteiten (digitale omnibus)",
+  "url": "/artikel/76?diff=1#w-lid-1",
+  "text": "De markttoezichtautoriteiten hebben de bevoegdheden om ervoor te zorgen dat tests onder reële omstandigheden in overeenstemming zijn met deze verordening. Wanneer het testen onder reële omstandigheden is gebaseerd op artikel 60 bis, wordt elke verwijzing naar een markttoezichtautoriteit in dit artikel opgevat als een verwijzing naar de nationale bevoegde autoriteit of de bevoegde autoriteit uit hoofde van de in bijlage I, afdeling B, opgenomen harmonisatiewetgeving van de Unie, en worden verwijzingen naar artikel 60 in voorkomend geval gelezen als verwijzingen naar artikel 60 bis."
+ },
+ {
+  "id": "omnibus-art-77-lid-1",
+  "type": "artikel",
+  "ref": "Artikel 77",
+  "heading": "Bevoegdheden van de autoriteiten voor de bescherming van de grondrechten en samenwerking met markttoezichtautoriteiten (digitale omnibus)",
+  "url": "/artikel/77?diff=1#w-lid-1",
+  "text": "Nationale overheidsinstanties of -organen die de nakoming van verplichtingen krachtens het Unierecht ter bescherming van de grondrechten, waaronder het recht op non-discriminatie, controleren of handhaven, zijn bevoegd om krachtens deze verordening opgestelde of bijgehouden informatie of documentatie in een toegankelijke taal en in een machineleesbaar formaat elektronisch op te vragen en in te zien bij de relevante markttoezichtautoriteit wanneer toegang tot die informatie of documentatie nodig is voor het doeltreffend uitoefenen van de bevoegdheden onder hun mandaat binnen de grenzen van hun rechtsgebied. Dit artikel doet geen afbreuk aan de competenties, taken, bevoegdheden en onafhankelijkheid van de relevante nationale overheidsinstanties of -organen in het kader van hun mandaten."
+ },
+ {
+  "id": "omnibus-art-77-lid-1bis",
+  "type": "artikel",
+  "ref": "Artikel 77",
+  "heading": "Bevoegdheden van de autoriteiten voor de bescherming van de grondrechten en samenwerking met markttoezichtautoriteiten (digitale omnibus)",
+  "url": "/artikel/77?diff=1#w-lid-1bis",
+  "text": "Onder de in dit artikel gespecificeerde voorwaarden verleent de markttoezichtautoriteit de relevante overheidsinstantie of het relevante overheidsorgaan als bedoeld in lid 1, toegang tot die informatie of documentatie, onder meer door, indien nodig, die informatie of documentatie onverwijld op te vragen bij de aanbieder of de gebruiksverantwoordelijke."
+ },
+ {
+  "id": "omnibus-art-77-lid-1ter",
+  "type": "artikel",
+  "ref": "Artikel 77",
+  "heading": "Bevoegdheden van de autoriteiten voor de bescherming van de grondrechten en samenwerking met markttoezichtautoriteiten (digitale omnibus)",
+  "url": "/artikel/77?diff=1#w-lid-1ter",
+  "text": "De markttoezichtautoriteiten en de in lid 1 bedoelde overheidsinstanties of -organen werken nauw samen en verlenen elkaar de wederzijdse bijstand die nodig is voor het uitoefenen van de bevoegdheden onder hun mandaat, teneinde te zorgen voor de coherente toepassing van deze verordening en het Unierecht gericht op de bescherming van de grondrechten en het stroomlijnen van de procedures, met eerbiediging van hun respectieve competenties, taken, bevoegdheden en onafhankelijkheid. Dit omvat met name de uitwisseling van informatie waar dit nodig is voor het effectieve toezicht op of de effectieve handhaving van deze verordening en de respectieve andere wetgeving van de Unie."
+ },
+ {
+  "id": "omnibus-art-95-lid-4",
+  "type": "artikel",
+  "ref": "Artikel 95",
+  "heading": "Gedragscodes voor vrijwillige toepassing van specifieke voorschriften (digitale omnibus)",
+  "url": "/artikel/95?diff=1#w-lid-4",
+  "text": "Het AI-bureau en de lidstaten houden rekening met de specifieke belangen en behoeften van kmo’s, waaronder start-ups, en kleine midcapondernemingen bij het stimuleren en faciliteren van het opstellen van gedragscodes."
+ },
+ {
+  "id": "omnibus-art-96-lid-1",
+  "type": "artikel",
+  "ref": "Artikel 96",
+  "heading": "Richtsnoeren van de Commissie over de uitvoering van deze verordening (digitale omnibus)",
+  "url": "/artikel/96?diff=1#w-lid-1",
+  "text": "De Commissie ontwikkelt richtsnoeren over de praktische uitvoering van deze verordening, en met name over: a) de toepassing van de in de artikelen 8 tot en met 15 en de artikelen 25 en 26 bedoelde vereisten en verplichtingen; b) de in artikel 5 bedoelde verboden praktijken; c) de praktische uitvoering van de bepalingen in verband met substantiële wijziging; d) de praktische uitvoering van de in artikel 50 vastgelegde transparantieverplichtingen; e) gedetailleerde informatie over het verband van deze verordening met de in bijlage I vermelde harmonisatiewetgeving van de Unie en met andere relevante onderdelen van het Unierecht, onder meer wat betreft de consistentie bij de handhaving ervan; f) de toepassing van de definitie van een AI-systeem als gedefinieerd in artikel 3, punt 1). g) de praktische uitvoering van artikel 8, lid 2, artikel 9, lid 10, en artikel 17, lid 3, overeenkomstig het beginsel van complementariteit en evenredigheid, om consistentie te waarborgen, dubbel werk te voorkomen en extra lasten tot een minimum te beperken bij de naleving van de vereisten van deze verordening en de vereisten van de in bijlage I, deel A, vermelde harmonisatiewetgeving van de Unie; deze richtsnoeren worden uiterlijk op 1 augustus 2027 bekendgemaakt. Bij het uitvaardigen van dergelijke richtsnoeren betrekt de Commissie de AI-board en besteedt zij bijzondere aandacht aan de behoeften van kmo’s en, met inbegrip van start-ups, en kleine midcapondernemingen, lokale overheidsinstanties en sectoren die het waarschijnlijkst door deze verordening zullen worden beïnvloed. In de in de eerste alinea van dit lid bedoelde richtsnoeren wordt terdege rekening gehouden met de algemeen erkende stand van de techniek op het gebied van AI en met de relevante in de artikelen 40 en 41 bedoelde geharmoniseerde normen en gemeenschappelijke specificaties, dan wel met de krachtens de harmonisatiewetgeving van de Unie vastgestelde geharmoniseerde normen of technische specificaties."
+ },
+ {
+  "id": "omnibus-art-97-lid-2",
+  "type": "artikel",
+  "ref": "Artikel 97",
+  "heading": "Uitoefening van de bevoegdheidsdelegatie (digitale omnibus)",
+  "url": "/artikel/97?diff=1#w-lid-2",
+  "text": "De in artikel 6, leden 6 en 7, artikel 7, leden 1 en 3, artikel 11, lid 3, artikel 43, leden 5 en 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, en artikel 53, leden 5 en 6, bedoelde bevoegdheid om gedelegeerde handelingen vast te stellen, wordt aan de Commissie toegekend voor een termijn van vijf jaar met ingang van 1 augustus 2024. De in artikel 2, lid 13, en artikel 30, lid 2, bedoelde bevoegdheid om gedelegeerde handelingen vast te stellen, wordt aan de Commissie toegekend voor een termijn van vijf jaar met ingang van … [datum van inwerkingtreding van deze wijzigingsverordening].De Commissie stelt uiterlijk negen maanden voor het einde van de termijn van vijf jaar een verslag op over de bevoegdheidsdelegatie. De bevoegdheidsdelegatie wordt stilzwijgend met termijnen van dezelfde duur verlengd, tenzij het Europees Parlement of de Raad zich uiterlijk drie maanden voor het einde van elke termijn tegen deze verlenging verzet."
+ },
+ {
+  "id": "omnibus-art-97-lid-3",
+  "type": "artikel",
+  "ref": "Artikel 97",
+  "heading": "Uitoefening van de bevoegdheidsdelegatie (digitale omnibus)",
+  "url": "/artikel/97?diff=1#w-lid-3",
+  "text": "Het Europees Parlement of de Raad kan de in artikel 2, lid 13, artikel 6, leden 6 en 7, artikel 7, leden 1 en 3, artikel 11, lid 3, artikel 30, lid 2, artikel 43, leden 5 en 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, en artikel 53, leden 5 en 6, bedoelde bevoegdheidsdelegatie te allen tijde intrekken. Het besluit tot intrekking beëindigt de delegatie van de in dat besluit genoemde bevoegdheid. Het wordt van kracht op de dag na die van de bekendmaking ervan in het Publicatieblad van de Europese Unie of op een daarin genoemde latere datum. Het laat de geldigheid van de reeds van kracht zijnde gedelegeerde handelingen onverlet."
+ },
+ {
+  "id": "omnibus-art-97-lid-6",
+  "type": "artikel",
+  "ref": "Artikel 97",
+  "heading": "Uitoefening van de bevoegdheidsdelegatie (digitale omnibus)",
+  "url": "/artikel/97?diff=1#w-lid-6",
+  "text": "Een op grond van artikel 2, lid 13, artikel 6, lid 6 of lid 7, artikel 7, lid 1 of lid 3, artikel 11, lid 3,artikel 30, lid 2, artikel 43, lid 5 of lid 6, artikel 47, lid 5, artikel 51, lid 3, artikel 52, lid 4, of artikel 53, lid 5 of lid 6, vastgestelde gedelegeerde handeling treedt alleen in werking indien het Europees Parlement noch de Raad daartegen binnen een termijn van drie maanden na de kennisgeving van de handeling aan het Europees Parlement en de Raad bezwaar heeft gemaakt, of indien zowel het Europees Parlement als de Raad voor het verstrijken van die termijn de Commissie hebben meegedeeld dat zij daartegen geen bezwaar zullen maken. Die termijn wordt op initiatief van het Europees Parlement of de Raad met drie maanden verlengd."
+ },
+ {
+  "id": "omnibus-art-99-lid-1",
+  "type": "artikel",
+  "ref": "Artikel 99",
+  "heading": "Sancties (digitale omnibus)",
+  "url": "/artikel/99?diff=1#w-lid-1",
+  "text": "Overeenkomstig de voorwaarden van deze verordening stellen de lidstaten de voorschriften vast voor sancties en andere handhavingsmaatregelen, die ook administratieve boeten, waarschuwingen en niet-monetaire maatregelen kunnen omvatten, die van toepassing zijn op elke inbreuk op deze verordening door operatoren, en nemen zij alle nodige maatregelen om ervoor te zorgen dat deze naar behoren en doeltreffend worden uitgevoerd, daarbij rekening houdend met de richtsnoeren die de Commissie op grond van artikel 96 heeft uitgevaardigd. De vastgestelde sancties moeten doeltreffend, evenredig en afschrikkend zijn. Bij het opleggen van sancties houden de lidstaten rekening met de belangen van kmo’s, met inbegrip van start-ups, en kleine midcapondernemingen, en met hun economische levensvatbaarheid."
+ },
+ {
+  "id": "omnibus-art-99-lid-4",
+  "type": "artikel",
+  "ref": "Artikel 99",
+  "heading": "Sancties (digitale omnibus)",
+  "url": "/artikel/99?diff=1#w-lid-4",
+  "text": "Voor de niet-naleving van een van de volgende bepalingen in verband met operatoren of aangemelde instanties, uitgezonderd die welke zijn neergelegd in artikel 5, gelden administratieve geldboeten tot 15 000 000 EUR of, indien de overtreder een onderneming is, tot 3 % van haar totale wereldwijde jaarlijkse omzet voor het voorafgaande boekjaar, indien dat hoger is: a) verplichtingen voor aanbieders op grond van artikel 16; b) verplichtingen voor gemachtigden op grond van artikel 22; c) verplichtingen voor importeurs op grond van artikel 23; d) verplichtingen voor distributeurs op grond van artikel 24; d bis) verplichtingen voor aanbieders en operatoren op grond van artikel 25, leden 2 en 4; e) verplichtingen voor gebruiksverantwoordelijken op grond van artikel 26; f) eisen en verplichtingen voor aangemelde instanties op grond van artikel 31, artikel 33, lid 1, 3 of 4, of artikel 34; g) transparantieverplichtingen voor aanbieders en gebruiksverantwoordelijken op grond van artikel 50."
+ },
+ {
+  "id": "omnibus-art-99-lid-6bis",
+  "type": "artikel",
+  "ref": "Artikel 99",
+  "heading": "Sancties (digitale omnibus)",
+  "url": "/artikel/99?diff=1#w-lid-6bis",
+  "text": "In het geval van kleine midcapondernemingen bedraagt elke in de leden 4 en 5 bedoelde geldboete ten hoogste de daarin bedoelde percentages of bedragen, indien deze lager zijn."
+ },
+ {
+  "id": "omnibus-art-111-lid-2",
+  "type": "artikel",
+  "ref": "Artikel 111",
+  "heading": "Reeds in de handel gebrachte of in gebruik gestelde AI-systemen (digitale omnibus)",
+  "url": "/artikel/111?diff=1#w-lid-2",
+  "text": "Onverminderd de toepassing van artikel 5 als bedoeld in artikel 113, derde alinea, punt a), is deze verordening alleen van toepassing op operatoren van AI-systemen met een hoog risico, met uitzondering van de in lid 1 van dit artikel bedoelde systemen, die vóór de in artikel 113 vermelde toepassingsdatum voor hoofdstuk III in de handel zijn gebracht of in gebruik zijn gesteld, indien die systemen vanaf die datum aanzienlijke wijzigingen in hun ontwerp ondergaan. In ieder geval ondernemen de aanbieders en gebruiksverantwoordelijken van AI-systemen met een hoog risico die bedoeld zijn om door overheidsinstanties te worden gebruikt, de nodige stappen om uiterlijk op 2 augustus 2030 aan de eisen en verplichtingen van deze verordening te voldoen."
+ },
+ {
+  "id": "omnibus-art-111-lid-4",
+  "type": "artikel",
+  "ref": "Artikel 111",
+  "heading": "Reeds in de handel gebrachte of in gebruik gestelde AI-systemen (digitale omnibus)",
+  "url": "/artikel/111?diff=1#w-lid-4",
+  "text": "Aanbieders van AI-systemen, met inbegrip van AI-systemen voor algemene doeleinden, die synthetische audio-, beeld-, video- of tekstinhoud genereren en vóór 2 augustus 2026 in de handel zijn gebracht, nemen de nodige stappen om uiterlijk op 2 december 2026 aan artikel 50, lid 2, te voldoen."
+ },
+ {
+  "id": "omnibus-art-113-inhoud",
+  "type": "artikel",
+  "ref": "Artikel 113",
+  "heading": "Inwerkingtreding en toepassing (digitale omnibus)",
+  "url": "/artikel/113?diff=1#w-inhoud",
+  "text": "Deze verordening treedt in werking op de twintigste dag na die van de bekendmaking ervan in het Publicatieblad van de Europese Unie. Zij is van toepassing met ingang van 2 augustus 2026. Evenwel zijn: a) de hoofdstukken I en II van toepassing met ingang van 2 februari 2025, met uitzondering van artikel 5, lid 1, eerste alinea, punten b bis) en b ter), en artikel 5, leden 1 bis en lid 1 ter, die van toepassing zijn met ingang van 2 december 2026; b) hoofdstuk III, afdeling 4, hoofdstuk V, hoofdstuk VII en hoofdstuk XII en artikel 78 van toepassing met ingang van 2 augustus 2025, met uitzondering van artikel 101; c) hoofdstuk III, de afdelingen 1, 2 en 3, met uitzondering van artikel 6, lid 5, van toepassing met ingang van: i) 2 december 2027 voor wat betreft AI-systemen die op grond van artikel 6, lid 2, en bijlage III als AI-systemen met een hoog risico zijn aangemerkt, en ii) 2 augustus 2028 voor wat betreft AI-systemen die op grond van artikel 6, lid 1, en bijlage I als AI-systemen met een hoog risico zijn aangemerkt. d) de artikelen 102 tot en met 110 van toepassing met ingang van … [de datum van inwerkingtreding van deze wijzigingsrichtlijn]."
  }
 ]
