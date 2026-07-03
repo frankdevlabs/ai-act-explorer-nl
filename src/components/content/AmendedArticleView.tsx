@@ -17,12 +17,12 @@ export function AmendedArticleView({ clean, diff }: { clean: ReactNode; diff: Re
   const router = useRouter();
   const pathname = usePathname();
   const urlDiff = params.get("diff");
-  const [showDiff, setShowDiff] = useState(false);
+  const [override, setOverride] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    if (urlDiff !== null) setShowDiff(urlDiff === "1");
-    else setShowDiff(localStorage.getItem(STORAGE_KEY) === "1");
-  }, [urlDiff]);
+  // this component never prerenders (useSearchParams bails the Suspense
+  // boundary out to CSR under static export), so window is always available
+  const stored = typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY) === "1";
+  const showDiff = override ?? (urlDiff !== null ? urlDiff === "1" : stored);
 
   // the deep-link target is hidden until the effect above runs, so the
   // browser's own anchor scroll misses — redo it once the view is visible
@@ -34,7 +34,7 @@ export function AmendedArticleView({ clean, diff }: { clean: ReactNode; diff: Re
 
   const toggle = () => {
     const next = !showDiff;
-    setShowDiff(next);
+    setOverride(next);
     localStorage.setItem(STORAGE_KEY, next ? "1" : "0");
     router.replace(next ? `${pathname}?diff=1` : pathname, { scroll: false });
   };
