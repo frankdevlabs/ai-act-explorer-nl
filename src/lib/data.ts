@@ -2,13 +2,26 @@ import articlesJson from "../../data/generated/articles.json";
 import recitalsJson from "../../data/generated/recitals.json";
 import annexesJson from "../../data/generated/annexes.json";
 import tocJson from "../../data/generated/toc.json";
-import type { Annex, Article, Recital, Toc } from "./types";
+import amendmentsJson from "../../data/generated/amendments.json";
+import amendmentDiffsJson from "../../data/generated/amendment-diffs.json";
+import type {
+  AmendmentDiffs,
+  AmendmentsGenerated,
+  Annex,
+  Article,
+  NewArticleSpec,
+  ParagraphDiff,
+  Recital,
+  Toc,
+} from "./types";
 import { flattenNodes } from "./flatten";
 
 const articles = articlesJson as Article[];
 const recitals = recitalsJson as Recital[];
 const annexes = annexesJson as Annex[];
 const toc = tocJson as Toc;
+const amendments = amendmentsJson as unknown as AmendmentsGenerated;
+const amendmentDiffs = amendmentDiffsJson as unknown as AmendmentDiffs;
 
 export function getToc(): Toc {
   return toc;
@@ -35,8 +48,111 @@ export function getAnnexes(): Annex[] {
 }
 
 export function getAnnex(roman: string): Annex | undefined {
-  return annexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
+  const base = annexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
+  if (base) return base;
+  const added = amendments.newAnnexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
+  if (!added) return undefined;
+  return {
+    roman: added.roman,
+    ordinal: annexes.length + 1 + amendments.newAnnexes.indexOf(added),
+    title: added.title,
+    content: added.content,
+    footnotes: [],
+  };
 }
+
+// ---------------------------------------------------------------------------
+// Amendment layer (digitale omnibus, PE-CONS 30/26)
+
+export function getAmendments(): AmendmentsGenerated {
+  return amendments;
+}
+
+export function getAmendmentDiffs(): AmendmentDiffs {
+  return amendmentDiffs;
+}
+
+export function getArticleDiff(nummer: string): ParagraphDiff[] | undefined {
+  return amendmentDiffs.articles[nummer];
+}
+
+export function getAnnexDiff(roman: string): ParagraphDiff[] | undefined {
+  return amendmentDiffs.annexes[roman.toLowerCase()];
+}
+
+/** Base articles whose text or title the omnibus changes (numbers as strings). */
+export function getAmendedArticleNumbers(): Set<string> {
+  return new Set([...Object.keys(amendmentDiffs.articles), ...Object.keys(amendments.titleChanges)]);
+}
+
+export function getAmendedAnnexRomans(): Set<string> {
+  return new Set(Object.keys(amendmentDiffs.annexes));
+}
+
+export function getNewArticle(slug: string): NewArticleSpec | undefined {
+  return amendments.newArticles.find((a) => a.slug === slug);
+}
+
+export type ResolvedArticle =
+  | { kind: "base"; article: Article }
+  | {
+      kind: "new";
+      spec: NewArticleSpec;
+      chapter: string;
+      chapterTitle: string;
+      section: number | null;
+      sectionTitle: string | null;
+    };
+
+/** Resolve a route param: numeric = base article, slug = omnibus new article
+ *  (chapter/section metadata inherited from its insertAfter neighbor). */
+export function resolveArticle(nummer: string): ResolvedArticle | undefined {
+  if (/^\d+$/.test(nummer)) {
+    const article = getArticle(Number(nummer));
+    return article && { kind: "base", article };
+  }
+  const spec = getNewArticle(nummer);
+  if (!spec) return undefined;
+  const neighbor = getArticle(spec.insertAfter);
+  if (!neighbor) return undefined;
+  return {
+    kind: "new",
+    spec,
+    chapter: neighbor.chapter,
+    chapterTitle: neighbor.chapterTitle,
+    section: neighbor.section,
+    sectionTitle: neighbor.sectionTitle,
+  };
+}
+
+const SUFFIX_RANK: Record<string, number> = { bis: 1, ter: 2, quater: 3, quinquies: 4 };
+
+function slugRank(slug: string): number {
+  return SUFFIX_RANK[slug.replace(/^\d+/, "")] ?? 0;
+}
+
+/** All article slugs in document order: base articles with omnibus insertions
+ *  spliced after their insertAfter neighbor (bis < ter < quater < quinquies). */
+const articleOrder: { slug: string; label: string; title: string }[] = articles.flatMap((a) => [
+  { slug: String(a.number), label: `Artikel ${a.number}`, title: a.title },
+  ...amendments.newArticles
+    .filter((n) => n.insertAfter === a.number)
+    .sort((x, y) => slugRank(x.slug) - slugRank(y.slug))
+    .map((n) => ({ slug: n.slug, label: `Artikel ${n.displayNumber}`, title: n.title })),
+]);
+
+export function getArticleOrder(): { slug: string; label: string; title: string }[] {
+  return articleOrder;
+}
+
+/** All annex romans (lowercase) in order, omnibus additions appended after
+ *  their insertAfter neighbor. */
+const annexOrder: string[] = annexes.flatMap((a) => [
+  a.roman.toLowerCase(),
+  ...amendments.newAnnexes
+    .filter((n) => n.insertAfter.toLowerCase() === a.roman.toLowerCase())
+    .map((n) => n.roman.toLowerCase()),
+]);
 
 function clip(text: string, max = 200): string {
   const t = text.trim();
@@ -103,12 +219,16 @@ export interface PrevNextLink {
   title?: string;
 }
 
-export function articlePrevNext(nummer: number): { prev?: PrevNextLink; next?: PrevNextLink } {
-  const link = (a?: Article): PrevNextLink | undefined =>
-    a && { href: `/artikel/${a.number}`, label: `Artikel ${a.number}`, title: a.title };
+export function articlePrevNext(nummer: number | string): {
+  prev?: PrevNextLink;
+  next?: PrevNextLink;
+} {
+  const idx = articleOrder.findIndex((e) => e.slug === String(nummer));
+  const link = (e?: { slug: string; label: string; title: string }): PrevNextLink | undefined =>
+    e && { href: `/artikel/${e.slug}`, label: e.label, title: e.title };
   return {
-    prev: link(getArticle(nummer - 1)),
-    next: link(getArticle(nummer + 1)),
+    prev: link(idx > 0 ? articleOrder[idx - 1] : undefined),
+    next: link(idx >= 0 ? articleOrder[idx + 1] : undefined),
   };
 }
 
@@ -122,11 +242,15 @@ export function recitalPrevNext(nummer: number): { prev?: PrevNextLink; next?: P
 }
 
 export function annexPrevNext(roman: string): { prev?: PrevNextLink; next?: PrevNextLink } {
-  const idx = annexes.findIndex((a) => a.roman.toLowerCase() === roman.toLowerCase());
-  const link = (a?: Annex): PrevNextLink | undefined =>
-    a && { href: `/bijlage/${a.roman.toLowerCase()}`, label: `Bijlage ${a.roman}`, title: a.title };
+  const idx = annexOrder.indexOf(roman.toLowerCase());
+  const link = (r?: string): PrevNextLink | undefined => {
+    const a = r ? getAnnex(r) : undefined;
+    return (
+      a && { href: `/bijlage/${a.roman.toLowerCase()}`, label: `Bijlage ${a.roman}`, title: a.title }
+    );
+  };
   return {
-    prev: link(idx > 0 ? annexes[idx - 1] : undefined),
-    next: link(idx >= 0 ? annexes[idx + 1] : undefined),
+    prev: link(idx > 0 ? annexOrder[idx - 1] : undefined),
+    next: link(idx >= 0 ? annexOrder[idx + 1] : undefined),
   };
 }

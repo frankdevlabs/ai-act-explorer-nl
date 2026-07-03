@@ -4,11 +4,386 @@
   "date": "2026-06-18",
   "complete": false
  },
- "amendments": [],
- "byArticle": {},
+ "amendments": [
+  {
+   "seq": 1,
+   "target": {
+    "article": "1"
+   },
+   "operation": "replace",
+   "scope": {
+    "anchor": "lid-2-g",
+    "description": "in artikel 1, lid 2, wordt punt g) vervangen (PE-CONS 30/26, blz. 41)"
+   },
+   "newContent": [
+    {
+     "type": "text",
+     "text": "maatregelen ter ondersteuning van innovatie, met bijzondere nadruk op kleine midcapondernemingen en kleine en middelgrote ondernemingen, waaronder start-ups."
+    }
+   ]
+  },
+  {
+   "seq": 2,
+   "sub": "a",
+   "target": {
+    "article": "2"
+   },
+   "operation": "replace",
+   "scope": {
+    "anchor": "lid-2",
+    "description": "artikel 2, lid 2, wordt vervangen (PE-CONS 30/26, blz. 41)"
+   },
+   "newContent": [
+    {
+     "type": "text",
+     "text": "Op AI-systemen die overeenkomstig artikel 6, lid 1, als AI-systemen met een hoog risico worden aangemerkt die verband houden met producten die vallen onder de in bijlage I, afdeling B, opgenomen harmonisatiewetgeving van de Unie, zijn uitsluitend artikel 6, lid 1, artikel 60 bis, en de artikelen 102 tot en met 112 van toepassing. De artikelen 57, 58 en 59 zijn alleen van toepassing voor zover de eisen voor AI-systemen met een hoog risico uit hoofde van deze verordening zijn opgenomen in die harmonisatiewetgeving van de Unie."
+    }
+   ]
+  },
+  {
+   "seq": 2,
+   "sub": "b",
+   "target": {
+    "article": "2"
+   },
+   "operation": "replace",
+   "scope": {
+    "anchor": "lid-7",
+    "description": "artikel 2, lid 7, wordt vervangen (PE-CONS 30/26, blz. 41)"
+   },
+   "newContent": [
+    {
+     "type": "text",
+     "text": "Het Unierecht inzake de bescherming van persoonsgegevens, de privacy en de vertrouwelijkheid van communicatie is van toepassing op persoonsgegevens die worden verwerkt in verband met de rechten en verplichtingen die in deze verordening zijn vastgelegd. Onverminderd artikel 4 bis en artikel 59 van deze verordening laat deze verordening de Verordeningen (EU) 2016/679 of (EU) 2018/1725, of de Richtlijnen 2002/58/EG of (EU) 2016/680 onverlet."
+    }
+   ]
+  },
+  {
+   "seq": 3,
+   "target": {
+    "article": "2"
+   },
+   "operation": "add",
+   "scope": {
+    "description": "aan artikel 2 wordt het volgende lid toegevoegd (PE-CONS 30/26, blz. 42)"
+   },
+   "newParagraphs": [
+    {
+     "number": 13,
+     "anchor": "",
+     "content": [
+      {
+       "type": "text",
+       "text": "Voor AI-systemen met een hoog risico als bedoeld in artikel 6, lid 1, kan de toepassing van de specifieke eisen of verplichtingen van de artikelen 9 tot en met 15 en 17 tot en met 25 worden beperkt, indien en voor zover:"
+      },
+      {
+       "type": "list",
+       "items": [
+        {
+         "marker": "a)",
+         "content": [
+          {
+           "type": "text",
+           "text": "de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie eisen of verplichtingen bevat met een gelijkwaardig of hoger niveau van bescherming van de gezondheid, de veiligheid of de grondrechten dan de betrokken eis of verplichting; en"
+          }
+         ]
+        },
+        {
+         "marker": "b)",
+         "content": [
+          {
+           "type": "text",
+           "text": "een dergelijke beperking geen afbreuk doet aan het algemene beschermingsniveau waarin deze verordening voorziet."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "text": "Uiterlijk op 2 augustus 2027 stelt de Commissie overeenkomstig artikel 97 gedelegeerde handelingen vast om deze verordening aan te vullen door de betrokken AI-systemen met een hoog risico, de eisen of verplichtingen die kunnen worden beperkt, de voorwaarden waaronder een dergelijke beperking van toepassing is en de reikwijdte van de beperking nader te bepalen."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "seq": 6,
+   "target": {
+    "article": "4bis"
+   },
+   "operation": "insert",
+   "scope": {
+    "description": "het volgende artikel wordt ingevoegd (PE-CONS 30/26, blz. 45-46)"
+   },
+   "newArticle": {
+    "slug": "4bis",
+    "displayNumber": "4 bis",
+    "title": "Verwerking van bijzondere categorieën persoonsgegevens met het oog op de opsporing en correctie van vooringenomenheid",
+    "insertAfter": 4,
+    "paragraphs": [
+     {
+      "number": 1,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Voor zover dit strikt noodzakelijk is om te zorgen voor opsporing en correctie van vooringenomenheid in verband met de AI-systemen met een hoog risico overeenkomstig artikel 10, lid 2, punten f) en g) van deze verordening, mogen de aanbieders van dergelijke systemen bij wijze van uitzondering bijzondere categorieën persoonsgegevens verwerken, mits passende waarborgen worden geboden voor de grondrechten en fundamentele vrijheden van natuurlijke personen. Naast de in de Verordeningen (EU) 2016/679 en (EU) 2018/1725 en Richtlijn (EU) 2016/680 vastgestelde bepalingen, moeten, al naargelang het geval, voor een dergelijke verwerking alle volgende voorwaarden zijn vervuld:"
+       },
+       {
+        "type": "list",
+        "items": [
+         {
+          "marker": "a)",
+          "content": [
+           {
+            "type": "text",
+            "text": "de opsporing en correctie van vooringenomenheid kunnen niet doeltreffend worden vervuld door het verwerken van andere data, waaronder synthetische of geanonimiseerde data;"
+           }
+          ]
+         },
+         {
+          "marker": "b)",
+          "content": [
+           {
+            "type": "text",
+            "text": "de bijzondere categorieën persoonsgegevens zijn onderworpen aan technische beperkingen voor het hergebruik van persoonsgegevens, en geavanceerde beveiligings- en privacybeschermingsmaatregelen, waaronder pseudonimisering;"
+           }
+          ]
+         },
+         {
+          "marker": "c)",
+          "content": [
+           {
+            "type": "text",
+            "text": "de bijzondere categorieën persoonsgegevens zijn onderworpen aan maatregelen om ervoor te zorgen dat de verwerkte persoonsgegevens worden beveiligd en beschermd met passende waarborgen, waaronder strikte controles en documentatie van de toegang ertoe, om misbruik te voorkomen en ervoor te zorgen dat alleen personen die gemachtigd zijn toegang tot die persoonsgegevens hebben met passende vertrouwelijkheidsverplichtingen;"
+           }
+          ]
+         },
+         {
+          "marker": "d)",
+          "content": [
+           {
+            "type": "text",
+            "text": "de bijzondere categorieën persoonsgegevens worden niet verzonden, doorgegeven of anderszins geraadpleegd door andere partijen;"
+           }
+          ]
+         },
+         {
+          "marker": "e)",
+          "content": [
+           {
+            "type": "text",
+            "text": "de bijzondere categorieën persoonsgegevens worden verwijderd zodra de vooringenomenheid is gecorrigeerd of de periode van bewaring van de persoonsgegevens ten einde is gekomen, indien dit eerder is; en"
+           }
+          ]
+         },
+         {
+          "marker": "f)",
+          "content": [
+           {
+            "type": "text",
+            "text": "het register op grond van Verordeningen (EU) 2016/679 en (EU) 2018/1725 en Richtlijn (EU) 2016/680 van verwerkingsactiviteiten bevat de redenen waarom de verwerking van bijzondere categorieën persoonsgegevens strikt noodzakelijk was om vooringenomenheid op te sporen en waarom die doelstelling niet kon worden bereikt door de verwerking van andere data."
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "number": 2,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Aanbieders en gebruiksverantwoordelijken van andere AI-systemen en -modellen en gebruiksverantwoordelijken van AI-systemen met een hoog risico mogen bij wijze van uitzondering bijzondere categorieën persoonsgegevens verwerken, voor zover:"
+       },
+       {
+        "type": "list",
+        "items": [
+         {
+          "marker": "a)",
+          "content": [
+           {
+            "type": "text",
+            "text": "deze verwerking strikt noodzakelijk is om te zorgen voor opsporing en correctie van vooringenomenheid met het oog op mogelijke vooringenomenheid die waarschijnlijk gevolgen heeft voor de gezondheid en veiligheid van personen, nadelige effecten heeft op de grondrechten of leidt tot discriminatie die op grond van het Unierecht verboden is, vooral wanneer data-outputs invloed hebben op inputs voor toekomstige operaties; en"
+           }
+          ]
+         },
+         {
+          "marker": "b)",
+          "content": [
+           {
+            "type": "text",
+            "text": "alle in lid 1 vervatte voorwaarden en waarborgen worden toegepast."
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "Dit lid schept geen verplichting om dergelijke vooringenomenheid op te sporen en te corrigeren."
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "byArticle": {
+  "1": [
+   "1"
+  ],
+  "2": [
+   "2a",
+   "2b",
+   "3"
+  ],
+  "4bis": [
+   "6"
+  ]
+ },
  "byAnnex": {},
- "orderedTargets": [],
- "newArticles": [],
+ "orderedTargets": [
+  {
+   "kind": "article",
+   "slug": "1"
+  },
+  {
+   "kind": "article",
+   "slug": "2"
+  },
+  {
+   "kind": "article",
+   "slug": "4bis"
+  }
+ ],
+ "newArticles": [
+  {
+   "slug": "4bis",
+   "displayNumber": "4 bis",
+   "title": "Verwerking van bijzondere categorieën persoonsgegevens met het oog op de opsporing en correctie van vooringenomenheid",
+   "insertAfter": 4,
+   "paragraphs": [
+    {
+     "number": 1,
+     "anchor": "lid-1",
+     "content": [
+      {
+       "type": "text",
+       "text": "Voor zover dit strikt noodzakelijk is om te zorgen voor opsporing en correctie van vooringenomenheid in verband met de AI-systemen met een hoog risico overeenkomstig artikel 10, lid 2, punten f) en g) van deze verordening, mogen de aanbieders van dergelijke systemen bij wijze van uitzondering bijzondere categorieën persoonsgegevens verwerken, mits passende waarborgen worden geboden voor de grondrechten en fundamentele vrijheden van natuurlijke personen. Naast de in de Verordeningen (EU) 2016/679 en (EU) 2018/1725 en Richtlijn (EU) 2016/680 vastgestelde bepalingen, moeten, al naargelang het geval, voor een dergelijke verwerking alle volgende voorwaarden zijn vervuld:"
+      },
+      {
+       "type": "list",
+       "items": [
+        {
+         "marker": "a)",
+         "content": [
+          {
+           "type": "text",
+           "text": "de opsporing en correctie van vooringenomenheid kunnen niet doeltreffend worden vervuld door het verwerken van andere data, waaronder synthetische of geanonimiseerde data;"
+          }
+         ],
+         "anchor": "lid-1-a"
+        },
+        {
+         "marker": "b)",
+         "content": [
+          {
+           "type": "text",
+           "text": "de bijzondere categorieën persoonsgegevens zijn onderworpen aan technische beperkingen voor het hergebruik van persoonsgegevens, en geavanceerde beveiligings- en privacybeschermingsmaatregelen, waaronder pseudonimisering;"
+          }
+         ],
+         "anchor": "lid-1-b"
+        },
+        {
+         "marker": "c)",
+         "content": [
+          {
+           "type": "text",
+           "text": "de bijzondere categorieën persoonsgegevens zijn onderworpen aan maatregelen om ervoor te zorgen dat de verwerkte persoonsgegevens worden beveiligd en beschermd met passende waarborgen, waaronder strikte controles en documentatie van de toegang ertoe, om misbruik te voorkomen en ervoor te zorgen dat alleen personen die gemachtigd zijn toegang tot die persoonsgegevens hebben met passende vertrouwelijkheidsverplichtingen;"
+          }
+         ],
+         "anchor": "lid-1-c"
+        },
+        {
+         "marker": "d)",
+         "content": [
+          {
+           "type": "text",
+           "text": "de bijzondere categorieën persoonsgegevens worden niet verzonden, doorgegeven of anderszins geraadpleegd door andere partijen;"
+          }
+         ],
+         "anchor": "lid-1-d"
+        },
+        {
+         "marker": "e)",
+         "content": [
+          {
+           "type": "text",
+           "text": "de bijzondere categorieën persoonsgegevens worden verwijderd zodra de vooringenomenheid is gecorrigeerd of de periode van bewaring van de persoonsgegevens ten einde is gekomen, indien dit eerder is; en"
+          }
+         ],
+         "anchor": "lid-1-e"
+        },
+        {
+         "marker": "f)",
+         "content": [
+          {
+           "type": "text",
+           "text": "het register op grond van Verordeningen (EU) 2016/679 en (EU) 2018/1725 en Richtlijn (EU) 2016/680 van verwerkingsactiviteiten bevat de redenen waarom de verwerking van bijzondere categorieën persoonsgegevens strikt noodzakelijk was om vooringenomenheid op te sporen en waarom die doelstelling niet kon worden bereikt door de verwerking van andere data."
+          }
+         ],
+         "anchor": "lid-1-f"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "anchor": "lid-2",
+     "content": [
+      {
+       "type": "text",
+       "text": "Aanbieders en gebruiksverantwoordelijken van andere AI-systemen en -modellen en gebruiksverantwoordelijken van AI-systemen met een hoog risico mogen bij wijze van uitzondering bijzondere categorieën persoonsgegevens verwerken, voor zover:"
+      },
+      {
+       "type": "list",
+       "items": [
+        {
+         "marker": "a)",
+         "content": [
+          {
+           "type": "text",
+           "text": "deze verwerking strikt noodzakelijk is om te zorgen voor opsporing en correctie van vooringenomenheid met het oog op mogelijke vooringenomenheid die waarschijnlijk gevolgen heeft voor de gezondheid en veiligheid van personen, nadelige effecten heeft op de grondrechten of leidt tot discriminatie die op grond van het Unierecht verboden is, vooral wanneer data-outputs invloed hebben op inputs voor toekomstige operaties; en"
+          }
+         ],
+         "anchor": "lid-2-a"
+        },
+        {
+         "marker": "b)",
+         "content": [
+          {
+           "type": "text",
+           "text": "alle in lid 1 vervatte voorwaarden en waarborgen worden toegepast."
+          }
+         ],
+         "anchor": "lid-2-b"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "text": "Dit lid schept geen verplichting om dergelijke vooringenomenheid op te sporen en te corrigeren."
+      }
+     ]
+    }
+   ]
+  }
+ ],
  "newAnnexes": [],
  "titleChanges": {}
 }

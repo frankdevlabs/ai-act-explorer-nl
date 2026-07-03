@@ -183,10 +183,11 @@ function applyToArticle(states: ParaState[], am: Amendment) {
     return;
   }
 
-  if (!anchor) fail(`${ctx}: scoped amendment without anchor`);
+  // anchor may be absent only for "add" (append at end)
+  if (!anchor && am.operation !== "add") fail(`${ctx}: scoped amendment without anchor`);
 
   // paragraph-level anchor?
-  const paraIdx = states.findIndex((s) => s.anchor === anchor);
+  const paraIdx = anchor ? states.findIndex((s) => s.anchor === anchor) : -1;
 
   switch (am.operation) {
     case "replace": {

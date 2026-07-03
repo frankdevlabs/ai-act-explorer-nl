@@ -1,4 +1,356 @@
 {
- "articles": {},
+ "articles": {
+  "1": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Bij deze verordening worden vastgesteld: a) geharmoniseerde regels voor het in de handel brengen, in gebruik stellen en gebruiken van AI-systemen in de Unie; b) een verbod op bepaalde AI-praktijken; c) specifieke eisen voor AI-systemen met een hoog risico en verplichtingen voor de operatoren van dergelijke systemen; d) geharmoniseerde transparantievoorschriften voor bepaalde AI-systemen; e) geharmoniseerde regels voor het in de handel brengen van AI-modellen voor algemene doeleinden; f) regels inzake marktmonitoring, markttoezicht, governance en handhaving van die regels; g) maatregelen ter ondersteuning van innovatie, met bijzondere nadruk op "
+     },
+     {
+      "op": "del",
+      "text": "kmo’s"
+     },
+     {
+      "op": "ins",
+      "text": "kleine midcapondernemingen en kleine en middelgrote ondernemingen"
+     },
+     {
+      "op": "eq",
+      "text": ", waaronder start-ups."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Bij deze verordening worden vastgesteld:"
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "geharmoniseerde regels voor het in de handel brengen, in gebruik stellen en gebruiken van AI-systemen in de Unie;"
+         }
+        ],
+        "anchor": "lid-2-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "een verbod op bepaalde AI-praktijken;"
+         }
+        ],
+        "anchor": "lid-2-b"
+       },
+       {
+        "marker": "c)",
+        "content": [
+         {
+          "type": "text",
+          "text": "specifieke eisen voor AI-systemen met een hoog risico en verplichtingen voor de operatoren van dergelijke systemen;"
+         }
+        ],
+        "anchor": "lid-2-c"
+       },
+       {
+        "marker": "d)",
+        "content": [
+         {
+          "type": "text",
+          "text": "geharmoniseerde transparantievoorschriften voor bepaalde AI-systemen;"
+         }
+        ],
+        "anchor": "lid-2-d"
+       },
+       {
+        "marker": "e)",
+        "content": [
+         {
+          "type": "text",
+          "text": "geharmoniseerde regels voor het in de handel brengen van AI-modellen voor algemene doeleinden;"
+         }
+        ],
+        "anchor": "lid-2-e"
+       },
+       {
+        "marker": "f)",
+        "content": [
+         {
+          "type": "text",
+          "text": "regels inzake marktmonitoring, markttoezicht, governance en handhaving van die regels;"
+         }
+        ],
+        "anchor": "lid-2-f"
+       },
+       {
+        "marker": "g)",
+        "content": [
+         {
+          "type": "text",
+          "text": "maatregelen ter ondersteuning van innovatie, met bijzondere nadruk op kleine midcapondernemingen en kleine en middelgrote ondernemingen, waaronder start-ups."
+         }
+        ],
+        "anchor": "lid-2-g"
+       }
+      ]
+     }
+    ],
+    "seq": [
+     1
+    ]
+   }
+  ],
+  "2": [
+   {
+    "anchor": "lid-1",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-2",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Op AI-systemen die overeenkomstig artikel 6, lid 1, als AI-systemen met een hoog risico worden aangemerkt die verband houden met producten die vallen onder de in bijlage I, afdeling B, opgenomen harmonisatiewetgeving van de Unie, zijn uitsluitend artikel 6, lid 1, "
+     },
+     {
+      "op": "ins",
+      "text": "artikel 60 bis, en "
+     },
+     {
+      "op": "eq",
+      "text": "de artikelen 102 tot en met "
+     },
+     {
+      "op": "del",
+      "text": "109 en artikel "
+     },
+     {
+      "op": "eq",
+      "text": "112 van toepassing. "
+     },
+     {
+      "op": "del",
+      "text": "Artikel"
+     },
+     {
+      "op": "ins",
+      "text": "De"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "artikelen "
+     },
+     {
+      "op": "eq",
+      "text": "57"
+     },
+     {
+      "op": "ins",
+      "text": ","
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "del",
+      "text": "is"
+     },
+     {
+      "op": "ins",
+      "text": "58"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "en 59 zijn "
+     },
+     {
+      "op": "eq",
+      "text": "alleen van toepassing voor zover de eisen voor AI-systemen met een hoog risico uit hoofde van deze verordening zijn opgenomen in die harmonisatiewetgeving van de Unie."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Op AI-systemen die overeenkomstig artikel 6, lid 1, als AI-systemen met een hoog risico worden aangemerkt die verband houden met producten die vallen onder de in bijlage I, afdeling B, opgenomen harmonisatiewetgeving van de Unie, zijn uitsluitend artikel 6, lid 1, artikel 60 bis, en de artikelen 102 tot en met 112 van toepassing. De artikelen 57, 58 en 59 zijn alleen van toepassing voor zover de eisen voor AI-systemen met een hoog risico uit hoofde van deze verordening zijn opgenomen in die harmonisatiewetgeving van de Unie."
+     }
+    ],
+    "seq": [
+     2
+    ]
+   },
+   {
+    "anchor": "lid-3",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-4",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-5",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-6",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-7",
+    "status": "modified",
+    "segments": [
+     {
+      "op": "eq",
+      "text": "Het Unierecht inzake de bescherming van persoonsgegevens, de privacy en de vertrouwelijkheid van communicatie is van toepassing op persoonsgegevens die worden verwerkt in verband met de rechten en verplichtingen die in deze verordening zijn vastgelegd. "
+     },
+     {
+      "op": "del",
+      "text": "Deze"
+     },
+     {
+      "op": "ins",
+      "text": "Onverminderd"
+     },
+     {
+      "op": "eq",
+      "text": " "
+     },
+     {
+      "op": "ins",
+      "text": "artikel 4 bis en artikel 59 van deze "
+     },
+     {
+      "op": "eq",
+      "text": "verordening laat "
+     },
+     {
+      "op": "ins",
+      "text": "deze verordening "
+     },
+     {
+      "op": "eq",
+      "text": "de Verordeningen (EU) 2016/679 of (EU) 2018/1725, of de Richtlijnen 2002/58/EG of (EU) 2016/680 onverlet"
+     },
+     {
+      "op": "del",
+      "text": ", onverminderd artikel 10, lid 5, en artikel 59 van deze verordening"
+     },
+     {
+      "op": "eq",
+      "text": "."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Het Unierecht inzake de bescherming van persoonsgegevens, de privacy en de vertrouwelijkheid van communicatie is van toepassing op persoonsgegevens die worden verwerkt in verband met de rechten en verplichtingen die in deze verordening zijn vastgelegd. Onverminderd artikel 4 bis en artikel 59 van deze verordening laat deze verordening de Verordeningen (EU) 2016/679 of (EU) 2018/1725, of de Richtlijnen 2002/58/EG of (EU) 2016/680 onverlet."
+     }
+    ],
+    "seq": [
+     2
+    ]
+   },
+   {
+    "anchor": "lid-8",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-9",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-10",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-11",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-12",
+    "status": "unchanged",
+    "seq": []
+   },
+   {
+    "anchor": "lid-13",
+    "status": "inserted",
+    "segments": [
+     {
+      "op": "ins",
+      "text": "Voor AI-systemen met een hoog risico als bedoeld in artikel 6, lid 1, kan de toepassing van de specifieke eisen of verplichtingen van de artikelen 9 tot en met 15 en 17 tot en met 25 worden beperkt, indien en voor zover: a) de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie eisen of verplichtingen bevat met een gelijkwaardig of hoger niveau van bescherming van de gezondheid, de veiligheid of de grondrechten dan de betrokken eis of verplichting; en b) een dergelijke beperking geen afbreuk doet aan het algemene beschermingsniveau waarin deze verordening voorziet. Uiterlijk op 2 augustus 2027 stelt de Commissie overeenkomstig artikel 97 gedelegeerde handelingen vast om deze verordening aan te vullen door de betrokken AI-systemen met een hoog risico, de eisen of verplichtingen die kunnen worden beperkt, de voorwaarden waaronder een dergelijke beperking van toepassing is en de reikwijdte van de beperking nader te bepalen."
+     }
+    ],
+    "newContent": [
+     {
+      "type": "text",
+      "text": "Voor AI-systemen met een hoog risico als bedoeld in artikel 6, lid 1, kan de toepassing van de specifieke eisen of verplichtingen van de artikelen 9 tot en met 15 en 17 tot en met 25 worden beperkt, indien en voor zover:"
+     },
+     {
+      "type": "list",
+      "items": [
+       {
+        "marker": "a)",
+        "content": [
+         {
+          "type": "text",
+          "text": "de in afdeling A van bijlage I vermelde harmonisatiewetgeving van de Unie eisen of verplichtingen bevat met een gelijkwaardig of hoger niveau van bescherming van de gezondheid, de veiligheid of de grondrechten dan de betrokken eis of verplichting; en"
+         }
+        ],
+        "anchor": "lid-13-a"
+       },
+       {
+        "marker": "b)",
+        "content": [
+         {
+          "type": "text",
+          "text": "een dergelijke beperking geen afbreuk doet aan het algemene beschermingsniveau waarin deze verordening voorziet."
+         }
+        ],
+        "anchor": "lid-13-b"
+       }
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Uiterlijk op 2 augustus 2027 stelt de Commissie overeenkomstig artikel 97 gedelegeerde handelingen vast om deze verordening aan te vullen door de betrokken AI-systemen met een hoog risico, de eisen of verplichtingen die kunnen worden beperkt, de voorwaarden waaronder een dergelijke beperking van toepassing is en de reikwijdte van de beperking nader te bepalen."
+     }
+    ],
+    "seq": [
+     3
+    ]
+   }
+  ]
+ },
  "annexes": {}
 }

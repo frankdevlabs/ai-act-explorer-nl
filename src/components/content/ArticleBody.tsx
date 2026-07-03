@@ -1,9 +1,13 @@
-import type { Article } from "@/lib/types";
+import type { ArticleParagraph, Footnote } from "@/lib/types";
 import { ContentNodes } from "./ContentNodes";
 import { FootnoteList } from "./FootnoteList";
 import { ParagraphAnchor } from "./ParagraphAnchor";
 
-export function ArticleBody({ article }: { article: Article }) {
+interface ArticleBodyProps {
+  article: { paragraphs: ArticleParagraph[]; footnotes: Footnote[] };
+}
+
+export function ArticleBody({ article }: ArticleBodyProps) {
   return (
     <div>
       {article.paragraphs.map((p) => (
