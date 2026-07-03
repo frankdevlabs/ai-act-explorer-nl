@@ -1123,6 +1123,551 @@
      "text": "Aanbieders of potentiële aanbieders kunnen zelf of in samenwerking met een of meer gebruiksverantwoordelijken of potentiële gebruiksverantwoordelijken onder reële omstandigheden tests uitvoeren op in bijlage III bedoelde AI-systemen met een hoog risico of AI-systemen met een hoog risico die onder de in bijlage I, afdeling A, vermelde harmonisatiewetgeving van de Unie vallen, op elk moment vóór het in de handel brengen of in gebruik stellen van het AI-systeem met een hoog risico."
     }
    ]
+  },
+  {
+   "seq": 32,
+   "sub": "a",
+   "target": {
+    "article": "75bis"
+   },
+   "operation": "insert",
+   "scope": {
+    "description": "het volgende artikel wordt ingevoegd: Artikel 75 bis (PE-CONS 30/26, blz. 72-77)"
+   },
+   "newArticle": {
+    "slug": "75bis",
+    "displayNumber": "75 bis",
+    "title": "Toezichts- en handhavingsbevoegdheden van het AI-bureau",
+    "insertAfter": 75,
+    "paragraphs": [
+     {
+      "number": 1,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Bij de uitvoering van zijn in artikel 75, lid 1, van deze verordening vastgestelde toezichts- en handhavingstaken beschikt het AI-bureau over alle bevoegdheden van een markttoezichtautoriteit die zijn bepaald in deze afdeling en in artikel 14, lid 4, en artikel 16, lid 3, van Verordening (EU) 2019/1020. Het AI-bureau is gemachtigd om alle kosten van zijn toezichts- en handhavingsactiviteiten met betrekking tot gevallen van niet-naleving, met inbegrip van de kosten voor personele en technische middelen, volledig terug te vorderen van de betrokken operator, overeenkomstig artikel 15 van Verordening (EU) 2019/1020. Artikel 17 van Verordening (EU) 2019/1020 is van overeenkomstige toepassing."
+       }
+      ]
+     },
+     {
+      "number": 2,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Wanneer het AI-bureau redelijke gronden heeft om te vermoeden dat een aanbieder of gebruiksverantwoordelijke van een in artikel 75, lid 1, van deze verordening bedoeld AI-systeem deze verordening niet naleeft, kan het een besluit nemen om een onderzoek naar die niet-naleving te starten overeenkomstig artikel 14, lid 4, punt f), van Verordening (EU) 2019/1020. Wanneer het AI-bureau een dergelijk onderzoek start, stelt het de operator van het betrokken AI-systeem daarvan in kennis. Het AI-bureau kan de in lid 1 van dit artikel bedoelde bevoegdheden op eigen initiatief of naar aanleiding van een op grond van artikel 85 van deze verordening ontvangen klacht uitoefenen, zelfs voordat het een onderzoek op grond van artikel 14, lid 4, punt f), van Verordening (EU) 2019/1020 start."
+       },
+       {
+        "type": "text",
+        "text": "Wanneer een markttoezichtautoriteit redenen heeft om te vermoeden dat een aanbieder of gebruiksverantwoordelijke van een in artikel 75, lid 1, bedoeld AI-systeem deze verordening niet naleeft, kan zij het AI-bureau verzoeken de zaak te beoordelen."
+       }
+      ]
+     },
+     {
+      "number": 3,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Het AI-bureau kan de in artikel 14, lid 4, punten a), b) en c), van Verordening (EU) 2019/1020 en artikel 74, leden 12 en 13, van deze verordening genoemde bevoegdheden uitoefenen bij eenvoudig verzoek of bij besluit."
+       },
+       {
+        "type": "text",
+        "text": "Wanneer het AI-bureau om informatie verzoekt, vermeldt het de rechtsgrondslag en het doel van het verzoek, specificeert het welke informatie wordt verlangd en stelt het de termijn vast waarbinnen de informatie moet worden verstrekt. Indien het verzoek een eenvoudig verzoek is, geeft het AI-bureau daarnaast aan dat, hoewel er geen verplichting is om de gevraagde informatie te verstrekken, de informatie in het geval van een vrijwillig antwoord correct en niet misleidend moet zijn, en vermeldt het de mogelijke geldboeten waarin artikel 99, lid 5, voorziet voor het verstrekken van onjuiste of misleidende informatie. Indien het verzoek bij besluit wordt gedaan, vermeldt het AI-bureau bovendien de in artikel 99, lid 5, bepaalde geldboeten voor het verstrekken van onjuiste, onvolledige of misleidende informatie en wijst het op het recht om het besluit te laten toetsen door het Hof van Justitie van de Europese Unie. Het AI-bureau stuurt een kopie van het verzoek naar de markttoezichtautoriteit van de lidstaat op het grondgebied waarvan de operator of zijn wettelijke vertegenwoordiger zich bevindt."
+       }
+      ]
+     },
+     {
+      "number": 4,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Om de taken uit te voeren die hem krachtens deze afdeling zijn toegewezen, kan het AI-bureau alle nodige inspecties op afstand of ter plaatse uitvoeren op grond van de bevoegdheden van artikel 14, lid 4, punten d) en e), van Verordening (EU) 2019/1020 en artikel 74, lid 5, van deze verordening. Wanneer het een inspectie uitvoert, stelt het AI-bureau de betrokken aanbieder in kennis van het voorwerp en het doel van het onderzoek, de in artikel 99, lid 5, van deze verordening bedoelde toepasselijke boetes en het recht om het besluit te laten toetsen door het Hof van Justitie van de Europese Unie. Voordat het een inspectie uitvoert, stelt het AI-bureau de markttoezichtautoriteit van de lidstaat op het grondgebied waarvan de operator of zijn wettelijke vertegenwoordiger zich bevindt, daarvan in kennis."
+       },
+       {
+        "type": "text",
+        "text": "Tijdens een dergelijke inspectie zijn de functionarissen van het AI-bureau bevoegd om:"
+       },
+       {
+        "type": "list",
+        "items": [
+         {
+          "marker": "a)",
+          "content": [
+           {
+            "type": "text",
+            "text": "alle lokalen, terreinen of eigendommen van de betrokken operator die zich in de Unie bevinden, te betreden;"
+           }
+          ]
+         },
+         {
+          "marker": "b)",
+          "content": [
+           {
+            "type": "text",
+            "text": "de boeken, gegevens en ander voor de uitvoering van hun taken relevant materiaal te onderzoeken, ongeacht de informatiedrager;"
+           }
+          ]
+         },
+         {
+          "marker": "c)",
+          "content": [
+           {
+            "type": "text",
+            "text": "in eender welke vorm kopieën of uittreksels van boeken, gegevens en andere bescheiden te maken of te verkrijgen;"
+           }
+          ]
+         },
+         {
+          "marker": "d)",
+          "content": [
+           {
+            "type": "text",
+            "text": "alle personen die voorwerp van de inspectie zijn of hun vertegenwoordigers of personeelsleden te verzoeken om mondelinge of schriftelijke toelichting bij factoren of documenten met betrekking tot het onderwerp en het doel van de inspectie, en de antwoorden op te tekenen;"
+           }
+          ]
+         },
+         {
+          "marker": "e)",
+          "content": [
+           {
+            "type": "text",
+            "text": "lokalen en boeken of bescheiden van de onderneming te verzegelen voor de duur van, en voor zover nodig voor, de inspectie."
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "Indien het AI-bureau van oordeel is dat een natuurlijk of rechtspersoon zich tegen een inspectie verzet of een inspectie belemmert, verleent de nationale bevoegde autoriteit van de betrokken lidstaat het de nodige bijstand om het in staat te stellen zijn inspectie ter plaatse uit te voeren, zo nodig door een beroep te doen op de politie of een gelijkwaardige handhavingsautoriteit."
+       },
+       {
+        "type": "text",
+        "text": "Indien voor een inspectie ter plaatse van lokalen, terreinen of eigendommen de toestemming van een rechterlijke instantie overeenkomstig het nationale recht vereist is, verzoekt het AI-bureau om die toestemming. Het AI-bureau kan die toestemming ook bij wijze van voorzorgsmaatregel vragen. Wanneer om een dergelijke toestemming wordt verzocht, gaat de nationale rechterlijke instantie onverwijld na of de voorgenomen dwangmaatregelen niet willekeurig zijn noch buitensporig in verhouding tot het voorwerp van het onderzoek of de inspectie en de documenten die het AI-bureau bij het besluit heeft gevoegd. Bij haar toetsing van de evenredigheid van dwangmaatregelen kan de nationale rechterlijke instantie het AI-bureau om nadere toelichting verzoeken, in het bijzonder over de redenen die het AI-bureau heeft om aan te nemen dat op deze verordening inbreuk is gemaakt, de ernst van de vermoedelijke inbreuk en, in voorkomend geval, de aard van de betrokkenheid van de aan de dwangmaatregelen onderworpen persoon. De nationale rechterlijke instantie mag niet de noodzakelijkheid van het onderzoek of de inspectie toetsen, noch de informatie uit het dossier van het AI-bureau opvragen. Overeenkomstig de Verdragen is de rechtmatigheid van het besluit van het AI-bureau alleen onderworpen aan toetsing door het Hof van Justitie van de Europese Unie."
+       }
+      ]
+     },
+     {
+      "number": 5,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Op verzoek van het AI-bureau kan de bevoegde markttoezichtautoriteit van een lidstaat op haar eigen grondgebied namens en voor rekening van het AI-bureau onderzoeken, inspecties of andere onderzoeksmaatregelen uitvoeren om vast te stellen of er sprake is van een inbreuk op deze verordening. De functionarissen van de bevoegde autoriteiten van de lidstaten die met het verrichten van dergelijke onderzoeken, inspecties of onderzoeksmaatregelen zijn belast, alsmede de door hen gemachtigde of aangewezen functionarissen, oefenen hun bevoegdheden uit overeenkomstig hun nationale recht."
+       }
+      ]
+     },
+     {
+      "number": 6,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Naast de in lid 1 van dit artikel bepaalde bevoegdheden kan het AI-bureau bij de uitoefening van zijn in artikel 75, lid 1, bedoelde bevoegdheden:"
+       },
+       {
+        "type": "list",
+        "items": [
+         {
+          "marker": "a)",
+          "content": [
+           {
+            "type": "text",
+            "text": "operatoren gelasten toegang te verlenen tot en uitleg te geven over hun AI-systemen;"
+           }
+          ]
+         },
+         {
+          "marker": "b)",
+          "content": [
+           {
+            "type": "text",
+            "text": "een operator een verplichting opleggen om alle gegevens en documenten te bewaren die nodig worden geacht om de uitvoering en naleving van de verplichtingen uit hoofde van deze verordening te beoordelen."
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "number": 7,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Om het bij te staan bij het monitoren van de doeltreffende uitvoering en naleving van de relevante bepalingen van deze verordening en om het bij de uitoefening van zijn bevoegdheden uit hoofde van artikel 75, lid 1, te voorzien van specifieke deskundigheid of kennis, kan het AI-bureau onafhankelijke externe deskundigen en auditors benoemen, alsook, met instemming van de betrokken autoriteit, deskundigen, onderzoeksteams en auditors van de bevoegde autoriteiten van de lidstaat. Informatie die als gevolg van dergelijke monitoringacties is verkregen, wordt gedeeld met de relevante bevoegde autoriteiten van de lidstaten."
+       }
+      ]
+     },
+     {
+      "number": 8,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "De op grond van dit artikel verzamelde informatie wordt uitsluitend gebruikt voor de toepassing van deze verordening."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "seq": 32,
+   "sub": "b",
+   "target": {
+    "article": "75ter"
+   },
+   "operation": "insert",
+   "scope": {
+    "description": "het volgende artikel wordt ingevoegd: Artikel 75 ter (PE-CONS 30/26, blz. 78)"
+   },
+   "newArticle": {
+    "slug": "75ter",
+    "displayNumber": "75 ter",
+    "title": "Toezeggingen",
+    "insertAfter": 75,
+    "paragraphs": [
+     {
+      "number": null,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Indien de betrokken operator tijdens de procedure op grond van artikel 75 bis, lid 2, toezeggingen doet om de naleving van de relevante bepalingen van deze verordening te waarborgen, kan het AI-bureau deze toezeggingen bij besluit bindend maken voor de operator en verklaren dat er geen redenen zijn om verder op te treden. Het AI-bureau kan, op verzoek of op eigen initiatief, de procedure heropenen indien:"
+       },
+       {
+        "type": "list",
+        "items": [
+         {
+          "marker": "a)",
+          "content": [
+           {
+            "type": "text",
+            "text": "er zich een materiële wijziging heeft voorgedaan in de feiten waarop het besluit berust;"
+           }
+          ]
+         },
+         {
+          "marker": "b)",
+          "content": [
+           {
+            "type": "text",
+            "text": "de operator in strijd met zijn toezeggingen handelt; of"
+           }
+          ]
+         },
+         {
+          "marker": "c)",
+          "content": [
+           {
+            "type": "text",
+            "text": "het besluit berustte op door de betrokken operator verstrekte onvolledige, onjuiste of misleidende informatie."
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "Indien het AI-bureau van oordeel is dat de toezeggingen die door de betrokken operator zijn gedaan, niet toereikend zijn om de daadwerkelijke naleving van de relevante bepalingen van deze verordening te waarborgen, wijst het die toezeggingen bij het afsluiten van de procedure in een met redenen omkleed besluit af."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "seq": 32,
+   "sub": "c",
+   "target": {
+    "article": "75quater"
+   },
+   "operation": "insert",
+   "scope": {
+    "description": "het volgende artikel wordt ingevoegd: Artikel 75 quater (PE-CONS 30/26, blz. 78-82)"
+   },
+   "newArticle": {
+    "slug": "75quater",
+    "displayNumber": "75 quater",
+    "title": "Niet-naleving, boeten en dwangsommen",
+    "insertAfter": 75,
+    "paragraphs": [
+     {
+      "number": 1,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Indien het AI-bureau vaststelt dat een operator die binnen het toepassingsgebied van artikel 75, lid 1, valt, de desbetreffende bepalingen van deze verordening of de op grond van artikel 75 ter verbindend verklaarde toezeggingen niet naleeft, stelt het een besluit vast waarin die niet-naleving wordt vastgesteld."
+       }
+      ]
+     },
+     {
+      "number": 2,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Alvorens een besluit op grond van lid 1 vast te stellen, deelt het AI-bureau zijn voorlopige bevindingen mee aan de betrokken operator. In de voorlopige bevindingen licht het AI-bureau de maatregelen toe die het overweegt te nemen of die de betrokken operator volgens hem moet nemen om doeltreffend gevolg te geven aan de voorlopige bevindingen."
+       }
+      ]
+     },
+     {
+      "number": 3,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "In het op grond van lid 1 van dit artikel vastgestelde besluit gelast het AI-bureau de betrokken operator in voorkomend geval de nodige maatregelen te nemen om ervoor te zorgen dat de relevante bepalingen van deze verordening binnen een daarin vermelde redelijke termijn worden nageleefd en om informatie te verstrekken over de maatregelen die die operator voornemens is te nemen om aan het besluit te voldoen. De betrokken operator verstrekt het AI-bureau een beschrijving van de maatregelen die hij heeft genomen om ervoor te zorgen dat het besluit bij de uitvoering van die maatregelen wordt nageleefd. Alvorens om maatregelen te verzoeken, kan het AI-bureau een gestructureerde dialoog aangaan met de operator van het AI-systeem in kwestie. Tijdens deze dialoog kan de operator toezeggingen voorstellen overeenkomstig artikel 75 ter."
+       }
+      ]
+     },
+     {
+      "number": 4,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Een op grond van lid 1 van dit artikel vastgesteld besluit kan vergezeld gaan van het opleggen van sancties overeenkomstig artikel 99, leden 3 tot en met 7, waarvan de bepalingen van overeenkomstige toepassing zijn op het AI-bureau bij de uitvoering van zijn in artikel 75, lid 1, bedoelde toezichts- en handhavingstaken."
+       },
+       {
+        "type": "text",
+        "text": "Met name is het volgende onderworpen aan administratieve geldboeten als bedoeld in artikel 99, lid 4:"
+       },
+       {
+        "type": "list",
+        "items": [
+         {
+          "marker": "a)",
+          "content": [
+           {
+            "type": "text",
+            "text": "inbreuken op toepasselijke bepalingen van deze verordening, met inbegrip van die welke niet in artikel 99, lid 4, zijn vermeld;"
+           }
+          ]
+         },
+         {
+          "marker": "b)",
+          "content": [
+           {
+            "type": "text",
+            "text": "niet-naleving van besluiten of maatregelen die zijn vastgesteld op grond van de in artikel 14, lid 4, of artikel 16, lid 3, van Verordening (EU) 2019/1020 genoemde bevoegdheden, alsook van de in artikel 75 bis van deze verordening nader genoemde bevoegdheden;"
+           }
+          ]
+         },
+         {
+          "marker": "c)",
+          "content": [
+           {
+            "type": "text",
+            "text": "het nalaten een toezegging waaraan krachtens artikel 75 ter bij besluit een bindend karakter is verleend, na te komen."
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "Voor de verstrekking van onjuiste, onvolledige of misleidende informatie aan het AI-bureau in antwoord op een verzoek, gelden administratieve geldboeten als bedoeld in artikel 99, lid 5."
+       }
+      ]
+     },
+     {
+      "number": 5,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Het AI-bureau kan een besluit vaststellen waarbij dwangsommen worden opgelegd om de operatoren die krachtens artikel 75, lid 1, onder zijn bevoegdheid vallen, te dwingen tot het volgende:"
+       },
+       {
+        "type": "list",
+        "items": [
+         {
+          "marker": "a)",
+          "content": [
+           {
+            "type": "text",
+            "text": "mee te werken aan een onderzoek;"
+           }
+          ]
+         },
+         {
+          "marker": "b)",
+          "content": [
+           {
+            "type": "text",
+            "text": "gevolg te geven aan een verzoek om informatie dat bij een uit hoofde van artikel 75 bis, lid 3, vastgesteld besluit is gelast;"
+           }
+          ]
+         },
+         {
+          "marker": "c)",
+          "content": [
+           {
+            "type": "text",
+            "text": "zich aan een bij een besluit op grond van artikel 75 bis, lid 4, gelaste inspectie ter plaatse te onderwerpen;"
+           }
+          ]
+         },
+         {
+          "marker": "d)",
+          "content": [
+           {
+            "type": "text",
+            "text": "correcte of volledige antwoorden of toelichtingen te verstrekken in het kader van een bij een besluit uit hoofde van artikel 75 bis, lid 4, gelaste inspectie;"
+           }
+          ]
+         },
+         {
+          "marker": "e)",
+          "content": [
+           {
+            "type": "text",
+            "text": "te voldoen aan corrigerende maatregelen die zijn gelast op grond van de in artikel 16 van Verordening (EU) 2019/1020 genoemde bevoegdheid;"
+           }
+          ]
+         },
+         {
+          "marker": "f)",
+          "content": [
+           {
+            "type": "text",
+            "text": "een toezegging waaraan op grond van artikel 75 ter bij besluit een bindend karakter is verleend, na te komen; of"
+           }
+          ]
+         },
+         {
+          "marker": "g)",
+          "content": [
+           {
+            "type": "text",
+            "text": "een besluit op grond van lid 1 van dit artikel na te leven."
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "text": "Die dwangsommen zijn doeltreffend en evenredig en bedragen, in voorkomend geval, niet meer dan 5 % van het gemiddelde dagelijkse inkomen of de gemiddelde wereldwijde jaaromzet in het voorgaande boekjaar per dag, berekend vanaf de in het besluit vastgestelde datum."
+       }
+      ]
+     },
+     {
+      "number": 6,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Het Hof van Justitie van de Europese Unie heeft volledige rechtsmacht om besluiten van het AI-bureau tot oplegging van een geldboete of dwangsom op grond van dit artikel te toetsen. Het kan de opgelegde geldboete of dwangsom intrekken, verlagen of verhogen."
+       }
+      ]
+     },
+     {
+      "number": 7,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "De bedragen die worden geïnd door het opleggen van geldboeten of dwangsommen op grond van dit artikel, dragen bij aan de algemene begroting van de Unie."
+       }
+      ]
+     },
+     {
+      "number": 8,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Voor de door dit artikel aan het AI-bureau verleende bevoegdheden geldt een verjaringstermijn van drie jaar. De verjaringstermijn gaat in op de dag waarop de inbreuk wordt begaan. Bij voortgezette of herhaalde inbreuken gaat de verjaringstermijn echter pas in op de dag waarop de inbreuk is beëindigd."
+       },
+       {
+        "type": "text",
+        "text": "De bevoegdheid van het AI-bureau om op grond van dit artikel genomen besluiten ten uitvoer te leggen, verjaart na drie jaar. De verjaringstermijn gaat in op de dag waarop het besluit niet meer kan worden aangevochten."
+       },
+       {
+        "type": "text",
+        "text": "In de in artikel 75 quinquies, lid 3, bedoelde uitvoeringshandeling worden de eerste en de tweede alinea van dit lid gespecificeerd, met inbegrip van de omstandigheden waarin de verjaringstermijnen worden gestuit."
+       }
+      ]
+     },
+     {
+      "number": 9,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Indien het AI-bureau vaststelt dat er geen redenen zijn om een besluit van niet-naleving vast te stellen, sluit het de procedure met een besluit af. Dat besluit is onmiddellijk van toepassing."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "seq": 32,
+   "sub": "d",
+   "target": {
+    "article": "75quinquies"
+   },
+   "operation": "insert",
+   "scope": {
+    "description": "het volgende artikel wordt ingevoegd: Artikel 75 quinquies (PE-CONS 30/26, blz. 82-83)"
+   },
+   "newArticle": {
+    "slug": "75quinquies",
+    "displayNumber": "75 quinquies",
+    "title": "Vrijwaringsmaatregelen en verdere specificatie",
+    "insertAfter": 75,
+    "paragraphs": [
+     {
+      "number": 1,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Artikel 18 van Verordening (EU) 2019/1020 is van overeenkomstige toepassing op de operatoren die onder de bevoegdheid van het AI-bureau vallen overeenkomstig artikel 75, lid 1, van deze verordening, onverminderd specifiekere procedurele rechten waarin deze verordening voorziet."
+       }
+      ]
+     },
+     {
+      "number": 2,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "De rechten van de verdediging, en het recht op inzage van het dossier, van operatoren die onder het toepassingsgebied van artikel 75, lid 1, vallen, worden in procedures ten volle geëerbiedigd. Met het oog op de mogelijke vaststelling van besluiten op basis van artikel 75 quater, lid 1, hebben die operatoren recht op inzage van het dossier van het AI-bureau onder de voorwaarden van een onderhandelde openbaarmaking, onder voorbehoud van het rechtmatige belang van de operator of andere betrokken persoon bij de bescherming van hun bedrijfsgeheimen. Bij onenigheid tussen de partijen is het AI-bureau bevoegd om besluiten te nemen tot vaststelling van dergelijke voorwaarden van openbaarmaking. Het recht op inzage van het dossier geldt niet voor vertrouwelijke inlichtingen en interne documenten van het AI-bureau, de AI-board, bevoegde markttoezichtautoriteiten of andere overheidsinstanties van de lidstaten. Het recht op inzage geldt met name niet voor correspondentie tussen het AI-bureau en die autoriteiten. Niets in dit lid belet het AI-bureau om voor het bewijs van een inbreuk noodzakelijke inlichtingen bekend te maken of te gebruiken."
+       }
+      ]
+     },
+     {
+      "number": 3,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "De Commissie kan uitvoeringshandelingen vaststellen met betrekking tot de praktische regelingen voor inzage van het dossier en de onderhandelde openbaarmaking van informatie als bepaald in lid 2."
+       }
+      ]
+     },
+     {
+      "number": 4,
+      "anchor": "",
+      "content": [
+       {
+        "type": "text",
+        "text": "Het AI-bureau maakt de besluiten bekend die het op grond van de artikelen 75 ter en 75 quater neemt. In de bekendmaking worden de namen van de partijen en de hoofdpunten van het besluit, waaronder opgelegde sancties, vermeld. Bij de bekendmaking wordt rekening gehouden met de rechten en het rechtmatige belang van betrokken personen bij de bescherming van hun vertrouwelijke informatie."
+       }
+      ]
+     }
+    ]
+   }
   }
  ],
  "byArticle": {
@@ -1210,6 +1755,18 @@
   ],
   "4bis": [
    "6"
+  ],
+  "75bis": [
+   "32a"
+  ],
+  "75ter": [
+   "32b"
+  ],
+  "75quater": [
+   "32c"
+  ],
+  "75quinquies": [
+   "32d"
   ]
  },
  "byAnnex": {},
@@ -1305,6 +1862,22 @@
   {
    "kind": "article",
    "slug": "60"
+  },
+  {
+   "kind": "article",
+   "slug": "75bis"
+  },
+  {
+   "kind": "article",
+   "slug": "75ter"
+  },
+  {
+   "kind": "article",
+   "slug": "75quater"
+  },
+  {
+   "kind": "article",
+   "slug": "75quinquies"
   }
  ],
  "newArticles": [
@@ -1425,6 +1998,527 @@
       {
        "type": "text",
        "text": "Dit lid schept geen verplichting om dergelijke vooringenomenheid op te sporen en te corrigeren."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "75bis",
+   "displayNumber": "75 bis",
+   "title": "Toezichts- en handhavingsbevoegdheden van het AI-bureau",
+   "insertAfter": 75,
+   "paragraphs": [
+    {
+     "number": 1,
+     "anchor": "lid-1",
+     "content": [
+      {
+       "type": "text",
+       "text": "Bij de uitvoering van zijn in artikel 75, lid 1, van deze verordening vastgestelde toezichts- en handhavingstaken beschikt het AI-bureau over alle bevoegdheden van een markttoezichtautoriteit die zijn bepaald in deze afdeling en in artikel 14, lid 4, en artikel 16, lid 3, van Verordening (EU) 2019/1020. Het AI-bureau is gemachtigd om alle kosten van zijn toezichts- en handhavingsactiviteiten met betrekking tot gevallen van niet-naleving, met inbegrip van de kosten voor personele en technische middelen, volledig terug te vorderen van de betrokken operator, overeenkomstig artikel 15 van Verordening (EU) 2019/1020. Artikel 17 van Verordening (EU) 2019/1020 is van overeenkomstige toepassing."
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "anchor": "lid-2",
+     "content": [
+      {
+       "type": "text",
+       "text": "Wanneer het AI-bureau redelijke gronden heeft om te vermoeden dat een aanbieder of gebruiksverantwoordelijke van een in artikel 75, lid 1, van deze verordening bedoeld AI-systeem deze verordening niet naleeft, kan het een besluit nemen om een onderzoek naar die niet-naleving te starten overeenkomstig artikel 14, lid 4, punt f), van Verordening (EU) 2019/1020. Wanneer het AI-bureau een dergelijk onderzoek start, stelt het de operator van het betrokken AI-systeem daarvan in kennis. Het AI-bureau kan de in lid 1 van dit artikel bedoelde bevoegdheden op eigen initiatief of naar aanleiding van een op grond van artikel 85 van deze verordening ontvangen klacht uitoefenen, zelfs voordat het een onderzoek op grond van artikel 14, lid 4, punt f), van Verordening (EU) 2019/1020 start."
+      },
+      {
+       "type": "text",
+       "text": "Wanneer een markttoezichtautoriteit redenen heeft om te vermoeden dat een aanbieder of gebruiksverantwoordelijke van een in artikel 75, lid 1, bedoeld AI-systeem deze verordening niet naleeft, kan zij het AI-bureau verzoeken de zaak te beoordelen."
+      }
+     ]
+    },
+    {
+     "number": 3,
+     "anchor": "lid-3",
+     "content": [
+      {
+       "type": "text",
+       "text": "Het AI-bureau kan de in artikel 14, lid 4, punten a), b) en c), van Verordening (EU) 2019/1020 en artikel 74, leden 12 en 13, van deze verordening genoemde bevoegdheden uitoefenen bij eenvoudig verzoek of bij besluit."
+      },
+      {
+       "type": "text",
+       "text": "Wanneer het AI-bureau om informatie verzoekt, vermeldt het de rechtsgrondslag en het doel van het verzoek, specificeert het welke informatie wordt verlangd en stelt het de termijn vast waarbinnen de informatie moet worden verstrekt. Indien het verzoek een eenvoudig verzoek is, geeft het AI-bureau daarnaast aan dat, hoewel er geen verplichting is om de gevraagde informatie te verstrekken, de informatie in het geval van een vrijwillig antwoord correct en niet misleidend moet zijn, en vermeldt het de mogelijke geldboeten waarin artikel 99, lid 5, voorziet voor het verstrekken van onjuiste of misleidende informatie. Indien het verzoek bij besluit wordt gedaan, vermeldt het AI-bureau bovendien de in artikel 99, lid 5, bepaalde geldboeten voor het verstrekken van onjuiste, onvolledige of misleidende informatie en wijst het op het recht om het besluit te laten toetsen door het Hof van Justitie van de Europese Unie. Het AI-bureau stuurt een kopie van het verzoek naar de markttoezichtautoriteit van de lidstaat op het grondgebied waarvan de operator of zijn wettelijke vertegenwoordiger zich bevindt."
+      }
+     ]
+    },
+    {
+     "number": 4,
+     "anchor": "lid-4",
+     "content": [
+      {
+       "type": "text",
+       "text": "Om de taken uit te voeren die hem krachtens deze afdeling zijn toegewezen, kan het AI-bureau alle nodige inspecties op afstand of ter plaatse uitvoeren op grond van de bevoegdheden van artikel 14, lid 4, punten d) en e), van Verordening (EU) 2019/1020 en artikel 74, lid 5, van deze verordening. Wanneer het een inspectie uitvoert, stelt het AI-bureau de betrokken aanbieder in kennis van het voorwerp en het doel van het onderzoek, de in artikel 99, lid 5, van deze verordening bedoelde toepasselijke boetes en het recht om het besluit te laten toetsen door het Hof van Justitie van de Europese Unie. Voordat het een inspectie uitvoert, stelt het AI-bureau de markttoezichtautoriteit van de lidstaat op het grondgebied waarvan de operator of zijn wettelijke vertegenwoordiger zich bevindt, daarvan in kennis."
+      },
+      {
+       "type": "text",
+       "text": "Tijdens een dergelijke inspectie zijn de functionarissen van het AI-bureau bevoegd om:"
+      },
+      {
+       "type": "list",
+       "items": [
+        {
+         "marker": "a)",
+         "content": [
+          {
+           "type": "text",
+           "text": "alle lokalen, terreinen of eigendommen van de betrokken operator die zich in de Unie bevinden, te betreden;"
+          }
+         ],
+         "anchor": "lid-4-a"
+        },
+        {
+         "marker": "b)",
+         "content": [
+          {
+           "type": "text",
+           "text": "de boeken, gegevens en ander voor de uitvoering van hun taken relevant materiaal te onderzoeken, ongeacht de informatiedrager;"
+          }
+         ],
+         "anchor": "lid-4-b"
+        },
+        {
+         "marker": "c)",
+         "content": [
+          {
+           "type": "text",
+           "text": "in eender welke vorm kopieën of uittreksels van boeken, gegevens en andere bescheiden te maken of te verkrijgen;"
+          }
+         ],
+         "anchor": "lid-4-c"
+        },
+        {
+         "marker": "d)",
+         "content": [
+          {
+           "type": "text",
+           "text": "alle personen die voorwerp van de inspectie zijn of hun vertegenwoordigers of personeelsleden te verzoeken om mondelinge of schriftelijke toelichting bij factoren of documenten met betrekking tot het onderwerp en het doel van de inspectie, en de antwoorden op te tekenen;"
+          }
+         ],
+         "anchor": "lid-4-d"
+        },
+        {
+         "marker": "e)",
+         "content": [
+          {
+           "type": "text",
+           "text": "lokalen en boeken of bescheiden van de onderneming te verzegelen voor de duur van, en voor zover nodig voor, de inspectie."
+          }
+         ],
+         "anchor": "lid-4-e"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "text": "Indien het AI-bureau van oordeel is dat een natuurlijk of rechtspersoon zich tegen een inspectie verzet of een inspectie belemmert, verleent de nationale bevoegde autoriteit van de betrokken lidstaat het de nodige bijstand om het in staat te stellen zijn inspectie ter plaatse uit te voeren, zo nodig door een beroep te doen op de politie of een gelijkwaardige handhavingsautoriteit."
+      },
+      {
+       "type": "text",
+       "text": "Indien voor een inspectie ter plaatse van lokalen, terreinen of eigendommen de toestemming van een rechterlijke instantie overeenkomstig het nationale recht vereist is, verzoekt het AI-bureau om die toestemming. Het AI-bureau kan die toestemming ook bij wijze van voorzorgsmaatregel vragen. Wanneer om een dergelijke toestemming wordt verzocht, gaat de nationale rechterlijke instantie onverwijld na of de voorgenomen dwangmaatregelen niet willekeurig zijn noch buitensporig in verhouding tot het voorwerp van het onderzoek of de inspectie en de documenten die het AI-bureau bij het besluit heeft gevoegd. Bij haar toetsing van de evenredigheid van dwangmaatregelen kan de nationale rechterlijke instantie het AI-bureau om nadere toelichting verzoeken, in het bijzonder over de redenen die het AI-bureau heeft om aan te nemen dat op deze verordening inbreuk is gemaakt, de ernst van de vermoedelijke inbreuk en, in voorkomend geval, de aard van de betrokkenheid van de aan de dwangmaatregelen onderworpen persoon. De nationale rechterlijke instantie mag niet de noodzakelijkheid van het onderzoek of de inspectie toetsen, noch de informatie uit het dossier van het AI-bureau opvragen. Overeenkomstig de Verdragen is de rechtmatigheid van het besluit van het AI-bureau alleen onderworpen aan toetsing door het Hof van Justitie van de Europese Unie."
+      }
+     ]
+    },
+    {
+     "number": 5,
+     "anchor": "lid-5",
+     "content": [
+      {
+       "type": "text",
+       "text": "Op verzoek van het AI-bureau kan de bevoegde markttoezichtautoriteit van een lidstaat op haar eigen grondgebied namens en voor rekening van het AI-bureau onderzoeken, inspecties of andere onderzoeksmaatregelen uitvoeren om vast te stellen of er sprake is van een inbreuk op deze verordening. De functionarissen van de bevoegde autoriteiten van de lidstaten die met het verrichten van dergelijke onderzoeken, inspecties of onderzoeksmaatregelen zijn belast, alsmede de door hen gemachtigde of aangewezen functionarissen, oefenen hun bevoegdheden uit overeenkomstig hun nationale recht."
+      }
+     ]
+    },
+    {
+     "number": 6,
+     "anchor": "lid-6",
+     "content": [
+      {
+       "type": "text",
+       "text": "Naast de in lid 1 van dit artikel bepaalde bevoegdheden kan het AI-bureau bij de uitoefening van zijn in artikel 75, lid 1, bedoelde bevoegdheden:"
+      },
+      {
+       "type": "list",
+       "items": [
+        {
+         "marker": "a)",
+         "content": [
+          {
+           "type": "text",
+           "text": "operatoren gelasten toegang te verlenen tot en uitleg te geven over hun AI-systemen;"
+          }
+         ],
+         "anchor": "lid-6-a"
+        },
+        {
+         "marker": "b)",
+         "content": [
+          {
+           "type": "text",
+           "text": "een operator een verplichting opleggen om alle gegevens en documenten te bewaren die nodig worden geacht om de uitvoering en naleving van de verplichtingen uit hoofde van deze verordening te beoordelen."
+          }
+         ],
+         "anchor": "lid-6-b"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "number": 7,
+     "anchor": "lid-7",
+     "content": [
+      {
+       "type": "text",
+       "text": "Om het bij te staan bij het monitoren van de doeltreffende uitvoering en naleving van de relevante bepalingen van deze verordening en om het bij de uitoefening van zijn bevoegdheden uit hoofde van artikel 75, lid 1, te voorzien van specifieke deskundigheid of kennis, kan het AI-bureau onafhankelijke externe deskundigen en auditors benoemen, alsook, met instemming van de betrokken autoriteit, deskundigen, onderzoeksteams en auditors van de bevoegde autoriteiten van de lidstaat. Informatie die als gevolg van dergelijke monitoringacties is verkregen, wordt gedeeld met de relevante bevoegde autoriteiten van de lidstaten."
+      }
+     ]
+    },
+    {
+     "number": 8,
+     "anchor": "lid-8",
+     "content": [
+      {
+       "type": "text",
+       "text": "De op grond van dit artikel verzamelde informatie wordt uitsluitend gebruikt voor de toepassing van deze verordening."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "75ter",
+   "displayNumber": "75 ter",
+   "title": "Toezeggingen",
+   "insertAfter": 75,
+   "paragraphs": [
+    {
+     "number": null,
+     "anchor": "inhoud",
+     "content": [
+      {
+       "type": "text",
+       "text": "Indien de betrokken operator tijdens de procedure op grond van artikel 75 bis, lid 2, toezeggingen doet om de naleving van de relevante bepalingen van deze verordening te waarborgen, kan het AI-bureau deze toezeggingen bij besluit bindend maken voor de operator en verklaren dat er geen redenen zijn om verder op te treden. Het AI-bureau kan, op verzoek of op eigen initiatief, de procedure heropenen indien:"
+      },
+      {
+       "type": "list",
+       "items": [
+        {
+         "marker": "a)",
+         "content": [
+          {
+           "type": "text",
+           "text": "er zich een materiële wijziging heeft voorgedaan in de feiten waarop het besluit berust;"
+          }
+         ],
+         "anchor": "punt-a"
+        },
+        {
+         "marker": "b)",
+         "content": [
+          {
+           "type": "text",
+           "text": "de operator in strijd met zijn toezeggingen handelt; of"
+          }
+         ],
+         "anchor": "punt-b"
+        },
+        {
+         "marker": "c)",
+         "content": [
+          {
+           "type": "text",
+           "text": "het besluit berustte op door de betrokken operator verstrekte onvolledige, onjuiste of misleidende informatie."
+          }
+         ],
+         "anchor": "punt-c"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "text": "Indien het AI-bureau van oordeel is dat de toezeggingen die door de betrokken operator zijn gedaan, niet toereikend zijn om de daadwerkelijke naleving van de relevante bepalingen van deze verordening te waarborgen, wijst het die toezeggingen bij het afsluiten van de procedure in een met redenen omkleed besluit af."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "75quater",
+   "displayNumber": "75 quater",
+   "title": "Niet-naleving, boeten en dwangsommen",
+   "insertAfter": 75,
+   "paragraphs": [
+    {
+     "number": 1,
+     "anchor": "lid-1",
+     "content": [
+      {
+       "type": "text",
+       "text": "Indien het AI-bureau vaststelt dat een operator die binnen het toepassingsgebied van artikel 75, lid 1, valt, de desbetreffende bepalingen van deze verordening of de op grond van artikel 75 ter verbindend verklaarde toezeggingen niet naleeft, stelt het een besluit vast waarin die niet-naleving wordt vastgesteld."
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "anchor": "lid-2",
+     "content": [
+      {
+       "type": "text",
+       "text": "Alvorens een besluit op grond van lid 1 vast te stellen, deelt het AI-bureau zijn voorlopige bevindingen mee aan de betrokken operator. In de voorlopige bevindingen licht het AI-bureau de maatregelen toe die het overweegt te nemen of die de betrokken operator volgens hem moet nemen om doeltreffend gevolg te geven aan de voorlopige bevindingen."
+      }
+     ]
+    },
+    {
+     "number": 3,
+     "anchor": "lid-3",
+     "content": [
+      {
+       "type": "text",
+       "text": "In het op grond van lid 1 van dit artikel vastgestelde besluit gelast het AI-bureau de betrokken operator in voorkomend geval de nodige maatregelen te nemen om ervoor te zorgen dat de relevante bepalingen van deze verordening binnen een daarin vermelde redelijke termijn worden nageleefd en om informatie te verstrekken over de maatregelen die die operator voornemens is te nemen om aan het besluit te voldoen. De betrokken operator verstrekt het AI-bureau een beschrijving van de maatregelen die hij heeft genomen om ervoor te zorgen dat het besluit bij de uitvoering van die maatregelen wordt nageleefd. Alvorens om maatregelen te verzoeken, kan het AI-bureau een gestructureerde dialoog aangaan met de operator van het AI-systeem in kwestie. Tijdens deze dialoog kan de operator toezeggingen voorstellen overeenkomstig artikel 75 ter."
+      }
+     ]
+    },
+    {
+     "number": 4,
+     "anchor": "lid-4",
+     "content": [
+      {
+       "type": "text",
+       "text": "Een op grond van lid 1 van dit artikel vastgesteld besluit kan vergezeld gaan van het opleggen van sancties overeenkomstig artikel 99, leden 3 tot en met 7, waarvan de bepalingen van overeenkomstige toepassing zijn op het AI-bureau bij de uitvoering van zijn in artikel 75, lid 1, bedoelde toezichts- en handhavingstaken."
+      },
+      {
+       "type": "text",
+       "text": "Met name is het volgende onderworpen aan administratieve geldboeten als bedoeld in artikel 99, lid 4:"
+      },
+      {
+       "type": "list",
+       "items": [
+        {
+         "marker": "a)",
+         "content": [
+          {
+           "type": "text",
+           "text": "inbreuken op toepasselijke bepalingen van deze verordening, met inbegrip van die welke niet in artikel 99, lid 4, zijn vermeld;"
+          }
+         ],
+         "anchor": "lid-4-a"
+        },
+        {
+         "marker": "b)",
+         "content": [
+          {
+           "type": "text",
+           "text": "niet-naleving van besluiten of maatregelen die zijn vastgesteld op grond van de in artikel 14, lid 4, of artikel 16, lid 3, van Verordening (EU) 2019/1020 genoemde bevoegdheden, alsook van de in artikel 75 bis van deze verordening nader genoemde bevoegdheden;"
+          }
+         ],
+         "anchor": "lid-4-b"
+        },
+        {
+         "marker": "c)",
+         "content": [
+          {
+           "type": "text",
+           "text": "het nalaten een toezegging waaraan krachtens artikel 75 ter bij besluit een bindend karakter is verleend, na te komen."
+          }
+         ],
+         "anchor": "lid-4-c"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "text": "Voor de verstrekking van onjuiste, onvolledige of misleidende informatie aan het AI-bureau in antwoord op een verzoek, gelden administratieve geldboeten als bedoeld in artikel 99, lid 5."
+      }
+     ]
+    },
+    {
+     "number": 5,
+     "anchor": "lid-5",
+     "content": [
+      {
+       "type": "text",
+       "text": "Het AI-bureau kan een besluit vaststellen waarbij dwangsommen worden opgelegd om de operatoren die krachtens artikel 75, lid 1, onder zijn bevoegdheid vallen, te dwingen tot het volgende:"
+      },
+      {
+       "type": "list",
+       "items": [
+        {
+         "marker": "a)",
+         "content": [
+          {
+           "type": "text",
+           "text": "mee te werken aan een onderzoek;"
+          }
+         ],
+         "anchor": "lid-5-a"
+        },
+        {
+         "marker": "b)",
+         "content": [
+          {
+           "type": "text",
+           "text": "gevolg te geven aan een verzoek om informatie dat bij een uit hoofde van artikel 75 bis, lid 3, vastgesteld besluit is gelast;"
+          }
+         ],
+         "anchor": "lid-5-b"
+        },
+        {
+         "marker": "c)",
+         "content": [
+          {
+           "type": "text",
+           "text": "zich aan een bij een besluit op grond van artikel 75 bis, lid 4, gelaste inspectie ter plaatse te onderwerpen;"
+          }
+         ],
+         "anchor": "lid-5-c"
+        },
+        {
+         "marker": "d)",
+         "content": [
+          {
+           "type": "text",
+           "text": "correcte of volledige antwoorden of toelichtingen te verstrekken in het kader van een bij een besluit uit hoofde van artikel 75 bis, lid 4, gelaste inspectie;"
+          }
+         ],
+         "anchor": "lid-5-d"
+        },
+        {
+         "marker": "e)",
+         "content": [
+          {
+           "type": "text",
+           "text": "te voldoen aan corrigerende maatregelen die zijn gelast op grond van de in artikel 16 van Verordening (EU) 2019/1020 genoemde bevoegdheid;"
+          }
+         ],
+         "anchor": "lid-5-e"
+        },
+        {
+         "marker": "f)",
+         "content": [
+          {
+           "type": "text",
+           "text": "een toezegging waaraan op grond van artikel 75 ter bij besluit een bindend karakter is verleend, na te komen; of"
+          }
+         ],
+         "anchor": "lid-5-f"
+        },
+        {
+         "marker": "g)",
+         "content": [
+          {
+           "type": "text",
+           "text": "een besluit op grond van lid 1 van dit artikel na te leven."
+          }
+         ],
+         "anchor": "lid-5-g"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "text": "Die dwangsommen zijn doeltreffend en evenredig en bedragen, in voorkomend geval, niet meer dan 5 % van het gemiddelde dagelijkse inkomen of de gemiddelde wereldwijde jaaromzet in het voorgaande boekjaar per dag, berekend vanaf de in het besluit vastgestelde datum."
+      }
+     ]
+    },
+    {
+     "number": 6,
+     "anchor": "lid-6",
+     "content": [
+      {
+       "type": "text",
+       "text": "Het Hof van Justitie van de Europese Unie heeft volledige rechtsmacht om besluiten van het AI-bureau tot oplegging van een geldboete of dwangsom op grond van dit artikel te toetsen. Het kan de opgelegde geldboete of dwangsom intrekken, verlagen of verhogen."
+      }
+     ]
+    },
+    {
+     "number": 7,
+     "anchor": "lid-7",
+     "content": [
+      {
+       "type": "text",
+       "text": "De bedragen die worden geïnd door het opleggen van geldboeten of dwangsommen op grond van dit artikel, dragen bij aan de algemene begroting van de Unie."
+      }
+     ]
+    },
+    {
+     "number": 8,
+     "anchor": "lid-8",
+     "content": [
+      {
+       "type": "text",
+       "text": "Voor de door dit artikel aan het AI-bureau verleende bevoegdheden geldt een verjaringstermijn van drie jaar. De verjaringstermijn gaat in op de dag waarop de inbreuk wordt begaan. Bij voortgezette of herhaalde inbreuken gaat de verjaringstermijn echter pas in op de dag waarop de inbreuk is beëindigd."
+      },
+      {
+       "type": "text",
+       "text": "De bevoegdheid van het AI-bureau om op grond van dit artikel genomen besluiten ten uitvoer te leggen, verjaart na drie jaar. De verjaringstermijn gaat in op de dag waarop het besluit niet meer kan worden aangevochten."
+      },
+      {
+       "type": "text",
+       "text": "In de in artikel 75 quinquies, lid 3, bedoelde uitvoeringshandeling worden de eerste en de tweede alinea van dit lid gespecificeerd, met inbegrip van de omstandigheden waarin de verjaringstermijnen worden gestuit."
+      }
+     ]
+    },
+    {
+     "number": 9,
+     "anchor": "lid-9",
+     "content": [
+      {
+       "type": "text",
+       "text": "Indien het AI-bureau vaststelt dat er geen redenen zijn om een besluit van niet-naleving vast te stellen, sluit het de procedure met een besluit af. Dat besluit is onmiddellijk van toepassing."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "75quinquies",
+   "displayNumber": "75 quinquies",
+   "title": "Vrijwaringsmaatregelen en verdere specificatie",
+   "insertAfter": 75,
+   "paragraphs": [
+    {
+     "number": 1,
+     "anchor": "lid-1",
+     "content": [
+      {
+       "type": "text",
+       "text": "Artikel 18 van Verordening (EU) 2019/1020 is van overeenkomstige toepassing op de operatoren die onder de bevoegdheid van het AI-bureau vallen overeenkomstig artikel 75, lid 1, van deze verordening, onverminderd specifiekere procedurele rechten waarin deze verordening voorziet."
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "anchor": "lid-2",
+     "content": [
+      {
+       "type": "text",
+       "text": "De rechten van de verdediging, en het recht op inzage van het dossier, van operatoren die onder het toepassingsgebied van artikel 75, lid 1, vallen, worden in procedures ten volle geëerbiedigd. Met het oog op de mogelijke vaststelling van besluiten op basis van artikel 75 quater, lid 1, hebben die operatoren recht op inzage van het dossier van het AI-bureau onder de voorwaarden van een onderhandelde openbaarmaking, onder voorbehoud van het rechtmatige belang van de operator of andere betrokken persoon bij de bescherming van hun bedrijfsgeheimen. Bij onenigheid tussen de partijen is het AI-bureau bevoegd om besluiten te nemen tot vaststelling van dergelijke voorwaarden van openbaarmaking. Het recht op inzage van het dossier geldt niet voor vertrouwelijke inlichtingen en interne documenten van het AI-bureau, de AI-board, bevoegde markttoezichtautoriteiten of andere overheidsinstanties van de lidstaten. Het recht op inzage geldt met name niet voor correspondentie tussen het AI-bureau en die autoriteiten. Niets in dit lid belet het AI-bureau om voor het bewijs van een inbreuk noodzakelijke inlichtingen bekend te maken of te gebruiken."
+      }
+     ]
+    },
+    {
+     "number": 3,
+     "anchor": "lid-3",
+     "content": [
+      {
+       "type": "text",
+       "text": "De Commissie kan uitvoeringshandelingen vaststellen met betrekking tot de praktische regelingen voor inzage van het dossier en de onderhandelde openbaarmaking van informatie als bepaald in lid 2."
+      }
+     ]
+    },
+    {
+     "number": 4,
+     "anchor": "lid-4",
+     "content": [
+      {
+       "type": "text",
+       "text": "Het AI-bureau maakt de besluiten bekend die het op grond van de artikelen 75 ter en 75 quater neemt. In de bekendmaking worden de namen van de partijen en de hoofdpunten van het besluit, waaronder opgelegde sancties, vermeld. Bij de bekendmaking wordt rekening gehouden met de rechten en het rechtmatige belang van betrokken personen bij de bescherming van hun vertrouwelijke informatie."
       }
      ]
     }
