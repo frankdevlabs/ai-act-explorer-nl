@@ -25,7 +25,7 @@ import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { findRefs, type RefContext } from "../src/lib/crossrefs";
-import { assignItemAnchors, flattenNodes } from "../src/lib/flatten";
+import { assignItemAnchors, flattenNodes, markerToSlug } from "../src/lib/flatten";
 import type {
   Annex,
   Article,
@@ -489,27 +489,58 @@ for (const r of recitals) {
   });
 }
 for (const a of annexes) {
-  // chunk per heading (or whole annex when no headings)
-  let chunkIdx = 0;
+  // chunk per top-level list item ("punt"), with heading-group buffers for
+  // the surrounding prose — one search doc per point keeps rare terms from
+  // drowning in annex-wide text and gives snippets the right region
+  const roman = a.roman.toLowerCase();
+  // deep-link fragments only for anchors unique on the annex page (VII/VIII/X
+  // repeat punt-* anchors across lists under different headings)
+  const anchorCounts = new Map<string, number>();
+  for (const node of a.content) {
+    if (node.type !== "list") continue;
+    for (const item of node.items) {
+      if (item.anchor) anchorCounts.set(item.anchor, (anchorCounts.get(item.anchor) ?? 0) + 1);
+    }
+  }
+  let seq = 0;
   let heading = "";
   let buf: string[] = [];
+  const usedIds = new Set<string>();
+  const push = (suffix: string, anchor: string | null, text: string) => {
+    if (!text.trim()) return;
+    seq += 1;
+    let id = anchor ? `anx-${roman}-${anchor}` : `anx-${roman}-${seq}`;
+    if (usedIds.has(id)) id = `anx-${roman}-${seq}`;
+    usedIds.add(id);
+    const fragment = anchor && anchorCounts.get(anchor) === 1 ? `#${anchor}` : "";
+    searchDocs.push({
+      id,
+      type: "bijlage",
+      ref: roman,
+      heading: `Bijlage ${a.roman} — ${a.title}${heading ? ` (${heading})` : ""}${suffix}`,
+      url: `/bijlage/${roman}${fragment}`,
+      text,
+    });
+  };
   const flush = () => {
     if (buf.length === 0) return;
-    chunkIdx += 1;
-    searchDocs.push({
-      id: `anx-${a.roman.toLowerCase()}-${chunkIdx}`,
-      type: "bijlage",
-      ref: a.roman.toLowerCase(),
-      heading: `Bijlage ${a.roman} — ${a.title}${heading ? ` (${heading})` : ""}`,
-      url: `/bijlage/${a.roman.toLowerCase()}`,
-      text: buf.join(" "),
-    });
+    push("", null, buf.join(" "));
     buf = [];
   };
   for (const node of a.content) {
     if (node.type === "heading") {
       flush();
       heading = node.text;
+    } else if (node.type === "list") {
+      flush();
+      for (const item of node.items) {
+        const label = markerToSlug(item.marker);
+        push(
+          label ? `, punt ${label}` : "",
+          item.anchor ?? null,
+          `${item.marker} ${flattenNodes(item.content)}`.trim(),
+        );
+      }
     } else {
       buf.push(flattenNodes([node]));
     }

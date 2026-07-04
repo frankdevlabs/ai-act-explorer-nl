@@ -75,9 +75,37 @@ const corpus =
   recitals.map((r) => r.paragraphs.map((p) => p.text).join(" ")).join(" ") +
   annexes.map((a) => flatten(a.content)).join(" ");
 assert.ok(corpus.length > 500_000, `corpus ${corpus.length} chars`);
-assert.ok(searchDocs.length > 700, `search docs ${searchDocs.length}`);
+// 726 → 826 when annex chunking went per-point (2026-07, search overhaul)
+assert.equal(searchDocs.length, 826, `search docs ${searchDocs.length}`);
+assert.equal(
+  searchDocs.filter((d) => d.type === "bijlage").length,
+  127,
+  "bijlage search docs (per-point chunking)",
+);
 assert.equal(new Set(searchDocs.map((d) => d.id)).size, searchDocs.length, "search doc ids unique");
 for (const d of searchDocs) assert.ok(d.text.trim().length > 0, `empty search doc ${d.id}`);
+
+// per-point chunking spot checks (the motivating case: Annex III point 5)
+const anx3p5 = searchDocs.find((d) => d.id === "anx-iii-punt-5");
+assert.ok(anx3p5, "anx-iii-punt-5 search doc exists");
+assert.equal(anx3p5.url, "/bijlage/iii#punt-5", "anx-iii-punt-5 deep link");
+assert.ok(anx3p5.text.startsWith("5."), "anx-iii-punt-5 starts with its marker");
+assert.ok(anx3p5.text.includes("kredietwaardigheid"), "anx-iii-punt-5 contains credit scoring");
+// annex search-doc fragments must be unique anchors on their page (VII/VIII/X
+// repeat punt-* anchors across lists — those docs carry no fragment)
+for (const d of searchDocs.filter((x) => x.type === "bijlage")) {
+  const [page, fragment] = d.url.split("#");
+  assert.equal(page, `/bijlage/${d.ref}`, `annex doc ${d.id} url page`);
+  if (fragment) {
+    const annex = annexes.find((x) => x.roman.toLowerCase() === d.ref);
+    assert.ok(annex, `annex doc ${d.id} ref resolves`);
+    const count = annex.content
+      .filter((n) => n.type === "list")
+      .flatMap((n) => (n.type === "list" ? n.items : []))
+      .filter((i) => i.anchor === fragment).length;
+    assert.equal(count, 1, `annex doc ${d.id} fragment #${fragment} unique on page`);
+  }
+}
 
 // spot checks against the OJ text
 const art3 = flatten(articles[2].paragraphs[0].content);

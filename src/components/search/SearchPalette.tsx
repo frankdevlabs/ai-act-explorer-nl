@@ -119,10 +119,10 @@ export function SearchPalette() {
                   <Icon className="mt-0.5 size-4 shrink-0 text-muted" />
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-medium">
-                      <Highlight text={h.heading} terms={h.queryTerms} />
+                      <Highlight text={h.heading} terms={h.terms} />
                     </span>
                     <span className="mt-0.5 line-clamp-2 text-xs text-muted">
-                      <Highlight text={makeSnippet(h.text, h.queryTerms)} terms={h.queryTerms} />
+                      <Highlight text={makeSnippet(h.text, h.terms)} terms={h.terms} />
                     </span>
                   </span>
                 </Command.Item>

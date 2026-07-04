@@ -67,10 +67,10 @@ export function SearchResults() {
                 {TYPE_LABEL[h.type as keyof typeof TYPE_LABEL]}
               </span>
               <span className="mt-1 block font-medium group-hover:text-accent">
-                <Highlight text={h.heading} terms={h.queryTerms} />
+                <Highlight text={h.heading} terms={h.terms} />
               </span>
               <span className="mt-1 block text-sm text-muted">
-                <Highlight text={makeSnippet(h.text, h.queryTerms, 160)} terms={h.queryTerms} />
+                <Highlight text={makeSnippet(h.text, h.terms, 160)} terms={h.terms} />
               </span>
             </Link>
           </li>

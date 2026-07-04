@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { Amendment } from "../../src/lib/types.js";
-import { searchDocs, makeSnippet } from "../../src/lib/search-core.js";
+import { PRECISION_SEARCH_OPTIONS, makeSnippet, searchDocs } from "../../src/lib/search-core.js";
 import {
   BASE_URL,
   amendmentDiffs,
@@ -49,15 +49,18 @@ export function createServer(): McpServer {
       },
     },
     async ({ query, limit, type }) => {
-      let hits = searchDocs(index, query, 50);
+      let hits = searchDocs(index, query, 50, PRECISION_SEARCH_OPTIONS);
       if (type) hits = hits.filter((h) => h.type === type);
       hits = hits.slice(0, limit ?? 10);
       if (!hits.length) return text(`Geen resultaten voor "${query}".`);
       const body = hits
-        .map(
-          (h) =>
-            `### ${h.heading}\n${BASE_URL}${h.url}\n> ${makeSnippet(h.text, h.terms).replace(/\n+/g, " ")}`,
-        )
+        .map((h) => {
+          // short chunks (per-point annex docs, single leden) quoted in full,
+          // so agents rarely need a follow-up get_article/get_annex call
+          const quoted = h.text.length <= 600 ? h.text : makeSnippet(h.text, h.terms, 200);
+          const terms = [...new Set(h.queryTerms)].join(", ");
+          return `### ${h.heading}\n${BASE_URL}${h.url}\n_Gevonden termen: ${terms}_\n> ${quoted.replace(/\n+/g, " ")}`;
+        })
         .join("\n\n");
       return text(body);
     },
