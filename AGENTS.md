@@ -95,7 +95,7 @@ parser. Both are WAF-blocked on EUR-Lex; fetch new versions via
   Set/Map); derive UI state during render, not in effects. Details:
   ARCHITECTURE.md, "Frontend notes".
 - UI language is Dutch; code, comments, and docs are English.
-- No test framework; verification = `verify-data.ts` + the `verify-app` skill.
+- No test framework; verification = `verify-data.ts` + `verify-search.ts` (golden search queries; update entries consciously, never delete to pass) + the `verify-app` skill.
 
 ## Environment (this VPS)
 
