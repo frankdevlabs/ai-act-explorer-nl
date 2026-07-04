@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { SidebarToc } from "@/components/layout/SidebarToc";
+import { TabStrip } from "@/components/layout/TabStrip";
 import { SearchPalette } from "@/components/search/SearchPalette";
 import { getAmendedArticleNumbers, getNewArticleTocEntries, getToc } from "@/lib/data";
 import "./globals.css";
@@ -44,6 +45,7 @@ export default function RootLayout({
       <body className="min-h-full font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
+          <TabStrip />
           <MobileNav toc={toc} amended={amended} newEntries={newEntries} />
           <SearchPalette />
           <div className="mx-auto flex max-w-7xl px-4">

@@ -1,6 +1,6 @@
 ---
 name: verify-app
-description: Verify the app end-to-end on this VPS - build, curl smoke checks, and optional Playwright browser checks (search palette, deep links, mobile nav, dark mode, omnibus diff toggle + diff-view links). Use after parser/data/UI changes or before pushing.
+description: Verify the app end-to-end on this VPS - build, curl smoke checks, and optional Playwright browser checks (search palette, deep links, mobile nav, dark mode, omnibus diff toggle + diff-view links, document tab strip). Use after parser/data/UI changes or before pushing.
 ---
 
 # Verify the app
@@ -139,6 +139,57 @@ await page.goto(`${BASE}/artikel/3`);
 await page.locator("[data-diff-status]").first().waitFor();
 if ((await page.locator("[data-diff-status] p").count()) < 60)
   throw new Error("artikel 3 diff view collapsed to a flattened blob");
+
+// 12. tab strip: visiting documents adds tabs; current tab is active
+await page.setViewportSize({ width: 1280, height: 900 });
+await page.goto(`${BASE}/artikel/6`);
+await page.evaluate(() => localStorage.removeItem("aiact-tabs"));
+await page.goto(`${BASE}/artikel/6`);
+await page.goto(`${BASE}/overweging/14`);
+const strip = page.locator('nav[aria-label="Geopende documenten"]');
+const tabLinks = strip.locator("a");
+await strip.locator('a[href="/overweging/14"]').waitFor(); // strip mounts after hydration
+if ((await tabLinks.count()) !== 2) throw new Error("expected 2 tabs");
+if (!(await tabLinks.nth(1).getAttribute("class")).includes("border-accent"))
+  throw new Error("second (current) tab not marked active");
+
+// 13. tab click navigates; close (X) removes without navigating
+await tabLinks.first().click();
+await page.waitForURL(/artikel\/6/);
+await strip.getByRole("button", { name: "Sluit Art. 6" }).click();
+await page.waitForTimeout(200);
+if ((await tabLinks.count()) !== 1) throw new Error("close did not remove tab");
+if (!page.url().includes("/artikel/6")) throw new Error("closing current tab navigated away");
+
+// 14. tabs persist across reload, versioned storage (reload re-registers Art. 6 -> 2 tabs)
+await page.reload();
+await strip.locator('a[href="/overweging/14"]').waitFor();
+const stored = await page.evaluate(() => JSON.parse(localStorage.getItem("aiact-tabs")));
+if (stored.v !== 1 || stored.tabs.length !== 2) throw new Error("aiact-tabs bad shape after reload");
+
+// 15. LRU cap: 9 documents -> exactly 8 tabs, first-visited evicted
+await page.evaluate(() => localStorage.removeItem("aiact-tabs"));
+for (const n of [1, 2, 3, 4, 5, 7, 8, 9, 10]) {
+  await page.goto(`${BASE}/artikel/${n}`);
+  await strip.locator(`a[href="/artikel/${n}"]`).waitFor(); // registration is post-hydration
+}
+if ((await tabLinks.count()) !== 8) throw new Error("LRU cap != 8 tabs");
+if ((await strip.locator('a[href="/artikel/1"]').count()) !== 0)
+  throw new Error("oldest tab not evicted");
+
+// 16. 360px: strip scrolls inside itself, body does not overflow
+await page.setViewportSize({ width: 360, height: 800 });
+await page.goto(`${BASE}/artikel/13`); // same page as check 10 (some articles have a pre-existing 1px body overflow @360px)
+await strip.locator("a").first().waitFor();
+const stripScrolls = await strip
+  .locator("div")
+  .first()
+  .evaluate((el) => el.scrollWidth > el.clientWidth);
+if (!stripScrolls) throw new Error("8 tabs @360px should overflow the strip container");
+const tabOverflow = await page.evaluate(
+  () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+);
+if (tabOverflow > 0) throw new Error(`tab strip caused ${tabOverflow}px body overflow @360px`);
 
 if (errors.length) throw new Error("console errors:\n" + errors.join("\n"));
 console.log("e2e: all checks passed");

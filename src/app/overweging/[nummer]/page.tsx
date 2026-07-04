@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { LinkedText } from "@/components/content/LinkedText";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PrevNextNav } from "@/components/layout/PrevNextNav";
+import { RegisterTab } from "@/components/layout/RegisterTab";
 import { getArticlesForRecital, getRecital, getRecitals, recitalPrevNext } from "@/lib/data";
 
 export const dynamicParams = false;
@@ -30,6 +31,7 @@ export default async function OverwegingPage({ params }: Props) {
 
   return (
     <article>
+      <RegisterTab href={`/overweging/${nummer}`} label={`Ov. ${recital.number}`} />
       <Breadcrumbs
         crumbs={[
           { label: "Overwegingen", href: "/overwegingen" },

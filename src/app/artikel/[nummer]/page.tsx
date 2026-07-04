@@ -7,6 +7,7 @@ import { DiffArticleBody } from "@/components/content/DiffArticleBody";
 import { RelatedRecitals } from "@/components/content/RelatedRecitals";
 import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
 import { PrevNextNav } from "@/components/layout/PrevNextNav";
+import { RegisterTab } from "@/components/layout/RegisterTab";
 import {
   articlePrevNext,
   changedTargetPrevNext,
@@ -71,6 +72,11 @@ export default async function ArtikelPage({ params }: Props) {
 
   return (
     <article>
+      <RegisterTab
+        href={`/artikel/${nummer}`}
+        label={display.replace(/^Artikel/, "Art.")}
+        title={title}
+      />
       <Breadcrumbs crumbs={crumbs} />
       <header className="mb-6">
         <p className="text-sm font-medium uppercase tracking-wide text-accent">{display}</p>

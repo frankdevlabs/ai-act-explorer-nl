@@ -1,6 +1,6 @@
 # Epic 6 — Article tabs (auto-tab on visit)
 
-**Status**: ready to implement (run plan mode on this doc for final step breakdown).
+**Status**: implemented (2026-07-03); verify-app checks 12–16 cover it.
 **Goal**: visiting an article/recital/annex adds it to a persistent tab strip under the header; tabs navigate, close, and survive reloads. Static-export compatible (tabs are pure client state; navigation stays full page loads).
 
 ## State — `src/lib/tabs.ts`

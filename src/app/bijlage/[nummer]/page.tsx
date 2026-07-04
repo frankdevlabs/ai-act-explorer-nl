@@ -7,6 +7,7 @@ import { DiffArticleBody } from "@/components/content/DiffArticleBody";
 import { FootnoteList } from "@/components/content/FootnoteList";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PrevNextNav } from "@/components/layout/PrevNextNav";
+import { RegisterTab } from "@/components/layout/RegisterTab";
 import {
   annexPrevNext,
   changedTargetPrevNext,
@@ -52,6 +53,11 @@ export default async function BijlagePage({ params }: Props) {
 
   return (
     <article>
+      <RegisterTab
+        href={`/bijlage/${nummer}`}
+        label={`Bijl. ${annex.roman}`}
+        title={annex.title}
+      />
       <Breadcrumbs
         crumbs={[{ label: "Bijlagen", href: "/bijlagen" }, { label: `Bijlage ${annex.roman}` }]}
       />
