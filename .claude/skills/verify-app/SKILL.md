@@ -89,25 +89,28 @@ if (!(await page.locator("html.dark").count())) throw new Error("dark mode");
 // 6. global omnibus toggle (header) flips the diff view and persists across pages
 const headerToggle = () => page.getByRole("button", { name: /Omnibus-wijzigingen tonen/ });
 const diffVisible = () => page.locator("[data-diff-status]").first().isVisible().catch(() => false);
+// positive assertions waitFor the selector (hydration timing varies in dev);
+// only the negative assertions below use a fixed settle wait
+const diffAppears = (msg) =>
+  page.locator("[data-diff-status]").first().waitFor({ timeout: 5000 }).catch(() => {
+    throw new Error(msg);
+  });
 await page.goto(`${BASE}/artikel/6`);
 await page.evaluate(() => localStorage.removeItem("omnibus-diff"));
 await page.reload();
 await headerToggle().waitFor();
 await headerToggle().click();
-await page.waitForTimeout(200);
-if (!(await diffVisible())) throw new Error("header toggle did not show diff");
+await diffAppears("header toggle did not show diff");
 await page.goto(`${BASE}/artikel/10`);
-await page.waitForTimeout(300);
-if (!(await diffVisible())) throw new Error("omnibus pref did not persist across pages");
+await diffAppears("omnibus pref did not persist across pages");
 
 // 7. ?diff=1 deep link wins at load; a later header toggle wins over the URL
 await page.evaluate(() => localStorage.setItem("omnibus-diff", "0"));
 await page.goto(`${BASE}/artikel/6?diff=1`);
-await page.waitForTimeout(300);
-if (!(await diffVisible())) throw new Error("?diff=1 deep link did not show diff");
+await diffAppears("?diff=1 deep link did not show diff");
 await headerToggle().click(); // pref 0 -> 1
 await headerToggle().click(); // pref 1 -> 0: must override ?diff=1
-await page.waitForTimeout(200);
+await page.waitForTimeout(300);
 if (await diffVisible()) throw new Error("header toggle did not override ?diff=1");
 
 // 8. diff view carries working cross-reference links inside <ins> segments
