@@ -5,7 +5,8 @@ another language version). The architecture is deliberately data-driven —
 the pipeline (source HTML → parser → verified JSON → static site → MCP) ports
 as-is; what changes is grammar, selectors, counts and identifiers. Work
 through the layers in order; each layer's verify assertions tell you when it's
-done.
+done. Failure modes this repo actually hit are catalogued inline in the layer
+they belong to; repo-internal oddities live in ARCHITECTURE.md "Known quirks".
 
 ## What ports unchanged
 
@@ -28,6 +29,24 @@ done.
   preamble). Both needed; see "Why two source files" in ARCHITECTURE.md.
 - Fetch via `fetch_blocked_doc.py` (EUR-Lex sits behind an AWS WAF).
 - Replace `data/source/*.html`; record CELEX ids + fetch receipts in README.
+
+### If there is no clean consolidated version
+
+- New acts (or some directives) may lack a consolidated CELEX. Fallback:
+  parse the original OJ publication for *everything* — the OJ dialect already
+  covers recitals here; the removed OJ article parser is in git history and
+  can be resurrected.
+- Corrigenda then have no consolidated home: hand-apply them via the
+  amendment-layer machinery (Layer 6: apply-then-diff, page-image
+  cross-check) or ship the uncorrected text with a visible note.
+- Engineer the eventual consolidated-version swap as a producer-only change:
+  only the stage that writes `data/generated/*` changes; verify/UI/MCP stay
+  (this is the planned PE-CONS → CELEX swap, AGENTS.md rule 2).
+- If the only source is a PDF with a lossy text layer, budget hand
+  transcription under a rule-2-style carve-out. What made it safe here:
+  320 dpi page-image cross-check, byte-identical diff invariant, keeping
+  official-text defects verbatim, whole-unit replace when anchors are
+  ambiguous. Procedure: `.claude/skills/transcribe-amendments/`.
 
 ## Layer 2 — Parser (`scripts/parse-aiact.ts`)
 
@@ -55,6 +74,15 @@ Method: parse first, eyeball the corpus (`data/generated/*.json`), then write
 the assertions from what you verified by hand — not from the parser output
 blindly.
 
+**Expect the pins to drift.** Exact pins — ref counts especially — get
+re-pinned repeatedly early in a port as the grammar matures; that is the
+design, not a defect (this repo: 566→563→561 base, 462→460 amendment, every
+re-pin catching real false positives). Each re-pin follows the diff-audit
+loop in ARCHITECTURE.md "Verify script" and leaves a history comment next to
+the assertion. The `verify-app` skill's expectations (page counts, check
+list) are part of the same pinned surface — update them in the feature
+commit.
+
 ## Layer 4 — Cross-reference grammar (`src/lib/crossrefs.ts`)
 
 Same-language (Dutch) port: mostly reusable, but update:
@@ -69,6 +97,18 @@ Cross-language port: the keyword sets, connectives (`tot en met`, `en`, `of`),
 ordinals, sub-ref markers (`lid`, `punt`, `alinea`) and instrument nouns in
 the exclusion regexes are all Dutch — budget a full grammar rewrite plus a
 new exclusion corpus review. Keep the Cursor/number-list machinery.
+
+Two traps that survive any language:
+
+- **Conjunction distribution**: an instrument qualifier after the last
+  conjunct ("artikel 5 en artikel 9 … van Verordening (EU) 2016/679")
+  applies to *all* conjuncts — a grammar that excludes only the last one
+  self-links the earlier ones. Cost this repo a re-pin; test enumerations
+  followed by "van/bij <instrument>" explicitly (see `allowedHere()` in
+  `crossrefs.ts`).
+- Non-instrument citation forms need their own exclusions ("artikel 6 bis
+  van Protocol nr. 21", treaty articles). Build the exclusion corpus from a
+  real negative-sweep over the parsed refs, not from imagination.
 
 ## Layer 5 — Identifiers, routes, UI strings
 
@@ -91,7 +131,29 @@ Only if the new law has pending amendments to track. The schema
 available on EUR-Lex, prefer corpus-vs-corpus diffing over hand transcription
 (see the OJ swap plan in `docs/epics/epic-2-omnibus-track-changes.md`).
 
-## Layer 7 — MCP + deploy
+## Layer 7 — Editorial-metadata layer (optional)
+
+Curated *interpretive* metadata over the corpus — here the recital↔article
+map; generalizes to article summaries, topic tags, an obligations index.
+Hard constraint: it must never alter the rendering of legal text (AGENTS.md
+rule 2b).
+
+- Portable schema pattern: all keys pre-created; `reviewed: false → true`
+  lifecycle; `articles: [] + reviewed: true` ("reviewed, none relevant") is
+  distinct from `reviewed: false` (drafted); optional `note`. Values are
+  validated against the generated corpus — unknown slugs fail the build.
+- Two-regime verify keyed on `meta.complete` (third use of the pattern from
+  `verify-amendments.ts`) keeps the site shippable mid-curation.
+- Curation procedure that worked: seed from explicit refs → fan out to N
+  parallel drafter agents (~20 items each, thematic anchors from `toc.json`)
+  → merge centrally → **second adversarial fan-out with different agents in
+  refute stance** → human flips `reviewed`. Full procedure:
+  `.claude/skills/curate-recital-map/`.
+- Side effect: editorial curation doubles as parser QA — a mislinked seed
+  (recital refs resolving to GDPR article numbers) exposed a crossref
+  grammar bug here.
+
+## Layer 8 — MCP + deploy
 
 - `mcp/`: update tool names/descriptions (`search_ai_act` → law-specific),
   `BASE_URL`, port (each site instance needs its own), systemd unit name,
@@ -100,10 +162,17 @@ available on EUR-Lex, prefer corpus-vs-corpus diffing over hand transcription
 
 ## Effort calibration (from this repo's history)
 
+Worked numbers: the whole build — parser, verify, site, MCP, amendment
+layer, recital map — took 6 epics / 26 commits / ~3 elapsed days for a
+113-article, 180-recital, 13-annex regulation.
+
 - Same-language, different law: parser selector tuning + verify rebuild +
   identifier sweep dominate. Days, not weeks, if the EUR-Lex markup matches.
 - Cross-language: add the full crossrefs grammar rewrite, stopwords, UI
   translation. The grammar is the long pole — it needs a corpus-driven
   exclusion review like the one in `docs/epics/epic-1-internal-linking.md`.
-- Amendment tracking: the transcription is the long pole (budget it
-  explicitly); everything downstream is generic.
+- Amendment tracking: the transcription is the long pole (76 instructions
+  hand-transcribed with page-image cross-check here — the single largest
+  manual block; budget it explicitly); everything downstream is generic.
+- Editorial layer: 180 recitals = 9 parallel drafter agents + an adversarial
+  review fan-out; drafting is cheap, the review pass roughly doubles it.

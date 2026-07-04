@@ -57,10 +57,23 @@ thematic mapping: identify which operative articles the recital motivates.
    `data/source/recital-article-map.json` + `data/generated/recital-map.json`,
    message like `curate recital map: recitals 21-40 drafted`.
 
+## Adversarial review pass (before human review)
+
+After a batch is drafted, fan out to *different* agents than the drafters,
+stance = refute: independently re-derive each mapping from the recital text
+plus `toc.json`, compare against the draft, and report only disagreements,
+with reasoning. Clean batches go to the human labelled review-clean;
+disagreements go with both mappings side by side.
+
+Seed caution: don't trust annotated `refs` blindly — a recital ref that
+resolves to another instrument's article numbers is a crossref parser bug;
+report it, don't map it (this caught the recital 140 mislink).
+
 ## Human review
 
-The user reviews drafted entries and flips `reviewed: true` (possibly editing
-articles). Batches may mix drafting and review.
+The user reviews drafted entries (adversarially cleared first, see above)
+and flips `reviewed: true` (possibly editing articles). Batches may mix
+drafting and review.
 
 ## Finishing
 

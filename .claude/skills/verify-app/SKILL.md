@@ -5,6 +5,11 @@ description: Verify the app end-to-end on this VPS - build, curl smoke checks, a
 
 # Verify the app
 
+**Expectations in this skill are living.** Page counts, parse counts and the
+check list change with nearly every epic (313 → 321 pages so far). Update
+them in the same commit as the feature; a mismatch usually means this skill
+is stale, not that the app is broken — check `git log` before debugging.
+
 ## 1. Build (includes data verification)
 
 ```bash

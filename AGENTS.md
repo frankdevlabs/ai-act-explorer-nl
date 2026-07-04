@@ -8,7 +8,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 Static Next.js explorer for the Dutch text of the EU AI Act (Regulation
 2024/1689). No database, no server: `output: 'export'` produces a fully static
-site (313 pages). Search is client-side (MiniSearch over a build-time corpus).
+site (~320 pages; exact expectation pinned in the `verify-app` skill). Search
+is client-side (MiniSearch over a build-time corpus).
 
 Deep dive: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Repeatable
 procedures: `.claude/skills/` (`update-source`, `verify-app`).
@@ -42,7 +43,9 @@ procedures: `.claude/skills/` (`update-source`, `verify-app`).
    `scripts/verify-data.ts`, `scripts/verify-amendments.ts` or
    `scripts/verify-recital-map.ts` fails, fix the parser or curated source
    (or, after a deliberate source update, the assertions) — don't loosen
-   assertions to pass.
+   assertions to pass. Re-pin exact counts only after auditing
+   `git diff data/generated/` change by change; each pin carries a history
+   comment — read it first (protocol: ARCHITECTURE.md, "Verify script").
 4. Commit `data/source/`, `data/generated/`, and generated `public/*.json`
    together with the parser change that produced them.
 
@@ -88,6 +91,9 @@ parser. Both are WAF-blocked on EUR-Lex; fetch new versions via
   generation and search-doc URLs together.
 - All dynamic routes: `generateStaticParams` + `export const dynamicParams =
   false`. Next 16: `params` is a Promise — `await` it.
+- RSC boundary: client-component props must be plain serializable data (no
+  Set/Map); derive UI state during render, not in effects. Details:
+  ARCHITECTURE.md, "Frontend notes".
 - UI language is Dutch; code, comments, and docs are English.
 - No test framework; verification = `verify-data.ts` + the `verify-app` skill.
 

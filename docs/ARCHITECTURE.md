@@ -179,6 +179,16 @@ the FLAT list, footnote counts, spot-check phrases, and possibly counts to
 need deliberate updates. Change assertions only after eyeballing the corpus
 diff — never loosen them to "make the build pass".
 
+**When the grammar/producer changes** (crossref grammar, parser logic): pins
+also move when a producer *improves* — grammar fixes shrink ref counts.
+Protocol: change the producer → `npm run parse` → `git diff data/generated/`
+→ read every changed span → classify each as fixed-false-positive or
+regression → re-pin **with a history comment next to the assertion** (see
+`verify-data.ts` around the ref-count pin, `verify-amendments.ts` around
+`allRefs.length`). The count pins are not tripwires against change; they are
+forcing functions for this diff audit — three re-pins so far (566→563→561
+base, 462→460 amendment) each caught real mislinks.
+
 ## Search (`src/lib/search.ts`)
 
 - MiniSearch index built **in the browser** on first use: `getSearchIndex()`
@@ -357,6 +367,19 @@ corpus to Claude clients; the site build never sees it. Full reference:
   `react-hooks/set-state-in-effect` lint rule.
 - `/zoeken` reads `?q=` via `useSearchParams`, so the client component is
   wrapped in `<Suspense>` (required for static export).
+- **RSC boundary**: props crossing into a `"use client"` component must be
+  plain serializable data — arrays/objects, never `Set`/`Map` (bit us in the
+  sidebar's amended-articles props).
+- **Derive state during render, not in effects**: `useState` + syncing
+  effect causes flashes and trips `react-hooks/set-state-in-effect` (the
+  ThemeToggle idiom above is one instance; `AmendedArticleView` was reworked
+  for the same reason).
+- **Reload-surviving, pre-hydration state** (tab strip, omnibus pref): an
+  inline `<script>` in the HTML registers first, the client component
+  re-registers on mount — both paths write the same versioned localStorage
+  shape. Effect-only registration loses fast page exits.
+- **Long Dutch compounds overflow `1fr` at 360px**: list-grid columns use
+  `minmax(0,1fr)` + `break-words`.
 
 ## Known quirks — "if you see X, it's because Y"
 
@@ -369,3 +392,6 @@ corpus to Claude clients; the site build never sees it. Full reference:
   `cleanText` regex normalizes to `(1)`.
 - **Articles 102–110 have no lids** despite visible numbering: those numbers
   belong to the *amended* regulations (quoted text), not to this act.
+- **Diff-view ids carry a `w-` prefix** (`#w-lid-13`): the clean and diff
+  views are pre-rendered as siblings on the same page, so unprefixed anchors
+  would duplicate DOM ids and break `:target` deep links.
