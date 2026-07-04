@@ -169,17 +169,17 @@ if (stored.v !== 1 || stored.tabs.length !== 2) throw new Error("aiact-tabs bad 
 
 // 15. LRU cap: 9 documents -> exactly 8 tabs, first-visited evicted
 await page.evaluate(() => localStorage.removeItem("aiact-tabs"));
-for (const n of [1, 2, 3, 4, 5, 7, 8, 9, 10]) {
-  await page.goto(`${BASE}/artikel/${n}`);
-  await strip.locator(`a[href="/artikel/${n}"]`).waitFor(); // registration is post-hydration
-}
+// registration is an inline script (runs at HTML parse), so plain gotos suffice
+for (const n of [1, 2, 3, 4, 5, 7, 8, 9, 10]) await page.goto(`${BASE}/artikel/${n}`);
+await strip.locator('a[href="/artikel/10"]').waitFor(); // strip UI mounts post-hydration
 if ((await tabLinks.count()) !== 8) throw new Error("LRU cap != 8 tabs");
 if ((await strip.locator('a[href="/artikel/1"]').count()) !== 0)
   throw new Error("oldest tab not evicted");
 
-// 16. 360px: strip scrolls inside itself, body does not overflow
+// 16. 360px: strip scrolls inside itself, body does not overflow (artikel/10
+// is the long-compound-word worst case for the marker-grid columns)
 await page.setViewportSize({ width: 360, height: 800 });
-await page.goto(`${BASE}/artikel/13`); // same page as check 10 (some articles have a pre-existing 1px body overflow @360px)
+await page.goto(`${BASE}/artikel/10`);
 await strip.locator("a").first().waitFor();
 const stripScrolls = await strip
   .locator("div")
@@ -190,6 +190,17 @@ const tabOverflow = await page.evaluate(
   () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
 );
 if (tabOverflow > 0) throw new Error(`tab strip caused ${tabOverflow}px body overflow @360px`);
+
+// 17. tab registration happens pre-hydration (inline script): with all JS
+// chunks blocked, visiting a document must still record the tab. Fresh page
+// (no console-error listener) — aborted chunk loads log resource errors.
+const blocked = await browser.newPage();
+await blocked.route("**/_next/static/**", (r) => r.abort());
+await blocked.goto(`${BASE}/artikel/6`);
+const preHydration = await blocked.evaluate(() => JSON.parse(localStorage.getItem("aiact-tabs")));
+if (preHydration?.v !== 1 || preHydration.tabs[0]?.href !== "/artikel/6")
+  throw new Error("pre-hydration registration failed");
+await blocked.close();
 
 if (errors.length) throw new Error("console errors:\n" + errors.join("\n"));
 console.log("e2e: all checks passed");

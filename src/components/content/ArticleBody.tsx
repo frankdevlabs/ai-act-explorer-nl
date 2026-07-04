@@ -17,7 +17,7 @@ export function ArticleBody({ article }: ArticleBodyProps) {
           className="group scroll-mt-24 target-highlight rounded-md -mx-2 px-2 py-1"
         >
           {p.number !== null ? (
-            <div className="grid grid-cols-[minmax(2.25rem,auto)_1fr] gap-x-2">
+            <div className="grid grid-cols-[minmax(2.25rem,auto)_minmax(0,1fr)] gap-x-2">
               <span className="mt-2 font-medium text-muted select-none flex items-start gap-0.5">
                 {p.number}.
                 <ParagraphAnchor anchor={p.anchor} label={`lid ${p.number}`} />

@@ -40,7 +40,7 @@ export function DiffArticleBody({ paragraphs, diffs, idPrefix }: DiffArticleBody
             className="group scroll-mt-24 target-highlight rounded-md -mx-2 px-2 py-1"
           >
             {label ? (
-              <div className="grid grid-cols-[minmax(2.25rem,auto)_1fr] gap-x-2">
+              <div className="grid grid-cols-[minmax(2.25rem,auto)_minmax(0,1fr)] gap-x-2">
                 <span className="mt-2 font-medium text-muted select-none">{label}</span>
                 <div>{body}</div>
               </div>

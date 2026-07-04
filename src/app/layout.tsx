@@ -52,7 +52,7 @@ export default function RootLayout({
             <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-80 shrink-0 overflow-y-auto border-r border-line py-6 pr-4 lg:block">
               <SidebarToc toc={toc} amended={amended} newEntries={newEntries} />
             </aside>
-            <main className="min-w-0 flex-1 py-8 lg:pl-8">
+            <main className="min-w-0 flex-1 break-words py-8 lg:pl-8">
               <div className="mx-auto max-w-3xl">{children}</div>
             </main>
           </div>

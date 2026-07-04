@@ -58,6 +58,27 @@ function write(tabs: readonly TabEntry[]): void {
   window.dispatchEvent(new Event(EVENT));
 }
 
+/**
+ * Inline-script version of visitTab for pre-hydration registration: the
+ * returned IIFE runs at HTML parse time, so a visit is recorded even when the
+ * page is left before React hydrates. Keep the logic in sync with visitTab.
+ */
+export function visitTabScript(tab: { href: string; label: string; title?: string }): string {
+  const json = JSON.stringify(tab).replace(/</g, "\\u003c");
+  return (
+    `(function(){try{var t=${json};t.at=Date.now();` +
+    `var d={v:1,tabs:[]};` +
+    `try{var r=JSON.parse(localStorage.getItem("aiact-tabs"));` +
+    `if(r&&r.v===1&&Array.isArray(r.tabs))d=r}catch(e){}` +
+    `var i=-1;for(var j=0;j<d.tabs.length;j++)if(d.tabs[j].href===t.href){i=j;break}` +
+    `if(i>=0)d.tabs[i]=t;else{d.tabs.push(t);` +
+    `while(d.tabs.length>8){var m=0;for(var k=1;k<d.tabs.length;k++)` +
+    `if(d.tabs[k].at<d.tabs[m].at)m=k;d.tabs.splice(m,1)}}` +
+    `localStorage.setItem("aiact-tabs",JSON.stringify(d));` +
+    `window.dispatchEvent(new Event("aiact:tabs"))}catch(e){}})()`
+  );
+}
+
 export function visitTab(tab: { href: string; label: string; title?: string }): void {
   const tabs = getSnapshot();
   const entry: TabEntry = { ...tab, at: Date.now() };

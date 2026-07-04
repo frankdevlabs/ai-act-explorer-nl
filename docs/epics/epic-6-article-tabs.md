@@ -13,7 +13,7 @@
 
 ## Registration — per-page `<RegisterTab/>`
 
-`src/components/layout/RegisterTab.tsx` (`"use client"`, renders null): `useEffect(() => visitTab({href, label, title}), [href])`. Pages already compute `display`/`title` at build time, so this avoids shipping a client-side title lookup (toc is already serialized into every page's RSC payload twice — don't add a third copy). `usePathname` excludes the query string and `router.replace("?diff=1")` re-renders without remount → the omnibus toggle doesn't spam registrations.
+`src/components/layout/RegisterTab.tsx` (`"use client"`): dual registration — an inline `<script>` (from `visitTabScript`, SSR'd into the static HTML) records the visit at document parse, before hydration, so fast leave/navigation can't lose it; a `useEffect(() => visitTab(...), [href, label, title])` covers client-side Link navigations (React diffs the script element without re-executing it). Both idempotent upserts. Pages already compute `display`/`title` at build time, so this avoids shipping a client-side title lookup (toc is already serialized into every page's RSC payload twice — don't add a third copy). `usePathname` excludes the query string and `router.replace("?diff=1")` re-renders without remount → the omnibus toggle doesn't spam registrations.
 
 Tabbable routes only: add `<RegisterTab/>` in the three document page files — `/artikel/[nummer]` (label `Art. 6` / `Art. 4 bis`, + title), `/overweging/[nummer]` (`Ov. 14`), `/bijlage/[nummer]` (`Bijl. III`, + title). NOT `/wijzigingen`, index pages, `/zoeken`, `/` — nav pages aren't documents.
 

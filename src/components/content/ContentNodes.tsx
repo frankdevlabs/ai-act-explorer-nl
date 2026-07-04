@@ -58,7 +58,7 @@ export function ContentNodes({ nodes }: { nodes: ContentNode[] }) {
               <li
                 key={j}
                 id={item.anchor}
-                className="grid grid-cols-[minmax(2.25rem,auto)_1fr] gap-x-2 scroll-mt-24 target-highlight"
+                className="grid grid-cols-[minmax(2.25rem,auto)_minmax(0,1fr)] gap-x-2 scroll-mt-24 target-highlight"
               >
                 <span className="text-muted select-none">{item.marker}</span>
                 <div>
