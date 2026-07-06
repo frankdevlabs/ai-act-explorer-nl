@@ -199,6 +199,28 @@ export function SidebarToc({ toc, amended = [], newEntries = {}, onNavigate }: S
           Wijzigingen{" "}
           <span className="text-xs font-normal text-muted">(digitale omnibus)</span>
         </Link>
+        <Link
+          href="/assessment"
+          onClick={onNavigate}
+          className={cn(
+            "block rounded px-2 py-1.5 font-medium hover:bg-surface",
+            pathname.startsWith("/assessment") && "text-accent",
+          )}
+        >
+          Assessment{" "}
+          <span className="text-xs font-normal text-muted">(per AI-toepassing)</span>
+        </Link>
+        <Link
+          href="/register"
+          onClick={onNavigate}
+          className={cn(
+            "block rounded px-2 py-1.5 font-medium hover:bg-surface",
+            pathname.startsWith("/register") && "text-accent",
+          )}
+        >
+          AI-register{" "}
+          <span className="text-xs font-normal text-muted">(sjabloon)</span>
+        </Link>
       </div>
     </nav>
   );

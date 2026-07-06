@@ -1,0 +1,1356 @@
+{
+  "meta": {
+    "version": 1,
+    "title": "AI Act-assessment en AI-register",
+    "updated": "2026-07-06",
+    "basis": "Verordening (EU) 2024/1689 (geconsolideerd) + digitale omnibus (PE-CONS 30/26, politiek akkoord 18 juni 2026 — nog niet in werking)",
+    "disclaimer": "Deze zelfbeoordeling is een hulpmiddel en geen juridisch advies. Alle antwoorden blijven lokaal in uw browser (localStorage); er wordt niets naar een server verstuurd. Data uit de digitale omnibus zijn gebaseerd op de akkoordtekst en gelden pas na formele vaststelling en bekendmaking."
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "nr": 1,
+      "title": "Identificatie en registergegevens",
+      "intro": "Feitelijke gegevens over de (voorgenomen) AI-toepassing. Deze antwoorden vormen de basis van de registerrij.",
+      "questions": [
+        {
+          "id": "1.1",
+          "text": "Naam en interne referentie/ID van de toepassing.",
+          "answerType": "text",
+          "register": "naam"
+        },
+        {
+          "id": "1.2",
+          "text": "Beschrijving van functionaliteit, beoogd doel en beoogde gebruikers (intern/extern).",
+          "help": "Het 'beoogde doel' (art. 3, punt 12) is het anker voor de hele classificatie — formuleer precies.",
+          "refs": [{ "label": "Art. 3, punt 12", "href": "/artikel/3#punt-12" }],
+          "answerType": "text",
+          "register": "beschrijving"
+        },
+        {
+          "id": "1.3",
+          "text": "Leverancier/ontwikkelaar (naam, vestigingsland, EU-entiteit ja/nee).",
+          "help": "Vestigingsland is relevant voor de rolbepaling (importeur, gemachtigde — art. 22) en voor AVG-doorgifte.",
+          "refs": [{ "label": "Art. 22", "href": "/artikel/22" }],
+          "answerType": "text",
+          "register": "leverancier"
+        },
+        {
+          "id": "1.4",
+          "text": "Sourcing van de toepassing.",
+          "answerType": "choice",
+          "options": [
+            { "value": "inkoop-saas", "label": "Inkoop SaaS" },
+            { "value": "on-premise", "label": "Inkoop on-premise" },
+            { "value": "eigen-ontwikkeling", "label": "Eigen ontwikkeling" },
+            { "value": "co-development", "label": "Co-development" },
+            { "value": "open-source", "label": "Open source" },
+            { "value": "feature", "label": "Feature in bestaand pakket" }
+          ],
+          "register": "sourcing"
+        },
+        {
+          "id": "1.5",
+          "text": "Businessowner, verantwoordelijke afdeling en betrokken stakeholders (IT, Privacy, Risk, Inkoop, OR).",
+          "answerType": "text",
+          "register": "owner"
+        },
+        {
+          "id": "1.6",
+          "text": "Status van de toepassing.",
+          "answerType": "choice",
+          "options": [
+            { "value": "verkenning", "label": "Verkenning" },
+            { "value": "pilot", "label": "Pilot / POC" },
+            { "value": "productie", "label": "In productie" },
+            { "value": "uitfasering", "label": "Uitfasering" }
+          ],
+          "register": "status"
+        },
+        {
+          "id": "1.7",
+          "text": "Datum ingebruikname (beoogd of feitelijk).",
+          "answerType": "text",
+          "register": "datum"
+        },
+        {
+          "id": "1.8",
+          "text": "Welke natuurlijke personen worden geraakt (klanten, medewerkers, sollicitanten, derden) en op welke wijze?",
+          "help": "Bepaalt mede de hoogrisicotoets (module 7), de FRIA (module 10) en de AVG-toets (module 15).",
+          "answerType": "text"
+        },
+        {
+          "id": "1.9",
+          "text": "Welke gegevenscategorieën worden verwerkt (persoonsgegevens, bijzondere categorieën, bedrijfsvertrouwelijk)?",
+          "answerType": "text"
+        },
+        {
+          "id": "1.10",
+          "text": "Waar vindt hosting/verwerking plaats (EU/EER/derde land) en wie heeft toegang (incl. support)?",
+          "help": "Relevant voor AVG hoofdstuk V en (voor financiële entiteiten) DORA-uitbestedingseisen.",
+          "answerType": "text"
+        },
+        {
+          "id": "1.11",
+          "text": "Contractstatus: overeenkomst, verwerkersovereenkomst (DPA), AI-specifieke bijlagen, auditrechten, exit.",
+          "help": "Neem AI Act-medewerkingsplichten van de leverancier contractueel op (informatie, logs, incidenten).",
+          "answerType": "text",
+          "register": "contract"
+        },
+        {
+          "id": "1.12",
+          "text": "Is de organisatie een financiële entiteit (onder DORA en/of Wft-toezicht)?",
+          "help": "Bij 'ja' worden de sectorspecifieke modules (DORA, Wft) meegenomen.",
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "sector_financieel" }]
+        }
+      ]
+    },
+    {
+      "id": "m2",
+      "nr": 2,
+      "title": "Kwalificatie: is het een AI-systeem?",
+      "intro": "Toets aan de definitie van art. 3, punt 1, en de Commissierichtsnoeren over de definitie van een AI-systeem (feb. 2025).",
+      "refs": [
+        { "label": "Art. 3, punt 1", "href": "/artikel/3#punt-1" },
+        { "label": "Overweging 12", "href": "/overweging/12" }
+      ],
+      "questions": [
+        {
+          "id": "2.1",
+          "text": "Is het een machinegebaseerd systeem?",
+          "answerType": "janee"
+        },
+        {
+          "id": "2.2",
+          "text": "Is het ontworpen om met een zekere mate van autonomie te functioneren (enige onafhankelijkheid van menselijke betrokkenheid)?",
+          "help": "Volgens de richtsnoeren volstaat 'some degree of independence of action'.",
+          "answerType": "janee"
+        },
+        {
+          "id": "2.3",
+          "text": "Kan het systeem na uitrol adaptief zijn (bijleren)?",
+          "help": "Informatief element; adaptiviteit is géén noodzakelijke voorwaarde ('may exhibit adaptiveness').",
+          "refs": [{ "label": "Overweging 12", "href": "/overweging/12" }],
+          "answerType": "janee"
+        },
+        {
+          "id": "2.4",
+          "text": "Leidt het systeem uit ontvangen input af (infereert het) hoe output te genereren — voorspellingen, content, aanbevelingen of besluiten — die fysieke of virtuele omgevingen kunnen beïnvloeden?",
+          "help": "Het inferentie-element onderscheidt AI van klassieke software. 'Ja' (samen met 2.1–2.2) → AI-systeem.",
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "ai_systeem" }]
+        },
+        {
+          "id": "2.5",
+          "text": "Twijfelgeval: gaat het om technieken als machine learning, of logica-/kennisgebaseerde benaderingen?",
+          "help": "'Ja' is sterk indicatief voor een AI-systeem.",
+          "showIf": { "not": { "flag": "ai_systeem" } },
+          "answerType": "janee"
+        },
+        {
+          "id": "2.6",
+          "text": "Is het uitsluitend software die vaste, volledig door mensen gedefinieerde regels uitvoert zonder inferentie (bijv. klassieke rekenregels, RPA zonder leren, basis-dataverwerking)?",
+          "help": "'Ja' → geen AI-systeem: registreer als 'Geen AI' en sluit de AI Act-toets af; de AVG-module blijft gelden. 'Nee' → behandel als AI-systeem.",
+          "showIf": { "not": { "flag": "ai_systeem" } },
+          "answerType": "janee",
+          "effects": [
+            { "when": "ja", "setFlag": "geen_ai" },
+            { "when": "nee", "setFlag": "ai_systeem" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "nr": 3,
+      "title": "GPAI: model of systeem?",
+      "showIf": { "flag": "ai_systeem" },
+      "refs": [
+        { "label": "Art. 3, punt 63", "href": "/artikel/3#punt-63" },
+        { "label": "Art. 3, punt 66", "href": "/artikel/3#punt-66" }
+      ],
+      "questions": [
+        {
+          "id": "3.1",
+          "text": "Betreft de toepassing een AI-model voor algemene doeleinden (GPAI-model): aanzienlijke algemene bruikbaarheid, breed scala aan taken, integreerbaar in uiteenlopende systemen?",
+          "help": "Bij 'ja' valt het model zelf onder hoofdstuk V; de verplichtingen liggen bij de modelaanbieder.",
+          "refs": [{ "label": "Art. 3, punt 63", "href": "/artikel/3#punt-63" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "gpai_model" }]
+        },
+        {
+          "id": "3.2",
+          "text": "Is het een AI-systeem dat op een GPAI-model is gebaseerd (bijv. een assistent, copilot of chatfunctie bovenop een taalmodel)?",
+          "help": "Een 'GPAI-systeem' is voor de risicoclassificatie een gewoon AI-systeem: GPAI-gebruik geeft géén vrijstelling van de toetsen op verboden praktijken, hoog risico en transparantie.",
+          "refs": [{ "label": "Art. 3, punt 66", "href": "/artikel/3#punt-66" }],
+          "showIf": { "answer": { "q": "3.1", "is": "nee" } },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "gpai_systeem" }]
+        },
+        {
+          "id": "3.3",
+          "text": "Ontwikkelt of finetunet de organisatie zélf een GPAI-model in betekenisvolle mate?",
+          "help": "Volgens de Commissierichtsnoeren GPAI (juli 2025) kan substantiële finetuning tot aanbiederschap voor de wijziging leiden — beoordeel per geval en documenteer. Bij 'ja' geldt module 12.",
+          "refs": [{ "label": "Art. 53", "href": "/artikel/53" }],
+          "showIf": { "any": [{ "flag": "gpai_model" }, { "flag": "gpai_systeem" }] },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "gpai_aanbieder" }]
+        },
+        {
+          "id": "3.4",
+          "text": "Heeft het onderliggende model systeemrisico (cumulatieve trainingscompute > 10^25 FLOPs of aanwijzing door de Commissie)?",
+          "help": "Bij 'ja' of 'onbekend': verhoogde leverancierstoets — vraag naar naleving van art. 55 (modelevaluaties, adversarial testing, incidentrapportage, cyberbeveiliging) en deelname aan de GPAI Code of Practice.",
+          "refs": [
+            { "label": "Art. 51, lid 2", "href": "/artikel/51#lid-2" },
+            { "label": "Art. 55", "href": "/artikel/55" }
+          ],
+          "showIf": { "any": [{ "flag": "gpai_model" }, { "flag": "gpai_systeem" }] },
+          "answerType": "choice",
+          "options": [
+            { "value": "ja", "label": "Ja" },
+            { "value": "nee", "label": "Nee" },
+            { "value": "onbekend", "label": "Onbekend" }
+          ],
+          "effects": [
+            { "when": ["ja", "onbekend"], "setFlag": "gpai_systeemrisico_check" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m4",
+      "nr": 4,
+      "title": "Rolbepaling",
+      "intro": "Meerdere rollen tegelijk zijn mogelijk. Let op de rolverschuiving van art. 25: een deployer kan aanbieder wórden.",
+      "showIf": { "flag": "ai_systeem" },
+      "refs": [
+        { "label": "Art. 3, punten 3–8", "href": "/artikel/3#punt-3" },
+        { "label": "Art. 25", "href": "/artikel/25" }
+      ],
+      "questions": [
+        {
+          "id": "4.1",
+          "text": "Ontwikkelt de organisatie het systeem (of laat zij het ontwikkelen) en brengt zij het onder eigen naam of merk in de handel of in gebruik?",
+          "refs": [{ "label": "Art. 3, punt 3", "href": "/artikel/3#punt-3" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "rol_aanbieder" }]
+        },
+        {
+          "id": "4.2",
+          "text": "Gebruikt de organisatie het systeem onder eigen verantwoordelijkheid in de beroepsuitoefening?",
+          "refs": [{ "label": "Art. 3, punt 4", "href": "/artikel/3#punt-4" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "rol_deployer" }]
+        },
+        {
+          "id": "4.3",
+          "text": "Brengt de organisatie een systeem van een aanbieder uit een derde land voor het eerst in de EU in de handel?",
+          "help": "Importeur: verificatieplichten voor conformiteitsbeoordeling, documentatie, CE-markering en gemachtigde.",
+          "refs": [
+            { "label": "Art. 3, punt 6", "href": "/artikel/3#punt-6" },
+            { "label": "Art. 23", "href": "/artikel/23" }
+          ],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "rol_importeur" }]
+        },
+        {
+          "id": "4.4",
+          "text": "Stelt de organisatie het systeem in de keten beschikbaar zonder aanbieder of importeur te zijn?",
+          "help": "Distributeur: zorgvuldigheidsplichten vóór beschikbaarstelling.",
+          "refs": [
+            { "label": "Art. 3, punt 7", "href": "/artikel/3#punt-7" },
+            { "label": "Art. 24", "href": "/artikel/24" }
+          ],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "rol_distributeur" }]
+        },
+        {
+          "id": "4.5",
+          "text": "Zet de organisatie haar eigen naam of merk op een reeds in de handel gebracht hoogrisicosysteem?",
+          "help": "Bij 'ja' wordt de organisatie aanbieder (rolverschuiving).",
+          "refs": [{ "label": "Art. 25, lid 1", "href": "/artikel/25#lid-1" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "rol_aanbieder" }]
+        },
+        {
+          "id": "4.6",
+          "text": "Brengt de organisatie een substantiële wijziging aan in een hoogrisicosysteem (dat hoogrisico blijft)?",
+          "help": "Ook relevant bij ingrijpende eigen configuratie of hertraining van ingekochte systemen. Bij 'ja' wordt de organisatie aanbieder. De omnibus verplicht de oorspronkelijke aanbieder tot ruimere medewerking (documentatie, bekende beperkingen, technische toegang — art. 25, lid 2).",
+          "refs": [
+            { "label": "Art. 25, lid 1", "href": "/artikel/25#lid-1" },
+            { "label": "Art. 3, punt 23", "href": "/artikel/3#punt-23" }
+          ],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "rol_aanbieder" }]
+        },
+        {
+          "id": "4.7",
+          "text": "Wijzigt de organisatie het beoogde doel van een systeem (incl. GPAI-systeem) zó dat het hoogrisico wórdt?",
+          "help": "Voorbeeld: een generieke assistent inzetten voor kredietbeoordeling. Bij 'ja' wordt de organisatie aanbieder.",
+          "refs": [{ "label": "Art. 25, lid 1", "href": "/artikel/25#lid-1" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "rol_aanbieder" }]
+        }
+      ]
+    },
+    {
+      "id": "m5",
+      "nr": 5,
+      "title": "Verboden praktijken (art. 5)",
+      "intro": "Van kracht sinds 2 februari 2025 (zie Commissierichtsnoeren verboden praktijken, feb. 2025). Eén 'ja' betekent: niet inzetten, bestaand gebruik staken en direct escaleren naar Legal & Compliance.",
+      "showIf": { "flag": "ai_systeem" },
+      "refs": [{ "label": "Art. 5", "href": "/artikel/5" }],
+      "questions": [
+        {
+          "id": "5.1",
+          "text": "Zet het systeem subliminale, doelbewust manipulatieve of misleidende technieken in die het vermogen tot geïnformeerde besluitvorming wezenlijk verstoren en (waarschijnlijk) aanzienlijke schade veroorzaken?",
+          "help": "Let op persuasieve interfaces/dark patterns in klantcontact.",
+          "refs": [{ "label": "Art. 5, lid 1, punt a", "href": "/artikel/5#lid-1-a" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.2",
+          "text": "Buit het kwetsbaarheden uit vanwege leeftijd, handicap of een specifieke sociale of economische situatie, met (waarschijnlijk) aanzienlijke schade?",
+          "help": "Bijv. targeting van personen in betalingsproblemen kan hieraan raken.",
+          "refs": [{ "label": "Art. 5, lid 1, punt b", "href": "/artikel/5#lid-1-b" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.3",
+          "text": "Betreft het social scoring: evaluatie/classificatie van personen op basis van sociaal gedrag of persoonlijke kenmerken, leidend tot nadelige behandeling in een niet-gerelateerde context of onevenredig aan het gedrag?",
+          "help": "Modellen die contextvreemde sociale data gebruiken (bijv. socialemediagedrag in acceptatiemodellen) kunnen hieraan raken — toets de datafeatures.",
+          "refs": [{ "label": "Art. 5, lid 1, punt c", "href": "/artikel/5#lid-1-c" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.4",
+          "text": "Voorspelt het het risico dat een persoon een strafbaar feit pleegt, uitsluitend op basis van profilering of persoonlijkheidskenmerken?",
+          "help": "Uitzondering: ondersteuning van een menselijke beoordeling die al is gebaseerd op objectieve, verifieerbare feiten die direct met de criminele activiteit verband houden.",
+          "refs": [{ "label": "Art. 5, lid 1, punt d", "href": "/artikel/5#lid-1-d" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.5",
+          "text": "Creëert of vult het gezichtsherkenningsdatabases aan via ongerichte scraping van internet of camerabeelden?",
+          "refs": [{ "label": "Art. 5, lid 1, punt e", "href": "/artikel/5#lid-1-e" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.6",
+          "text": "Leidt het emoties af van personen op de werkplek of in het onderwijs (behalve om medische of veiligheidsredenen)?",
+          "help": "Relevant bij HR-/recruitmenttooling met video- of stemanalyse.",
+          "refs": [{ "label": "Art. 5, lid 1, punt f", "href": "/artikel/5#lid-1-f" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.7",
+          "text": "Categoriseert het personen biometrisch om ras, politieke opvattingen, vakbondslidmaatschap, religieuze of levensbeschouwelijke overtuiging, seksleven of seksuele gerichtheid af te leiden?",
+          "refs": [{ "label": "Art. 5, lid 1, punt g", "href": "/artikel/5#lid-1-g" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.8",
+          "text": "Betreft het realtime biometrische identificatie op afstand in openbare ruimten ten behoeve van rechtshandhaving?",
+          "help": "Voor private organisaties per definitie niet toegestaan; de enge uitzonderingen gelden alleen voor rechtshandhavingsinstanties onder strikte voorwaarden.",
+          "refs": [{ "label": "Art. 5, lid 1, punt h", "href": "/artikel/5#lid-1-h" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.9",
+          "text": "Genereert of manipuleert het realistische beelden, video's of audio van intieme delen van een identificeerbare persoon, of van een identificeerbare persoon die expliciete seksuele gedragingen verricht, zonder diens vrijelijk gegeven, specifieke, geïnformeerde, ondubbelzinnige en uitdrukkelijke toestemming?",
+          "help": "Nieuw verbod (omnibus, art. 5, lid 1, punt b bis). Voor het in de handel brengen van generieke systemen geldt het verbod alleen als die generatie het beoogde doel is, of een redelijkerwijs te voorzien en reproduceerbaar resultaat zonder adequate technische waarborgen (art. 5, lid 1 bis). Voor het gebruík geldt het verbod onverkort.",
+          "refs": [{ "label": "Art. 5 (omnibus-diff)", "href": "/artikel/5?diff=1" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "omnibus": {
+            "appliesFrom": "2026-12-02",
+            "note": "Nieuw verbod uit de digitale omnibus; van toepassing met ingang van 2 december 2026."
+          },
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        },
+        {
+          "id": "5.10",
+          "text": "Genereert of manipuleert het materiaal van seksueel misbruik van kinderen of soortgelijke voorstellingen (in de zin van art. 2, punten c en e, Richtlijn 2011/93/EU)?",
+          "help": "Nieuw verbod (omnibus, art. 5, lid 1, punt b ter), met dezelfde scoping voor het in de handel brengen als 5.9 (art. 5, lid 1 bis).",
+          "refs": [{ "label": "Art. 5 (omnibus-diff)", "href": "/artikel/5?diff=1" }],
+          "answerType": "janee",
+          "prohibition": true,
+          "omnibus": {
+            "appliesFrom": "2026-12-02",
+            "note": "Nieuw verbod uit de digitale omnibus; van toepassing met ingang van 2 december 2026."
+          },
+          "effects": [{ "when": "ja", "setFlag": "verboden" }]
+        }
+      ]
+    },
+    {
+      "id": "m6",
+      "nr": 6,
+      "title": "Hoog risico via bijlage I (productveiligheid)",
+      "showIf": { "flag": "ai_systeem" },
+      "refs": [
+        { "label": "Art. 6, lid 1", "href": "/artikel/6#lid-1" },
+        { "label": "Bijlage I", "href": "/bijlage/i" }
+      ],
+      "questions": [
+        {
+          "id": "6.1",
+          "text": "Is het AI-systeem bedoeld als veiligheidscomponent van een product — of is het zelf een product — dat valt onder de in bijlage I genoemde EU-harmonisatiewetgeving (o.a. machines, medische hulpmiddelen, liften, speelgoed, voertuigen, luchtvaart)?",
+          "help": "Voor zuiver administratieve/financiële toepassingen doorgaans n.v.t. — documenteer dat expliciet. De omnibus verduidelijkt (art. 6, leden 1 bis/1 ter): componenten die uitsluitend dienen voor gebruikersassistentie, prestatie-optimalisatie, efficiëntie, automatisering, gemak of kwaliteitscontrole zijn géén veiligheidscomponent, tenzij falen de gezondheid of veiligheid in gevaar brengt.",
+          "refs": [
+            { "label": "Art. 6, lid 1", "href": "/artikel/6#lid-1" },
+            { "label": "Art. 6 (omnibus-diff)", "href": "/artikel/6?diff=1" }
+          ],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex1_kandidaat" }]
+        },
+        {
+          "id": "6.2",
+          "text": "Moet dat product op grond van die wetgeving een conformiteitsbeoordeling door een derde partij ondergaan?",
+          "help": "Bij 'ja': hoog risico via bijlage I; de conformiteitsbeoordeling volgt het onderliggende productregime (art. 43, lid 3). De omnibus voegt toe (art. 6, lid 1 quater): een derde-partijbeoordeling die uitsluitend is vereist wegens andere risico's dan gezondheid/veiligheid (bijv. radiospectrum of elektromagnetische interferentie) telt niet mee.",
+          "refs": [
+            { "label": "Art. 6, lid 1", "href": "/artikel/6#lid-1" },
+            { "label": "Art. 43, lid 3", "href": "/artikel/43#lid-3" }
+          ],
+          "showIf": { "flag": "annex1_kandidaat" },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex1_hoogrisico" }]
+        }
+      ]
+    },
+    {
+      "id": "m7",
+      "nr": 7,
+      "title": "Hoog risico via bijlage III",
+      "intro": "Beantwoord álle categorieën. Eén of meer keren 'ja' → voorlopig hoog risico; daarna volgt de uitzonderingstoets van art. 6, lid 3 (module 8).",
+      "showIf": { "flag": "ai_systeem" },
+      "refs": [
+        { "label": "Art. 6, lid 2", "href": "/artikel/6#lid-2" },
+        { "label": "Bijlage III", "href": "/bijlage/iii" }
+      ],
+      "questions": [
+        {
+          "id": "7.1",
+          "text": "Biometrie (voor zover niet verboden): biometrische identificatie op afstand, biometrische categorisatie naar gevoelige kenmerken, of emotieherkenning?",
+          "help": "Let op samenloop met art. 5 (module 5) en art. 50, lid 3 (module 13).",
+          "refs": [{ "label": "Bijlage III, punt 1", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        },
+        {
+          "id": "7.2",
+          "text": "Kritieke infrastructuur: veiligheidscomponent in het beheer/de exploitatie van kritieke digitale infrastructuur, wegverkeer, of levering van water, gas, verwarming of elektriciteit?",
+          "refs": [{ "label": "Bijlage III, punt 2", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        },
+        {
+          "id": "7.3",
+          "text": "Onderwijs en beroepsopleiding: toegang/toelating, evaluatie van leerresultaten, niveaubepaling of examentoezicht?",
+          "help": "Ook relevant bij interne opleidingsplatforms met geautomatiseerde beoordeling.",
+          "refs": [{ "label": "Bijlage III, punt 3", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        },
+        {
+          "id": "7.4",
+          "text": "Werkgelegenheid en personeelsbeheer: werving/selectie (gerichte vacatures, screening/filtering van sollicitaties, beoordeling kandidaten) of besluiten over promotie, beëindiging of taakallocatie op basis van gedrag of persoonskenmerken, dan wel monitoring/evaluatie van prestaties en gedrag?",
+          "help": "Kerncategorie voor HR-tooling (ATS met ranking, cv-screening, performance-analytics).",
+          "refs": [{ "label": "Bijlage III, punt 4", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        },
+        {
+          "id": "7.5a",
+          "text": "Essentiële publieke diensten: gebruikt door of namens overheidsinstanties om aanspraak op essentiële publieke uitkeringen/diensten te beoordelen (toekennen, verminderen, intrekken of terugvorderen)?",
+          "help": "Ook relevant voor private partijen die dit namens een overheidsorgaan uitvoeren.",
+          "refs": [{ "label": "Bijlage III, punt 5", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        },
+        {
+          "id": "7.5b",
+          "text": "Kredietwaardigheid: beoordeling van kredietwaardigheid of vaststelling van de kredietscore van natuurlijke personen? (Uitzondering: systemen uitsluitend voor detectie van financiële fraude.)",
+          "help": "Kerncategorie voor kredietverstrekkers en -beheerders; leg de fraudedetectie-uitzondering strikt uit en documenteer die.",
+          "refs": [{ "label": "Bijlage III, punt 5", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [
+            { "when": "ja", "setFlag": "annex3_kandidaat" },
+            { "when": "ja", "setFlag": "fria_categorie" }
+          ]
+        },
+        {
+          "id": "7.5c",
+          "text": "Verzekeringen: risicobeoordeling en prijsstelling voor natuurlijke personen bij levens- en ziektekostenverzekeringen?",
+          "refs": [{ "label": "Bijlage III, punt 5", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [
+            { "when": "ja", "setFlag": "annex3_kandidaat" },
+            { "when": "ja", "setFlag": "fria_categorie" }
+          ]
+        },
+        {
+          "id": "7.5d",
+          "text": "Noodhulp: evaluatie/classificatie van noodoproepen of prioritering van de inzet van hulpdiensten (incl. triage in acute gezondheidszorg)?",
+          "refs": [{ "label": "Bijlage III, punt 5", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        },
+        {
+          "id": "7.6",
+          "text": "Rechtshandhaving (gebruik door of namens rechtshandhavingsinstanties, o.a. risicotaxatie, bewijswaardering, profilering)?",
+          "refs": [{ "label": "Bijlage III, punt 6", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        },
+        {
+          "id": "7.7",
+          "text": "Migratie, asiel en grensbeheer?",
+          "refs": [{ "label": "Bijlage III, punt 7", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        },
+        {
+          "id": "7.8",
+          "text": "Rechtsbedeling en democratische processen (ondersteuning rechterlijke autoriteiten; beïnvloeding van verkiezingen/stemgedrag)?",
+          "refs": [{ "label": "Bijlage III, punt 8", "href": "/bijlage/iii" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+        }
+      ]
+    },
+    {
+      "id": "m8",
+      "nr": 8,
+      "title": "Uitzondering art. 6, lid 3",
+      "intro": "Alleen relevant bij een 'ja' in module 7. De digitale omnibus wijzigt de systematiek van art. 6, lid 3, en de registratieplicht van art. 49, lid 2, níét; de Commissierichtsnoeren op grond van art. 6, lid 5, blijven relevant.",
+      "showIf": { "flag": "annex3_kandidaat" },
+      "refs": [{ "label": "Art. 6, lid 3", "href": "/artikel/6#lid-3" }],
+      "questions": [
+        {
+          "id": "8.1",
+          "text": "Vangnet: verricht het systeem profilering van natuurlijke personen (art. 4, punt 4, AVG)?",
+          "help": "Vrijwel elke score of ranking van personen op basis van persoonskenmerken is profilering — leg de analyse vast. Bij 'ja' is de uitzondering uitgesloten: definitief hoog risico.",
+          "refs": [{ "label": "Art. 6, lid 3", "href": "/artikel/6#lid-3" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "profilering" }],
+          "register": "profilering"
+        },
+        {
+          "id": "8.2",
+          "text": "Conditie (a): verricht het systeem uitsluitend een enge procedurele taak?",
+          "help": "Bijv. omzetten van ongestructureerde data in gestructureerde vorm, of classificeren van documenten.",
+          "refs": [{ "label": "Art. 6, lid 3", "href": "/artikel/6#lid-3" }],
+          "showIf": { "not": { "flag": "profilering" } },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "escape_conditie" }]
+        },
+        {
+          "id": "8.3",
+          "text": "Conditie (b): is het uitsluitend bedoeld om het resultaat van een eerder afgeronde menselijke activiteit te verbeteren?",
+          "help": "Bijv. taalkundige verbetering van een reeds door een mens opgestelde tekst.",
+          "refs": [{ "label": "Art. 6, lid 3", "href": "/artikel/6#lid-3" }],
+          "showIf": { "not": { "flag": "profilering" } },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "escape_conditie" }]
+        },
+        {
+          "id": "8.4",
+          "text": "Conditie (c): detecteert het besluitvormingspatronen of afwijkingen daarvan, zónder de eerdere menselijke beoordeling te vervangen of zonder passende menselijke toetsing te beïnvloeden?",
+          "refs": [{ "label": "Art. 6, lid 3", "href": "/artikel/6#lid-3" }],
+          "showIf": { "not": { "flag": "profilering" } },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "escape_conditie" }]
+        },
+        {
+          "id": "8.5",
+          "text": "Conditie (d): verricht het uitsluitend een voorbereidende taak voor een beoordeling die relevant is voor een bijlage III-toepassing?",
+          "help": "Bijv. bestandsindexering of vertaling ter voorbereiding van menselijke beoordeling.",
+          "refs": [{ "label": "Art. 6, lid 3", "href": "/artikel/6#lid-3" }],
+          "showIf": { "not": { "flag": "profilering" } },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "escape_conditie" }]
+        },
+        {
+          "id": "8.6",
+          "text": "Vormt het systeem, alles afwegend, géén significant risico voor de gezondheid, veiligheid of grondrechten en beïnvloedt het de uitkomst van besluitvorming niet wezenlijk?",
+          "refs": [{ "label": "Art. 6, lid 3", "href": "/artikel/6#lid-3" }],
+          "showIf": { "all": [{ "not": { "flag": "profilering" } }, { "flag": "escape_conditie" }] },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "escape_geen_risico" }]
+        },
+        {
+          "id": "8.7",
+          "text": "Wordt de uitzondering van art. 6, lid 3, daadwerkelijk ingeroepen?",
+          "refs": [{ "label": "Art. 6, lid 4", "href": "/artikel/6#lid-4" }],
+          "showIf": { "all": [{ "flag": "escape_conditie" }, { "flag": "escape_geen_risico" }] },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "escape_ingeroepen" }]
+        },
+        {
+          "id": "8.8",
+          "text": "Is de beoordeling gedocumenteerd vóór het in de handel brengen/in gebruik stellen én is het systeem geregistreerd in de EU-databank (art. 49, lid 2)?",
+          "help": "De documentatie moet op verzoek aan de toezichthouder worden verstrekt; de registratieplicht geldt óók bij beroep op de uitzondering. Als deployer: vraag de aanbieder om deze onderbouwing en het registratiebewijs.",
+          "refs": [
+            { "label": "Art. 6, lid 4", "href": "/artikel/6#lid-4" },
+            { "label": "Art. 49, lid 2", "href": "/artikel/49#lid-2" }
+          ],
+          "showIf": { "flag": "escape_ingeroepen" },
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m9",
+      "nr": 9,
+      "title": "Verplichtingen gebruiksverantwoordelijke bij hoog risico (art. 26)",
+      "intro": "Leverancierstoets en interne inrichting vóór go-live.",
+      "showIf": { "all": [{ "flag": "hoogrisico" }, { "flag": "rol_deployer" }] },
+      "omnibus": {
+        "note": "Volgens de omnibus gelden de hoogrisicoverplichtingen vanaf 2 december 2027 (bijlage III) resp. 2 augustus 2028 (bijlage I). Richt ze desondanks vóór go-live in: de systemen zijn dan al in gebruik."
+      },
+      "refs": [{ "label": "Art. 26", "href": "/artikel/26" }],
+      "questions": [
+        {
+          "id": "9.1",
+          "text": "Draagt het systeem de CE-markering en is de EU-conformiteitsverklaring beschikbaar?",
+          "help": "Bij 'nee': niet in gebruik nemen; terug naar de leverancier. Vraag de conformiteitsverklaring op als dossierstuk.",
+          "refs": [
+            { "label": "Art. 47", "href": "/artikel/47" },
+            { "label": "Art. 48", "href": "/artikel/48" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "ce"
+        },
+        {
+          "id": "9.2",
+          "text": "Is de registratie van het systeem in de EU-databank door de aanbieder geverifieerd? En indien de organisatie een publiekrechtelijk orgaan is of namens zo'n orgaan handelt: is de eigen deployerregistratie gedaan?",
+          "help": "Publieke organen: zonder aanbiedersregistratie het systeem niet gebruiken en de aanbieder/distributeur informeren.",
+          "refs": [
+            { "label": "Art. 49", "href": "/artikel/49" },
+            { "label": "Art. 26, lid 8", "href": "/artikel/26#lid-8" },
+            { "label": "Art. 71", "href": "/artikel/71" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "databank"
+        },
+        {
+          "id": "9.3",
+          "text": "Zijn de gebruiksaanwijzingen (art. 13) ontvangen en zijn passende technische en organisatorische maatregelen getroffen om het systeem overeenkomstig die instructies te gebruiken?",
+          "help": "Wijkt u af van de instructies, toets dan op rolverschuiving (module 4, vragen 4.6/4.7).",
+          "refs": [{ "label": "Art. 26, lid 1", "href": "/artikel/26#lid-1" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "9.4",
+          "text": "Is het menselijk toezicht belegd bij natuurlijke personen met de nodige bekwaamheid, opleiding, autoriteit én ondersteuning?",
+          "help": "Leg functie(s) en mandaat vast, waaronder de bevoegdheid om output te overrulen of het gebruik te stoppen. Koppel aan module 14 (AI-geletterdheid).",
+          "refs": [{ "label": "Art. 26, lid 2", "href": "/artikel/26#lid-2" }],
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "toezicht"
+        },
+        {
+          "id": "9.5",
+          "text": "Voor zover de organisatie controle heeft over de inputdata: is geborgd dat deze relevant en voldoende representatief zijn voor het beoogde doel?",
+          "refs": [{ "label": "Art. 26, lid 4", "href": "/artikel/26#lid-4" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "9.6",
+          "text": "Is de monitoring van de werking ingericht, inclusief een procedure om bij een risico in de zin van art. 79, lid 1, of een ernstig incident het gebruik op te schorten en de aanbieder/distributeur en de markttoezichthouder te informeren?",
+          "help": "Voor financiële instellingen: monitoring kan worden geïntegreerd in de bestaande interne-governanceregelingen onder financiëledienstenwetgeving (art. 26, lid 5, tweede alinea).",
+          "refs": [
+            { "label": "Art. 26, lid 5", "href": "/artikel/26#lid-5" },
+            { "label": "Art. 79", "href": "/artikel/79" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "9.7",
+          "text": "Worden de automatisch gegenereerde logs — voor zover onder controle van de organisatie — ten minste zes maanden bewaard (of langer conform ander toepasselijk recht)?",
+          "help": "Stem af met AVG-bewaartermijnen.",
+          "refs": [{ "label": "Art. 26, lid 6", "href": "/artikel/26#lid-6" }],
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "logbewaring"
+        },
+        {
+          "id": "9.8",
+          "text": "Worden werknemers en hun vertegenwoordigers vóór ingebruikname op de werkplek geïnformeerd?",
+          "help": "Betrek in Nederland de OR: instemmingsrecht bij o.a. personeelsvolgsystemen en regelingen rond personeelsgegevens (art. 27 WOR).",
+          "refs": [{ "label": "Art. 26, lid 7", "href": "/artikel/26#lid-7" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "9.9",
+          "text": "Worden natuurlijke personen geïnformeerd wanneer het hoogrisicosysteem wordt gebruikt om besluiten over hen te nemen of daarbij te ondersteunen, en is voorzien in het recht op uitleg bij besluiten met rechtsgevolgen of vergelijkbaar aanzienlijke gevolgen?",
+          "help": "Koppel aan de AVG-transparantieverplichtingen (module 15).",
+          "refs": [
+            { "label": "Art. 26, lid 11", "href": "/artikel/26#lid-11" },
+            { "label": "Art. 86", "href": "/artikel/86" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "9.10",
+          "text": "Wordt de van de aanbieder ontvangen informatie (art. 13) benut bij de DPIA, voor zover die verplicht is?",
+          "help": "Art. 26, lid 9, verplicht deployers de gebruiksaanwijzingen te gebruiken bij de DPIA-verplichting van art. 35 AVG — koppel aan module 15.",
+          "refs": [{ "label": "Art. 26, lid 9", "href": "/artikel/26#lid-9" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "9.11",
+          "text": "Is de samenwerking met de bevoegde autoriteiten geborgd (informatieverstrekking, medewerking aan onderzoek)?",
+          "refs": [{ "label": "Art. 26, lid 12", "href": "/artikel/26#lid-12" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m10",
+      "nr": 10,
+      "title": "Grondrechteneffectbeoordeling (FRIA, art. 27)",
+      "showIf": { "all": [{ "flag": "hoogrisico" }, { "flag": "rol_deployer" }] },
+      "refs": [{ "label": "Art. 27", "href": "/artikel/27" }],
+      "questions": [
+        {
+          "id": "10.1",
+          "text": "Is de organisatie een publiekrechtelijk orgaan of een private entiteit die publieke diensten verleent (vgl. overweging 96: o.a. onderwijs, zorg, sociale diensten, huisvesting)?",
+          "help": "Ook relevant voor private uitvoerders van publieke taken of regelingen.",
+          "refs": [
+            { "label": "Art. 27, lid 1", "href": "/artikel/27#lid-1" },
+            { "label": "Overweging 96", "href": "/overweging/96" }
+          ],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "fria_vereist" }]
+        },
+        {
+          "id": "10.2",
+          "text": "Of: betreft het een hoogrisicosysteem als bedoeld in bijlage III, punt 5, onder b (kredietwaardigheid) of onder c (levens-/ziektekostenverzekering)?",
+          "help": "Bij 'nee' op 10.1 én 10.2 is een FRIA niet verplicht (vrijwillig blijft mogelijk).",
+          "refs": [{ "label": "Art. 27, lid 1", "href": "/artikel/27#lid-1" }],
+          "showIf": { "answer": { "q": "10.1", "is": "nee" } },
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "fria_vereist" }]
+        },
+        {
+          "id": "10.3",
+          "text": "Bevat de FRIA alle verplichte elementen: (a) processen waarin het systeem wordt gebruikt; (b) gebruiksperiode en -frequentie; (c) categorieën geraakte natuurlijke personen/groepen; (d) specifieke schaderisico's voor die categorieën; (e) implementatie van het menselijk toezicht; (f) maatregelen bij materialisatie van risico's (incl. interne governance en klachtenafhandeling)?",
+          "refs": [{ "label": "Art. 27, lid 1", "href": "/artikel/27#lid-1" }],
+          "showIf": { "flag": "fria_vereist" },
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "fria_status"
+        },
+        {
+          "id": "10.4",
+          "text": "Is de markttoezichthouder in kennis gesteld van de uitkomst (met gebruik van het model/vragenlijstinstrument van het AI-bureau zodra beschikbaar)?",
+          "help": "De omnibus herformuleert art. 27, lid 5: het AI-bureau ontwikkelt een model voor een vragenlijst, onder meer via een geautomatiseerd instrument. Controleer ook de stand van de Nederlandse toezichtstructuur (uitvoeringswet).",
+          "refs": [
+            { "label": "Art. 27, lid 3", "href": "/artikel/27#lid-3" },
+            { "label": "Art. 27, lid 5", "href": "/artikel/27#lid-5" }
+          ],
+          "showIf": { "flag": "fria_vereist" },
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "10.5",
+          "text": "Is er al een DPIA (art. 35 AVG) voor deze verwerking uitgevoerd en is de FRIA daarop aangesloten?",
+          "help": "De omnibus (art. 27, lid 4) staat toe kruisverwijzingen naar de relevante delen van de DPIA in de FRIA op te nemen, of die delen erin over te nemen — complementair, zonder dubbeling.",
+          "refs": [{ "label": "Art. 27, lid 4", "href": "/artikel/27#lid-4" }],
+          "showIf": { "flag": "fria_vereist" },
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m11",
+      "nr": 11,
+      "title": "Verplichtingen aanbieder bij hoog risico",
+      "intro": "Alleen indien rol = aanbieder, inclusief rolverschuiving via art. 25. Elk gebrek herstellen vóór het in de handel brengen of in gebruik stellen.",
+      "showIf": { "all": [{ "flag": "hoogrisico" }, { "flag": "rol_aanbieder" }] },
+      "omnibus": {
+        "note": "Volgens de omnibus gelden de hoogrisicoverplichtingen vanaf 2 december 2027 (bijlage III) resp. 2 augustus 2028 (bijlage I)."
+      },
+      "refs": [{ "label": "Art. 16", "href": "/artikel/16" }],
+      "questions": [
+        {
+          "id": "11.1",
+          "text": "Is een iteratief risicomanagementsysteem ingericht over de gehele levenscyclus?",
+          "help": "Voor financiële instellingen: integratie in de bestaande risicogovernance onder financiëledienstenwetgeving is mogelijk.",
+          "refs": [{ "label": "Art. 9", "href": "/artikel/9" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.2",
+          "text": "Voldoen trainings-, validatie- en testdata aan de kwaliteitscriteria (relevant, representatief, zo foutvrij en volledig mogelijk; biasonderzoek)?",
+          "help": "De omnibus verplaatst de grondslag voor het verwerken van bijzondere categorieën persoonsgegevens voor biasdetectie en -correctie van art. 10, lid 5, naar het nieuwe art. 4 bis (zie module 15).",
+          "refs": [{ "label": "Art. 10", "href": "/artikel/10" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.3",
+          "text": "Is de technische documentatie conform bijlage IV opgesteld en actueel?",
+          "help": "Kmo's en start-ups — en volgens de omnibus ook kleine midcapondernemingen — mogen het vereenvoudigde formulier van de Commissie gebruiken (art. 11, lid 1).",
+          "refs": [
+            { "label": "Art. 11", "href": "/artikel/11" },
+            { "label": "Bijlage IV", "href": "/bijlage/iv" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.4",
+          "text": "Voorziet het systeem in automatische logging van gebeurtenissen?",
+          "refs": [{ "label": "Art. 12", "href": "/artikel/12" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.5",
+          "text": "Zijn gebruiksaanwijzingen opgesteld die deployers in staat stellen aan art. 26 te voldoen?",
+          "refs": [{ "label": "Art. 13", "href": "/artikel/13" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.6",
+          "text": "Is het systeem zo ontworpen dat effectief menselijk toezicht mogelijk is?",
+          "refs": [{ "label": "Art. 14", "href": "/artikel/14" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.7",
+          "text": "Zijn nauwkeurigheid, robuustheid en cyberbeveiliging op een passend niveau geborgd en gedeclareerd?",
+          "refs": [{ "label": "Art. 15", "href": "/artikel/15" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.8",
+          "text": "Is een kwaliteitsmanagementsysteem ingericht?",
+          "help": "Financiële instellingen kunnen QMS-elementen integreren in de governance onder financiëledienstenwetgeving (art. 17, lid 4).",
+          "refs": [{ "label": "Art. 17", "href": "/artikel/17" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.9",
+          "text": "Wordt de technische documentatie en overige verplichte documentatie ten minste tien jaar bewaard en beschikbaar gehouden voor de autoriteiten?",
+          "refs": [{ "label": "Art. 18", "href": "/artikel/18" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.10",
+          "text": "Worden de automatisch gegenereerde logs die onder controle van de aanbieder staan ten minste zes maanden bewaard?",
+          "refs": [{ "label": "Art. 19", "href": "/artikel/19" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.11",
+          "text": "Is een proces ingericht voor corrigerende maatregelen (terugroepen, uit de handel nemen, uitschakelen) en het informeren van distributeurs, deployers, gemachtigden en importeurs bij non-conformiteit?",
+          "refs": [{ "label": "Art. 20", "href": "/artikel/20" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.12",
+          "text": "Is de samenwerking met de bevoegde autoriteiten geborgd (informatie en documentatie op met redenen omkleed verzoek)?",
+          "refs": [{ "label": "Art. 21", "href": "/artikel/21" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.13",
+          "text": "Is de conformiteitsbeoordeling uitgevoerd: voor bijlage III (behoudens de biometrie-uitzondering) interne controle volgens bijlage VI; voor bijlage I volgens het onderliggende productregime?",
+          "help": "Voor krediet/verzekering (bijlage III, punt 5, onder b/c): zelfbeoordeling — geen certificaat van een aangemelde instantie.",
+          "refs": [
+            { "label": "Art. 43", "href": "/artikel/43" },
+            { "label": "Bijlage VI", "href": "/bijlage/vi" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.14",
+          "text": "Zijn de EU-conformiteitsverklaring opgesteld en de CE-markering aangebracht?",
+          "refs": [
+            { "label": "Art. 47", "href": "/artikel/47" },
+            { "label": "Art. 48", "href": "/artikel/48" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "ce"
+        },
+        {
+          "id": "11.15",
+          "text": "Is het systeem vóór het in de handel brengen/in gebruik stellen geregistreerd in de EU-databank?",
+          "refs": [
+            { "label": "Art. 49, lid 1", "href": "/artikel/49#lid-1" },
+            { "label": "Art. 71", "href": "/artikel/71" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "databank"
+        },
+        {
+          "id": "11.16",
+          "text": "Zijn post-market monitoring en de melding van ernstige incidenten ingericht?",
+          "help": "De omnibus vervangt de geplande uitvoeringshandeling voor het monitoringplan door richtsnoeren met een model, uiterlijk 2 september 2027 (art. 72, lid 3).",
+          "refs": [
+            { "label": "Art. 72", "href": "/artikel/72" },
+            { "label": "Art. 73", "href": "/artikel/73" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "11.17",
+          "text": "Indien de aanbieder buiten de EU is gevestigd: is een gemachtigde in de Unie aangewezen?",
+          "help": "Als inkopende partij: controleer dit bij niet-EU-leveranciers.",
+          "refs": [{ "label": "Art. 22", "href": "/artikel/22" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m12",
+      "nr": 12,
+      "title": "Verplichtingen GPAI-aanbieder",
+      "intro": "Alleen indien de organisatie zelf een GPAI-model aanbiedt of substantieel finetunet.",
+      "showIf": { "flag": "gpai_aanbieder" },
+      "refs": [{ "label": "Art. 53", "href": "/artikel/53" }],
+      "questions": [
+        {
+          "id": "12.1",
+          "text": "Is technische modeldocumentatie conform bijlage XI opgesteld en actueel (t.b.v. AI-bureau/autoriteiten)?",
+          "refs": [
+            { "label": "Art. 53, lid 1", "href": "/artikel/53#lid-1" },
+            { "label": "Bijlage XI", "href": "/bijlage/xi" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "12.2",
+          "text": "Is informatie en documentatie voor downstream-aanbieders beschikbaar conform bijlage XII?",
+          "refs": [
+            { "label": "Art. 53, lid 1", "href": "/artikel/53#lid-1" },
+            { "label": "Bijlage XII", "href": "/bijlage/xii" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "12.3",
+          "text": "Is er een beleid ter naleving van het Unierecht inzake auteursrecht, incl. eerbiediging van het TDM-voorbehoud (art. 4, lid 3, DSM-richtlijn)?",
+          "refs": [{ "label": "Art. 53, lid 1", "href": "/artikel/53#lid-1" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "12.4",
+          "text": "Is een voldoende gedetailleerde publieke samenvatting van de trainingscontent gepubliceerd volgens het sjabloon van het AI-bureau (juli 2025)?",
+          "refs": [{ "label": "Art. 53, lid 1", "href": "/artikel/53#lid-1" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "12.5",
+          "text": "Indien het model onder een vrije/opensourcelicentie met openbare parameters wordt vrijgegeven: is de (gedeeltelijke) vrijstelling van 12.1–12.2 correct toegepast (niet bij systeemrisico)?",
+          "help": "Documenteer de licentieanalyse.",
+          "refs": [{ "label": "Art. 53, lid 2", "href": "/artikel/53#lid-2" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "12.6",
+          "text": "Bij systeemrisico (vermoeden vanaf 10^25 FLOPs): zijn melding aan de Commissie, modelevaluaties incl. adversarial testing, risicobeoordeling en -mitigatie, incidentrapportage en passende cyberbeveiliging ingericht?",
+          "help": "Overweeg aansluiting bij de GPAI Code of Practice als nalevingsinstrument.",
+          "refs": [
+            { "label": "Art. 51", "href": "/artikel/51" },
+            { "label": "Art. 55", "href": "/artikel/55" },
+            { "label": "Art. 56", "href": "/artikel/56" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "12.7",
+          "text": "Indien de modelaanbieder buiten de EU is gevestigd: is een gemachtigde in de Unie aangewezen (art. 54)?",
+          "refs": [{ "label": "Art. 54", "href": "/artikel/54" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m13",
+      "nr": 13,
+      "title": "Transparantieverplichtingen (art. 50)",
+      "intro": "Altijd doorlopen, ongeacht risicoklasse. Van toepassing met ingang van 2 augustus 2026.",
+      "showIf": { "flag": "ai_systeem" },
+      "refs": [{ "label": "Art. 50", "href": "/artikel/50" }],
+      "questions": [
+        {
+          "id": "13.1",
+          "text": "Interacteert het systeem rechtstreeks met natuurlijke personen (chatbot, voice-assistent)?",
+          "help": "Bij 'ja': personen informeren dat zij met AI communiceren, tenzij dit voor een normaal geïnformeerde persoon evident is. De plicht rust op de aanbieder; als deployer: verifieer de inbouw en richt eigen communicatie in.",
+          "refs": [{ "label": "Art. 50, lid 1", "href": "/artikel/50#lid-1" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "transparantie_lid1" }]
+        },
+        {
+          "id": "13.2",
+          "text": "Genereert het systeem synthetische audio-, beeld-, video- of tekstcontent?",
+          "help": "Bij 'ja': de output moet in machineleesbaar formaat als kunstmatig gegenereerd/gemanipuleerd gemarkeerd zijn (aanbiedersplicht) — verifieer dit bij de leverancier. Let op: de omnibus (art. 111, lid 4) geeft aanbieders van vóór 2 augustus 2026 in de handel gebrachte generatieve systemen tot 2 december 2026 om aan deze markeringsplicht te voldoen.",
+          "refs": [{ "label": "Art. 50, lid 2", "href": "/artikel/50#lid-2" }],
+          "answerType": "janee",
+          "omnibus": {
+            "note": "Overgangstermijn voor bestaande generatieve systemen tot 2 december 2026 (art. 111, lid 4, omnibus)."
+          },
+          "effects": [{ "when": "ja", "setFlag": "transparantie_lid2" }]
+        },
+        {
+          "id": "13.3",
+          "text": "Zet de organisatie (als deployer) een systeem voor emotieherkenning of biometrische categorisatie in?",
+          "help": "Bij 'ja': betrokken personen informeren over de werking; persoonsgegevens conform de AVG verwerken. Let op samenloop met art. 5 (module 5).",
+          "refs": [{ "label": "Art. 50, lid 3", "href": "/artikel/50#lid-3" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "transparantie_lid3" }]
+        },
+        {
+          "id": "13.4",
+          "text": "Genereert of manipuleert de organisatie (als deployer) content die een deepfake vormt, of publiceert zij AI-gegenereerde tekst over aangelegenheden van algemeen belang?",
+          "help": "Bij 'ja': kenbaar maken dat de content kunstmatig is gegenereerd/gemanipuleerd; bij tekst geldt een uitzondering indien menselijke redactionele controle en verantwoordelijkheid is geborgd.",
+          "refs": [{ "label": "Art. 50, lid 4", "href": "/artikel/50#lid-4" }],
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "transparantie_lid4" }]
+        },
+        {
+          "id": "13.5",
+          "text": "Zijn de uitzonderingen correct toegepast en wordt de informatie duidelijk, uiterlijk bij het eerste contact of de eerste blootstelling verstrekt?",
+          "help": "Documenteer de wijze van informeren (interface-teksten, disclaimers, markeringen).",
+          "refs": [{ "label": "Art. 50, lid 5", "href": "/artikel/50#lid-5" }],
+          "showIf": {
+            "any": [
+              { "flag": "transparantie_lid1" },
+              { "flag": "transparantie_lid2" },
+              { "flag": "transparantie_lid3" },
+              { "flag": "transparantie_lid4" }
+            ]
+          },
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m14",
+      "nr": 14,
+      "title": "AI-geletterdheid (art. 4)",
+      "intro": "Van kracht sinds 2 februari 2025.",
+      "showIf": { "flag": "ai_systeem" },
+      "refs": [{ "label": "Art. 4", "href": "/artikel/4" }],
+      "questions": [
+        {
+          "id": "14.1",
+          "text": "Neemt de organisatie maatregelen om een toereikend niveau van AI-geletterdheid te ondersteunen bij medewerkers en andere personen die namens haar met het systeem werken (kennis van werking, beperkingen, risico's)?",
+          "help": "De omnibus herformuleert art. 4: de plicht wordt het 'ondersteunen van de ontwikkeling' van AI-geletterdheid en houdt uitdrukkelijk géén garantie van een bepaald niveau per persoon in. Aantoonbare training blijft de praktische invulling.",
+          "refs": [
+            { "label": "Art. 4", "href": "/artikel/4" },
+            { "label": "Art. 4 (omnibus-diff)", "href": "/artikel/4?diff=1" }
+          ],
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "geletterdheid"
+        },
+        {
+          "id": "14.2",
+          "text": "Is de training gedifferentieerd naar rol, technische kennis, context en doelgroep van het systeem?",
+          "help": "Differentieer: gebruiker vs. toezichthoudende rol vs. beheerder.",
+          "refs": [{ "label": "Art. 4", "href": "/artikel/4" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "14.3",
+          "text": "Wordt deelname geregistreerd zodat naleving aantoonbaar is (koppeling met menselijk toezicht, module 9)?",
+          "help": "Aantoonbaarheid is ook relevant richting toezichthouder en in het registerdossier.",
+          "refs": [{ "label": "Art. 4", "href": "/artikel/4" }],
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m15",
+      "nr": 15,
+      "title": "AVG-raakvlakken",
+      "intro": "Altijd doorlopen bij verwerking van persoonsgegevens — ook als de toepassing géén AI-systeem is.",
+      "questions": [
+        {
+          "id": "15.1",
+          "text": "Worden persoonsgegevens verwerkt (input, training, output, logging)?",
+          "help": "Bij 'ja': verwerkingsregister (art. 30 AVG) bijwerken; grondslag en doelbinding vastleggen.",
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "persoonsgegevens" }]
+        },
+        {
+          "id": "15.2",
+          "text": "Is een DPIA vereist (waarschijnlijk hoog risico; o.a. systematische en uitgebreide evaluatie/profilering, grootschalige verwerking, innovatieve technologie — zie ook de AP-lijst verplichte DPIA's)? Zo ja: is die uitgevoerd?",
+          "help": "Bij hoogrisico-AI met persoonsgegevens is een DPIA vrijwel altijd aangewezen; voer die uit vóór go-live en koppel aan de FRIA (module 10).",
+          "showIf": { "flag": "persoonsgegevens" },
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "dpia"
+        },
+        {
+          "id": "15.3",
+          "text": "Is sprake van uitsluitend geautomatiseerde besluitvorming met rechtsgevolgen of vergelijkbaar wezenlijke gevolgen (art. 22 AVG)? Denk aan scores die het besluit feitelijk bepalen (HvJ EU SCHUFA, C-634/21).",
+          "help": "Bij 'ja': toets de uitzonderingsgrond (o.a. noodzakelijk voor de overeenkomst, uitdrukkelijke toestemming), richt betekenisvolle menselijke tussenkomst in en waarborg informatie-, uitleg- en betwistingsrechten.",
+          "showIf": { "flag": "persoonsgegevens" },
+          "answerType": "janee",
+          "register": "art22"
+        },
+        {
+          "id": "15.4",
+          "text": "Zijn de informatieverplichtingen (art. 13–14 AVG, incl. logica en verwachte gevolgen bij geautomatiseerde besluitvorming) en de rechten van betrokkenen ingericht?",
+          "showIf": { "flag": "persoonsgegevens" },
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "15.5",
+          "text": "Vindt doorgifte naar derde landen plaats (hosting, support, modelaanroepen)? Zo ja: is het hoofdstuk V-instrumentarium op orde (adequaatheid, SCC's incl. doorgiftetoets)?",
+          "showIf": { "flag": "persoonsgegevens" },
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "15.6",
+          "text": "Is een verwerkersovereenkomst (of regeling gezamenlijke verantwoordelijkheid) gesloten die ook AI-specifieke afspraken dekt (gebruik van data voor training door de leverancier uitsluiten/regelen, sub-verwerkers, logging)?",
+          "showIf": { "flag": "persoonsgegevens" },
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "15.7",
+          "text": "Worden bijzondere categorieën persoonsgegevens verwerkt om vooringenomenheid (bias) op te sporen of te corrigeren?",
+          "help": "Huidige grondslag: art. 10, lid 5 (alleen aanbieders van hoogrisicosystemen). De omnibus verplaatst en verbreedt dit naar het nieuwe art. 4 bis: onder strikte voorwaarden ook voor gebruiksverantwoordelijken en andere systemen/modellen. Documenteer noodzaak en waarborgen (pseudonimisering, toegangscontrole, verwijdering, verwerkingsregister).",
+          "refs": [
+            { "label": "Art. 10, lid 5 (huidig)", "href": "/artikel/10#lid-5" },
+            { "label": "Art. 4 bis (omnibus)", "href": "/artikel/4bis" }
+          ],
+          "showIf": { "flag": "persoonsgegevens" },
+          "answerType": "janee",
+          "omnibus": {
+            "note": "Art. 4 bis (omnibus) verruimt deze grondslag naar deployers en niet-hoogrisicosystemen, onder dezelfde strikte voorwaarden; nog niet in werking."
+          }
+        },
+        {
+          "id": "15.8",
+          "text": "Ook zonder persoonsgegevens: zijn vertrouwelijkheid en bedrijfsgeheimen geborgd (prompts, documenten, output)?",
+          "help": "Richt gebruiksbeleid en technische maatregelen in.",
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m16",
+      "nr": 16,
+      "title": "DORA-raakvlakken",
+      "intro": "Voor financiële entiteiten onder DORA (Verordening (EU) 2022/2554).",
+      "showIf": { "flag": "sector_financieel" },
+      "financeOnly": true,
+      "questions": [
+        {
+          "id": "16.1",
+          "text": "Kwalificeert de leverancier als ICT-derdedienstverlener in de zin van DORA?",
+          "help": "Bij 'ja': neem de contractuele minimumbepalingen van art. 30 DORA op (o.a. beschikbaarheid, datalocatie, audit- en toegangsrechten, exit).",
+          "answerType": "janee",
+          "effects": [{ "when": "ja", "setFlag": "dora_ict_derde" }]
+        },
+        {
+          "id": "16.2",
+          "text": "Is de dienst opgenomen in het informatieregister van contractuele ICT-overeenkomsten (art. 28, lid 3, DORA)?",
+          "showIf": { "flag": "dora_ict_derde" },
+          "answerType": "janeenvt",
+          "obligation": true,
+          "register": "dora"
+        },
+        {
+          "id": "16.3",
+          "text": "Ondersteunt de dienst een kritieke of belangrijke functie?",
+          "help": "Bij 'ja' gelden verzwaarde eisen: risicobeoordeling vóór contractering, exitstrategie, concentratierisico-analyse, meldplichten (art. 28–30 DORA).",
+          "showIf": { "flag": "dora_ict_derde" },
+          "answerType": "janee"
+        },
+        {
+          "id": "16.4",
+          "text": "Zijn de incidentprocessen gekoppeld (DORA-incidentclassificatie en -melding vs. AI Act-meldingen art. 26, lid 5 / art. 73)?",
+          "refs": [
+            { "label": "Art. 26, lid 5", "href": "/artikel/26#lid-5" },
+            { "label": "Art. 73", "href": "/artikel/73" }
+          ],
+          "showIf": { "flag": "dora_ict_derde" },
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m17",
+      "nr": 17,
+      "title": "Overige raakvlakken",
+      "questions": [
+        {
+          "id": "17.1",
+          "text": "Financiëledienstenwetgeving: zijn AI Act-governance-elementen geïntegreerd in de bestaande Wft-/prudentiële governance, en is duidelijk welke toezichthouder (AFM/DNB) naar verwachting markttoezichthouder is?",
+          "help": "Integreer waar de verordening dat toestaat (o.a. art. 17, lid 4, en art. 26, lid 5) en volg de Nederlandse uitvoeringswetgeving.",
+          "refs": [{ "label": "Art. 74, lid 6", "href": "/artikel/74#lid-6" }],
+          "showIf": { "flag": "sector_financieel" },
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "17.2",
+          "text": "Intellectuele eigendom: zijn risico's rond input (auteursrechtelijk beschermd materiaal in prompts/training) en output (gebruiksrechten, inbreukrisico, vrijwaringen leverancier) beoordeeld?",
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "17.3",
+          "text": "Contractueel: zijn wijzigingsbeheer bij modelupdates, SLA's, aansprakelijkheid, auditrechten en exit/dataportabiliteit geregeld?",
+          "help": "Modelupdates door de leverancier kunnen de risicobeoordeling wijzigen — borg een notificatieplicht.",
+          "answerType": "janeenvt",
+          "obligation": true
+        },
+        {
+          "id": "17.4",
+          "text": "Ethiek en reputatie: zijn uitlegbaarheid richting klanten, biasgevoeligheid en maatschappelijke acceptatie gewogen (ook waar de wet niet dwingt)?",
+          "answerType": "janeenvt",
+          "obligation": true
+        }
+      ]
+    },
+    {
+      "id": "m18",
+      "nr": 18,
+      "title": "Risicoweging, besluit en registerinvoer",
+      "questions": [
+        {
+          "id": "18.1",
+          "text": "Interne risicoclassificatie op basis van alle voorgaande modules, inclusief motivering.",
+          "help": "Hanteer de interne risicomethodiek; dit staat los van de AI Act-risicoklasse.",
+          "answerType": "choice",
+          "options": [
+            { "value": "laag", "label": "Laag" },
+            { "value": "midden", "label": "Midden" },
+            { "value": "hoog", "label": "Hoog" }
+          ]
+        },
+        {
+          "id": "18.2",
+          "text": "Besluit (met vermelding van besluitvormer en datum in het opmerkingenveld).",
+          "answerType": "choice",
+          "options": [
+            { "value": "go", "label": "Go" },
+            { "value": "go-voorwaarden", "label": "Go met voorwaarden" },
+            { "value": "no-go", "label": "No-go" },
+            { "value": "escalatie", "label": "Escalatie" }
+          ],
+          "register": "besluit"
+        },
+        {
+          "id": "18.3",
+          "text": "Voorwaarden, actiehouders en deadlines (indien 'Go met voorwaarden').",
+          "showIf": { "answer": { "q": "18.2", "is": "go-voorwaarden" } },
+          "answerType": "text"
+        },
+        {
+          "id": "18.4",
+          "text": "Laatste en volgende reviewdatum. Herbeoordeel ten minste jaarlijks én tussentijds bij substantiële wijziging, nieuwe modelversie, incident of regelgevingswijziging.",
+          "help": "Let op providerverschuiving (art. 25) bij substantiële wijzigingen.",
+          "answerType": "text",
+          "register": "review"
+        },
+        {
+          "id": "18.5",
+          "text": "Dossierlink en opmerkingen (FRIA, DPIA, contracten, conformiteitsdocumenten, trainingsbewijs).",
+          "answerType": "text",
+          "register": "dossier"
+        }
+      ]
+    }
+  ],
+  "registerColumns": [
+    { "id": "naam", "label": "Naam toepassing", "source": "q:1.1" },
+    { "id": "beschrijving", "label": "Korte beschrijving & doel", "source": "q:1.2" },
+    { "id": "leverancier", "label": "Leverancier / ontwikkelaar", "source": "q:1.3" },
+    { "id": "sourcing", "label": "Sourcing", "source": "q:1.4" },
+    { "id": "owner", "label": "Businessowner / afdeling", "source": "q:1.5" },
+    { "id": "status", "label": "Status", "source": "q:1.6" },
+    { "id": "datum", "label": "Datum ingebruikname", "source": "q:1.7" },
+    { "id": "kwalificatie", "label": "Kwalificatie", "source": "d:kwalificatie" },
+    { "id": "rollen", "label": "Rol organisatie", "source": "d:rollen" },
+    { "id": "verboden", "label": "Verboden praktijk (art. 5)", "source": "d:verboden" },
+    { "id": "annex1", "label": "Bijlage I van toepassing", "source": "d:annex1" },
+    { "id": "annex3", "label": "Bijlage III-categorie(ën)", "source": "d:annex3" },
+    { "id": "profilering", "label": "Profilering natuurlijke personen", "source": "q:8.1" },
+    { "id": "escape", "label": "Uitzondering art. 6, lid 3", "source": "d:escape" },
+    { "id": "risicoklasse", "label": "AI Act-risicoklasse", "source": "d:risicoklasse" },
+    { "id": "fria_status", "label": "FRIA vereist / status", "source": "d:fria" },
+    { "id": "dpia", "label": "DPIA vereist / status", "source": "q:15.2" },
+    { "id": "art22", "label": "Art. 22 AVG relevant", "source": "q:15.3" },
+    { "id": "transparantie", "label": "Transparantie art. 50 (leden)", "source": "d:transparantie" },
+    { "id": "databank", "label": "EU-databankregistratie (art. 49)", "source": "d:databank" },
+    { "id": "ce", "label": "CE-markering / conformiteitsverklaring", "source": "d:ce" },
+    { "id": "toezicht", "label": "Menselijk toezicht belegd bij", "source": "q:9.4" },
+    { "id": "logbewaring", "label": "Logbewaring geregeld (≥ 6 mnd)", "source": "q:9.7" },
+    { "id": "geletterdheid", "label": "AI-geletterdheid geborgd", "source": "q:14.1" },
+    { "id": "dora", "label": "DORA: informatieregister", "source": "q:16.2", "financeOnly": true },
+    { "id": "contract", "label": "Contract / DPA-status", "source": "q:1.11" },
+    { "id": "besluit", "label": "Besluit", "source": "q:18.2" },
+    { "id": "review", "label": "Laatste / volgende review", "source": "q:18.4" },
+    { "id": "dossier", "label": "Dossierlink / opmerkingen", "source": "q:18.5" },
+    { "id": "openacties", "label": "Openstaande acties", "source": "d:openacties" }
+  ]
+}

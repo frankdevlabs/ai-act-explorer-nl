@@ -66,6 +66,14 @@ export function Header() {
           AI-verordening<span className="text-accent"> Explorer</span>
         </Link>
         <span className="hidden text-xs text-muted sm:block">(EU) 2024/1689 — NL</span>
+        <nav className="hidden items-center gap-3 text-sm text-muted md:flex" aria-label="Tools">
+          <Link href="/assessment" className="hover:text-foreground">
+            Assessment
+          </Link>
+          <Link href="/register" className="hover:text-foreground">
+            AI-register
+          </Link>
+        </nav>
         <div className="ml-auto flex items-center gap-2">
           <button
             type="button"
