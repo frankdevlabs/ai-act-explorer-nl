@@ -200,6 +200,17 @@ export function SidebarToc({ toc, amended = [], newEntries = {}, onNavigate }: S
           <span className="text-xs font-normal text-muted">(digitale omnibus)</span>
         </Link>
         <Link
+          href="/gpai-praktijkcode"
+          onClick={onNavigate}
+          className={cn(
+            "block rounded px-2 py-1.5 font-medium hover:bg-surface",
+            pathname.startsWith("/gpai-praktijkcode") && "text-accent",
+          )}
+        >
+          GPAI-praktijkcode{" "}
+          <span className="text-xs font-normal text-muted">(uitleg)</span>
+        </Link>
+        <Link
           href="/assessment"
           onClick={onNavigate}
           className={cn(
