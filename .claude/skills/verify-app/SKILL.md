@@ -6,9 +6,10 @@ description: Verify the app end-to-end on this VPS - build, curl smoke checks, a
 # Verify the app
 
 **Expectations in this skill are living.** Page counts, parse counts and the
-check list change with nearly every epic (313 → 321 → 325 pages so far; epic 7
-added /assessment, /assessment/vragenlijst, /assessment/resultaat and
-/register). Update them in the same commit as the feature; a mismatch usually
+check list change with nearly every epic (313 → 321 → 325 → 327 pages so far;
+epic 7 added /assessment, /assessment/vragenlijst, /assessment/resultaat and
+/register; /gpai-praktijkcode added after epic 7). Update them in the same
+commit as the feature; a mismatch usually
 means this skill is stale, not that the app is broken — check `git log` before
 debugging.
 
@@ -22,7 +23,7 @@ Must end green: `parse` logs counts (expect `113 articles, 180 recitals,
 13 annexes, 13 chapters, ... search docs` plus `parse-amendments: 76
 instructions, 36 amended articles, 6 new articles, 1 new annexes ...
 (complete=true)`), `verify` prints `verify-data: all assertions passed` and
-`verify-amendments: all assertions passed`, `next build` exports ~325 static
+`verify-amendments: all assertions passed`, `next build` exports ~327 static
 pages, `verify` also prints `verify-assessment: all assertions passed` (epic 7).
 
 ## 2. Dev server + curl smoke checks
@@ -42,6 +43,7 @@ curl -s "http://localhost:$PORT/artikel/5"    | grep -c 'id="lid-1-a"'          
 curl -s "http://localhost:$PORT/overweging/42" | grep -c "Overweging 42"           # >= 1
 curl -s "http://localhost:$PORT/bijlage/iii"  | grep -c "artikel 6, lid 2"         # >= 1
 curl -s "http://localhost:$PORT/search-docs.json" | head -c 100                    # JSON array
+curl -s "http://localhost:$PORT/gpai-praktijkcode" | grep -c "praktijkcode"        # >= 1
 ```
 
 ## 3. Browser checks (Playwright, optional but thorough)

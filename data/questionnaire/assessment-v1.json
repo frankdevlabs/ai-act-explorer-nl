@@ -116,11 +116,7 @@
         { "label": "Overweging 12", "href": "/overweging/12" }
       ],
       "questions": [
-        {
-          "id": "2.1",
-          "text": "Is het een machinegebaseerd systeem?",
-          "answerType": "janee"
-        },
+        { "id": "2.1", "text": "Is het een machinegebaseerd systeem?", "answerType": "janee" },
         {
           "id": "2.2",
           "text": "Is het ontworpen om met een zekere mate van autonomie te functioneren (enige onafhankelijkheid van menselijke betrokkenheid)?",
@@ -174,7 +170,15 @@
         {
           "id": "3.1",
           "text": "Betreft de toepassing een AI-model voor algemene doeleinden (GPAI-model): aanzienlijke algemene bruikbaarheid, breed scala aan taken, integreerbaar in uiteenlopende systemen?",
-          "help": "Bij 'ja' valt het model zelf onder hoofdstuk V; de verplichtingen liggen bij de modelaanbieder.",
+          "help": [
+            "Bij 'ja' valt het model zelf onder hoofdstuk V; de verplichtingen liggen bij de modelaanbieder.",
+            {
+              "bullets": [
+                "Voorbeelden van GPAI-modellen: GPT-4o (OpenAI), Claude (Anthropic), Gemini (Google), Llama (Meta) — breed inzetbaar en integreerbaar in uiteenlopende toepassingen.",
+                "Géén GPAI-model: een model dat voor één specifieke taak is getraind, zoals een spamfilter, een kredietscoremodel of één beeldherkenningstaak."
+              ]
+            }
+          ],
           "refs": [{ "label": "Art. 3, punt 63", "href": "/artikel/3#punt-63" }],
           "answerType": "janee",
           "effects": [{ "when": "ja", "setFlag": "gpai_model" }]
@@ -182,7 +186,15 @@
         {
           "id": "3.2",
           "text": "Is het een AI-systeem dat op een GPAI-model is gebaseerd (bijv. een assistent, copilot of chatfunctie bovenop een taalmodel)?",
-          "help": "Een 'GPAI-systeem' is voor de risicoclassificatie een gewoon AI-systeem: GPAI-gebruik geeft géén vrijstelling van de toetsen op verboden praktijken, hoog risico en transparantie.",
+          "help": [
+            "Een 'GPAI-systeem' is voor de risicoclassificatie een gewoon AI-systeem: GPAI-gebruik geeft géén vrijstelling van de toetsen op verboden praktijken, hoog risico en transparantie.",
+            {
+              "bullets": [
+                "Erbinnen: ChatGPT, copilots, een eigen assistent of chatbot gebouwd op een GPAI-API (OpenAI, Anthropic, Google enz.).",
+                "Erbuiten: software zonder GPAI-component, of AI die uitsluitend een taakspecifiek model gebruikt."
+              ]
+            }
+          ],
           "refs": [{ "label": "Art. 3, punt 66", "href": "/artikel/3#punt-66" }],
           "showIf": { "answer": { "q": "3.1", "is": "nee" } },
           "answerType": "janee",
@@ -192,7 +204,10 @@
           "id": "3.3",
           "text": "Ontwikkelt of finetunet de organisatie zélf een GPAI-model in betekenisvolle mate?",
           "help": "Volgens de Commissierichtsnoeren GPAI (juli 2025) kan substantiële finetuning tot aanbiederschap voor de wijziging leiden — beoordeel per geval en documenteer. Bij 'ja' geldt module 12.",
-          "refs": [{ "label": "Art. 53", "href": "/artikel/53" }],
+          "refs": [
+            { "label": "Art. 53", "href": "/artikel/53" },
+            { "label": "GPAI-praktijkcode (uitleg)", "href": "/gpai-praktijkcode" }
+          ],
           "showIf": { "any": [{ "flag": "gpai_model" }, { "flag": "gpai_systeem" }] },
           "answerType": "janee",
           "effects": [{ "when": "ja", "setFlag": "gpai_aanbieder" }]
@@ -200,10 +215,11 @@
         {
           "id": "3.4",
           "text": "Heeft het onderliggende model systeemrisico (cumulatieve trainingscompute > 10^25 FLOPs of aanwijzing door de Commissie)?",
-          "help": "Bij 'ja' of 'onbekend': verhoogde leverancierstoets — vraag naar naleving van art. 55 (modelevaluaties, adversarial testing, incidentrapportage, cyberbeveiliging) en deelname aan de GPAI Code of Practice.",
+          "help": "Bij 'ja' of 'onbekend': verhoogde leverancierstoets — vraag naar naleving van art. 55 (modelevaluaties, adversarial testing, incidentrapportage, cyberbeveiliging) en of de aanbieder de GPAI-praktijkcode heeft ondertekend (zie de uitlegpagina).",
           "refs": [
             { "label": "Art. 51, lid 2", "href": "/artikel/51#lid-2" },
-            { "label": "Art. 55", "href": "/artikel/55" }
+            { "label": "Art. 55", "href": "/artikel/55" },
+            { "label": "GPAI-praktijkcode (uitleg)", "href": "/gpai-praktijkcode" }
           ],
           "showIf": { "any": [{ "flag": "gpai_model" }, { "flag": "gpai_systeem" }] },
           "answerType": "choice",
@@ -212,10 +228,11 @@
             { "value": "nee", "label": "Nee" },
             { "value": "onbekend", "label": "Onbekend" }
           ],
-          "effects": [
-            { "when": ["ja", "onbekend"], "setFlag": "gpai_systeemrisico_check" }
-          ]
+          "effects": [{ "when": ["ja", "onbekend"], "setFlag": "gpai_systeemrisico_check" }]
         }
+      ],
+      "intro": [
+        "Een GPAI-módel is het onderliggende taal- of multimodale model (bijv. GPT-4o van OpenAI, Claude van Anthropic, Gemini van Google of Llama van Meta). Een GPAI-systéém is een toepassing die zo'n model gebruikt (bijv. ChatGPT, Microsoft 365 Copilot, of een eigen chatbot gebouwd op een model-API). De meeste organisaties gebruiken systemen; alleen wie het model zelf ontwikkelt of substantieel wijzigt, is modelaanbieder."
       ]
     },
     {
@@ -413,8 +430,19 @@
         {
           "id": "6.1",
           "text": "Is het AI-systeem bedoeld als veiligheidscomponent van een product — of is het zelf een product — dat valt onder de in bijlage I genoemde EU-harmonisatiewetgeving (o.a. machines, medische hulpmiddelen, liften, speelgoed, voertuigen, luchtvaart)?",
-          "help": "Voor zuiver administratieve/financiële toepassingen doorgaans n.v.t. — documenteer dat expliciet. De omnibus verduidelijkt (art. 6, leden 1 bis/1 ter): componenten die uitsluitend dienen voor gebruikersassistentie, prestatie-optimalisatie, efficiëntie, automatisering, gemak of kwaliteitscontrole zijn géén veiligheidscomponent, tenzij falen de gezondheid of veiligheid in gevaar brengt.",
+          "help": [
+            "Twee cumulatieve voorwaarden (art. 6, lid 1): (a) het AI-systeem is een veiligheidscomponent van een product dat onder de bijlage I-wetgeving valt, of is zelf zo'n product, én (b) dat product moet volgens die wetgeving een conformiteitsbeoordeling door een derde partij (aangemelde instantie) ondergaan.",
+            {
+              "bullets": [
+                "Afdeling A: machines, speelgoed, pleziervaartuigen, liften, ATEX-apparatuur (explosiegevaar), radioapparatuur, drukapparatuur, kabelbanen, persoonlijke beschermingsmiddelen, gastoestellen, medische hulpmiddelen (MDR) en in-vitrodiagnostiek (IVDR).",
+                "Afdeling B: burgerluchtvaart (EASA en luchtvaartbeveiliging), motorvoertuigen, twee- en driewielers, landbouw- en bosbouwvoertuigen, uitrusting van zeeschepen en spoorwegsystemen. Voor deze producten geldt een afwijkend regime: de AI-verordening werkt er grotendeels door via de sectorwetgeving zelf (art. 2, lid 2)."
+              ]
+            },
+            "Vuistregel: draagt het product een CE-markering onder een van deze wetten én is een aangemelde instantie (notified body) bij de beoordeling betrokken? Zo ja → 'ja'. Zuiver administratieve, financiële of kantoortoepassingen vallen hier vrijwel nooit onder — documenteer dat expliciet.",
+            "De omnibus verduidelijkt (art. 6, leden 1 bis/1 ter): componenten die uitsluitend dienen voor gebruikersassistentie, prestatie-optimalisatie, efficiëntie, automatisering, gemak of kwaliteitscontrole zijn géén veiligheidscomponent, tenzij falen de gezondheid of veiligheid in gevaar brengt."
+          ],
           "refs": [
+            { "label": "Bijlage I", "href": "/bijlage/i" },
             { "label": "Art. 6, lid 1", "href": "/artikel/6#lid-1" },
             { "label": "Art. 6 (omnibus-diff)", "href": "/artikel/6?diff=1" }
           ],
@@ -449,7 +477,16 @@
         {
           "id": "7.1",
           "text": "Biometrie (voor zover niet verboden): biometrische identificatie op afstand, biometrische categorisatie naar gevoelige kenmerken, of emotieherkenning?",
-          "help": "Let op samenloop met art. 5 (module 5) en art. 50, lid 3 (module 13).",
+          "help": [
+            "Binnen scope: biometrische identificatie op afstand (1-op-veel herkenning), biometrische categorisering naar gevoelige kenmerken en emotieherkenning — voor zover niet al verboden door art. 5.",
+            {
+              "bullets": [
+                "Erbinnen: gezichtsherkenning die personen op camerabeelden matcht tegen een databank; software die emoties van klanten of medewerkers afleidt uit gezicht of stem.",
+                "Erbuiten: zuivere biometrische verificatie/authenticatie — 1-op-1 bevestigen dat iemand is wie die beweert te zijn (bijv. telefoon ontgrendelen, toegangspoortje met eigen badge en gezicht)."
+              ]
+            },
+            "Let op samenloop met de verboden praktijken (art. 5, module 5) en de transparantieplicht van art. 50, lid 3 (module 13)."
+          ],
           "refs": [{ "label": "Bijlage III, punt 1", "href": "/bijlage/iii" }],
           "answerType": "janee",
           "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
@@ -459,12 +496,30 @@
           "text": "Kritieke infrastructuur: veiligheidscomponent in het beheer/de exploitatie van kritieke digitale infrastructuur, wegverkeer, of levering van water, gas, verwarming of elektriciteit?",
           "refs": [{ "label": "Bijlage III, punt 2", "href": "/bijlage/iii" }],
           "answerType": "janee",
-          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }],
+          "help": [
+            "Alleen AI die als veiligheidscomponent fungeert in het beheer of de exploitatie van kritieke digitale infrastructuur, wegverkeer of de levering van water, gas, verwarming en elektriciteit.",
+            {
+              "bullets": [
+                "Erbinnen: AI die netbelasting of drukregeling stuurt, verkeerslichten of tunnelveiligheid regelt, of storingen in kritieke systemen autonoom afhandelt.",
+                "Erbuiten: kantoor-IT, klantportalen of planningstools van een nutsbedrijf; cybersecuritymonitoring zonder directe veiligheidsfunctie in het proces."
+              ]
+            }
+          ]
         },
         {
           "id": "7.3",
           "text": "Onderwijs en beroepsopleiding: toegang/toelating, evaluatie van leerresultaten, niveaubepaling of examentoezicht?",
-          "help": "Ook relevant bij interne opleidingsplatforms met geautomatiseerde beoordeling.",
+          "help": [
+            "Gaat om beslissingen met gevolgen voor iemands onderwijsloopbaan: toegang/toelating, beoordeling van leerresultaten, niveaubepaling en detectie van ongeoorloofd gedrag bij examens.",
+            {
+              "bullets": [
+                "Erbinnen: geautomatiseerde selectie bij toelating, AI-nakijken/beoordelen met cijfergevolg, plaatsingsadviezen, online proctoring.",
+                "Erbuiten: roosterplanning, adaptieve oefenstof zonder beoordelingsgevolg, administratieve LMS-functies."
+              ]
+            },
+            "Ook relevant bij interne opleidingsplatforms met geautomatiseerde beoordeling."
+          ],
           "refs": [{ "label": "Bijlage III, punt 3", "href": "/bijlage/iii" }],
           "answerType": "janee",
           "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
@@ -472,7 +527,16 @@
         {
           "id": "7.4",
           "text": "Werkgelegenheid en personeelsbeheer: werving/selectie (gerichte vacatures, screening/filtering van sollicitaties, beoordeling kandidaten) of besluiten over promotie, beëindiging of taakallocatie op basis van gedrag of persoonskenmerken, dan wel monitoring/evaluatie van prestaties en gedrag?",
-          "help": "Kerncategorie voor HR-tooling (ATS met ranking, cv-screening, performance-analytics).",
+          "help": [
+            "Gaat om besluiten of monitoring met gevolgen voor (kandidaat-)werknemers of zzp'ers in de werkrelatie.",
+            {
+              "bullets": [
+                "Erbinnen: gerichte vacature-targeting, cv-screening en ranking van kandidaten (ATS), besluiten over promotie, ontslag of taakallocatie, en prestatie- en gedragsmonitoring.",
+                "Erbuiten: salaris- en verlofadministratie, generieke agenda- of schrijfassistentie zonder personele besluitvorming."
+              ]
+            },
+            "Kerncategorie voor HR-tooling (ATS met ranking, cv-screening, performance-analytics)."
+          ],
           "refs": [{ "label": "Bijlage III, punt 4", "href": "/bijlage/iii" }],
           "answerType": "janee",
           "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
@@ -480,7 +544,15 @@
         {
           "id": "7.5a",
           "text": "Essentiële publieke diensten: gebruikt door of namens overheidsinstanties om aanspraak op essentiële publieke uitkeringen/diensten te beoordelen (toekennen, verminderen, intrekken of terugvorderen)?",
-          "help": "Ook relevant voor private partijen die dit namens een overheidsorgaan uitvoeren.",
+          "help": [
+            "De poort is 'door of namens overheidsinstanties': ook private partijen die de beoordeling namens een bestuursorgaan uitvoeren vallen erbinnen; puur private dienstverlening zonder publiek mandaat valt erbuiten.",
+            {
+              "bullets": [
+                "Erbinnen: AI die aanspraak op uitkeringen, toeslagen of zorg beoordeelt, toekent, vermindert of terugvordert — ook uitbesteed.",
+                "Erbuiten: private diensten zonder publiek mandaat (commerciële abonnementen, webshops)."
+              ]
+            }
+          ],
           "refs": [{ "label": "Bijlage III, punt 5", "href": "/bijlage/iii" }],
           "answerType": "janee",
           "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
@@ -488,7 +560,16 @@
         {
           "id": "7.5b",
           "text": "Kredietwaardigheid: beoordeling van kredietwaardigheid of vaststelling van de kredietscore van natuurlijke personen? (Uitzondering: systemen uitsluitend voor detectie van financiële fraude.)",
-          "help": "Kerncategorie voor kredietverstrekkers en -beheerders; leg de fraudedetectie-uitzondering strikt uit en documenteer die.",
+          "help": [
+            "Gaat om kredietwaardigheid en kredietscores van natuurlijke personen (consumenten, eenmanszaken).",
+            {
+              "bullets": [
+                "Erbinnen: kredietscoremodellen, acceptatie- en limietbeslissingen voor consumptief of hypothecair krediet.",
+                "Erbuiten: systemen uitsluitend voor detectie van financiële fraude (strikt uitleggen en documenteren); kredietbeoordeling van rechtspersonen/zakelijke tegenpartijen."
+              ]
+            },
+            "Kerncategorie voor kredietverstrekkers en -beheerders; leg de fraudedetectie-uitzondering strikt uit en documenteer die."
+          ],
           "refs": [{ "label": "Bijlage III, punt 5", "href": "/bijlage/iii" }],
           "answerType": "janee",
           "effects": [
@@ -504,6 +585,15 @@
           "effects": [
             { "when": "ja", "setFlag": "annex3_kandidaat" },
             { "when": "ja", "setFlag": "fria_categorie" }
+          ],
+          "help": [
+            "Alleen levens- en ziektekostenverzekeringen van natuurlijke personen; de categorie ziet op risicobeoordeling en prijsstelling.",
+            {
+              "bullets": [
+                "Erbinnen: AI die premies of acceptatie bepaalt voor levens- of ziektekostenverzekeringen van natuurlijke personen.",
+                "Erbuiten: schadeverzekeringen (auto, inboedel, reis), claimafhandeling zonder risk-pricing, zakelijke verzekeringen."
+              ]
+            }
           ]
         },
         {
@@ -511,28 +601,64 @@
           "text": "Noodhulp: evaluatie/classificatie van noodoproepen of prioritering van de inzet van hulpdiensten (incl. triage in acute gezondheidszorg)?",
           "refs": [{ "label": "Bijlage III, punt 5", "href": "/bijlage/iii" }],
           "answerType": "janee",
-          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }],
+          "help": [
+            "Gaat om acute hulpverlening: classificatie en prioritering onder tijdsdruk met potentieel levensgevolg.",
+            {
+              "bullets": [
+                "Erbinnen: classificatie/prioritering van noodoproepen (112), dispatch van politie/brandweer/ambulance, triage in de acute gezondheidszorg.",
+                "Erbuiten: reguliere (niet-acute) zorgplanning, afsprakensystemen, capaciteitsplanning zonder noodkarakter."
+              ]
+            }
+          ]
         },
         {
           "id": "7.6",
           "text": "Rechtshandhaving (gebruik door of namens rechtshandhavingsinstanties, o.a. risicotaxatie, bewijswaardering, profilering)?",
           "refs": [{ "label": "Bijlage III, punt 6", "href": "/bijlage/iii" }],
           "answerType": "janee",
-          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }],
+          "help": [
+            "De poort is gebruik 'door of namens' rechtshandhavingsinstanties (voor zover toegestaan door Unie- of nationaal recht).",
+            {
+              "bullets": [
+                "Erbinnen: risicotaxatie van (potentiële) daders of slachtoffers, beoordeling van de betrouwbaarheid van bewijs, profilering bij opsporing — ook door private partijen namens zo'n instantie.",
+                "Erbuiten: vergelijkbare techniek bij private partijen zonder rechtshandhavingsmandaat (bijv. interne fraudeteams zonder opsporingsbevoegdheid)."
+              ]
+            }
+          ]
         },
         {
           "id": "7.7",
           "text": "Migratie, asiel en grensbeheer?",
           "refs": [{ "label": "Bijlage III, punt 7", "href": "/bijlage/iii" }],
           "answerType": "janee",
-          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }],
+          "help": [
+            "De poort is gebruik 'door of namens' bevoegde autoriteiten (of Unie-instellingen) op het gebied van migratie, asiel en grenstoezicht.",
+            {
+              "bullets": [
+                "Erbinnen: risicobeoordelingen van reizigers, ondersteuning bij asiel-/visum-/verblijfsaanvragen, detectie/identificatie van personen bij grenstoezicht (behalve verificatie van reisdocumenten).",
+                "Erbuiten: dezelfde techniek buiten een overheidsmandaat, bijv. commerciële reisplanning of KYC bij een bank."
+              ]
+            }
+          ]
         },
         {
           "id": "7.8",
           "text": "Rechtsbedeling en democratische processen (ondersteuning rechterlijke autoriteiten; beïnvloeding van verkiezingen/stemgedrag)?",
           "refs": [{ "label": "Bijlage III, punt 8", "href": "/bijlage/iii" }],
           "answerType": "janee",
-          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }]
+          "effects": [{ "when": "ja", "setFlag": "annex3_kandidaat" }],
+          "help": [
+            "Twee poorten: ondersteuning van rechterlijke autoriteiten (of alternatieve geschilbeslechting met rechtsgevolg) bij feitenonderzoek, rechtsuitleg en -toepassing, én systemen bedoeld om de uitslag van verkiezingen/referenda of stemgedrag te beïnvloeden.",
+            {
+              "bullets": [
+                "Erbinnen: AI die rechters of geschilbeslechters inhoudelijk ondersteunt bij het beoordelen van feiten of het toepassen van het recht; gerichte politieke micro-targeting om stemgedrag te beïnvloeden.",
+                "Erbuiten: zuiver administratieve gerechtsautomatisering (anonimiseren, plannen, documentbeheer); campagne-tools voor logistiek of interne organisatie."
+              ]
+            }
+          ]
         }
       ]
     },
@@ -592,7 +718,9 @@
           "id": "8.6",
           "text": "Vormt het systeem, alles afwegend, géén significant risico voor de gezondheid, veiligheid of grondrechten en beïnvloedt het de uitkomst van besluitvorming niet wezenlijk?",
           "refs": [{ "label": "Art. 6, lid 3", "href": "/artikel/6#lid-3" }],
-          "showIf": { "all": [{ "not": { "flag": "profilering" } }, { "flag": "escape_conditie" }] },
+          "showIf": {
+            "all": [{ "not": { "flag": "profilering" } }, { "flag": "escape_conditie" }]
+          },
           "answerType": "janee",
           "effects": [{ "when": "ja", "setFlag": "escape_geen_risico" }]
         },
@@ -1002,11 +1130,12 @@
         {
           "id": "12.6",
           "text": "Bij systeemrisico (vermoeden vanaf 10^25 FLOPs): zijn melding aan de Commissie, modelevaluaties incl. adversarial testing, risicobeoordeling en -mitigatie, incidentrapportage en passende cyberbeveiliging ingericht?",
-          "help": "Overweeg aansluiting bij de GPAI Code of Practice als nalevingsinstrument.",
+          "help": "Aansluiting bij de GPAI-praktijkcode is de eenvoudigste, door het AI-bureau erkende manier om naleving van art. 53 en 55 aan te tonen; zonder ondertekening moet naleving op andere, zelf te onderbouwen wijze worden aangetoond. Zie de uitlegpagina.",
           "refs": [
             { "label": "Art. 51", "href": "/artikel/51" },
             { "label": "Art. 55", "href": "/artikel/55" },
-            { "label": "Art. 56", "href": "/artikel/56" }
+            { "label": "Art. 56", "href": "/artikel/56" },
+            { "label": "GPAI-praktijkcode (uitleg)", "href": "/gpai-praktijkcode" }
           ],
           "answerType": "janeenvt",
           "obligation": true
@@ -1066,8 +1195,25 @@
         {
           "id": "13.5",
           "text": "Zijn de uitzonderingen correct toegepast en wordt de informatie duidelijk, uiterlijk bij het eerste contact of de eerste blootstelling verstrekt?",
-          "help": "Documenteer de wijze van informeren (interface-teksten, disclaimers, markeringen).",
-          "refs": [{ "label": "Art. 50, lid 5", "href": "/artikel/50#lid-5" }],
+          "help": [
+            "Timing (lid 5): de informatie moet duidelijk herkenbaar en uiterlijk bij de eerste interactie of blootstelling worden verstrekt. De uitzonderingen per lid:",
+            {
+              "bullets": [
+                "Lid 1 (interactie met AI, chatbots): niet vereist als het voor een normaal geïnformeerde, omzichtige persoon uit de context duidelijk is dat die met AI communiceert; uitzondering ook voor wettelijk toegestane opsporing en rechtshandhaving.",
+                "Lid 2 (markeren van synthetische content): geldt niet voor AI die slechts een ondersteunende of standaardbewerkingsfunctie vervult en de input niet wezenlijk verandert, en niet bij wettelijk toegestane rechtshandhaving.",
+                "Lid 3 (emotieherkenning / biometrische categorisering): de informatieplicht geldt niet voor wettelijk toegestane rechtshandhavingstoepassingen.",
+                "Lid 4 (deepfakes en gepubliceerde tekst): uitzondering voor rechtshandhaving; bij kennelijk artistieke, creatieve of satirische werken volstaat een lichtere, niet-storende vermelding; voor AI-gegenereerde tekst over zaken van algemeen belang vervalt de plicht bij menselijke controle en redactionele verantwoordelijkheid."
+              ]
+            },
+            "Documenteer per ingeroepen uitzondering waarom die van toepassing is (interface-teksten, disclaimers, markeringen)."
+          ],
+          "refs": [
+            { "label": "Art. 50, lid 1", "href": "/artikel/50#lid-1" },
+            { "label": "Art. 50, lid 2", "href": "/artikel/50#lid-2" },
+            { "label": "Art. 50, lid 3", "href": "/artikel/50#lid-3" },
+            { "label": "Art. 50, lid 4", "href": "/artikel/50#lid-4" },
+            { "label": "Art. 50, lid 5", "href": "/artikel/50#lid-5" }
+          ],
           "showIf": {
             "any": [
               { "flag": "transparantie_lid1" },
@@ -1340,7 +1486,11 @@
     { "id": "fria_status", "label": "FRIA vereist / status", "source": "d:fria" },
     { "id": "dpia", "label": "DPIA vereist / status", "source": "q:15.2" },
     { "id": "art22", "label": "Art. 22 AVG relevant", "source": "q:15.3" },
-    { "id": "transparantie", "label": "Transparantie art. 50 (leden)", "source": "d:transparantie" },
+    {
+      "id": "transparantie",
+      "label": "Transparantie art. 50 (leden)",
+      "source": "d:transparantie"
+    },
     { "id": "databank", "label": "EU-databankregistratie (art. 49)", "source": "d:databank" },
     { "id": "ce", "label": "CE-markering / conformiteitsverklaring", "source": "d:ce" },
     { "id": "toezicht", "label": "Menselijk toezicht belegd bij", "source": "q:9.4" },

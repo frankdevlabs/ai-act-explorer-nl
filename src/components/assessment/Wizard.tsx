@@ -7,7 +7,7 @@ import { AlertTriangle, ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react
 import { getQuestionnaire } from "@/lib/assessment/data";
 import { computeVisibility, evaluate } from "@/lib/assessment/engine";
 import { setAnswer, useAssessments } from "@/lib/assessment/store";
-import type { Module, Question } from "@/lib/assessment/types";
+import type { HelpContent, Module, Question } from "@/lib/assessment/types";
 import { OmnibusBadge, Panel, RefRow, type Previews } from "./shared";
 
 function useMounted(): boolean {
@@ -75,6 +75,26 @@ function AnswerInput({
   );
 }
 
+/** Editorial help/intro: a plain string or a sequence of paragraphs and bullet lists. */
+function HelpText({ content, className }: { content: HelpContent; className: string }) {
+  const blocks = typeof content === "string" ? [content] : content;
+  return (
+    <div className={className}>
+      {blocks.map((b, i) =>
+        typeof b === "string" ? (
+          <p key={i}>{b}</p>
+        ) : (
+          <ul key={i} className="list-disc space-y-1 pl-5">
+            {b.bullets.map((li, j) => (
+              <li key={j}>{li}</li>
+            ))}
+          </ul>
+        ),
+      )}
+    </div>
+  );
+}
+
 function ModuleStep({
   module,
   answers,
@@ -91,7 +111,7 @@ function ModuleStep({
   const questions = module.questions.filter((q) => visibleQuestions.has(q.id));
   return (
     <div className="space-y-4">
-      {module.intro && <p className="text-sm text-muted">{module.intro}</p>}
+      {module.intro && <HelpText content={module.intro} className="space-y-1.5 text-sm text-muted" />}
       {module.omnibus && (
         <OmnibusBadge appliesFrom={module.omnibus.appliesFrom} note={module.omnibus.note} />
       )}
@@ -110,7 +130,9 @@ function ModuleStep({
               <span className="mr-2 font-mono text-xs text-muted">{q.id}</span>
               {q.text}
             </p>
-            {q.help && <p className="mt-1 text-xs leading-relaxed text-muted">{q.help}</p>}
+            {q.help && (
+              <HelpText content={q.help} className="mt-1 space-y-1.5 text-xs leading-relaxed text-muted" />
+            )}
             <RefRow refs={q.refs} previews={previews} />
             {q.omnibus && (
               <OmnibusBadge appliesFrom={q.omnibus.appliesFrom} note={q.omnibus.note} />

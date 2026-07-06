@@ -12,6 +12,11 @@ export interface QRef {
   href: string;
 }
 
+/** One help block: a paragraph or a bullet list. */
+export type HelpBlock = string | { bullets: string[] };
+/** Editorial guidance: a plain paragraph or a sequence of paragraphs/lists. */
+export type HelpContent = string | HelpBlock[];
+
 /**
  * Visibility/derivation condition. `flag` tests a derived flag (set by
  * QEffect or by the engine); `answer` tests a raw answer value.
@@ -37,7 +42,7 @@ export interface Question {
   id: string;
   text: string;
   /** Editorial guidance shown under the question. */
-  help?: string;
+  help?: HelpContent;
   refs?: QRef[];
   answerType: AnswerType;
   options?: { value: string; label: string }[];
@@ -61,7 +66,7 @@ export interface Module {
   id: string;
   nr: number;
   title: string;
-  intro?: string;
+  intro?: HelpContent;
   refs?: QRef[];
   showIf?: QCondition;
   /** Only relevant for financial entities (DORA/Wft toggle). */

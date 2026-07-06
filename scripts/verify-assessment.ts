@@ -127,6 +127,8 @@ const annexRomans = new Set([
   ...amendments.newAnnexes.map((a) => a.roman.toLowerCase()),
 ]);
 const recitalNumbers = new Set(recitals.map((r) => r.number));
+/** Curated internal info pages the questionnaire may link to (exact match, no fragments). */
+const internalPages = new Set(["/gpai-praktijkcode"]);
 
 function checkRef(owner: string, href: string): void {
   const [pathWithQuery, fragment] = href.split("#");
@@ -156,6 +158,10 @@ function checkRef(owner: string, href: string): void {
   const rct = path.match(/^\/overweging\/(\d+)$/);
   if (rct) {
     assert.ok(recitalNumbers.has(Number(rct[1])), `${owner}: overweging ${rct[1]} bestaat`);
+    return;
+  }
+  if (internalPages.has(path)) {
+    assert.ok(!fragment, `${owner}: geen fragmenten op interne pagina's (${href})`);
     return;
   }
   assert.fail(`${owner}: onbekend ref-pad ${href}`);
