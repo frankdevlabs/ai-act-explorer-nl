@@ -219,12 +219,14 @@ export function Wizard({ previews }: { previews: Previews }) {
         {visibleModules.map((m) => {
           const done = moduleDone(m);
           const current = m.id === active.id;
+          const visible = m.questions.filter((q) => ctx.visibleQuestions.has(q.id));
+          const answered = visible.filter((q) => (answers[q.id] ?? "") !== "").length;
           return (
             <button
               key={m.id}
               type="button"
               onClick={() => setActiveModuleId(m.id)}
-              title={m.title}
+              title={`${m.title} — ${answered}/${visible.length} beantwoord`}
               className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs ${
                 current
                   ? "border-accent bg-accent/10 font-medium text-accent"

@@ -64,3 +64,28 @@ omnibus is published in the OJ and the amendment layer is re-parsed from
 CELEX, re-check the dated badges and the timeline entries in
 `engine.ts`/`assessment-v1.json` (grep for `2027-12-02`, `2028-08-02`,
 `2026-12-02`).
+
+## 2026-07 expansion (audit-grade depth)
+
+The questionnaire grew from 18 modules / ~129 questions to **25 modules /
+~205 questions** (33 register columns):
+
+- Provider path split per requirement-element: m11 (art. 8–10, ids `11.20+`),
+  m19 (art. 11–13), m20 (art. 14–15), m21 (art. 16–21 + 25(2)/(4)), m22
+  (conformity: art. 40–49 incl. `conf_route` choice + `conf_notified`/
+  `norm_toegepast` flags), m23 (art. 72–73).
+- New m24 value chain (art. 22–24; gemachtigde/importeur/distributeur, gated
+  per role; `11.17` moved here unchanged) and m25 downstream-GPAI ("mag ik
+  model X gebruiken?" — bijlage XII docs, contract terms, systemic-risk
+  supplier check, art. 111(3) transition).
+- m9/m10/m12/m13 deepened per lid (26(10), 27(1)(a)–(f), 55(1)(a)–(d) split,
+  50(1)–(4) obligations); m4 gained 4.8/4.9 (`rol_gemachtigde`,
+  `aanbieder_derde_land`).
+- Retired ids live in `RETIRED_IDS` in the verify script — never reuse them
+  (stale localStorage answers would silently pre-answer new questions).
+  Module `nr` is display-only and no longer matches question-id prefixes.
+- `derived.ce`/`derived.databank` now read `22.7`/`22.8` (fallback 9.1/9.2);
+  fixtures VB-003 (provider) and VB-004 (importeur) added; COLUMN_DOC is now
+  verified for completeness.
+- Editorial explainers `/conformiteitsbeoordeling` and `/transparantie-art50`
+  added to the `internalPages` allowlist (329 static pages).

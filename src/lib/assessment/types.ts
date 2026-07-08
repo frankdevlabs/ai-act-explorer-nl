@@ -38,7 +38,13 @@ export interface QEffect {
 export type AnswerType = "janee" | "janeenvt" | "choice" | "text";
 
 export interface Question {
-  /** Stable id, mirrors the source workbook numbering ("5.1", "11.14"). */
+  /**
+   * Stable id ("5.1", "11.20"). The numeric prefix is historical (source
+   * workbook numbering) and need not match the displayed module number.
+   * Ids of stored answers persist in users' localStorage: never reuse a
+   * retired id with different semantics (see RETIRED_IDS in the verify
+   * script).
+   */
   id: string;
   text: string;
   /** Editorial guidance shown under the question. */

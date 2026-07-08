@@ -188,29 +188,39 @@ export function Outcome({ previews }: { previews: Previews }) {
           <div className="space-y-4">
             {questionnaire.modules
               .filter((m) => byModule.has(m.id))
-              .map((m) => (
-                <div key={m.id}>
-                  <h3 className="mb-2 text-xs font-semibold text-muted">
-                    Module {m.nr} — {m.title}
-                  </h3>
-                  <ul className="space-y-2">
-                    {byModule.get(m.id)!.map((o) => (
-                      <li key={o.questionId} className="flex items-start gap-3 text-sm">
-                        <span
-                          className={`mt-0.5 w-28 shrink-0 rounded border px-1.5 py-0.5 text-center text-[10px] font-medium ${STATUS_STYLE[o.status]}`}
-                        >
-                          {STATUS_LABEL[o.status]}
-                        </span>
-                        <span className="min-w-0 break-words">
-                          <span className="mr-2 font-mono text-xs text-muted">{o.questionId}</span>
-                          {o.text}
-                          <RefRow refs={o.refs} previews={previews} />
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+              .map((m) => {
+                const items = byModule.get(m.id)!;
+                const needsAttention = items.some(
+                  (o) => o.status === "actie" || o.status === "open",
+                );
+                const summary = `${items.filter((o) => o.status === "voldaan").length} voldaan · ${
+                  items.filter((o) => o.status === "actie").length
+                } actie · ${items.filter((o) => o.status === "open").length} open`;
+                return (
+                  <details key={m.id} open={needsAttention}>
+                    <summary className="cursor-pointer text-xs font-semibold text-muted">
+                      Module {m.nr} — {m.title}{" "}
+                      <span className="ml-1 font-normal">({summary})</span>
+                    </summary>
+                    <ul className="mt-2 space-y-2">
+                      {items.map((o) => (
+                        <li key={o.questionId} className="flex items-start gap-3 text-sm">
+                          <span
+                            className={`mt-0.5 w-28 shrink-0 rounded border px-1.5 py-0.5 text-center text-[10px] font-medium ${STATUS_STYLE[o.status]}`}
+                          >
+                            {STATUS_LABEL[o.status]}
+                          </span>
+                          <span className="min-w-0 break-words">
+                            <span className="mr-2 font-mono text-xs text-muted">{o.questionId}</span>
+                            {o.text}
+                            <RefRow refs={o.refs} previews={previews} />
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                );
+              })}
           </div>
         </Panel>
       )}

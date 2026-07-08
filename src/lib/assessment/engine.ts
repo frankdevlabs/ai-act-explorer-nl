@@ -232,6 +232,7 @@ export function evaluate(
   if (flags.has("rol_deployer")) rollen.push("Gebruiksverantwoordelijke (deployer)");
   if (flags.has("rol_importeur")) rollen.push("Importeur");
   if (flags.has("rol_distributeur")) rollen.push("Distributeur");
+  if (flags.has("rol_gemachtigde")) rollen.push("Gemachtigde");
 
   const transparantieLeden: string[] = [];
   if (flags.has("transparantie_lid1")) transparantieLeden.push("lid 1");
@@ -285,10 +286,10 @@ export function evaluate(
         : "Niet vereist",
     transparantie: transparantieLeden.length > 0 ? transparantieLeden.join(", ") : "N.v.t.",
     databank: answerLabel(
-      questionById(questionnaire, "11.15") as Question,
-      answers["11.15"],
+      questionById(questionnaire, "22.8") as Question,
+      answers["22.8"],
     ) || answerLabel(questionById(questionnaire, "9.2") as Question, answers["9.2"]) || (flags.has("hoogrisico") ? "" : "N.v.t."),
-    ce: answerLabel(questionById(questionnaire, "11.14") as Question, answers["11.14"]) ||
+    ce: answerLabel(questionById(questionnaire, "22.7") as Question, answers["22.7"]) ||
       answerLabel(questionById(questionnaire, "9.1") as Question, answers["9.1"]) ||
       (flags.has("hoogrisico") ? "" : "N.v.t."),
     openacties:

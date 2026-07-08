@@ -6,10 +6,11 @@ description: Verify the app end-to-end on this VPS - build, curl smoke checks, a
 # Verify the app
 
 **Expectations in this skill are living.** Page counts, parse counts and the
-check list change with nearly every epic (313 → 321 → 325 → 327 pages so far;
-epic 7 added /assessment, /assessment/vragenlijst, /assessment/resultaat and
-/register; /gpai-praktijkcode added after epic 7). Update them in the same
-commit as the feature; a mismatch usually
+check list change with nearly every epic (313 → 321 → 325 → 327 → 329 pages so
+far; epic 7 added /assessment, /assessment/vragenlijst, /assessment/resultaat
+and /register; /gpai-praktijkcode added after epic 7; the assessment expansion
+(2026-07) added /conformiteitsbeoordeling and /transparantie-art50). Update
+them in the same commit as the feature; a mismatch usually
 means this skill is stale, not that the app is broken — check `git log` before
 debugging.
 
@@ -23,8 +24,9 @@ Must end green: `parse` logs counts (expect `113 articles, 180 recitals,
 13 annexes, 13 chapters, ... search docs` plus `parse-amendments: 76
 instructions, 36 amended articles, 6 new articles, 1 new annexes ...
 (complete=true)`), `verify` prints `verify-data: all assertions passed` and
-`verify-amendments: all assertions passed`, `next build` exports ~327 static
-pages, `verify` also prints `verify-assessment: all assertions passed` (epic 7).
+`verify-amendments: all assertions passed`, `next build` exports ~329 static
+pages, `verify` also prints `verify-assessment: all assertions passed` (epic 7;
+since the 2026-07 expansion: 25 modules, ~205 vragen, 33 registerkolommen).
 
 ## 2. Dev server + curl smoke checks
 
