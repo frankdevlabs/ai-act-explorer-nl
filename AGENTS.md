@@ -12,7 +12,9 @@ site (~320 pages; exact expectation pinned in the `verify-app` skill). Search
 is client-side (MiniSearch over a build-time corpus).
 
 Deep dive: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Repeatable
-procedures: `.claude/skills/` (`update-source`, `verify-app`).
+procedures: `.claude/skills/` (`plan-an-epic` — the working method,
+`update-source`, `extend-parser`, `transcribe-amendments`,
+`curate-recital-map`, `verify-app`).
 
 ## Golden rules
 
