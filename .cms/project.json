@@ -1,0 +1,25 @@
+{
+  "id": "aiact",
+  "title": "AI Act Explorer NL",
+  "commands": {
+    "parse": "npm run parse",
+    "verifyAll": "npm run verify"
+  },
+  "layers": [
+    {
+      "id": "recital-map",
+      "title": "Recital–artikel-map",
+      "file": "data/source/recital-article-map.json",
+      "schema": "recital-map-flat-v1",
+      "format": { "indent": 2 },
+      "verify": "npm run parse && npm run verify:recital-map",
+      "context": {
+        "recitals": "data/generated/recitals.json",
+        "articles": "data/generated/articles.json"
+      },
+      "generated": [
+        "data/generated/recital-map.json"
+      ]
+    }
+  ]
+}
