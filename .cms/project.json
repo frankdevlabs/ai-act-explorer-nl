@@ -19,7 +19,10 @@
       },
       "generated": [
         "data/generated/recital-map.json"
-      ]
+      ],
+      "pin": {
+        "script": "scripts/verify-recital-map.ts"
+      }
     }
   ]
 }
