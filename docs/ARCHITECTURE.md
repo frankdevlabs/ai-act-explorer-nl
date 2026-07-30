@@ -342,6 +342,7 @@ corpus to Claude clients; the site build never sees it. Full reference:
 | `npm run parse` | after changing parser code, source HTML, or the amendment transcription | regenerates `data/generated/*` + `public/*-search-docs.json` (commit together with the change — golden rule 4) |
 | `npm run verify` | automatically before every build; run standalone while iterating | hard assertions; update pins only deliberately (golden rule 3) |
 | `npm run build` | before deploying | parse → verify → static export in `out/` |
+| `npm run verify:mcp` | after changing `mcp/src/*` or regenerating data | rebuilds `mcp/dist`, then drives the stdio server: tool inventory pin, one call per tool, deep-link + size assertions (`scripts/verify-mcp.ts`). Standalone — needs `mcp/node_modules`, so it is not in the build chain |
 | `scripts/deploy-site.sh` | publish the site | build + rsync `out/` → `/var/www/aia.mrfrank.dev` + nginx reload (needs sudo) |
 | MCP restart (systemd unit / tmux, see `mcp/README.md`) | after any data regeneration reaches `main` | picks up new JSON (loaded at startup only) |
 | `.claude/skills/update-source` | new consolidated version on EUR-Lex | fetch → re-parse → corpus diff → assertion updates |

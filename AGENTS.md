@@ -76,6 +76,7 @@ parser. Both are WAF-blocked on EUR-Lex; fetch new versions via
 |---|---|
 | `scripts/parse-aiact.ts` | HTML → JSON parser, both dialects; the heart of the repo |
 | `scripts/verify-data.ts` | pre-build completeness assertions (counts, structure, spot-checks) |
+| `scripts/verify-mcp.ts` | MCP smoke test: tool inventory + per-tool call, deep links, result-size ceiling |
 | `src/lib/types.ts` | shared data model (ContentNode, Article, SearchDoc, …) |
 | `src/lib/data.ts` | typed accessors + prev/next navigation over generated JSON |
 | `src/lib/search.ts` | MiniSearch index (lazy singleton), Dutch normalization, snippets |
@@ -97,7 +98,10 @@ parser. Both are WAF-blocked on EUR-Lex; fetch new versions via
   Set/Map); derive UI state during render, not in effects. Details:
   ARCHITECTURE.md, "Frontend notes".
 - UI language is Dutch; code, comments, and docs are English.
-- No test framework; verification = `verify-data.ts` + `verify-search.ts` (golden search queries; update entries consciously, never delete to pass) + the `verify-app` skill.
+- No test framework; verification = `verify-data.ts` + `verify-search.ts` (golden
+  search queries; update entries consciously, never delete to pass) +
+  `verify-mcp.ts` (`npm run verify:mcp` — standalone, not in the build chain:
+  it needs `mcp/node_modules` + a fresh `mcp` build) + the `verify-app` skill.
 
 ## Environment (this VPS)
 
