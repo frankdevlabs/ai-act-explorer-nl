@@ -1,8 +1,14 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { Amendment } from "../../src/lib/types.js";
-import type { RiskClass, RoleFlag } from "../../src/lib/assessment/types.js";
-import { obligationCatalog } from "../../src/lib/assessment/engine.js";
+import type {
+  HelpContent,
+  Module,
+  QRef,
+  RiskClass,
+  RoleFlag,
+} from "../../src/lib/assessment/types.js";
+import { obligationCatalog, unresolvedConditions } from "../../src/lib/assessment/engine.js";
 import { PRECISION_SEARCH_OPTIONS, makeSnippet, searchDocs } from "../../src/lib/search-core.js";
 import {
   BASE_URL,
@@ -59,6 +65,31 @@ const omnibusSlugs = () => amendments.newArticles.map((a) => a.slug).join(", ");
 function amendmentById(id: string): Amendment | undefined {
   return amendments.amendments.find((a) => `${a.seq}${a.sub ?? ""}` === id);
 }
+
+/** QRef[] → " · "-joined deep links. */
+const refLinks = (refs: QRef[] | undefined) =>
+  (refs ?? []).map((r) => `[${r.label}](${BASE_URL}${r.href})`).join(" · ");
+
+/** HelpContent (paragraph | paragraphs/bullet lists) → markdown lines. */
+function helpLines(help: HelpContent | undefined): string[] {
+  if (!help) return [];
+  const blocks = typeof help === "string" ? [help] : help;
+  return blocks.flatMap((b) => (typeof b === "string" ? [b] : b.bullets.map((li) => `- ${li}`)));
+}
+
+/**
+ * A `showIf` tree, rendered twice: the raw JSON (a claude.ai-side skill must be
+ * able to re-evaluate the gate against an answer blob) and, with no facts at
+ * all, the Dutch phrases the obligation catalog already uses for the same
+ * trees. Both, because either alone is lossy — the gloss flattens all/any/not
+ * to its atoms, which is why the JSON leads.
+ */
+const conditionLine = (cond: NonNullable<Module["showIf"]>) =>
+  `\`${JSON.stringify(cond)}\` — atomen: ${unresolvedConditions(cond, {}).join(" · ")}`;
+
+/** "1 verplichting" / "3 verplichtingen"; Dutch plurals are irregular enough
+ *  that both forms are spelled out at the call site. */
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
 export function createServer(): McpServer {
   const server = new McpServer({ name: "ai-act-explorer-nl", version: "0.1.0" });
@@ -564,6 +595,253 @@ export function createServer(): McpServer {
         "",
         `Zelfbeoordeling met status per verplichting: ${BASE_URL}/assessment`,
       );
+      return text(lines.join("\n"));
+    },
+  );
+
+  // ---------------------------------------------------------------------
+  // Batch 2 (roadmap 2.2): the convenience half — curated layers the corpus
+  // already encodes, served as-is instead of paraphrased from structure.
+
+  server.registerTool(
+    "get_questionnaire",
+    {
+      title: "Zelfbeoordelingsvragenlijst (modules en vragen)",
+      annotations: RO,
+      description:
+        "The curated self-assessment questionnaire behind " +
+        BASE_URL +
+        "/assessment: modules, questions, answer types, visibility conditions and flag effects. " +
+        "Without arguments: the module list. With `module`: that module in full — enough to " +
+        "interpret a stored answer blob without a repo checkout — `showIf` is emitted as raw JSON " +
+        "(authoritative: it carries the all/any/not structure) plus an indicative Dutch gloss of " +
+        "its atoms. There is deliberately no " +
+        "all-modules mode (the questionnaire is ~108 kB of JSON); ask per module. Editorial " +
+        "content: it paraphrases obligations and deep-links to the legal text, which lives in " +
+        "get_article.",
+      inputSchema: {
+        module: z
+          .string()
+          .optional()
+          .describe(
+            'Module id ("m19") or module number ("12"). Resolved by id first, then by number — ' +
+              "the ids are historical and not in module order (m19 is module 12, m12 is module 18).",
+          ),
+      },
+    },
+    async ({ module }) => {
+      const meta = questionnaire.meta;
+      const totalQuestions = questionnaire.modules.reduce((n, m) => n + m.questions.length, 0);
+
+      if (module == null) {
+        const lines = [
+          `# ${meta.title} — versie ${meta.version} (bijgewerkt ${meta.updated})`,
+          "",
+          `${questionnaire.modules.length} modules, ${totalQuestions} vragen. Grondslag: ${meta.basis}`,
+          "",
+          `> ${meta.disclaimer}`,
+          "",
+          'Roep dit tool opnieuw aan met `module` (id of nummer) voor de volledige module. "Voorwaardelijk" = ' +
+            "de module wordt alleen getoond als eerdere antwoorden dat oproepen.",
+          "",
+        ];
+        for (const m of questionnaire.modules) {
+          const flags = [
+            m.showIf ? "voorwaardelijk" : null,
+            m.financeOnly ? "alleen financiële entiteiten" : null,
+            m.omnibus ? "omnibus-annotatie" : null,
+          ].filter(Boolean);
+          const obligations = m.questions.filter((q) => q.obligation).length;
+          lines.push(
+            `- **Module ${m.nr}** \`${m.id}\` — ${m.title} — ` +
+              `${plural(m.questions.length, "vraag", "vragen")}, ${plural(obligations, "verplichting", "verplichtingen")}` +
+              `${flags.length ? ` · ${flags.join(" · ")}` : ""}`,
+          );
+        }
+        lines.push("", `Vragenlijst op de site: ${BASE_URL}/assessment/vragenlijst`);
+        return text(lines.join("\n"));
+      }
+
+      // id before nr: the ids are not in module order, and a caller who names
+      // "m12" means the module with that id, not module 12.
+      const wanted = module.trim().toLowerCase().replace(/^module\s*/, "");
+      const mod =
+        questionnaire.modules.find((m) => m.id.toLowerCase() === wanted) ??
+        questionnaire.modules.find((m) => String(m.nr) === wanted);
+      if (!mod) {
+        return err(
+          `Module "${module}" niet gevonden. Beschikbaar: ` +
+            `${questionnaire.modules.map((m) => `${m.id} (nr ${m.nr})`).join(", ")}.`,
+        );
+      }
+
+      const lines = [`# Module ${mod.nr} \`${mod.id}\` — ${mod.title}`, ""];
+      const obligations = mod.questions.filter((q) => q.obligation).length;
+      lines.push(
+        `${plural(mod.questions.length, "vraag", "vragen")}, ${plural(obligations, "verplichting", "verplichtingen")}.`,
+      );
+      if (mod.showIf) lines.push(`**Zichtbaar als:** ${conditionLine(mod.showIf)}`);
+      if (mod.financeOnly) lines.push("**Alleen relevant voor financiële entiteiten (DORA/Wft).**");
+      if (mod.omnibus) {
+        const from = mod.omnibus.appliesFrom ? ` (vanaf ${mod.omnibus.appliesFrom})` : "";
+        lines.push(`**Omnibus${from}:** ${mod.omnibus.note}`);
+      }
+      if (mod.refs?.length) lines.push(`**Grondslag:** ${refLinks(mod.refs)}`);
+      const intro = helpLines(mod.intro);
+      if (intro.length) lines.push("", ...intro);
+
+      for (const q of mod.questions) {
+        lines.push("", `## Vraag ${q.id}`, "", q.text, "");
+        lines.push(`- **Antwoordtype:** ${q.answerType}`);
+        if (q.options?.length) {
+          lines.push(
+            `- **Opties:** ${q.options.map((o) => `\`${o.value}\` = ${o.label}`).join(" · ")}`,
+          );
+        }
+        if (q.showIf) lines.push(`- **Zichtbaar als:** ${conditionLine(q.showIf)}`);
+        if (q.effects?.length) {
+          lines.push(
+            `- **Effecten:** ${q.effects
+              .map(
+                (e) =>
+                  `bij antwoord ${[e.when].flat().map((w) => `"${w}"`).join("/")} → vlag \`${e.setFlag}\``,
+              )
+              .join(" · ")} \`${JSON.stringify(q.effects)}\``,
+          );
+        }
+        const marks = [
+          q.obligation ? "verplichting" : null,
+          q.prohibition ? "verbod (art. 5) — een 'ja' is een STOP" : null,
+          q.register ? `registerkolom \`${q.register}\`` : null,
+        ].filter(Boolean);
+        if (marks.length) lines.push(`- **Markering:** ${marks.join(" · ")}`);
+        if (q.omnibus) {
+          const from = q.omnibus.appliesFrom ? ` (vanaf ${q.omnibus.appliesFrom})` : "";
+          lines.push(`- **Omnibus${from}:** ${q.omnibus.note}`);
+        }
+        if (q.refs?.length) lines.push(`- **Grondslag:** ${refLinks(q.refs)}`);
+        const help = helpLines(q.help);
+        if (help.length) lines.push("", "**Toelichting:**", ...help);
+      }
+
+      lines.push("", `Vragenlijst op de site: ${BASE_URL}/assessment/vragenlijst`);
+      return text(lines.join("\n"));
+    },
+  );
+
+  server.registerTool(
+    "get_recital_map",
+    {
+      title: "Overwegingenkaart (overweging ↔ artikel)",
+      annotations: RO,
+      description:
+        "The curated recital↔article map: which operative articles a recital motivates, and which " +
+        "recitals bear on an article. Without arguments: the whole map plus its coverage counts. " +
+        "With `article` or `recital` (mutually exclusive): that entry only. This is editorial " +
+        "metadata, not legal text — it never changes the wording of either — and it is still " +
+        'being curated, so a missing entry means "not yet mapped", never "no relevant recital ' +
+        'exists". Use get_recital / get_article for the text itself.',
+      inputSchema: {
+        article: z.string().optional().describe('Article number, e.g. "6" or "75 bis"'),
+        recital: z.coerce
+          .number()
+          .int()
+          .min(1)
+          .max(180)
+          .optional()
+          .describe("Recital number (1–180)"),
+      },
+    },
+    async ({ article, recital }) => {
+      if (article != null && recital != null) {
+        return err(
+          "Geef `article` of `recital`, niet allebei — de kaart is in beide richtingen te bevragen, maar per aanroep in één richting.",
+        );
+      }
+      const caveat =
+        `> Gecureerde redactionele laag: ${recitalMap.meta.pairCount} paren, ` +
+        `${recitalMap.meta.reviewedCount} overwegingen nagelopen, nog niet afgerond ` +
+        `(complete: ${recitalMap.meta.complete}). Een lege lijst betekent "nog niet in kaart ` +
+        'gebracht", niet "geen relevante overweging".';
+      const articleLink = (slug: string) => {
+        const display = amendments.newArticles.find((n) => n.slug === slug)?.displayNumber ?? slug;
+        return `[Artikel ${display}](${BASE_URL}/artikel/${slug})`;
+      };
+
+      if (article != null) {
+        const key = normalizeArticleInput(article);
+        const resolved = resolveArticle(key);
+        if (!resolved) {
+          return err(
+            `Artikel "${article}" niet gevonden. Basisartikelen: 1–113. Omnibus-artikelen: ${omnibusSlugs()}.`,
+          );
+        }
+        const display =
+          resolved.kind === "base" ? String(resolved.article.number) : resolved.spec.displayNumber;
+        const title = resolved.kind === "base" ? resolved.article.title : resolved.spec.title;
+        const nums = recitalMap.byArticle[key] ?? [];
+        return text(
+          [
+            `# Overwegingen bij artikel ${display} — ${title}`,
+            "",
+            caveat,
+            "",
+            nums.length
+              ? `${plural(nums.length, "overweging", "overwegingen")}:\n${nums
+                  .map((n) => `- [Overweging ${n}](${BASE_URL}/overweging/${n})`)
+                  .join("\n")}`
+              : "Nog geen overwegingen in kaart gebracht voor dit artikel.",
+            "",
+            `Artikel: ${BASE_URL}/artikel/${key}`,
+          ].join("\n"),
+        );
+      }
+
+      if (recital != null) {
+        const slugs = recitalMap.byRecital[String(recital)] ?? [];
+        return text(
+          [
+            `# Artikelen bij overweging ${recital}`,
+            "",
+            caveat,
+            "",
+            slugs.length
+              ? `${plural(slugs.length, "artikel", "artikelen")}: ${slugs.map(articleLink).join(" · ")}`
+              : "Deze overweging is nog niet aan artikelen gekoppeld.",
+            "",
+            `Overweging: ${BASE_URL}/overweging/${recital}`,
+          ].join("\n"),
+        );
+      }
+
+      const mapped = Object.keys(recitalMap.byRecital)
+        .map(Number)
+        .sort((a, b) => a - b);
+      const unmapped: number[] = [];
+      for (let n = 1; n <= toc.recitalCount; n++) {
+        if (!recitalMap.byRecital[String(n)]) unmapped.push(n);
+      }
+      const lines = [
+        `# Overwegingenkaart — ${recitalMap.meta.pairCount} paren`,
+        "",
+        caveat,
+        "",
+        `${mapped.length} van de ${toc.recitalCount} overwegingen zijn in kaart gebracht; ` +
+          `${Object.keys(recitalMap.byArticle).length} artikelen hebben ten minste één overweging.`,
+        "",
+        `Nog niet in kaart gebracht: ${unmapped.length ? unmapped.join(", ") : "geen"}.`,
+        "",
+        "## Overweging → artikelen",
+        "",
+      ];
+      for (const n of mapped) {
+        lines.push(
+          `- [Overweging ${n}](${BASE_URL}/overweging/${n}) → ${recitalMap.byRecital[String(n)]
+            .map(articleLink)
+            .join(" · ")}`,
+        );
+      }
+      lines.push("", `Alle overwegingen: ${BASE_URL}/overwegingen`);
       return text(lines.join("\n"));
     },
   );

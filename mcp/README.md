@@ -19,6 +19,8 @@ Search relevance is identical to the site: both use
 | `get_amendments` | `article?` | omnibus overview or per-article diff |
 | `get_context_pack` | `articles` (1–20, and under the size ceiling) | per article: full text + omnibus status + related recitals, then every referenced recital once |
 | `get_obligations` | `role?`, `riskClass?` | obligation catalog per role/risk class, grouped by module, with deep links |
+| `get_questionnaire` | `module?` | self-assessment module list, or one module in full (questions, answer types, `showIf`, effects) |
+| `get_recital_map` | `article?`, `recital?` | curated recital↔article map: the whole map, or one entry in either direction |
 
 All output is markdown with deep links to `BASE_URL` so Claude can cite.
 Every tool is annotated `readOnlyHint: true` / `openWorldHint: false` — the
@@ -34,6 +36,20 @@ risk class — and never a compliance status, which is a function of a concrete
 system's answers (`/assessment` computes that). Obligations behind a gate the
 filter cannot decide are returned with a `Voorwaarde:` line rather than
 dropped.
+
+`get_questionnaire` exposes the same curated questionnaire per module, so a
+claude.ai-side skill can interpret a stored answer blob without a repo
+checkout. `module` resolves by id (`"m19"`) first and only then by module
+number (`"12"`): the ids are historical and not in module order (m19 is module
+12, m12 is module 18). There is no all-modules mode — the questionnaire is
+~108 kB of JSON. `showIf` and `effects` are emitted as raw JSON (authoritative;
+they carry the all/any/not structure) plus an indicative Dutch gloss of the
+atoms.
+
+`get_recital_map` serves the curated recital↔article map as-is — editorial
+metadata that never alters legal text, and still being curated, so a missing
+entry means "not yet mapped", never "no relevant recital exists". Every result
+repeats that caveat.
 
 ## Result-size guardrails
 
@@ -96,20 +112,23 @@ printf '%s\n' \
   '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
   '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"get_context_pack","arguments":{"articles":["6","50"]}}}' \
   '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"get_obligations","arguments":{"role":"gebruiksverantwoordelijke","riskClass":"hoogrisico"}}}' \
-  '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_context_pack","arguments":{"articles":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]}}}' \
+  '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_questionnaire","arguments":{"module":"m19"}}}' \
+  '{"jsonrpc":"2.0","id":6,"method":"tools/call","params":{"name":"get_recital_map","arguments":{"article":"6"}}}' \
+  '{"jsonrpc":"2.0","id":7,"method":"tools/call","params":{"name":"get_context_pack","arguments":{"articles":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]}}}' \
   | node dist/mcp/src/stdio.js
 ```
 
-Expect 8 tools, each with `annotations.readOnlyHint: true`; a pack containing
+Expect 10 tools, each with `annotations.readOnlyHint: true`; a pack containing
 both articles, opening with the `> **Omvang:**` banner (it is ~58k characters),
 with an omnibus-status block on article 6 and each recital rendered exactly
 once; modules 9 + 10 in the obligation output with none of the provider
-modules (11, 19–23); and the 21-article call refused with `isError: true` and a
-message naming both 21 and 20.
+modules (11–16); `m19` rendered as *module 12*; a recital list for article 6;
+and the 21-article call refused with `isError: true` and a message naming both
+21 and 20.
 
-`npm run verify:mcp` (from the repo root) asserts all of the above, plus the
-size refusal against a server started with a deliberately tiny
-`MCP_MAX_RESULT_CHARS`.
+The full gate is `npm run verify:mcp` from the repo root — it pins the tool
+inventory, every input schema, and one call per branch, plus the size refusal
+against a server started with a deliberately tiny `MCP_MAX_RESULT_CHARS`.
 
 ## Build
 
@@ -185,7 +204,8 @@ unit and `systemctl --user daemon-reload && systemctl --user restart aiact-mcp`.
 
 The corpus is read **once at startup**. After `npm run parse`, the
 `update-source` skill, **or an edit to `data/questionnaire/assessment-v1.json`**
-(which `get_obligations` reads directly, with no generated derivative):
+(which `get_obligations` and `get_questionnaire` read directly, with no
+generated derivative):
 
 ```sh
 systemctl --user restart aiact-mcp     # remote server
