@@ -1,6 +1,8 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { Amendment } from "../../src/lib/types.js";
+import type { RiskClass, RoleFlag } from "../../src/lib/assessment/types.js";
+import { obligationCatalog } from "../../src/lib/assessment/engine.js";
 import { PRECISION_SEARCH_OPTIONS, makeSnippet, searchDocs } from "../../src/lib/search-core.js";
 import {
   BASE_URL,
@@ -11,6 +13,7 @@ import {
   getRecital,
   index,
   normalizeArticleInput,
+  questionnaire,
   recitalMap,
   resolveArticle,
   slugRank,
@@ -20,6 +23,13 @@ import { renderAnnex, renderArticle, renderSegments, renderText } from "./render
 
 const text = (md: string) => ({ content: [{ type: "text" as const, text: md }] });
 const err = (md: string) => ({ content: [{ type: "text" as const, text: md }], isError: true });
+
+/**
+ * Every tool on this server reads a static corpus and mutates nothing, and no
+ * tool reaches outside it. claude.ai's per-tool controls key off these hints,
+ * so they belong on all tools, not only on new ones.
+ */
+const RO = { readOnlyHint: true, openWorldHint: false } as const;
 
 const omnibusSlugs = () => amendments.newArticles.map((a) => a.slug).join(", ");
 
@@ -34,6 +44,7 @@ export function createServer(): McpServer {
     "search_ai_act",
     {
       title: "Zoek in de AI-verordening",
+      annotations: RO,
       description:
         "Full-text search in the Dutch text of the EU AI Act (Regulation 2024/1689, consolidated) " +
         "plus the digital-omnibus amendment layer. Returns hits with deep links to " +
@@ -70,6 +81,7 @@ export function createServer(): McpServer {
     "get_article",
     {
       title: "Artikel ophalen",
+      annotations: RO,
       description:
         'Full Dutch text of an article. Base articles: "1"–"113". Articles inserted by the ' +
         'digital omnibus: "75 bis", "4bis", etc.',
@@ -103,6 +115,7 @@ export function createServer(): McpServer {
     "get_recital",
     {
       title: "Overweging ophalen",
+      annotations: RO,
       description: "Full Dutch text of a recital (overweging), 1–180.",
       inputSchema: {
         number: z.coerce.number().int().min(1).max(180).describe("Recital number (1–180)"),
@@ -129,6 +142,7 @@ export function createServer(): McpServer {
     "get_annex",
     {
       title: "Bijlage ophalen",
+      annotations: RO,
       description:
         "Full Dutch text of an annex (bijlage) by Roman numeral, e.g. \"III\". Includes annexes added by the digital omnibus.",
       inputSchema: {
@@ -151,6 +165,7 @@ export function createServer(): McpServer {
     "get_structure",
     {
       title: "Structuur (inhoudsopgave)",
+      annotations: RO,
       description:
         "Compact table of contents: chapters, sections, articles (with digital-omnibus insertions), annexes, recital count.",
       inputSchema: {},
@@ -196,6 +211,7 @@ export function createServer(): McpServer {
     "get_amendments",
     {
       title: "Omnibus-wijzigingen",
+      annotations: RO,
       description:
         "Digital-omnibus (PE-CONS 30/26) amendments to the AI Act. Without arguments: overview of all " +
         "affected articles/annexes. With an article number: the amending instructions plus a word-level " +
@@ -248,6 +264,217 @@ export function createServer(): McpServer {
         }
       }
       lines.push("", `Diff-weergave op de site: ${BASE_URL}/artikel/${key}?diff=1`);
+      return text(lines.join("\n"));
+    },
+  );
+
+  // ---------------------------------------------------------------------
+  // Batch 1 (roadmap 2.1): composition tools. Neither adds data — both are
+  // compositions over the loaders the tools above already use.
+
+  server.registerTool(
+    "get_context_pack",
+    {
+      title: "Contextpakket: artikelen + overwegingen + omnibus-status",
+      annotations: RO,
+      description:
+        "One call per review instead of three per provision: for each requested article the full " +
+        "Dutch text, its digital-omnibus status, and the recitals the editorial recital map ties " +
+        "to it — with every referenced recital rendered once, deduplicated across the pack. " +
+        "Use this to open a contract or memo review; use get_article for a single provision and " +
+        "get_amendments when you need the per-lid word diff. Max 20 articles per call — but ask " +
+        "for the provisions you need, not the maximum: a pack runs to roughly 13k characters per " +
+        "article once its recitals are included, so 20 articles is ~270k characters and will " +
+        "exceed most result budgets.",
+      inputSchema: {
+        articles: z
+          .array(z.string())
+          .min(1)
+          .max(20)
+          .describe('Article numbers, e.g. ["6", "50", "75 bis"]. Max 20.'),
+      },
+    },
+    async ({ articles }) => {
+      const unknown: string[] = [];
+      const sections: string[] = [];
+      const recitalNumbers: number[] = [];
+      const seenArticles = new Set<string>();
+
+      for (const input of articles) {
+        const key = normalizeArticleInput(input);
+        if (seenArticles.has(key)) continue;
+        seenArticles.add(key);
+        const resolved = resolveArticle(key);
+        if (!resolved) {
+          unknown.push(input);
+          continue;
+        }
+        const parts = [renderArticle(resolved)];
+
+        // Omnibus status. The instructions and the diff link go here; the
+        // per-lid word diffs stay in get_amendments, and the section says so —
+        // PRACTICE.md requires an omnibus check per cited article, so the
+        // caller must know which call satisfies which half of it.
+        if (resolved.kind === "base") {
+          const ids = amendments.byArticle[key] ?? [];
+          const changed = ids.length > 0 || Boolean(amendments.titleChanges[key]);
+          if (changed) {
+            const instructions = ids
+              .map((id) => amendmentById(id))
+              .filter((a): a is Amendment => Boolean(a))
+              .map((a) => `- ${a.seq}${a.sub ?? ""} (${a.operation}): ${a.scope.description}`);
+            parts.push(
+              [
+                `**Omnibus-status:** gewijzigd door de digitale omnibus (${amendments.meta.document}) — nog niet in werking.`,
+                ...instructions,
+                `Woorddiff per lid: tool get_amendments({article: "${key}"}) · ${BASE_URL}/artikel/${key}?diff=1`,
+              ].join("\n"),
+            );
+          } else {
+            parts.push("**Omnibus-status:** niet gewijzigd door de digitale omnibus.");
+          }
+        }
+
+        const related = recitalMap.byArticle[key] ?? [];
+        recitalNumbers.push(...related);
+        parts.push(
+          related.length
+            ? `**Relevante overwegingen:** ${related
+                .map((n) => `[${n}](${BASE_URL}/overweging/${n})`)
+                .join(", ")}`
+            : "**Relevante overwegingen:** geen in de gecureerde overwegingenkaart.",
+        );
+        sections.push(parts.join("\n\n"));
+      }
+
+      if (!sections.length) {
+        return err(
+          `Geen van de opgevraagde artikelen bestaat (${unknown.join(", ")}). Basisartikelen: 1–113. Omnibus-artikelen: ${omnibusSlugs()}.`,
+        );
+      }
+
+      const uniqueRecitals = [...new Set(recitalNumbers)].sort((a, b) => a - b);
+      const head = [
+        `# Contextpakket — ${sections.length} artikel(en), ${uniqueRecitals.length} overweging(en)`,
+        "",
+        `Bron: Verordening (EU) 2024/1689 (geconsolideerd) + digitale omnibus ${amendments.meta.document}.`,
+        // The map is curated and unfinished: an empty recital list must not be
+        // read as "no relevant recital exists".
+        `> De overwegingenkaart is een gecureerde, nog onvolledige laag (${recitalMap.meta.pairCount} paren, ${recitalMap.meta.reviewedCount} van de overwegingen nagelopen). Een lege lijst betekent "nog niet in kaart gebracht", niet "geen relevante overweging".`,
+      ];
+      if (unknown.length) {
+        head.push("", `> Niet gevonden en overgeslagen: ${unknown.join(", ")}.`);
+      }
+
+      const body = [head.join("\n"), ...sections];
+      if (uniqueRecitals.length) {
+        body.push("## Overwegingen in dit contextpakket");
+        for (const n of uniqueRecitals) {
+          const r = getRecital(n);
+          if (!r) continue;
+          const paras = r.paragraphs.map((p) => renderText(p.text, p.refs)).join("\n\n");
+          body.push(`### Overweging ${n}\n${BASE_URL}/overweging/${n}\n\n${paras}`);
+        }
+      }
+      return text(body.join("\n\n---\n\n"));
+    },
+  );
+
+  const ROLE_ARG: Record<string, RoleFlag> = {
+    aanbieder: "rol_aanbieder",
+    gebruiksverantwoordelijke: "rol_deployer",
+    importeur: "rol_importeur",
+    distributeur: "rol_distributeur",
+    gemachtigde: "rol_gemachtigde",
+    "gpai-aanbieder": "gpai_aanbieder",
+  };
+
+  server.registerTool(
+    "get_obligations",
+    {
+      title: "Verplichtingencatalogus per rol en risicoklasse",
+      annotations: RO,
+      description:
+        "Catalog of the AI Act obligations that apply to a role and/or risk class, derived from " +
+        "the assessment questionnaire's obligation checklist, with deep links to the underlying " +
+        "articles. Without arguments: the full catalog. Note what this is not: it never reports " +
+        "compliance status — that is a function of a concrete system's answers and only the " +
+        `assessment engine at ${BASE_URL}/assessment computes it. Obligations whose gate the ` +
+        'filter cannot decide are included with a "voorwaarde" line rather than dropped.',
+      inputSchema: {
+        role: z
+          .enum([
+            "aanbieder",
+            "gebruiksverantwoordelijke",
+            "importeur",
+            "distributeur",
+            "gemachtigde",
+            "gpai-aanbieder",
+          ])
+          .optional()
+          .describe(
+            "Role. The first five are mutually exclusive; \"gpai-aanbieder\" is a second axis " +
+              "(a provider of an AI system can also provide a GPAI model).",
+          ),
+        riskClass: z
+          .enum(["geen-ai", "verboden", "hoogrisico", "transparantierisico", "minimaal"])
+          .optional()
+          .describe("Risk class per the AI Act's classification"),
+      },
+    },
+    async ({ role, riskClass }) => {
+      const entries = obligationCatalog(questionnaire, {
+        role: role ? ROLE_ARG[role] : undefined,
+        riskClass: riskClass as RiskClass | undefined,
+      });
+      const filterLabel = [
+        role ? `rol: ${role}` : null,
+        riskClass ? `risicoklasse: ${riskClass}` : null,
+      ]
+        .filter(Boolean)
+        .join(" · ");
+
+      if (!entries.length) {
+        return text(
+          `Geen verplichtingen voor deze combinatie (${filterLabel || "geen filter"}).`,
+        );
+      }
+
+      const lines = [
+        `# Verplichtingen — ${filterLabel || "volledige catalogus"}`,
+        "",
+        `${entries.length} verplichtingen. Grondslag: ${questionnaire.meta.basis}`,
+        "",
+        `> ${questionnaire.meta.disclaimer}`,
+        "",
+        "> Dit is een redactionele checklist die de verplichtingen parafraseert en naar de wettekst " +
+          "deep-linkt; de verordeningstekst zelf staat in get_article. Een regel met " +
+          '"**Voorwaarde:**" geldt alleen als die voorwaarde is vervuld — het filter kon dat niet ' +
+          "bepalen.",
+      ];
+
+      let currentModule = "";
+      for (const e of entries) {
+        if (e.moduleId !== currentModule) {
+          currentModule = e.moduleId;
+          lines.push("", `## Module ${e.moduleNr} — ${e.moduleTitle}`);
+        }
+        lines.push("", `**${e.questionId}** — ${e.text}`);
+        if (e.conditions.length) lines.push(`**Voorwaarde:** ${e.conditions.join(" · ")}`);
+        if (e.omnibus) {
+          const from = e.omnibus.appliesFrom ? ` (vanaf ${e.omnibus.appliesFrom})` : "";
+          lines.push(`**Omnibus${from}:** ${e.omnibus.note}`);
+        }
+        if (e.refs?.length) {
+          lines.push(
+            `**Grondslag:** ${e.refs.map((r) => `[${r.label}](${BASE_URL}${r.href})`).join(" · ")}`,
+          );
+        }
+      }
+      lines.push(
+        "",
+        `Zelfbeoordeling met status per verplichting: ${BASE_URL}/assessment`,
+      );
       return text(lines.join("\n"));
     },
   );

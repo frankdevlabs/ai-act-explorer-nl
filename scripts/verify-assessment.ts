@@ -16,8 +16,21 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { AmendmentsGenerated, Annex, Article, ContentNode, Recital } from "../src/lib/types";
-import type { QCondition, Question, Questionnaire } from "../src/lib/assessment/types";
-import { computeVisibility, evaluate, registerValueRow, toTsv } from "../src/lib/assessment/engine";
+import type {
+  ObligationCatalogEntry,
+  QCondition,
+  Question,
+  Questionnaire,
+  RiskClass,
+  RoleFlag,
+} from "../src/lib/assessment/types";
+import {
+  computeVisibility,
+  evaluate,
+  obligationCatalog,
+  registerValueRow,
+  toTsv,
+} from "../src/lib/assessment/engine";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const load = <T>(rel: string): T => JSON.parse(readFileSync(join(root, rel), "utf-8"));
@@ -739,6 +752,137 @@ const vb004: Record<string, string> = {
   const e = evaluate(questionnaire, { "2.4": "ja", "5.6": "ja", "7.4": "ja" });
   assert.equal(e.riskClass, "verboden", "art. 5-hit → verboden");
   assert.deepEqual(e.stops, ["5.6"], "stop op 5.6");
+}
+
+// ------------------------------------------------- obligation catalog (MCP)
+
+/**
+ * `obligationCatalog` is the answer-independent view of the obligation-flagged
+ * questions that the MCP tool `get_obligations` serves. It is three-valued:
+ * a gate the filter does not decide keeps the obligation *in*, with the gate
+ * spelled out in `conditions`. Only a hard `false` excludes. So these pins
+ * measure two things: that the role axis really prunes (a deployer must not
+ * see the provider modules) and that nothing falls out of the catalog
+ * entirely.
+ */
+{
+  const ROLES: RoleFlag[] = [
+    "rol_aanbieder",
+    "rol_deployer",
+    "rol_importeur",
+    "rol_distributeur",
+    "rol_gemachtigde",
+    "gpai_aanbieder",
+  ];
+  const RISKS: RiskClass[] = [
+    "geen-ai",
+    "verboden",
+    "hoogrisico",
+    "transparantierisico",
+    "minimaal",
+  ];
+
+  const obligationIds = allQuestions.filter(({ q }) => q.obligation).map(({ q }) => q.id);
+  const perModule = (entries: ObligationCatalogEntry[]) => {
+    const counts: Record<string, number> = {};
+    for (const e of entries) counts[e.moduleId] = (counts[e.moduleId] ?? 0) + 1;
+    return counts;
+  };
+
+  // Unfiltered catalog = every obligation question, once, in document order.
+  const full = obligationCatalog(questionnaire);
+  assert.deepEqual(
+    full.map((e) => e.questionId),
+    obligationIds,
+    "catalogus zonder filter = alle verplichtingsvragen in documentvolgorde",
+  );
+  // History: 123 at the 2026-07 expansion (m11 split into m11/m19–m23, m24
+  // value chain, m12 systemic-risk split). Re-pin only after auditing which
+  // questions gained or lost `obligation: true`.
+  assert.equal(full.length, 123, "123 verplichtingsvragen in de catalogus");
+
+  // Role axis. Per-module counts, because the totals are dominated by the
+  // role-independent modules (m13–m17, m25) that every filter keeps.
+  const deployer = obligationCatalog(questionnaire, {
+    role: "rol_deployer",
+    riskClass: "hoogrisico",
+  });
+  assert.equal(perModule(deployer).m9, 13, "deployer/hoogrisico: 13 art. 26-verplichtingen (m9)");
+  assert.equal(perModule(deployer).m10, 10, "deployer/hoogrisico: 10 FRIA-verplichtingen (m10)");
+  for (const id of ["m11", "m19", "m20", "m21", "m22", "m23"]) {
+    assert.ok(!perModule(deployer)[id], `deployer/hoogrisico: aanbiedermodule ${id} uitgesloten`);
+  }
+
+  const aanbieder = obligationCatalog(questionnaire, {
+    role: "rol_aanbieder",
+    riskClass: "hoogrisico",
+  });
+  const aanbiederModules = perModule(aanbieder);
+  const aanbiederTotal = ["m11", "m19", "m20", "m21", "m22", "m23"].reduce(
+    (sum, id) => sum + (aanbiederModules[id] ?? 0),
+    0,
+  );
+  // 13 + 8 + 8 + 11 + 6 + 5 — the six provider modules of the 2026-07 split.
+  assert.equal(aanbiederTotal, 51, "aanbieder/hoogrisico: 51 aanbiedersverplichtingen");
+  for (const id of ["m9", "m10"]) {
+    assert.ok(!aanbiederModules[id], `aanbieder/hoogrisico: deployermodule ${id} uitgesloten`);
+  }
+
+  // m24 is one module for three value-chain roles; the role flag picks the
+  // block. Importeur: 24.3–24.8 (6) plus 11.17, whose own gate
+  // (aanbieder_derde_land) the filter cannot decide — so it stays, conditional.
+  const importeur = obligationCatalog(questionnaire, {
+    role: "rol_importeur",
+    riskClass: "hoogrisico",
+  });
+  assert.equal(perModule(importeur).m24, 7, "importeur: 6 importeursverplichtingen + 11.17");
+  assert.equal(
+    importeur.filter((e) => e.moduleId === "m24" && !e.conditions.length).length,
+    6,
+    "importeur/hoogrisico: de 6 eigen m24-verplichtingen zijn onvoorwaardelijk",
+  );
+  assert.equal(perModule(obligationCatalog(questionnaire, { role: "rol_distributeur" })).m24, 6);
+  assert.equal(perModule(obligationCatalog(questionnaire, { role: "rol_gemachtigde" })).m24, 3);
+
+  // gpai_aanbieder is the second axis: it opens m12 (art. 53–55) and does not
+  // touch the five rol_* modules.
+  assert.equal(
+    perModule(obligationCatalog(questionnaire, { role: "gpai_aanbieder" })).m12,
+    12,
+    "gpai-aanbieder: 12 GPAI-verplichtingen (m12)",
+  );
+
+  // Risk axis: no AI system → only the cross-cutting modules survive.
+  const geenAi = obligationCatalog(questionnaire, { riskClass: "geen-ai" });
+  assert.deepEqual(
+    Object.keys(perModule(geenAi)).sort(),
+    ["m15", "m16", "m17", "m8"],
+    "geen-ai: alleen AVG/DORA/overige raakvlakken (+ de voorwaardelijke escape-vraag)",
+  );
+
+  // No orphans: every obligation question must be reachable from at least one
+  // {role, riskClass} combination. This is the assertion that fires when a new
+  // obligation lands behind a gate the role mapping does not cover.
+  {
+    const reachable = new Set<string>();
+    for (const role of [undefined, ...ROLES]) {
+      for (const riskClass of [undefined, ...RISKS]) {
+        for (const e of obligationCatalog(questionnaire, { role, riskClass })) {
+          reachable.add(e.questionId);
+        }
+      }
+    }
+    for (const id of obligationIds) {
+      assert.ok(reachable.has(id), `verplichting ${id} is bereikbaar via een rol/risicoklasse`);
+    }
+  }
+
+  // The catalog carries refs into MCP output, so they get the same integrity
+  // check as the questionnaire's own refs.
+  for (const e of full) {
+    for (const ref of e.refs ?? []) checkRef(`catalogus ${e.questionId}`, ref.href);
+    assert.ok(e.moduleTitle.length > 0, `catalogus ${e.questionId}: moduletitel aanwezig`);
+  }
 }
 
 const questionCount = allQuestions.length;
