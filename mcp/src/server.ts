@@ -31,6 +31,29 @@ const err = (md: string) => ({ content: [{ type: "text" as const, text: md }], i
  */
 const RO = { readOnlyHint: true, openWorldHint: false } as const;
 
+/**
+ * Result-size guardrails for get_context_pack — the only tool here that can
+ * return an unbounded amount of text (it composes N full articles + their
+ * recitals). Two client ceilings apply: claude.ai/Desktop truncates a tool
+ * result around 150k characters, and Claude Code's default
+ * MAX_MCP_OUTPUT_TOKENS is 25k tokens (it warns at 10k). Crossing either
+ * silently yields a *truncated* pack, which is worse than an error: a review
+ * built on half a pack still looks complete. So the tool refuses and says by
+ * how much, rather than trimming.
+ *
+ * The default ceiling is the strict (Claude Code) one; a claude.ai-only
+ * deployment can raise it toward 150k via MCP_MAX_RESULT_CHARS.
+ */
+const MAX_PACK_ARTICLES = 20;
+/** Measured ~3.5 chars/token on this Dutch corpus; rounded down to stay safe. */
+const CHARS_PER_TOKEN = 3.4;
+const DEFAULT_MAX_PACK_CHARS = 85_000; // 25k tokens x 3.4 — also well under 150k
+const MAX_PACK_CHARS = Number(process.env.MCP_MAX_RESULT_CHARS) || DEFAULT_MAX_PACK_CHARS;
+const WARN_PACK_CHARS = 34_000; // ~10k tokens — Claude Code's warn threshold
+const estTokens = (chars: number) => Math.round(chars / CHARS_PER_TOKEN);
+/** Thousands separators without depending on the runtime's ICU build. */
+const fmt = (n: number, sep = ".") => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+
 const omnibusSlugs = () => amendments.newArticles.map((a) => a.slug).join(", ");
 
 function amendmentById(id: string): Amendment | undefined {
@@ -282,21 +305,38 @@ export function createServer(): McpServer {
         "Dutch text, its digital-omnibus status, and the recitals the editorial recital map ties " +
         "to it — with every referenced recital rendered once, deduplicated across the pack. " +
         "Use this to open a contract or memo review; use get_article for a single provision and " +
-        "get_amendments when you need the per-lid word diff. Max 20 articles per call — but ask " +
-        "for the provisions you need, not the maximum: a pack runs to roughly 13k characters per " +
-        "article once its recitals are included, so 20 articles is ~270k characters and will " +
-        "exceed most result budgets.",
+        "get_amendments when you need the per-lid word diff. " +
+        `Hard limits: at most ${MAX_PACK_ARTICLES} articles per call, and the assembled pack must ` +
+        `stay under ${fmt(MAX_PACK_CHARS, ",")} characters (~${fmt(estTokens(MAX_PACK_CHARS), ",")} tokens); ` +
+        "a pack over either is refused, never truncated. Ask for the provisions you need, not the " +
+        "maximum: a pack runs to roughly 13k characters per article once its recitals are " +
+        "included, so about 5 articles already fill a default result budget.",
       inputSchema: {
         articles: z
           .array(z.string())
           .min(1)
-          .max(20)
-          .describe('Article numbers, e.g. ["6", "50", "75 bis"]. Max 20.'),
+          .describe(
+            `Article numbers, e.g. ["6", "50", "75 bis"]. At most ${MAX_PACK_ARTICLES}, and fewer if the pack would exceed the size ceiling.`,
+          ),
       },
     },
     async ({ articles }) => {
+      // Count cap. Enforced here rather than with zod's .max(): zod's too_big
+      // message is static and never names the request size, and the SDK rejects
+      // before the handler runs — so the caller could not see how far over they
+      // were, nor how to re-split.
+      if (articles.length > MAX_PACK_ARTICLES) {
+        const batches = Math.ceil(articles.length / MAX_PACK_ARTICLES);
+        return err(
+          `Contextpakket geweigerd: ${articles.length} artikelen gevraagd, maximaal ${MAX_PACK_ARTICLES} per aanroep. ` +
+            `Splits de aanvraag in ${batches} aanroepen van ten hoogste ${MAX_PACK_ARTICLES} artikelen. ` +
+            "Let op: ook onder dat aantal geldt een omvangsplafond — vraag alleen de bepalingen die u nodig heeft.",
+        );
+      }
+
       const unknown: string[] = [];
       const sections: string[] = [];
+      const sizes: Array<[string, number]> = [];
       const recitalNumbers: number[] = [];
       const seenArticles = new Set<string>();
 
@@ -344,7 +384,9 @@ export function createServer(): McpServer {
                 .join(", ")}`
             : "**Relevante overwegingen:** geen in de gecureerde overwegingenkaart.",
         );
-        sections.push(parts.join("\n\n"));
+        const section = parts.join("\n\n");
+        sections.push(section);
+        sizes.push([key, section.length]);
       }
 
       if (!sections.length) {
@@ -367,6 +409,7 @@ export function createServer(): McpServer {
       }
 
       const body = [head.join("\n"), ...sections];
+      const recitalStart = body.length;
       if (uniqueRecitals.length) {
         body.push("## Overwegingen in dit contextpakket");
         for (const n of uniqueRecitals) {
@@ -376,7 +419,53 @@ export function createServer(): McpServer {
           body.push(`### Overweging ${n}\n${BASE_URL}/overweging/${n}\n\n${paras}`);
         }
       }
-      return text(body.join("\n\n---\n\n"));
+
+      // Size ceiling. Measured only after assembly: the per-article cost is
+      // dominated by recitals, which are deduplicated across the pack, so it
+      // cannot be predicted from the article count alone. Refuse rather than
+      // trim — and say which articles are expensive, so the caller can re-split
+      // deliberately instead of bisecting.
+      const md = body.join("\n\n---\n\n");
+      if (md.length > MAX_PACK_CHARS) {
+        const recitalChars = body.slice(recitalStart).reduce((n, s) => n + s.length, 0);
+        const breakdown = [...sizes]
+          .sort((a, b) => b[1] - a[1])
+          .map(([key, n]) => `artikel ${key}: ~${Math.round(n / 1000)}k`)
+          .join(", ");
+        // Advice, deliberately conservative: the shared recital block does not
+        // shrink in proportion to the article count (recitals are deduplicated
+        // and several articles cite the same ones), so the linear estimate is
+        // an over-estimate — take one off it.
+        const linear = Math.floor(sections.length * (MAX_PACK_CHARS / md.length));
+        const advice =
+          sections.length === 1
+            ? "Dit ene artikel past al niet onder het plafond — gebruik get_article (zonder overwegingen) " +
+              "of verhoog MCP_MAX_RESULT_CHARS."
+            : `Vraag ongeveer ${Math.min(Math.max(linear - 1, 1), sections.length - 1)} artikel(en) per aanroep, ` +
+              "of minder wanneer u de grootste artikelen combineert. Voor één bepaling is get_article goedkoper.";
+        return err(
+          `Contextpakket geweigerd: het pakket voor ${sections.length} artikel(en) is ${fmt(md.length)} tekens ` +
+            `(~${fmt(estTokens(md.length))} tokens), boven het plafond van ${fmt(MAX_PACK_CHARS)} tekens ` +
+            `(~${fmt(estTokens(MAX_PACK_CHARS))} tokens). Het pakket wordt geweigerd en niet afgekapt: een afgekapt pakket ` +
+            "ziet er volledig uit.\n\n" +
+            `Opbouw — artikelen: ${breakdown}; gedeelde overwegingen (${uniqueRecitals.length}): ~${Math.round(recitalChars / 1000)}k tekens ` +
+            "(overwegingen zijn de grootste post en worden binnen het pakket ontdubbeld).\n\n" +
+            `${advice}\n\n` +
+            "Plafonds: claude.ai kapt een toolresultaat af rond 150.000 tekens; Claude Code hanteert standaard 25.000 tokens " +
+            "(MAX_MCP_OUTPUT_TOKENS). Een implementatie die alleen claude.ai bedient kan dit plafond verhogen via MCP_MAX_RESULT_CHARS.",
+        );
+      }
+
+      // Warning band. First in the result on purpose: if a client truncates
+      // anyway, the size notice is in the part that survives.
+      if (md.length > WARN_PACK_CHARS) {
+        const banner =
+          `> **Omvang:** dit pakket is ${fmt(md.length)} tekens (~${fmt(estTokens(md.length))} tokens) ` +
+          `en overschrijdt daarmee de waarschuwingsgrens van Claude Code (~${fmt(estTokens(WARN_PACK_CHARS))} tokens). ` +
+          `Het plafond ligt op ${fmt(MAX_PACK_CHARS)} tekens; vraag bij een volgende aanroep minder artikelen tegelijk.`;
+        return text(`${banner}\n\n${md}`);
+      }
+      return text(md);
     },
   );
 
