@@ -47,13 +47,16 @@ const BASE = "https://verify-mcp.test";
 const EXTERNAL_HOSTS = new Set(["data.europa.eu", "eur-lex.europa.eu"]);
 
 /**
- * Generous per-result ceiling on the serialized tool result. Observed maxima on
- * the current corpus: get_article 3 ≈ 21.2 kB, get_amendments 3 ≈ 20.6 kB,
- * search_ai_act limit:50 ≈ 26.9 kB, get_structure ≈ 17.1 kB. Backlog card 2.3
- * (result-size guardrail) tightens these numbers here — per call via `maxBytes`,
- * globally via this constant — rather than adding a second mechanism.
+ * Per-result ceiling on the serialized tool result. Observed maxima on the
+ * current corpus: get_article 3 ≈ 21.2 kB, get_amendments 3 ≈ 20.6 kB,
+ * search_ai_act limit:50 ≈ 26.9 kB, get_structure ≈ 17.1 kB. Card 2.3
+ * tightened this from 64 kB to 32 kB now that every result is measured. Two
+ * calls carry an explicit, higher per-call `maxBytes`: get_context_pack (whose
+ * whole point is to compose many provisions — MAX_PACK_CHARS in
+ * mcp/src/server.ts is what bounds it) and the unfiltered get_obligations
+ * catalog (≈ 56.3 kB — see mcp/README.md, "Result-size guardrails").
  */
-const DEFAULT_MAX_BYTES = 64 * 1024;
+const DEFAULT_MAX_BYTES = 32 * 1024;
 
 const PROTOCOL_VERSION = "2025-06-18";
 
@@ -351,26 +354,47 @@ const TOOLS: ToolSpec[] = [
     required: ["articles"],
     calls: [
       {
-        // the README's worked example; ~58 kB, the largest result this file
-        // exercises — a pack is per-provision context, not a bulk dump
+        // the README's worked example; ~58 kB serialized, deliberately above
+        // DEFAULT_MAX_BYTES — a pack is per-provision context, not a bulk dump,
+        // and this tool is the size exception (MAX_PACK_CHARS bounds it).
         args: { articles: ["6", "50"] },
+        maxBytes: 72 * 1024,
         check: (md) => {
+          // the warn banner must come first, before the pack heading: if a
+          // client truncates, the size notice has to be in the surviving part
+          assert.ok(
+            md.startsWith("> **Omvang:**"),
+            "pack 6+50 is over the warn band, so it must open with the size banner",
+          );
           has(md, "# Contextpakket — 2 artikel(en), 24 overweging(en)", "pack heading");
           has(md, "De overwegingenkaart is een gecureerde", "pack curation caveat");
           has(md, "# Artikel 6 — ", "pack renders article 6");
           has(md, "# Artikel 50 — ", "pack renders article 50");
           // omnibus status per article, with the pointer to the per-lid diff
+          has(md, "**Omnibus-status:** gewijzigd door de digitale omnibus", "pack omnibus block");
           assert.equal(
             md.match(/^\*\*Omnibus-status:\*\* /gm)?.length,
             2,
             "pack carries one omnibus-status block per article",
           );
           has(md, 'get_amendments({article: "6"})', "pack points at the word-diff tool");
-          // recital 26 is mapped to both articles: rendered exactly once
+          const recitalHeads = md.match(/^## Overwegingen in dit contextpakket$/gm) ?? [];
+          assert.equal(recitalHeads.length, 1, "pack renders exactly one recital section");
+          // recital 26 is mapped to both articles: rendered exactly once —
+          // and no other recital is duplicated either
           assert.equal(
             md.match(/^### Overweging 26$/gm)?.length,
             1,
             "pack deduplicates recitals across articles",
+          );
+          const numbers = (md.match(/^### Overweging (\d+)$/gm) ?? []).map((l) =>
+            l.replace("### Overweging ", ""),
+          );
+          assert.ok(numbers.length >= 1, "pack renders at least one recital");
+          assert.equal(
+            new Set(numbers).size,
+            numbers.length,
+            `pack renders a recital twice: ${numbers.join(", ")}`,
           );
         },
       },
@@ -378,9 +402,23 @@ const TOOLS: ToolSpec[] = [
         // duplicate input collapses; an unknown article is skipped, not fatal,
         // as long as at least one resolves
         args: { articles: ["6", "6", "999"] },
+        maxBytes: 48 * 1024,
         check: (md) => {
           has(md, "# Contextpakket — 1 artikel(en)", "pack deduplicates repeated articles");
           has(md, "> Niet gevonden en overgeslagen: 999.", "pack reports skipped articles");
+        },
+      },
+      {
+        // card 2.3: the count cap must refuse, and the message must name both
+        // the request size and the limit so the caller can re-split
+        args: { articles: Array.from({ length: 21 }, (_, i) => String(i + 1)) },
+        isError: true,
+        noLinks: true,
+        check: (md) => {
+          has(md, "geweigerd", "21-article pack is refused");
+          has(md, "21", "refusal names the request size");
+          has(md, "20", "refusal names the cap");
+          has(md, "2 aanroepen", "refusal says how to re-split");
         },
       },
       {
@@ -401,12 +439,19 @@ const TOOLS: ToolSpec[] = [
     required: [],
     calls: [
       {
+        // unfiltered catalog — the largest result this tool can produce
+        // (≈ 56.3 kB ≈ 16k tokens: under Claude Code's 25k budget, but the
+        // reason the tool's description tells callers to filter)
         args: {},
+        maxBytes: 64 * 1024,
         check: (md) => {
           has(md, "# Verplichtingen — volledige catalogus", "catalog heading");
           // twin of verify-assessment.ts: every obligation-flagged question
           has(md, "123 verplichtingen.", "unfiltered catalog size");
           has(md, "## Module 8 — ", "catalog groups by module");
+          // obligations behind an undecidable gate are kept with a Voorwaarde
+          // line rather than dropped — that promise is in the tool description
+          has(md, "**Voorwaarde:**", "catalog keeps gated obligations");
           has(md, `Zelfbeoordeling met status per verplichting: ${BASE}/assessment`, "catalog footer");
         },
       },
@@ -415,6 +460,7 @@ const TOOLS: ToolSpec[] = [
         check: (md) => {
           has(md, "# Verplichtingen — rol: gebruiksverantwoordelijke · risicoklasse: hoogrisico", "filtered heading");
           has(md, "59 verplichtingen.", "filtered catalog size");
+          has(md, `${BASE}/artikel/26`, "obligations deep link to art. 26");
           has(md, "## Module 9 — ", "deployer module present");
           has(md, "## Module 10 — ", "FRIA module present");
           // the provider modules are the point of the role filter
@@ -562,15 +608,22 @@ const TOOLS: ToolSpec[] = [
   },
 ];
 
+/**
+ * Card 2.3, size-refusal branch. Driven against a second, short-lived server
+ * started with a deliberately tiny MCP_MAX_RESULT_CHARS, so the assertion does
+ * not depend on which articles happen to be large in the current corpus.
+ */
+const SIZE_LIMIT_ENV = { MCP_MAX_RESULT_CHARS: "5000" };
+
 // ------------------------------------------------- JSON-RPC over stdio
 
 type ToolResult = { content: { type: string; text: string }[]; isError?: boolean };
 type Rpc = { id?: number; result?: unknown; error?: { code: number; message: string } };
 
-function startServer() {
+function startServer(extraEnv: Record<string, string> = {}) {
   const child = spawn(process.execPath, [SERVER], {
     cwd: root,
-    env: { ...process.env, BASE_URL: BASE },
+    env: { ...process.env, BASE_URL: BASE, ...extraEnv },
     stdio: ["pipe", "pipe", "pipe"],
   });
   let stderr = "";
@@ -753,13 +806,54 @@ async function main(): Promise<void> {
       byLabel.get('get_annex {"roman":"III"}'),
       'get_annex: "bijlage iii" must render identically to "III"',
     );
+
+    // card 2.3: the caller must be able to read both ceilings off the tool
+    // description, not only discover them by being refused
+    const packDesc = listed.find((t) => t.name === "get_context_pack")?.description ?? "";
+    has(packDesc, "20 articles per call", "get_context_pack description names the count cap");
+    has(packDesc, "85,000 characters", "get_context_pack description names the size ceiling");
   } finally {
     server.close();
   }
 
+  // ---- card 2.3: size refusal, against a server with a tiny ceiling
+  const tiny = startServer(SIZE_LIMIT_ENV);
+  try {
+    await tiny.request("initialize", {
+      protocolVersion: PROTOCOL_VERSION,
+      capabilities: {},
+      clientInfo: { name: "verify-mcp", version: "1" },
+    });
+    tiny.notify("notifications/initialized");
+    const label = `get_context_pack {"articles":["6"]} @ MCP_MAX_RESULT_CHARS=${SIZE_LIMIT_ENV.MCP_MAX_RESULT_CHARS}`;
+    const response = await tiny.request("tools/call", {
+      name: "get_context_pack",
+      arguments: { articles: ["6"] },
+    });
+    assert.ok(!response.error, `${label}: JSON-RPC error ${JSON.stringify(response.error)}`);
+    const result = response.result as ToolResult;
+    const md = textOf(label, result);
+    assert.equal(result.isError, true, `${label}: an oversized pack must be refused`);
+    has(md, "geweigerd", "size refusal");
+    has(md, "5.000 tekens", "size refusal names the active ceiling");
+    has(md, "tokens", "size refusal converts to tokens");
+    has(md, "Opbouw — artikelen: artikel 6:", "size refusal gives the per-article breakdown");
+    has(md, "MCP_MAX_RESULT_CHARS", "size refusal names the override");
+    // the refusal must not smuggle the pack itself back to the caller
+    assert.ok(
+      md.length < 2000,
+      `${label}: refusal is ${md.length} chars — it must be a message, not the pack`,
+    );
+    calls++;
+    console.log(`verify-mcp: ${label} ok (refused, ${md.length} chars)`);
+  } finally {
+    tiny.close();
+  }
+
   console.log(
     `verify-mcp: all assertions passed ` +
-      `(${TOOLS.length} tools, ${calls} calls, max ${maxBytes} B of ${DEFAULT_MAX_BYTES} B)`,
+      `(${TOOLS.length} tools, ${calls} calls, largest result ${maxBytes} B; ` +
+      `default ceiling ${DEFAULT_MAX_BYTES} B, raised per call where noted)`,
   );
 }
 
