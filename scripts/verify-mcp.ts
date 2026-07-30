@@ -344,6 +344,222 @@ const TOOLS: ToolSpec[] = [
       },
     ],
   },
+  {
+    name: "get_context_pack",
+    title: "Contextpakket: artikelen + overwegingen + omnibus-status",
+    properties: ["articles"],
+    required: ["articles"],
+    calls: [
+      {
+        // the README's worked example; ~58 kB, the largest result this file
+        // exercises — a pack is per-provision context, not a bulk dump
+        args: { articles: ["6", "50"] },
+        check: (md) => {
+          has(md, "# Contextpakket — 2 artikel(en), 24 overweging(en)", "pack heading");
+          has(md, "De overwegingenkaart is een gecureerde", "pack curation caveat");
+          has(md, "# Artikel 6 — ", "pack renders article 6");
+          has(md, "# Artikel 50 — ", "pack renders article 50");
+          // omnibus status per article, with the pointer to the per-lid diff
+          assert.equal(
+            md.match(/^\*\*Omnibus-status:\*\* /gm)?.length,
+            2,
+            "pack carries one omnibus-status block per article",
+          );
+          has(md, 'get_amendments({article: "6"})', "pack points at the word-diff tool");
+          // recital 26 is mapped to both articles: rendered exactly once
+          assert.equal(
+            md.match(/^### Overweging 26$/gm)?.length,
+            1,
+            "pack deduplicates recitals across articles",
+          );
+        },
+      },
+      {
+        // duplicate input collapses; an unknown article is skipped, not fatal,
+        // as long as at least one resolves
+        args: { articles: ["6", "6", "999"] },
+        check: (md) => {
+          has(md, "# Contextpakket — 1 artikel(en)", "pack deduplicates repeated articles");
+          has(md, "> Niet gevonden en overgeslagen: 999.", "pack reports skipped articles");
+        },
+      },
+      {
+        args: { articles: ["999"] },
+        isError: true,
+        noLinks: true,
+        check: (md) => {
+          has(md, "Geen van de opgevraagde artikelen bestaat (999)", "pack all-unknown error");
+          has(md, "1–113", "pack error names the base range");
+        },
+      },
+    ],
+  },
+  {
+    name: "get_obligations",
+    title: "Verplichtingencatalogus per rol en risicoklasse",
+    properties: ["riskClass", "role"],
+    required: [],
+    calls: [
+      {
+        args: {},
+        check: (md) => {
+          has(md, "# Verplichtingen — volledige catalogus", "catalog heading");
+          // twin of verify-assessment.ts: every obligation-flagged question
+          has(md, "123 verplichtingen.", "unfiltered catalog size");
+          has(md, "## Module 8 — ", "catalog groups by module");
+          has(md, `Zelfbeoordeling met status per verplichting: ${BASE}/assessment`, "catalog footer");
+        },
+      },
+      {
+        args: { role: "gebruiksverantwoordelijke", riskClass: "hoogrisico" },
+        check: (md) => {
+          has(md, "# Verplichtingen — rol: gebruiksverantwoordelijke · risicoklasse: hoogrisico", "filtered heading");
+          has(md, "59 verplichtingen.", "filtered catalog size");
+          has(md, "## Module 9 — ", "deployer module present");
+          has(md, "## Module 10 — ", "FRIA module present");
+          // the provider modules are the point of the role filter
+          for (const nr of [11, 12, 13, 14, 15, 16])
+            assert.ok(!md.includes(`## Module ${nr} — `), `provider module ${nr} leaked into the deployer catalog`);
+          // gates the filter cannot decide are kept, flagged, not dropped
+          has(md, "**Voorwaarde:** ", "unresolved gate rendered as a condition line");
+        },
+      },
+      {
+        // zod enum violation surfaces inside the result, like get_recital 999
+        args: { role: "onzin" },
+        isError: true,
+        noLinks: true,
+        check: (md) => has(md, "Invalid enum value", "unknown role"),
+      },
+    ],
+  },
+  {
+    name: "get_questionnaire",
+    title: "Zelfbeoordelingsvragenlijst (modules en vragen)",
+    properties: ["module"],
+    required: [],
+    calls: [
+      {
+        args: {},
+        check: (md) => {
+          has(md, "# AI Act-assessment en AI-register — versie 1", "questionnaire meta header");
+          // twin of verify-assessment.ts "25 modules"; the question total is a
+          // deliberate pin on curated content — update it with the edit
+          has(md, "25 modules, 205 vragen.", "questionnaire module/question totals");
+          has(md, "> Deze zelfbeoordeling is een hulpmiddel en geen juridisch advies", "disclaimer");
+          const modules = md.match(/^- \*\*Module \d+\*\* `m\d+` — /gm) ?? [];
+          assert.equal(modules.length, 25, "module list has one line per module");
+          // ids are not in module order — the list must show both, since the
+          // tool resolves by id first
+          has(md, "- **Module 12** `m19` — ", "module list pairs nr with its historical id");
+          has(md, " · voorwaardelijk", "conditional modules are marked");
+          has(md, `Vragenlijst op de site: ${BASE}/assessment/vragenlijst`, "questionnaire deep link");
+        },
+      },
+      {
+        // id-before-nr resolution: "m19" is module 12, not module 19
+        args: { module: "m19" },
+        check: (md) => {
+          assert.equal(
+            md.split("\n")[0],
+            "# Module 12 `m19` — Aanbieder: documentatie, logging en informatie (art. 11–13)",
+            "module by id resolves to its nr, not to the numeric part of the id",
+          );
+          has(md, "8 vragen, 8 verplichtingen.", "module counts");
+          has(md, '**Zichtbaar als:** `{"all":[{"flag":"hoogrisico"},{"flag":"rol_aanbieder"}]}`', "module showIf as raw JSON");
+          has(md, "atomen: alleen bij hoog risico (hoogrisico)", "module showIf gloss");
+          has(md, "## Vraag 19.1", "module questions");
+          has(md, "- **Markering:** verplichting", "obligation flag");
+        },
+      },
+      {
+        // numeric input resolves by module nr; m3 carries options-free choice
+        // questions, an answer-gated showIf and flag effects
+        args: { module: "3" },
+        check: (md) => {
+          has(md, "# Module 3 `m3` — GPAI: model of systeem?", "module by nr");
+          has(md, "- **Antwoordtype:** janee", "answer type");
+          has(md, '- **Zichtbaar als:** `{"answer":{"q":"3.1","is":"nee"}}`', "question showIf");
+          has(md, "afhankelijk van het antwoord op vraag 3.1", "answer-gate gloss");
+          has(md, '`[{"when":"ja","setFlag":"gpai_model"}]`', "effects as raw JSON");
+          has(md, "**Toelichting:**", "question help");
+        },
+      },
+      {
+        // 12 is a valid nr *and* the numeric part of id m12 (module 18) —
+        // "m12" must win over "module 12"
+        args: { module: "m12" },
+        check: (md) => has(md, "# Module 18 `m12` — Verplichtingen GPAI-aanbieder", "id wins over nr"),
+      },
+      {
+        args: { module: "m99" },
+        isError: true,
+        noLinks: true,
+        check: (md) => {
+          has(md, 'Module "m99" niet gevonden', "unknown module error");
+          has(md, "m19 (nr 12)", "unknown module error enumerates id/nr pairs");
+        },
+      },
+    ],
+  },
+  {
+    name: "get_recital_map",
+    title: "Overwegingenkaart (overweging ↔ artikel)",
+    properties: ["article", "recital"],
+    required: [],
+    calls: [
+      {
+        // counts stay unpinned on purpose (curation in progress — see the
+        // header note); the shape and the caveat are what this gate owns
+        args: {},
+        check: (md) => {
+          assert.ok(/^# Overwegingenkaart — \d+ paren$/.test(md.split("\n")[0]), "map heading");
+          has(md, "> Gecureerde redactionele laag:", "map curation caveat");
+          has(md, "van de 180 overwegingen zijn in kaart gebracht", "map coverage line");
+          has(md, "Nog niet in kaart gebracht: ", "map lists the unmapped recitals");
+          has(md, "## Overweging → artikelen", "map body");
+          const rows = md.match(/^- \[Overweging \d+\]\(.+?\) → /gm) ?? [];
+          assert.ok(rows.length >= 100, `map body has ${rows.length} rows, expected the full map`);
+        },
+      },
+      {
+        args: { article: "6" },
+        check: (md) => {
+          has(md, "# Overwegingen bij artikel 6 — Classificatieregels", "map by article");
+          has(md, `- [Overweging 26](${BASE}/overweging/26)`, "map by article lists recitals");
+          assert.ok(
+            md.trimEnd().endsWith(`Artikel: ${BASE}/artikel/6`),
+            "map by article ends with the article deep link",
+          );
+        },
+      },
+      {
+        args: { recital: 26 },
+        check: (md) => {
+          has(md, "# Artikelen bij overweging 26", "map by recital");
+          has(md, `[Artikel 6](${BASE}/artikel/6)`, "map by recital links articles");
+        },
+      },
+      {
+        // an unmapped recital is an answer, not an error — the caveat carries
+        // the distinction the caller needs
+        args: { recital: 2 },
+        check: (md) => has(md, "nog niet aan artikelen gekoppeld", "unmapped recital"),
+      },
+      {
+        args: { article: "6", recital: 26 },
+        isError: true,
+        noLinks: true,
+        check: (md) => has(md, "niet allebei", "both directions at once is an error"),
+      },
+      {
+        args: { article: "999" },
+        isError: true,
+        noLinks: true,
+        check: (md) => has(md, "niet gevonden", "unknown article in the map"),
+      },
+    ],
+  },
 ];
 
 // ------------------------------------------------- JSON-RPC over stdio
