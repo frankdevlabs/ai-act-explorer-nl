@@ -14,7 +14,9 @@
     "parse:amendments": "tsx scripts/parse-amendments.ts",
     "verify:amendments": "tsx scripts/verify-amendments.ts",
     "parse:recital-map": "tsx scripts/build-recital-map.ts",
-    "verify:recital-map": "tsx scripts/verify-recital-map.ts"
+    "verify:recital-map": "tsx scripts/verify-recital-map.ts",
+    "verify:mcp": "npm --prefix mcp run build && tsx scripts/verify-mcp.ts",
+    "verify-mcp": "npm run verify:mcp"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.15",
