@@ -17,7 +17,7 @@ Search relevance is identical to the site: both use
 | `get_annex` | `roman` (`"III"`) | annex text (incl. omnibus annexes) |
 | `get_structure` | — | compact TOC with omnibus insertions |
 | `get_amendments` | `article?` | omnibus overview or per-article diff |
-| `get_context_pack` | `articles` (1–20) | per article: full text + omnibus status + related recitals, then every referenced recital once |
+| `get_context_pack` | `articles` (1–20, and under the size ceiling) | per article: full text + omnibus status + related recitals, then every referenced recital once |
 | `get_obligations` | `role?`, `riskClass?` | obligation catalog per role/risk class, grouped by module, with deep links |
 
 All output is markdown with deep links to `BASE_URL` so Claude can cite.
@@ -26,16 +26,66 @@ whole server is a read of a static corpus, and claude.ai's per-tool controls
 key off those annotations.
 
 `get_context_pack` collapses the three calls a provision used to cost
-(article, recitals, amendment status) into one. It is not a bulk dump: a pack
-runs ~13k characters per article once recitals are included, so a 20-article
-pack (~270k characters) will exceed most result budgets. Ask for the
-provisions you need.
+(article, recitals, amendment status) into one. It is not a bulk dump — see
+the guardrails below.
 
 `get_obligations` serves the *catalog* — which obligations exist for a role or
 risk class — and never a compliance status, which is a function of a concrete
 system's answers (`/assessment` computes that). Obligations behind a gate the
 filter cannot decide are returned with a `Voorwaarde:` line rather than
 dropped.
+
+## Result-size guardrails
+
+Two client ceilings bound any tool result:
+
+- **claude.ai / Claude Desktop** truncate a tool result at roughly **150,000
+  characters**;
+- **Claude Code** caps at `MAX_MCP_OUTPUT_TOKENS`, default **25,000 tokens**,
+  and warns from ~10,000.
+
+Crossing either yields a *truncated* result, which is worse than an error: a
+contract review built on half a pack still looks complete. `get_context_pack`
+— the only tool that composes an unbounded number of provisions — therefore
+**refuses** rather than trims, and the refusal names the request size, the
+ceiling and the per-article breakdown so the caller can re-split deliberately.
+
+Constants in `mcp/src/server.ts`:
+
+| Constant | Value | Meaning |
+|---|---|---|
+| `MAX_PACK_ARTICLES` | `20` | more articles than this → refused before any text is assembled |
+| `MAX_PACK_CHARS` | `85000` (env `MCP_MAX_RESULT_CHARS`) | assembled pack over this → refused; 25k tokens × 3.4, also well under 150k |
+| `WARN_PACK_CHARS` | `34000` | over this → the pack is returned, prefixed with a `> **Omvang:**` banner |
+| `CHARS_PER_TOKEN` | `3.4` | estimate only; the guard enforces characters, which are exact |
+
+The banner goes **first** in the result on purpose: if a client truncates
+anyway, the size notice is in the part that survives.
+
+Measured pack sizes (articles 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 25, 26,
+27, 43, 47, 49, 50, 53, 55, 72, taken in that order, guard disabled). Character
+counts are exact; token counts are the 3.4 estimate, not a tokenizer run.
+
+| Articles | Characters | ~Tokens | Verdict at the default ceiling |
+|---:|---:|---:|---|
+| 1 | 41,358 | ~12,200 | ok, with banner |
+| 2 | 50,664 | ~14,900 | ok, with banner |
+| 3 | 61,755 | ~18,200 | ok, with banner |
+| 5 | 68,278 | ~20,100 | ok, with banner |
+| 10 | 106,240 | ~31,200 | **refused** |
+| 20 | 219,648 | ~64,600 | **refused** |
+
+So in practice **3–6 articles** fit a Claude Code budget and **~13** fit
+claude.ai's 150k — well short of the nominal 20. The cost is dominated by
+recital text, not article text (a 7-article pack is ~34k characters of
+articles and ~57k of recitals), and recitals are deduplicated across the pack,
+so the marginal cost of an extra article falls as the pack grows. `MAX_PACK_ARTICLES`
+is the coarse cap; `MAX_PACK_CHARS` is the one that actually binds.
+
+`get_obligations` is the other large result: the unfiltered catalog is ~56 kB
+(~16k tokens) — under Claude Code's budget, but the reason its description
+tells callers to filter by role and risk class. It has no refusal branch,
+because it is bounded by the questionnaire, not by caller input.
 
 ## Smoke test (stdio, no framework)
 
@@ -46,13 +96,20 @@ printf '%s\n' \
   '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
   '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"get_context_pack","arguments":{"articles":["6","50"]}}}' \
   '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"get_obligations","arguments":{"role":"gebruiksverantwoordelijke","riskClass":"hoogrisico"}}}' \
+  '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_context_pack","arguments":{"articles":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]}}}' \
   | node dist/mcp/src/stdio.js
 ```
 
 Expect 8 tools, each with `annotations.readOnlyHint: true`; a pack containing
-both articles with an omnibus-status block on article 6 and each recital
-rendered exactly once; and modules 9 + 10 in the obligation output with none of
-the provider modules (11, 19–23).
+both articles, opening with the `> **Omvang:**` banner (it is ~58k characters),
+with an omnibus-status block on article 6 and each recital rendered exactly
+once; modules 9 + 10 in the obligation output with none of the provider
+modules (11, 19–23); and the 21-article call refused with `isError: true` and a
+message naming both 21 and 20.
+
+`npm run verify:mcp` (from the repo root) asserts all of the above, plus the
+size refusal against a server started with a deliberately tiny
+`MCP_MAX_RESULT_CHARS`.
 
 ## Build
 
@@ -96,6 +153,7 @@ The whole build is CommonJS — the repo root `package.json` has no
 | `PORT` | `3106` | listen port (binds 127.0.0.1) |
 | `BASE_URL` | `https://aia.mrfrank.dev` | prefix for deep links in output |
 | `MCP_TOKEN` | unset | if set, require `Authorization: Bearer` (Claude API MCP connector / Agents). Leave unset for claude.ai custom connectors — they have no static-token field. |
+| `MCP_MAX_RESULT_CHARS` | `85000` | `get_context_pack` size ceiling (see "Result-size guardrails"). The default is the strict Claude Code budget; a deployment serving only claude.ai can raise it toward `140000`. |
 | `AIACT_DATA_DIR` | `<repo>/data/generated` | corpus location override |
 | `AIACT_QUESTIONNAIRE` | `<repo>/data/questionnaire/assessment-v1.json` | assessment questionnaire (curated source, outside `AIACT_DATA_DIR`) |
 

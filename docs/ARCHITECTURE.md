@@ -339,6 +339,14 @@ corpus to Claude clients; the site build never sees it. Full reference:
 - All tools carry `annotations: {readOnlyHint, openWorldHint: false}`:
   everything here reads a static corpus, and claude.ai's per-tool controls key
   off those hints.
+- `get_context_pack` is the one tool whose result size is caller-controlled, so
+  it is the one with guardrails: `MAX_PACK_ARTICLES` / `MAX_PACK_CHARS` /
+  `WARN_PACK_CHARS` at the top of `mcp/src/server.ts`. Over either limit it
+  **refuses** (naming the request size, the ceiling and the per-article cost)
+  instead of truncating — a truncated pack still looks complete. Measured
+  sizes, the two client ceilings behind the numbers and the
+  `MCP_MAX_RESULT_CHARS` override live in `mcp/README.md`, "Result-size
+  guardrails"; keep the figures there, not here.
 - Search relevance is shared with the site via `src/lib/search-core.ts`
   (stopwords, normalization, MiniSearch options); `src/lib/search.ts` is the
   thin browser wrapper around it.
