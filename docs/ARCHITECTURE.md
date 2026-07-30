@@ -326,8 +326,19 @@ corpus to Claude clients; the site build never sees it. Full reference:
 [`mcp/README.md`](../mcp/README.md).
 
 - `mcp/src/data.ts` reads `data/generated/*.json` +
-  `public/{search-docs,amendment-search-docs}.json` **once at startup** —
-  after `update-source` or amendment changes, restart the service.
+  `public/{search-docs,amendment-search-docs}.json` +
+  `data/questionnaire/assessment-v1.json` **once at startup** — after
+  `update-source`, amendment changes **or a questionnaire edit**, restart the
+  service. (`AIACT_QUESTIONNAIRE` overrides the questionnaire path, since it
+  sits outside `AIACT_DATA_DIR`.)
+- The assessment layer is MCP-exposed through `get_obligations`, which calls
+  the pure `obligationCatalog()` in `src/lib/assessment/engine.ts` (cross-
+  compiled like `search-core.ts`). The catalog is answer-independent and
+  carries no compliance status — `evaluate()` stays the only thing that
+  computes status, and it needs answers the server does not have.
+- All tools carry `annotations: {readOnlyHint, openWorldHint: false}`:
+  everything here reads a static corpus, and claude.ai's per-tool controls key
+  off those hints.
 - Search relevance is shared with the site via `src/lib/search-core.ts`
   (stopwords, normalization, MiniSearch options); `src/lib/search.ts` is the
   thin browser wrapper around it.

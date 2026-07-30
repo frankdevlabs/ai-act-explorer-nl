@@ -11,6 +11,7 @@ import type {
   SearchDoc,
   Toc,
 } from "../../src/lib/types.js";
+import type { Questionnaire } from "../../src/lib/assessment/types.js";
 import { createSearchIndex } from "../../src/lib/search-core.js";
 
 // Compiled file lives at mcp/dist/mcp/src/data.js → repo root is 4 levels up.
@@ -30,6 +31,13 @@ export const toc = load<Toc>(join(DATA_DIR, "toc.json"));
 export const amendments = load<AmendmentsGenerated>(join(DATA_DIR, "amendments.json"));
 export const amendmentDiffs = load<AmendmentDiffs>(join(DATA_DIR, "amendment-diffs.json"));
 export const recitalMap = load<RecitalMapGenerated>(join(DATA_DIR, "recital-map.json"));
+
+// The assessment questionnaire is curated source, not parser output, so it
+// lives outside DATA_DIR and has no generated derivative. Its own env override
+// keeps deployments that repoint AIACT_DATA_DIR workable.
+export const questionnaire = load<Questionnaire>(
+  process.env.AIACT_QUESTIONNAIRE ?? join(REPO_ROOT, "data/questionnaire/assessment-v1.json"),
+);
 
 // Search corpus: base docs live in data/generated; the amendment corpus is
 // only emitted to public/ — tolerate its absence like the site does.

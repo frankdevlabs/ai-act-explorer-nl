@@ -17,8 +17,42 @@ Search relevance is identical to the site: both use
 | `get_annex` | `roman` (`"III"`) | annex text (incl. omnibus annexes) |
 | `get_structure` | — | compact TOC with omnibus insertions |
 | `get_amendments` | `article?` | omnibus overview or per-article diff |
+| `get_context_pack` | `articles` (1–20) | per article: full text + omnibus status + related recitals, then every referenced recital once |
+| `get_obligations` | `role?`, `riskClass?` | obligation catalog per role/risk class, grouped by module, with deep links |
 
 All output is markdown with deep links to `BASE_URL` so Claude can cite.
+Every tool is annotated `readOnlyHint: true` / `openWorldHint: false` — the
+whole server is a read of a static corpus, and claude.ai's per-tool controls
+key off those annotations.
+
+`get_context_pack` collapses the three calls a provision used to cost
+(article, recitals, amendment status) into one. It is not a bulk dump: a pack
+runs ~13k characters per article once recitals are included, so a 20-article
+pack (~270k characters) will exceed most result budgets. Ask for the
+provisions you need.
+
+`get_obligations` serves the *catalog* — which obligations exist for a role or
+risk class — and never a compliance status, which is a function of a concrete
+system's answers (`/assessment` computes that). Obligations behind a gate the
+filter cannot decide are returned with a `Voorwaarde:` line rather than
+dropped.
+
+## Smoke test (stdio, no framework)
+
+```sh
+printf '%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}' \
+  '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+  '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"get_context_pack","arguments":{"articles":["6","50"]}}}' \
+  '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"get_obligations","arguments":{"role":"gebruiksverantwoordelijke","riskClass":"hoogrisico"}}}' \
+  | node dist/mcp/src/stdio.js
+```
+
+Expect 8 tools, each with `annotations.readOnlyHint: true`; a pack containing
+both articles with an omnibus-status block on article 6 and each recital
+rendered exactly once; and modules 9 + 10 in the obligation output with none of
+the provider modules (11, 19–23).
 
 ## Build
 
@@ -63,6 +97,7 @@ The whole build is CommonJS — the repo root `package.json` has no
 | `BASE_URL` | `https://aia.mrfrank.dev` | prefix for deep links in output |
 | `MCP_TOKEN` | unset | if set, require `Authorization: Bearer` (Claude API MCP connector / Agents). Leave unset for claude.ai custom connectors — they have no static-token field. |
 | `AIACT_DATA_DIR` | `<repo>/data/generated` | corpus location override |
+| `AIACT_QUESTIONNAIRE` | `<repo>/data/questionnaire/assessment-v1.json` | assessment questionnaire (curated source, outside `AIACT_DATA_DIR`) |
 
 ## Deployment (this VPS)
 
@@ -90,8 +125,9 @@ unit and `systemctl --user daemon-reload && systemctl --user restart aiact-mcp`.
 
 ## Reloading data
 
-The corpus is read **once at startup**. After `npm run parse` or the
-`update-source` skill:
+The corpus is read **once at startup**. After `npm run parse`, the
+`update-source` skill, **or an edit to `data/questionnaire/assessment-v1.json`**
+(which `get_obligations` reads directly, with no generated derivative):
 
 ```sh
 systemctl --user restart aiact-mcp     # remote server
