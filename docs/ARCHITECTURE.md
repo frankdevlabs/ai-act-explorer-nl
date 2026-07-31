@@ -336,9 +336,20 @@ corpus to Claude clients; the site build never sees it. Full reference:
   compiled like `search-core.ts`). The catalog is answer-independent and
   carries no compliance status — `evaluate()` stays the only thing that
   computes status, and it needs answers the server does not have.
-- All tools carry `annotations: {readOnlyHint, openWorldHint: false}`:
-  everything here reads a static corpus, and claude.ai's per-tool controls key
-  off those hints.
+- All corpus tools carry `annotations: {readOnlyHint, openWorldHint: false}`:
+  they read a static corpus, and claude.ai's per-tool controls key off those
+  hints.
+- The one write surface is the assessment pair `get_assessment` /
+  `put_assessment` (`mcp/src/assessment-state.ts`, roadmap 4.1). It is **opt-in
+  per deployment**: without `AIACT_ASSESSMENT_STATE` neither tool is
+  registered, which is why the public server stays a read server. State is a
+  single gitignored JSON file outside the corpus — the committed `data/` tree
+  is never written, and `verify-mcp.ts` fingerprints `data/` + `public/` around
+  the write tests to prove it. Writes need `MCP_TOKEN` and are validated
+  question-by-question against `data/questionnaire/assessment-v1.json`; merge
+  is by system id and omission never deletes. Auth, blob shape (the
+  legal-workbench drop-zone format) and conflict semantics: `mcp/README.md`,
+  "Assessment state (authed)".
 - `get_context_pack` is the one tool whose result size is caller-controlled, so
   it is the one with guardrails: `MAX_PACK_ARTICLES` / `MAX_PACK_CHARS` /
   `WARN_PACK_CHARS` at the top of `mcp/src/server.ts`. Over either limit it

@@ -15,6 +15,10 @@
 # testing
 /coverage
 
+# mcp assessment state (AIACT_ASSESSMENT_STATE default location) — user data,
+# never committed; the corpus under data/ is untouched by a write call
+/.state/
+
 # next.js
 /.next/
 /out/
