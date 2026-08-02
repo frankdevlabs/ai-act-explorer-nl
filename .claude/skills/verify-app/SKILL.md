@@ -26,7 +26,9 @@ instructions, 36 amended articles, 6 new articles, 1 new annexes ...
 (complete=true)`), `verify` prints `verify-data: all assertions passed` and
 `verify-amendments: all assertions passed`, `next build` exports ~329 static
 pages, `verify` also prints `verify-assessment: all assertions passed` (epic 7;
-since the 2026-07 expansion: 25 modules, ~205 vragen, 33 registerkolommen).
+since the 2026-07 expansion: 25 modules, ~205 vragen, 33 registerkolommen) and
+`verify-register-export: all assertions passed` (card #176; 4 fixtures,
+33 CSV-kolommen, 9 verplichtingen zonder AI Act-basis).
 
 ## 2. Dev server + curl smoke checks
 
