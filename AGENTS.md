@@ -77,7 +77,8 @@ parser. Both are WAF-blocked on EUR-Lex; fetch new versions via
 | `scripts/parse-aiact.ts` | HTML → JSON parser, both dialects; the heart of the repo |
 | `scripts/verify-data.ts` | pre-build completeness assertions (counts, structure, spot-checks) |
 | `scripts/lib/corpus-index.ts` | shared corpus index + `checkRef` — one href grammar for every gate that validates curated deep links |
-| `scripts/verify-mcp.ts` | MCP smoke test: tool inventory + per-tool call, deep links, result-size ceiling |
+| `scripts/verify-mcp.ts` | MCP smoke test: tool inventory + per-tool call, deep links, result-size ceiling, the UI panel resource (incl. its engine-parity gate) |
+| `mcp/src/panel.ts` | the `ui://` MCP Apps panel: the questionnaire as a fillable, self-scoring form; mirrors `src/lib/assessment/engine.ts` in browser JS |
 | `src/lib/types.ts` | shared data model (ContentNode, Article, SearchDoc, …) |
 | `src/lib/data.ts` | typed accessors + prev/next navigation over generated JSON |
 | `src/lib/search.ts` | MiniSearch index (lazy singleton), Dutch normalization, snippets |

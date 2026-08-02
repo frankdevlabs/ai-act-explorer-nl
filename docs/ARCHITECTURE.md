@@ -350,6 +350,25 @@ corpus to Claude clients; the site build never sees it. Full reference:
   is by system id and omission never deletes. Auth, blob shape (the
   legal-workbench drop-zone format) and conflict semantics: `mcp/README.md`,
   "Assessment state (authed)".
+- The server's one **resource** is the MCP Apps panel (`mcp/src/panel.ts`,
+  roadmap 4.2): `ui://ai-act-explorer-nl/assessment/vragenlijst`, a single
+  self-contained HTML document rendering the questionnaire as a fillable,
+  self-scoring form, associated to `get_questionnaire` via
+  `_meta.ui.resourceUri`. Unlike the tool pair above it is registered
+  **unconditionally** — it only renders data this server already publishes —
+  and just its load/save controls are capability-gated (`data-state` /
+  `data-write` on `<body>`, from the same two env vars, read per read), so an
+  unauthed session gets the panel without write-back and without an error.
+  Because it scores in a sandboxed iframe that cannot import the CommonJS
+  build, `panel.ts` carries a **hand-written mirror** of the forward pass in
+  `src/lib/assessment/engine.ts`, bracketed by `__PANEL_ENGINE__` sentinels.
+  `scripts/verify-mcp.ts` owns the parity gate: it slices the mirror out of the
+  *served* HTML, evals it, and asserts it agrees with the real engine on every
+  fixture in `scripts/lib/assessment-fixtures.ts` (extracted from
+  `verify-assessment.ts` so both gates share them). **An engine change without
+  a matching mirror change is meant to fail `npm run verify:mcp`** — fix the
+  mirror rather than loosening the gate. Round-trip and degradation matrix:
+  `mcp/README.md`, "Resource — the assessment panel".
 - `get_context_pack` is the one tool whose result size is caller-controlled, so
   it is the one with guardrails: `MAX_PACK_ARTICLES` / `MAX_PACK_CHARS` /
   `WARN_PACK_CHARS` at the top of `mcp/src/server.ts`. Over either limit it

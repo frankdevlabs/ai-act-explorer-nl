@@ -36,13 +36,35 @@
  *   extra short-lived servers with a temp state dir, and the whole section is
  *   bracketed by a data/ + public/ fingerprint so a write that escapes the
  *   state file turns this gate red.
+ * - Card 4.2 adds the server's first *resource* (the MCP Apps panel). It is
+ *   pinned the way the tools are: an inventory (RESOURCES), the declared mime
+ *   type, and a read whose payload must reference every question id in
+ *   assessment-v1.json — the panel embeds the questionnaire rather than
+ *   restating it, so a question added there and dropped here fails loudly.
+ *   Two assertions are specific to this panel:
+ *   · **the parity gate** (checkPanelEngine). The panel scores in the browser,
+ *     which means mcp/src/panel.ts carries a hand-written mirror of
+ *     src/lib/assessment/engine.ts. The gate slices that mirror out of the
+ *     *served* HTML, evaluates it, and asserts it agrees with the real engine
+ *     on every fixture in scripts/lib/assessment-fixtures.ts. An engine change
+ *     without a mirror change is meant to fail here.
+ *   · **the degradation matrix**. The panel is registered unconditionally, so
+ *     the default (unauthed) server must serve it with data-state/data-write
+ *     "off" and no error, and the 4.1 server with both "on".
+ *   The card names the HTTP transport, which this harness otherwise never
+ *   touches, so the last block starts mcp/dist/mcp/src/http.js on
+ *   PANEL_HTTP_PORT and asserts resources/list and resources/read return a
+ *   byte-identical payload there.
  */
 import assert from "node:assert";
 import { spawn } from "node:child_process";
-import { existsSync, mkdtempSync, readdirSync, rmSync, statSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { ASSESSMENT_FIXTURES } from "./lib/assessment-fixtures";
+import { computeVisibility, evaluate } from "../src/lib/assessment/engine";
+import type { Questionnaire } from "../src/lib/assessment/types";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SERVER = join(root, "mcp/dist/mcp/src/stdio.js");
@@ -66,6 +88,40 @@ const EXTERNAL_HOSTS = new Set(["data.europa.eu", "eur-lex.europa.eu"]);
 const DEFAULT_MAX_BYTES = 32 * 1024;
 
 const PROTOCOL_VERSION = "2025-06-18";
+
+// ------------------------------------------------- card 4.2: the MCP Apps panel
+
+/** Committed resource inventory — the twin of TOOLS, for resources/list. */
+const RESOURCES = [
+  {
+    uri: "ui://ai-act-explorer-nl/assessment/vragenlijst",
+    name: "aiact-assessment-panel",
+    title: "AI Act-zelfbeoordeling — invulpaneel",
+    mimeType: "text/html;profile=mcp-app",
+  },
+];
+
+/**
+ * The panel is the one payload on this server that is deliberately far above
+ * DEFAULT_MAX_BYTES, and for a different reason than get_context_pack: it is
+ * not a tool result a model reads, it is a document a host renders once. The
+ * bulk is the questionnaire data island (~109 kB of JSON, of which ~32 kB is
+ * the editorial `help`), which is kept because walking a client through 205
+ * questions is what the guidance is for. Observed: ~139 kB of HTML, ~146 kB
+ * serialized. The ceiling is a drift tripwire, not a client limit.
+ */
+const PANEL_MAX_BYTES = 256 * 1024;
+
+/**
+ * Port for the short-lived HTTP server the panel block starts. Deliberately
+ * neither the deployed 3106 nor dora's 3199: this must never talk to a running
+ * systemd unit, nor collide with a concurrent verify run in the sibling repo.
+ */
+const PANEL_HTTP_PORT = 3196;
+
+const QUESTIONNAIRE_PATH = join(root, "data/questionnaire/assessment-v1.json");
+const questionnaire = JSON.parse(readFileSync(QUESTIONNAIRE_PATH, "utf8")) as Questionnaire;
+const QUESTION_IDS = questionnaire.modules.flatMap((m) => m.questions.map((q) => q.id));
 
 // ------------------------------------------------- committed tool inventory
 
@@ -670,6 +726,7 @@ const FIXTURE = {
 // ------------------------------------------------- JSON-RPC over stdio
 
 type ToolResult = { content: { type: string; text: string }[]; isError?: boolean };
+type ResourceContents = { uri: string; mimeType?: string; text?: string; blob?: string };
 type Rpc = { id?: number; result?: unknown; error?: { code: number; message: string } };
 type ListedTool = {
   name: string;
@@ -773,6 +830,129 @@ function assertSchema(spec: Omit<ToolSpec, "calls">, tool: ListedTool): void {
   // descriptions are the agent-facing contract; a stub would silently
   // degrade every caller
   assert.ok((tool.description ?? "").length > 40, `${spec.name}: description too short to be useful`);
+}
+
+/**
+ * Card 4.2: what the panel payload must satisfy on every transport. The
+ * question-id assertion is the load-bearing one — the panel embeds
+ * assessment-v1.json and builds its form from it, so a questionnaire that grew
+ * a question the panel cannot show fails here rather than silently under-asking.
+ * `caps` pins the degradation matrix: the same document, with the load/save
+ * controls present only where the deployment can honour them.
+ */
+function checkPanel(
+  label: string,
+  contents: ResourceContents[],
+  caps: { state: boolean; write: boolean },
+): string {
+  assert.equal(contents.length, 1, `${label}: expected exactly one contents entry`);
+  const c = contents[0];
+  assert.equal(c.uri, RESOURCES[0].uri, `${label}: contents uri`);
+  assert.equal(c.mimeType, RESOURCES[0].mimeType, `${label}: contents mimeType`);
+  const html = c.text ?? "";
+  assert.ok(html.trim().length > 0, `${label}: empty panel payload`);
+  assert.ok(html.startsWith("<!doctype html>"), `${label}: payload is not an HTML document`);
+  // the MCP Apps iframe CSP is deny-by-default: a panel that reaches for an
+  // external script, stylesheet or font renders blank in the host
+  assert.ok(
+    !/<(?:script|link)[^>]+(?:src|href)=/i.test(html),
+    `${label}: panel must inline every asset — no external script/link`,
+  );
+  const missing = QUESTION_IDS.filter((id) => !html.includes(id));
+  assert.deepEqual(
+    missing,
+    [],
+    `${label}: panel does not reference every question id in assessment-v1.json (missing: ${missing.join(", ")})`,
+  );
+  has(html, "25 modules, 205 vragen", `${label}: panel states the questionnaire totals`);
+  // the capability flags the client half reads off <body>
+  has(html, `data-state="${caps.state ? "on" : "off"}"`, `${label}: data-state`);
+  has(html, `data-write="${caps.write ? "on" : "off"}"`, `${label}: data-write`);
+  assert.equal(
+    html.includes('id="save"'),
+    caps.write,
+    `${label}: the save control must exist exactly when put_assessment can accept a write`,
+  );
+  assert.equal(
+    html.includes('id="load"'),
+    caps.state,
+    `${label}: the load control must exist exactly when get_assessment is registered`,
+  );
+  // the fallback path is unconditional: a host that cannot render or refuses
+  // the tool call must still be able to hand the answers over by copy-paste
+  has(html, 'id="fallback"', `${label}: copy-paste fallback present`);
+  assertLinks(label, html, true);
+  return html;
+}
+
+/**
+ * The parity gate. mcp/src/panel.ts mirrors src/lib/assessment/engine.ts in
+ * browser JS because the panel scores in an iframe that cannot import the
+ * CommonJS build; this asserts the two really agree, on the same four worked
+ * examples verify-assessment.ts pins the engine against. Sliced out of the
+ * *served* HTML, not out of the source file, so what is tested is what a host
+ * would actually run.
+ */
+function checkPanelEngine(html: string): void {
+  const m = html.match(/\/\*__PANEL_ENGINE_START__\*\/[\s\S]+?\/\*__PANEL_ENGINE_END__\*\//);
+  assert.ok(m, "panel: PANEL_ENGINE sentinels missing — mcp/src/panel.ts changed shape?");
+  const panelEvaluate = new Function(`${m[0]};return panelEvaluate`)() as (
+    q: Questionnaire,
+    answers: Record<string, string>,
+  ) => {
+    kwalificatie: string;
+    rollen: string[];
+    riskClass: string;
+    riskLabel: string;
+    stops: string[];
+    annex3Categorieen: string[];
+    annex1: boolean;
+    escape: Record<string, boolean>;
+    friaVereist: boolean;
+    transparantieLeden: string[];
+    openActions: { questionId: string }[];
+    answered: number;
+    total: number;
+    visibleModules: Record<string, boolean>;
+    visibleQuestions: Record<string, boolean>;
+  };
+
+  for (const { label, answers } of ASSESSMENT_FIXTURES) {
+    const p = panelEvaluate(questionnaire, answers);
+    const e = evaluate(questionnaire, answers);
+    const ctx = computeVisibility(questionnaire, answers);
+    const where = `panel engine ${label}`;
+    assert.equal(p.kwalificatie, e.kwalificatie, `${where}: kwalificatie`);
+    assert.deepEqual(p.rollen, e.rollen, `${where}: rollen`);
+    assert.equal(p.riskClass, e.riskClass, `${where}: riskClass`);
+    assert.deepEqual(p.stops, e.stops, `${where}: art. 5 stops`);
+    assert.deepEqual(p.annex3Categorieen, e.annex3Categorieen, `${where}: bijlage III`);
+    assert.equal(p.annex1, e.annex1, `${where}: bijlage I`);
+    assert.deepEqual(p.escape, e.escape, `${where}: uitzondering art. 6, lid 3`);
+    assert.equal(p.friaVereist, e.friaVereist, `${where}: FRIA`);
+    assert.deepEqual(p.transparantieLeden, e.transparantieLeden, `${where}: art. 50-leden`);
+    assert.deepEqual(
+      p.openActions.map((o) => o.questionId),
+      e.openActions.map((o) => o.questionId),
+      `${where}: open acties`,
+    );
+    assert.equal(p.answered, e.answered, `${where}: answered`);
+    assert.equal(p.total, e.total, `${where}: total`);
+    assert.deepEqual(
+      Object.keys(p.visibleModules).sort(),
+      [...ctx.visibleModules].sort(),
+      `${where}: zichtbare modules`,
+    );
+    assert.deepEqual(
+      Object.keys(p.visibleQuestions).sort(),
+      [...ctx.visibleQuestions].sort(),
+      `${where}: zichtbare vragen`,
+    );
+  }
+  console.log(
+    `verify-mcp: panel engine agrees with src/lib/assessment/engine.ts on ` +
+      `${ASSESSMENT_FIXTURES.map((f) => f.label).join(", ")}`,
+  );
 }
 
 function textOf(label: string, result: ToolResult): string {
@@ -911,6 +1091,17 @@ async function checkAssessment(): Promise<number> {
         "unauthenticated write created the state file — the gate ran too late",
       );
       calls++;
+
+      // card 4.2, middle row of the degradation matrix: a state file without a
+      // credential ⇒ the panel can load but not save
+      const anonPanel = await anon.request("resources/read", { uri: RESOURCES[0].uri });
+      assert.ok(!anonPanel.error, `panel(anon): ${JSON.stringify(anonPanel.error)}`);
+      checkPanel(
+        "resources/read (state, no token)",
+        (anonPanel.result as { contents: ResourceContents[] }).contents,
+        { state: true, write: false },
+      );
+      calls++;
     } finally {
       anon.close();
     }
@@ -1016,6 +1207,20 @@ async function checkAssessment(): Promise<number> {
       has(one, "Tweede toepassing", "filter returns the requested system");
       assert.ok(!one.includes("verify-sys-1"), "filter must not leak the other system");
       calls++;
+
+      // (i) card 4.2, top row of the degradation matrix: state file + token ⇒
+      // the panel offers both write-back controls. The panel's own round-trip
+      // rides these same two tools, so nothing new is registered for it.
+      const authedPanel = await authed.request("resources/read", { uri: RESOURCES[0].uri });
+      assert.ok(!authedPanel.error, `panel(authed): ${JSON.stringify(authedPanel.error)}`);
+      const authedHtml = checkPanel(
+        "resources/read (state + token)",
+        (authedPanel.result as { contents: ResourceContents[] }).contents,
+        { state: true, write: true },
+      );
+      has(authedHtml, "put_assessment", "writable panel calls put_assessment");
+      has(authedHtml, "get_assessment", "writable panel calls get_assessment");
+      calls++;
     } finally {
       authed.close();
     }
@@ -1035,6 +1240,8 @@ async function main(): Promise<void> {
   const server = startServer();
   let calls = 0;
   let maxBytes = 0;
+  let panelHtml = "";
+  let panelBytes = 0;
   try {
     // ---- handshake
     const init = await server.request("initialize", {
@@ -1049,6 +1256,9 @@ async function main(): Promise<void> {
     };
     assert.equal(info.serverInfo.name, "ai-act-explorer-nl", "serverInfo.name");
     assert.ok(info.capabilities.tools, "server advertises the tools capability");
+    // card 4.2: the panel is registered unconditionally, so this capability is
+    // present on the *default* (public-shaped) server too
+    assert.ok(info.capabilities.resources, "server advertises the resources capability");
     server.notify("notifications/initialized");
 
     // ---- tool inventory
@@ -1130,6 +1340,59 @@ async function main(): Promise<void> {
     const packDesc = listed.find((t) => t.name === "get_context_pack")?.description ?? "";
     has(packDesc, "20 articles per call", "get_context_pack description names the count cap");
     has(packDesc, "85,000 characters", "get_context_pack description names the size ceiling");
+
+    // ---- card 4.2: the MCP Apps panel resource (stdio half)
+    //
+    // The association that makes a host offer to render the panel for this
+    // tool. It sits in _meta, so neither inputSchema nor annotations changed.
+    const questionnaireTool = listed.find((t) => t.name === "get_questionnaire") as
+      | { _meta?: { ui?: { resourceUri?: string } } }
+      | undefined;
+    assert.equal(
+      questionnaireTool?._meta?.ui?.resourceUri,
+      RESOURCES[0].uri,
+      "get_questionnaire carries the MCP Apps association to the panel resource",
+    );
+
+    const listedResources = ((await server.request("resources/list", {})).result as {
+      resources: {
+        uri: string;
+        name: string;
+        title?: string;
+        description?: string;
+        mimeType?: string;
+      }[];
+    }).resources;
+    assert.deepEqual(
+      listedResources.map((r) => r.uri).sort(),
+      RESOURCES.map((r) => r.uri).sort(),
+      "resource inventory drift — update RESOURCES in scripts/verify-mcp.ts when adding a resource",
+    );
+    for (const spec of RESOURCES) {
+      const r = listedResources.find((x) => x.uri === spec.uri)!;
+      assert.equal(r.name, spec.name, `${spec.uri}: name`);
+      assert.equal(r.title, spec.title, `${spec.uri}: title`);
+      assert.equal(r.mimeType, spec.mimeType, `${spec.uri}: mimeType`);
+      // the panel's one job must be readable off the resource itself, not only
+      // out of the README
+      assert.ok((r.description ?? "").length > 40, `${spec.uri}: description too short`);
+      has(r.description ?? "", "viewing need", `${spec.uri}: description names the viewing need`);
+    }
+
+    // This server sets neither AIACT_ASSESSMENT_STATE nor MCP_TOKEN — the
+    // public deployment's shape. The panel must still render, read-only.
+    const readLabel = "resources/read (stdio, unauthed)";
+    const read = await server.request("resources/read", { uri: RESOURCES[0].uri });
+    assert.ok(!read.error, `${readLabel}: JSON-RPC error ${JSON.stringify(read.error)}`);
+    panelHtml = checkPanel(
+      readLabel,
+      (read.result as { contents: ResourceContents[] }).contents,
+      { state: false, write: false },
+    );
+    checkPanelEngine(panelHtml);
+    panelBytes = assertSize(readLabel, read.result, PANEL_MAX_BYTES);
+    calls++;
+    console.log(`verify-mcp: ${readLabel} ok (${panelBytes} B, ${QUESTION_IDS.length} vragen)`);
   } finally {
     server.close();
   }
@@ -1180,11 +1443,78 @@ async function main(): Promise<void> {
     "a put_assessment call changed something under data/ or public/ — state must stay in AIACT_ASSESSMENT_STATE",
   );
 
+  // ---- card 4.2: the panel over streamable HTTP — the transport claude.ai
+  //      custom connectors use, and the one surface that can render it. The
+  //      endpoint is stateless (no session ids), so a bare request works
+  //      without a handshake; that is the property being pinned as much as the
+  //      payload. Its own short-lived process on PANEL_HTTP_PORT, never 3106.
+  const http = spawn(process.execPath, [join(root, "mcp/dist/mcp/src/http.js")], {
+    cwd: root,
+    env: { ...process.env, BASE_URL: BASE, PORT: String(PANEL_HTTP_PORT) },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  let httpErr = "";
+  http.stderr.on("data", (d: Buffer) => (httpErr += d.toString()));
+  const origin = `http://127.0.0.1:${PANEL_HTTP_PORT}`;
+  try {
+    let up = false;
+    for (let i = 0; i < 60 && !up; i++) {
+      try {
+        up = (await fetch(`${origin}/healthz`)).ok;
+      } catch {
+        await new Promise((r) => setTimeout(r, 100));
+      }
+    }
+    assert.ok(up, `verify-mcp: HTTP server did not come up on ${origin}\n${httpErr}`);
+
+    const rpc = async (method: string, params?: unknown): Promise<Rpc> => {
+      const res = await fetch(`${origin}/mcp`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json, text/event-stream",
+        },
+        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
+      });
+      assert.equal(res.status, 200, `${method} over HTTP: status ${res.status}`);
+      return (await res.json()) as Rpc;
+    };
+
+    const httpList = await rpc("resources/list");
+    assert.ok(!httpList.error, `resources/list (HTTP): ${JSON.stringify(httpList.error)}`);
+    const uris = (httpList.result as { resources: { uri: string }[] }).resources.map((r) => r.uri);
+    assert.deepEqual(
+      uris.sort(),
+      RESOURCES.map((r) => r.uri).sort(),
+      "the panel must be discoverable via resources/list on the HTTP transport",
+    );
+
+    const httpRead = await rpc("resources/read", { uri: RESOURCES[0].uri });
+    assert.ok(!httpRead.error, `resources/read (HTTP): ${JSON.stringify(httpRead.error)}`);
+    const html = checkPanel(
+      "resources/read (HTTP, unauthed)",
+      (httpRead.result as { contents: ResourceContents[] }).contents,
+      { state: false, write: false },
+    );
+    // one renderer, two transports: a divergence here means a transport is
+    // reshaping the payload
+    assert.equal(html, panelHtml, "the panel payload must be identical over stdio and HTTP");
+    calls += 2;
+    console.log(
+      `verify-mcp: resources/{list,read} over HTTP on :${PANEL_HTTP_PORT} ok ` +
+        `(${Buffer.byteLength(html, "utf8")} B, identical to stdio)`,
+    );
+  } finally {
+    http.kill();
+  }
+
   console.log(
     `verify-mcp: all assertions passed ` +
       `(${TOOLS.length} tools + ${ASSESSMENT_TOOLS.length} conditional assessment tools, ` +
+      `${RESOURCES.length} resource over stdio + HTTP, ` +
       `${calls} calls of which ${assessmentCalls} on the assessment pair, ` +
-      `largest result ${maxBytes} B; default ceiling ${DEFAULT_MAX_BYTES} B, raised per call where noted; ` +
+      `largest tool result ${maxBytes} B (ceiling ${DEFAULT_MAX_BYTES} B, raised per call where noted), ` +
+      `panel ${panelBytes} B (ceiling ${PANEL_MAX_BYTES} B); ` +
       `data/ + public/ unchanged)`,
   );
 }
