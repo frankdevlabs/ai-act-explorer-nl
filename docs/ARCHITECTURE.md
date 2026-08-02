@@ -351,8 +351,10 @@ corpus to Claude clients; the site build never sees it. Full reference:
   legal-workbench drop-zone format) and conflict semantics: `mcp/README.md`,
   "Assessment state (authed)".
 - `get_context_pack` is the one tool whose result size is caller-controlled, so
-  it is the one with guardrails: `MAX_PACK_ARTICLES` / `MAX_PACK_CHARS` /
-  `WARN_PACK_CHARS` at the top of `mcp/src/server.ts`. Over either limit it
+  it is the one with guardrails: `DEFAULT_PACK_LIMITS` (`maxArticles` /
+  `maxChars` / `warnChars`) in `mcp/src/core/size.ts`, with
+  `packLimitsFromEnv()` applied once at module scope in `mcp/src/server.ts`.
+  Over either limit it
   **refuses** (naming the request size, the ceiling and the per-article cost)
   instead of truncating — a truncated pack still looks complete. Measured
   sizes, the two client ceilings behind the numbers and the
@@ -363,7 +365,20 @@ corpus to Claude clients; the site build never sees it. Full reference:
   thin browser wrapper around it.
 - One `createServer()` factory, two transports: `stdio.ts` (Claude
   Desktop/Code) and `http.ts` (stateless streamable HTTP on `127.0.0.1:3106`,
-  behind nginx at `https://aia.mrfrank.dev`).
+  behind nginx at `https://aia.mrfrank.dev`). Both are six-line entrypoints over
+  `core/transport.ts`; the compiled paths `mcp/dist/mcp/src/{stdio,http}.js` are
+  hardcoded in `verify-mcp.ts` and in the systemd unit, so they must not move.
+- `mcp/src/core/` is the corpus-agnostic half (roadmap 4.3), mirroring
+  `dora-explorer-nl/mcp/src/core/` file for file: tool registration and
+  annotations, the pack-size policy and its Dutch refusal templates, the
+  markdown renderers, the Dutch formatting helpers, the JSON loader and both
+  transports. `registerTool()` applies the annotations, so no call site spells
+  them out (only `put_assessment` overrides them). Nothing in `core/` may import
+  `src/lib`, `./data.js` or anything else outside itself —
+  `mcp/scripts/check-core-isolation.mjs` runs as the first half of
+  `npm --prefix mcp run build` and therefore of `npm run verify:mcp`. The split
+  and the six places this corpus did not fit the shared core: `mcp/README.md`,
+  "Code layout (core/ vs corpus)".
 
 ## Runbook — which script, when
 

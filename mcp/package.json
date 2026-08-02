@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "node scripts/check-core-isolation.mjs && tsc",
     "start:stdio": "node dist/mcp/src/stdio.js",
     "start:http": "node dist/mcp/src/http.js"
   },

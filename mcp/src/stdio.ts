@@ -1,14 +1,6 @@
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { createServer } from "./server.js";
+import { serveStdio } from "./core/transport.js";
 
-// stdout is the protocol channel — never log to it.
-async function main() {
-  const server = createServer();
-  await server.connect(new StdioServerTransport());
-  console.error("aiact-mcp: stdio server ready");
-}
-
-main().catch((e) => {
-  console.error("aiact-mcp: fatal:", e);
-  process.exit(1);
-});
+// Entrypoint path is load-bearing: scripts/verify-mcp.ts and the aiact-mcp
+// systemd unit both point at mcp/dist/mcp/src/stdio.js.
+serveStdio({ createServer, logPrefix: "aiact-mcp" });
