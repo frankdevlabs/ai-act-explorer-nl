@@ -15,7 +15,7 @@ import assert from "node:assert";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { AmendmentsGenerated, Annex, Article, ContentNode, Recital } from "../src/lib/types";
+import { loadCorpus, makeCheckRef } from "./lib/corpus-index";
 import type {
   ObligationCatalogEntry,
   QCondition,
@@ -36,10 +36,6 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const load = <T>(rel: string): T => JSON.parse(readFileSync(join(root, rel), "utf-8"));
 
 const questionnaire = load<Questionnaire>("data/questionnaire/assessment-v1.json");
-const articles = load<Article[]>("data/generated/articles.json");
-const annexes = load<Annex[]>("data/generated/annexes.json");
-const recitals = load<Recital[]>("data/generated/recitals.json");
-const amendments = load<AmendmentsGenerated>("data/generated/amendments.json");
 
 // Derived flags the engine computes between modules (not set by effects).
 const DERIVED_FLAGS = new Set(["hoogrisico"]);
@@ -162,74 +158,9 @@ for (const { q } of allQuestions) {
 
 // ------------------------------------------------- ref integrity
 
-function collectAnchors(nodes: ContentNode[], into: Set<string>): void {
-  for (const node of nodes) {
-    if (node.type === "list") {
-      for (const item of node.items) {
-        if (item.anchor) into.add(item.anchor);
-        collectAnchors(item.content, into);
-      }
-    }
-  }
-}
-
-function articleAnchors(paragraphs: { anchor: string; content: ContentNode[] }[]): Set<string> {
-  const anchors = new Set<string>();
-  for (const p of paragraphs) {
-    anchors.add(p.anchor);
-    collectAnchors(p.content, anchors);
-  }
-  return anchors;
-}
-
-const annexRomans = new Set([
-  ...annexes.map((a) => a.roman.toLowerCase()),
-  ...amendments.newAnnexes.map((a) => a.roman.toLowerCase()),
-]);
-const recitalNumbers = new Set(recitals.map((r) => r.number));
-/** Curated internal info pages the questionnaire may link to (exact match, no fragments). */
-const internalPages = new Set([
-  "/gpai-praktijkcode",
-  "/conformiteitsbeoordeling",
-  "/transparantie-art50",
-]);
-
-function checkRef(owner: string, href: string): void {
-  const [pathWithQuery, fragment] = href.split("#");
-  const path = pathWithQuery.split("?")[0];
-  const art = path.match(/^\/artikel\/(\d+)$/);
-  if (art) {
-    const a = articles.find((x) => x.number === Number(art[1]));
-    assert.ok(a, `${owner}: artikel ${art[1]} bestaat`);
-    if (fragment)
-      assert.ok(articleAnchors(a!.paragraphs).has(fragment), `${owner}: anchor ${href}`);
-    return;
-  }
-  const newArt = path.match(/^\/artikel\/(\d+(?:bis|ter|quater|quinquies))$/);
-  if (newArt) {
-    const spec = amendments.newArticles.find((n) => n.slug === newArt[1]);
-    assert.ok(spec, `${owner}: omnibus-artikel ${newArt[1]} bestaat`);
-    if (fragment)
-      assert.ok(articleAnchors(spec!.paragraphs).has(fragment), `${owner}: anchor ${href}`);
-    return;
-  }
-  const anx = path.match(/^\/bijlage\/([a-z]+)$/);
-  if (anx) {
-    assert.ok(annexRomans.has(anx[1]), `${owner}: bijlage ${anx[1]} bestaat`);
-    assert.ok(!fragment, `${owner}: geen fragmenten op bijlagen (${href})`);
-    return;
-  }
-  const rct = path.match(/^\/overweging\/(\d+)$/);
-  if (rct) {
-    assert.ok(recitalNumbers.has(Number(rct[1])), `${owner}: overweging ${rct[1]} bestaat`);
-    return;
-  }
-  if (internalPages.has(path)) {
-    assert.ok(!fragment, `${owner}: geen fragmenten op interne pagina's (${href})`);
-    return;
-  }
-  assert.fail(`${owner}: onbekend ref-pad ${href}`);
-}
+// The href grammar lives in scripts/lib/corpus-index.ts: verify-register-export
+// validates the same deep links from the exported dossier.
+const checkRef = makeCheckRef(loadCorpus(root));
 
 for (const m of questionnaire.modules) {
   for (const ref of m.refs ?? []) checkRef(`module ${m.id}`, ref.href);
