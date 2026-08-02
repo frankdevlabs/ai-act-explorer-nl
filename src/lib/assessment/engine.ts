@@ -121,7 +121,8 @@ export function computeVisibility(
   return { flags, visibleModules, visibleQuestions };
 }
 
-function answerLabel(q: Question, value: string | undefined): string {
+/** Human-readable form of a stored answer value ("ja" → "Ja", choice → label). */
+export function answerLabel(q: Question, value: string | undefined): string {
   if (value === undefined || value === "") return "";
   if (q.answerType === "choice") {
     return q.options?.find((o) => o.value === value)?.label ?? value;

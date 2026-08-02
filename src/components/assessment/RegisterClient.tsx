@@ -12,6 +12,13 @@ import {
   toTsv,
 } from "@/lib/assessment/engine";
 import { useAssessments } from "@/lib/assessment/store";
+import {
+  includesFinance,
+  registerDossierFilename,
+  registerDossierMarkdown,
+  registerFlatCsv,
+  type RegisterEntry,
+} from "@/lib/register/export";
 
 function useMounted(): boolean {
   return useSyncExternalStore(
@@ -56,16 +63,10 @@ export function RegisterClient() {
   const systems = useAssessments();
   const questionnaire = getQuestionnaire();
 
-  const rows = useMemo(
-    () =>
-      systems.map((s) => ({
-        system: s,
-        evaluation: evaluate(questionnaire, s.answers),
-        includeFinance: s.answers["1.12"] === "ja",
-      })),
+  const rows: RegisterEntry[] = useMemo(
+    () => systems.map((s) => ({ system: s, evaluation: evaluate(questionnaire, s.answers) })),
     [systems, questionnaire],
   );
-  const anyFinance = rows.some((r) => r.includeFinance);
 
   if (!mounted) return null;
   if (systems.length === 0) {
@@ -80,10 +81,26 @@ export function RegisterClient() {
     );
   }
 
-  const allRows = () => [
-    registerHeaderRow(questionnaire, anyFinance),
-    ...rows.map((r) => registerValueRow(questionnaire, r.evaluation.registerRow, anyFinance)),
-  ];
+  const downloadDossier = (entry: RegisterEntry) =>
+    downloadFile(
+      registerDossierFilename(entry.system),
+      "text/markdown;charset=utf-8",
+      registerDossierMarkdown(questionnaire, entry, Date.now()),
+    );
+
+  // One file per system; Chrome throttles bursts of downloads, so stagger them.
+  const downloadAllDossiers = () => {
+    const now = Date.now();
+    rows.forEach((entry, i) => {
+      setTimeout(() => {
+        downloadFile(
+          registerDossierFilename(entry.system),
+          "text/markdown;charset=utf-8",
+          registerDossierMarkdown(questionnaire, entry, now),
+        );
+      }, i * 150);
+    });
+  };
 
   return (
     <div className="space-y-3">
@@ -100,28 +117,42 @@ export function RegisterClient() {
             </tr>
           </thead>
           <tbody>
-            {rows.map(({ system, evaluation, includeFinance }) => (
-              <tr key={system.id} className="border-b border-line last:border-b-0">
+            {rows.map((entry) => (
+              <tr key={entry.system.id} className="border-b border-line last:border-b-0">
                 <td className="px-3 py-2">
                   <Link
-                    href={`/assessment/resultaat?sys=${system.id}`}
+                    href={`/assessment/resultaat?sys=${entry.system.id}`}
                     className="font-medium text-accent hover:underline"
                   >
-                    {system.name}
+                    {entry.system.name}
                   </Link>
                 </td>
-                <td className="px-3 py-2">{evaluation.registerRow.risicoklasse || "—"}</td>
-                <td className="px-3 py-2">{evaluation.registerRow.rollen || "—"}</td>
-                <td className="px-3 py-2">{evaluation.registerRow.besluit || "—"}</td>
-                <td className="px-3 py-2 text-muted">{evaluation.registerRow.openacties}</td>
+                <td className="px-3 py-2">{entry.evaluation.registerRow.risicoklasse || "—"}</td>
+                <td className="px-3 py-2">{entry.evaluation.registerRow.rollen || "—"}</td>
+                <td className="px-3 py-2">{entry.evaluation.registerRow.besluit || "—"}</td>
+                <td className="px-3 py-2 text-muted">{entry.evaluation.registerRow.openacties}</td>
                 <td className="px-3 py-2 text-right">
-                  <RowCopy
-                    getText={() =>
-                      toTsv([
-                        registerValueRow(questionnaire, evaluation.registerRow, includeFinance),
-                      ])
-                    }
-                  />
+                  <div className="flex items-center justify-end gap-3 whitespace-nowrap">
+                    <RowCopy
+                      getText={() =>
+                        toTsv([
+                          registerValueRow(
+                            questionnaire,
+                            entry.evaluation.registerRow,
+                            includesFinance(entry.system),
+                          ),
+                        ])
+                      }
+                    />
+                    <button
+                      type="button"
+                      title="Download het dossier van deze toepassing (Markdown)"
+                      onClick={() => downloadDossier(entry)}
+                      className="inline-flex items-center gap-1 text-xs text-accent hover:underline"
+                    >
+                      <Download className="size-3.5" /> Dossier (.md)
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -131,12 +162,30 @@ export function RegisterClient() {
       <div className="flex flex-wrap gap-2 text-xs">
         <button
           type="button"
-          onClick={() => downloadFile("ai-register.csv", "text/csv;charset=utf-8", toCsv(allRows()))}
+          onClick={() =>
+            downloadFile(
+              "ai-register.csv",
+              "text/csv;charset=utf-8",
+              registerFlatCsv(questionnaire, rows),
+            )
+          }
           className="flex h-8 items-center gap-1.5 rounded-md border border-line px-3 text-muted hover:text-foreground"
         >
           <Download className="size-3.5" /> Alle rijen (CSV)
         </button>
+        <button
+          type="button"
+          onClick={downloadAllDossiers}
+          className="flex h-8 items-center gap-1.5 rounded-md border border-line px-3 text-muted hover:text-foreground"
+        >
+          <Download className="size-3.5" /> Alle dossiers ({rows.length} × .md)
+        </button>
       </div>
+      <p className="text-xs text-muted">
+        Het dossier is een deelbaar Markdown-document per toepassing: classificatie, de
+        toepasselijke verplichtingen met een link naar het artikel/lid dat elke verplichting
+        draagt, de openstaande acties en de antwoorden waarop de classificatie berust.
+      </p>
     </div>
   );
 }
