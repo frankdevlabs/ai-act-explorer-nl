@@ -30,11 +30,18 @@
  *   *rendering* still carries them, so a source update moves both files together.
  * - Recital-map values are deliberately not pinned (curation in progress,
  *   verify-recital-map.ts owns their content) — only panel presence.
+ * - Card 4.1 adds the write surface (get_assessment / put_assessment). It is
+ *   opt-in per deployment (AIACT_ASSESSMENT_STATE), so the default run above
+ *   must keep listing exactly the read tools; the pair is driven against two
+ *   extra short-lived servers with a temp state dir, and the whole section is
+ *   bracketed by a data/ + public/ fingerprint so a write that escapes the
+ *   state file turns this gate red.
  */
 import assert from "node:assert";
 import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync, mkdtempSync, readdirSync, rmSync, statSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -615,10 +622,62 @@ const TOOLS: ToolSpec[] = [
  */
 const SIZE_LIMIT_ENV = { MCP_MAX_RESULT_CHARS: "5000" };
 
+// ------------------------------------------------- card 4.1: the write surface
+
+/**
+ * The assessment pair, registered only when AIACT_ASSESSMENT_STATE is set.
+ * Schema/annotation contract asserted like TOOLS above; the call sequence is
+ * stateful, so it lives in checkAssessment() rather than in per-call `check`s.
+ */
+const ASSESSMENT_TOOLS: Omit<ToolSpec, "calls">[] = [
+  {
+    name: "get_assessment",
+    title: "Assessmentstatus ophalen",
+    properties: ["system"],
+    required: [],
+  },
+  {
+    name: "put_assessment",
+    title: "Assessmentstatus opslaan",
+    properties: ["blob"],
+    required: ["blob"],
+  },
+];
+
+/** Not a real secret: the gate is "is MCP_TOKEN set", and this value only ever
+ *  lives in this file and in the child process it starts. */
+const VERIFY_TOKEN = "verify-mcp-token";
+
+/** Modelled on legal-workbench/inbox/examples/ai-assessments.json: 1.1 doubles
+ *  as the display name, 1.4 is a `choice` with a closed option list, 2.1 janee. */
+const FIXTURE = {
+  v: 1,
+  systems: [
+    {
+      id: "verify-sys-1",
+      name: "Fictieve Klantcontact-assistent",
+      answers: {
+        "1.1": "Fictieve Klantcontact-assistent",
+        "1.4": "inkoop-saas",
+        "2.1": "ja",
+      },
+      createdAt: 1750000000000,
+      updatedAt: 1750000100000,
+    },
+  ],
+};
+
 // ------------------------------------------------- JSON-RPC over stdio
 
 type ToolResult = { content: { type: string; text: string }[]; isError?: boolean };
 type Rpc = { id?: number; result?: unknown; error?: { code: number; message: string } };
+type ListedTool = {
+  name: string;
+  title?: string;
+  description?: string;
+  annotations?: Record<string, unknown>;
+  inputSchema: Record<string, unknown>;
+};
 
 function startServer(extraEnv: Record<string, string> = {}) {
   const child = spawn(process.execPath, [SERVER], {
@@ -693,6 +752,29 @@ function assertLinks(label: string, md: string, expectDeepLink: boolean): void {
     assert.ok(md.includes(BASE), `${label}: no ${BASE} deep link in the result`);
 }
 
+/** Input-schema / title / description contract, shared by TOOLS and the
+ *  conditionally registered assessment pair. */
+function assertSchema(spec: Omit<ToolSpec, "calls">, tool: ListedTool): void {
+  const schema = tool.inputSchema as {
+    properties?: Record<string, unknown>;
+    required?: string[];
+  };
+  assert.deepEqual(
+    Object.keys(schema.properties ?? {}).sort(),
+    [...spec.properties].sort(),
+    `${spec.name}: input-schema properties`,
+  );
+  assert.deepEqual(
+    [...(schema.required ?? [])].sort(),
+    [...spec.required].sort(),
+    `${spec.name}: input-schema required`,
+  );
+  assert.equal(tool.title, spec.title, `${spec.name}: title`);
+  // descriptions are the agent-facing contract; a stub would silently
+  // degrade every caller
+  assert.ok((tool.description ?? "").length > 40, `${spec.name}: description too short to be useful`);
+}
+
 function textOf(label: string, result: ToolResult): string {
   assert.ok(Array.isArray(result?.content), `${label}: result has no content array`);
   assert.equal(result.content.length, 1, `${label}: expected exactly one content block`);
@@ -700,6 +782,247 @@ function textOf(label: string, result: ToolResult): string {
   const md = result.content[0].text;
   assert.ok(typeof md === "string" && md.trim().length > 0, `${label}: empty text content`);
   return md;
+}
+
+// ------------------------------------------------- card 4.1: assessment tools
+
+/** path → size+mtime for every file under `dir`, so a stray write is visible. */
+function fingerprint(dir: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  const walk = (d: string) => {
+    for (const entry of readdirSync(d, { withFileTypes: true })) {
+      const p = join(d, entry.name);
+      if (entry.isDirectory()) walk(p);
+      else if (entry.isFile()) {
+        const s = statSync(p);
+        out[relative(root, p)] = `${s.size}:${s.mtimeMs}`;
+      }
+    }
+  };
+  walk(dir);
+  return out;
+}
+
+type Driver = ReturnType<typeof startServer>;
+
+async function handshake(server: Driver, label: string): Promise<void> {
+  const init = await server.request("initialize", {
+    protocolVersion: PROTOCOL_VERSION,
+    capabilities: {},
+    clientInfo: { name: "verify-mcp", version: "1" },
+  });
+  assert.ok(!init.error, `${label}: initialize failed: ${JSON.stringify(init.error)}`);
+  server.notify("notifications/initialized");
+}
+
+/** One tools/call, with the shared link/size/shape assertions applied. */
+async function callTool(
+  server: Driver,
+  name: string,
+  args: Record<string, unknown>,
+  opts: { isError?: boolean; noLinks?: boolean } = {},
+): Promise<string> {
+  const label = `${name} ${JSON.stringify(args)}`;
+  const response = await server.request("tools/call", { name, arguments: args });
+  assert.ok(!response.error, `${label}: JSON-RPC error ${JSON.stringify(response.error)}`);
+  const result = response.result as ToolResult;
+  const md = textOf(label, result);
+  assert.equal(
+    Boolean(result.isError),
+    Boolean(opts.isError),
+    `${label}: isError should be ${Boolean(opts.isError)} — got ${JSON.stringify(md.slice(0, 300))}`,
+  );
+  assertLinks(label, md, !opts.noLinks);
+  const bytes = assertSize(label, result, DEFAULT_MAX_BYTES);
+  console.log(`verify-mcp: ${label} ok (${bytes} B)`);
+  return md;
+}
+
+/** The fenced ```json block get_assessment appends for round-tripping. */
+function blobOf(label: string, md: string): unknown {
+  const m = md.match(/```json\n([\s\S]+?)\n```/);
+  assert.ok(m, `${label}: no fenced JSON blob in the result`);
+  return JSON.parse(m[1]);
+}
+
+/**
+ * Card 4.1. Two extra servers: one with a state file but no token (the write
+ * path must refuse), one with both (the round-trip). The state file lives in a
+ * temp dir, so nothing in the repo is touched — asserted separately by the
+ * data/ + public/ fingerprint in main().
+ */
+async function checkAssessment(): Promise<number> {
+  const dir = mkdtempSync(join(tmpdir(), "verify-mcp-"));
+  const statePath = join(dir, "assessment.json");
+  let calls = 0;
+  try {
+    // ---- server B: enabled, unauthenticated
+    const anon = startServer({ AIACT_ASSESSMENT_STATE: statePath });
+    try {
+      await handshake(anon, "assessment(anon)");
+      const listed = ((await anon.request("tools/list", {})).result as { tools: ListedTool[] })
+        .tools;
+      assert.deepEqual(
+        listed.map((t) => t.name).sort(),
+        [...TOOLS.map((t) => t.name), ...ASSESSMENT_TOOLS.map((t) => t.name)].sort(),
+        "AIACT_ASSESSMENT_STATE must register exactly the two assessment tools on top of the corpus tools",
+      );
+      for (const spec of ASSESSMENT_TOOLS) {
+        assertSchema(spec, listed.find((t) => t.name === spec.name)!);
+      }
+      const read = listed.find((t) => t.name === "get_assessment")!;
+      assert.equal(read.annotations?.readOnlyHint, true, "get_assessment: readOnlyHint");
+      const write = listed.find((t) => t.name === "put_assessment")!;
+      assert.notEqual(
+        write.annotations?.readOnlyHint,
+        true,
+        "put_assessment must not claim readOnlyHint — it writes",
+      );
+      assert.equal(
+        write.annotations?.destructiveHint,
+        true,
+        "put_assessment: destructiveHint — merge-by-id replaces an existing record wholesale",
+      );
+      assert.equal(write.annotations?.idempotentHint, true, "put_assessment: idempotentHint");
+      assert.equal(write.annotations?.openWorldHint, false, "put_assessment: openWorldHint");
+      has(
+        write.description ?? "",
+        "MCP_TOKEN",
+        "put_assessment description names the auth env var",
+      );
+
+      // empty state reads cleanly — nothing stored is an answer, not an error
+      const empty = await callTool(anon, "get_assessment", {});
+      has(empty, "Er is nog niets opgeslagen", "empty state");
+      calls++;
+
+      // the gate: no MCP_TOKEN ⇒ refusal, and nothing on disk
+      const refused = await callTool(
+        anon,
+        "put_assessment",
+        { blob: FIXTURE },
+        { isError: true, noLinks: true },
+      );
+      has(refused, "geweigerd", "unauthenticated write is refused");
+      has(refused, "MCP_TOKEN", "refusal names the credential the server lacks");
+      has(refused, "niets opgeslagen", "refusal states nothing was written");
+      assert.ok(
+        !existsSync(statePath),
+        "unauthenticated write created the state file — the gate ran too late",
+      );
+      calls++;
+    } finally {
+      anon.close();
+    }
+
+    // ---- server C: enabled + authenticated
+    const authed = startServer({
+      AIACT_ASSESSMENT_STATE: statePath,
+      MCP_TOKEN: VERIFY_TOKEN,
+    });
+    try {
+      await handshake(authed, "assessment(authed)");
+
+      // (a) valid write
+      const wrote = await callTool(authed, "put_assessment", { blob: FIXTURE });
+      has(wrote, "1 toegevoegd (verify-sys-1)", "authed write reports the added id");
+      has(wrote, "0 bijgewerkt", "authed write reports the updated count");
+      assert.ok(existsSync(statePath), "authed write did not create the state file");
+      calls++;
+
+      // (b) round-trip through the read tool
+      const back = await callTool(authed, "get_assessment", {});
+      has(back, "# Assessmentstatus — 1 toepassing", "read after write");
+      assert.deepEqual(blobOf("get_assessment", back), FIXTURE, "blob must round-trip unchanged");
+      calls++;
+
+      // (c) unknown question id: rejected, and the stored state is untouched
+      const badId = await callTool(
+        authed,
+        "put_assessment",
+        {
+          blob: { v: 1, systems: [{ id: "verify-sys-1", name: "Aangepast", answers: { "99.9": "ja" } }] },
+        },
+        { isError: true, noLinks: true },
+      );
+      has(badId, "99.9", "invalid question id is named in the refusal");
+      has(badId, "onbekende vraag-id", "invalid question id is diagnosed");
+      has(badId, "get_questionnaire", "refusal points at the questionnaire tool");
+      calls++;
+      const afterBadId = await callTool(authed, "get_assessment", {});
+      assert.deepEqual(
+        blobOf("get_assessment", afterBadId),
+        FIXTURE,
+        "a rejected write must not land, not even partially",
+      );
+      calls++;
+
+      // (d) invalid option value on a `choice` question
+      const badValue = await callTool(
+        authed,
+        "put_assessment",
+        { blob: { v: 1, systems: [{ id: "verify-sys-3", name: "X", answers: { "1.4": "onzin" } }] } },
+        { isError: true, noLinks: true },
+      );
+      has(badValue, "geen geldige optie", "invalid option value is diagnosed");
+      has(badValue, "inkoop-saas", "refusal enumerates the valid options");
+      calls++;
+
+      // (e) wrong blob version is a hard stop, never a migration
+      const badVersion = await callTool(
+        authed,
+        "put_assessment",
+        { blob: { v: 2, systems: [] } },
+        { isError: true, noLinks: true },
+      );
+      has(badVersion, "Verkeerde blobversie", "v:2 is refused");
+      calls++;
+
+      // (f) merge by id: a second system is added, the first survives
+      const second = await callTool(authed, "put_assessment", {
+        blob: {
+          v: 1,
+          systems: [{ id: "verify-sys-2", name: "Tweede toepassing", answers: { "2.1": "nee" } }],
+        },
+      });
+      has(second, "1 toegevoegd (verify-sys-2)", "second system added");
+      has(second, "1 ongewijzigd (verify-sys-1)", "omission does not delete");
+      calls++;
+
+      // (g) re-submitting an existing id updates it in place
+      const changed = {
+        ...FIXTURE.systems[0],
+        answers: { ...FIXTURE.systems[0].answers, "2.1": "nee" },
+        updatedAt: 1750000200000,
+      };
+      const update = await callTool(authed, "put_assessment", {
+        blob: { v: 1, systems: [changed] },
+      });
+      has(update, "1 bijgewerkt (verify-sys-1)", "existing id is updated, not duplicated");
+      calls++;
+
+      const final = await callTool(authed, "get_assessment", {});
+      const state = blobOf("get_assessment", final) as { v: number; systems: { id: string }[] };
+      assert.equal(state.systems.length, 2, "state holds both systems after the update");
+      assert.deepEqual(
+        state.systems.find((s) => s.id === "verify-sys-1"),
+        changed,
+        "the updated record carries the new answer",
+      );
+      calls++;
+
+      // (h) the `system` filter narrows to one record
+      const one = await callTool(authed, "get_assessment", { system: "verify-sys-2" });
+      has(one, "Tweede toepassing", "filter returns the requested system");
+      assert.ok(!one.includes("verify-sys-1"), "filter must not leak the other system");
+      calls++;
+    } finally {
+      authed.close();
+    }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+  return calls;
 }
 
 // ------------------------------------------------- run
@@ -729,12 +1052,14 @@ async function main(): Promise<void> {
     server.notify("notifications/initialized");
 
     // ---- tool inventory
-    const listed = ((await server.request("tools/list", {})).result as {
-      tools: { name: string; title?: string; description?: string; inputSchema: Record<string, unknown> }[];
-    }).tools;
+    const listed = ((await server.request("tools/list", {})).result as { tools: ListedTool[] })
+      .tools;
 
     const registered = listed.map((t) => t.name).sort();
     const inventory = TOOLS.map((t) => t.name).sort();
+    // Also the card 4.1 guarantee that the *default* configuration exposes no
+    // write surface: get_assessment/put_assessment exist only when
+    // AIACT_ASSESSMENT_STATE is set, which this server does not set.
     assert.deepEqual(
       registered,
       inventory,
@@ -747,26 +1072,19 @@ async function main(): Promise<void> {
 
     for (const spec of TOOLS) {
       const tool = listed.find((t) => t.name === spec.name)!;
-      const schema = tool.inputSchema as {
-        properties?: Record<string, unknown>;
-        required?: string[];
-      };
-      assert.deepEqual(
-        Object.keys(schema.properties ?? {}).sort(),
-        [...spec.properties].sort(),
-        `${spec.name}: input-schema properties`,
+      assertSchema(spec, tool);
+      // card 4.1: the committed tools stay read-only. claude.ai's per-tool
+      // controls key off these hints, so a tool that quietly loses them (or
+      // gains a write path) must fail here.
+      assert.equal(
+        tool.annotations?.readOnlyHint,
+        true,
+        `${spec.name}: readOnlyHint must stay true on every corpus tool`,
       );
-      assert.deepEqual(
-        [...(schema.required ?? [])].sort(),
-        [...spec.required].sort(),
-        `${spec.name}: input-schema required`,
-      );
-      assert.equal(tool.title, spec.title, `${spec.name}: title`);
-      // descriptions are the agent-facing contract; a stub would silently
-      // degrade every caller
-      assert.ok(
-        (tool.description ?? "").length > 40,
-        `${spec.name}: description too short to be useful`,
+      assert.equal(
+        tool.annotations?.openWorldHint,
+        false,
+        `${spec.name}: openWorldHint must stay false on every corpus tool`,
       );
     }
 
@@ -850,10 +1168,24 @@ async function main(): Promise<void> {
     tiny.close();
   }
 
+  // ---- card 4.1: the authed write surface. Bracketed by a fingerprint of the
+  // committed corpus: a write tool that reaches outside its state file — into
+  // data/ or public/ — must fail here, not in review.
+  const before = { ...fingerprint(join(root, "data")), ...fingerprint(join(root, "public")) };
+  const assessmentCalls = await checkAssessment();
+  calls += assessmentCalls;
+  assert.deepEqual(
+    { ...fingerprint(join(root, "data")), ...fingerprint(join(root, "public")) },
+    before,
+    "a put_assessment call changed something under data/ or public/ — state must stay in AIACT_ASSESSMENT_STATE",
+  );
+
   console.log(
     `verify-mcp: all assertions passed ` +
-      `(${TOOLS.length} tools, ${calls} calls, largest result ${maxBytes} B; ` +
-      `default ceiling ${DEFAULT_MAX_BYTES} B, raised per call where noted)`,
+      `(${TOOLS.length} tools + ${ASSESSMENT_TOOLS.length} conditional assessment tools, ` +
+      `${calls} calls of which ${assessmentCalls} on the assessment pair, ` +
+      `largest result ${maxBytes} B; default ceiling ${DEFAULT_MAX_BYTES} B, raised per call where noted; ` +
+      `data/ + public/ unchanged)`,
   );
 }
 

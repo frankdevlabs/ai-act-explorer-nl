@@ -21,11 +21,18 @@ Search relevance is identical to the site: both use
 | `get_obligations` | `role?`, `riskClass?` | obligation catalog per role/risk class, grouped by module, with deep links |
 | `get_questionnaire` | `module?` | self-assessment module list, or one module in full (questions, answer types, `showIf`, effects) |
 | `get_recital_map` | `article?`, `recital?` | curated recital↔article map: the whole map, or one entry in either direction |
+| `get_assessment` † | `system?` | the stored assessment blob (see "Assessment state") |
+| `put_assessment` † | `blob` | validates and persists a full v1 assessment blob — **authenticated, not read-only** |
+
+† Registered only when `AIACT_ASSESSMENT_STATE` is set. The public deployment
+does not set it, so it advertises the ten corpus tools and nothing else.
 
 All output is markdown with deep links to `BASE_URL` so Claude can cite.
-Every tool is annotated `readOnlyHint: true` / `openWorldHint: false` — the
-whole server is a read of a static corpus, and claude.ai's per-tool controls
-key off those annotations.
+Every corpus tool is annotated `readOnlyHint: true` / `openWorldHint: false` —
+they read a static corpus, and claude.ai's per-tool controls key off those
+annotations. The one exception is `put_assessment`, which carries
+`readOnlyHint: false` / `destructiveHint: true` / `idempotentHint: true`
+because it really does overwrite a stored record.
 
 `get_context_pack` collapses the three calls a provision used to cost
 (article, recitals, amendment status) into one. It is not a bulk dump — see
@@ -103,6 +110,72 @@ is the coarse cap; `MAX_PACK_CHARS` is the one that actually binds.
 tells callers to filter by role and risk class. It has no refusal branch,
 because it is bounded by the questionnaire, not by caller input.
 
+## Assessment state (authed)
+
+The one writable surface here (roadmap 4.1). It replaces the manual copy hop
+through the legal-workbench `inbox/` drop-zone: a skill can pull the current
+assessment, reason over it against `get_questionnaire` / `get_obligations`, and
+write a corrected blob back.
+
+| Tool | Auth | Does |
+|---|---|---|
+| `get_assessment` | none (read-only) | returns the stored blob as markdown plus the exact JSON in a fenced block, so it round-trips |
+| `put_assessment` | `MCP_TOKEN` required | validates a **full** v1 blob and merges it into the state file by system id |
+
+The payload is exactly the `aiact-assessments` shape the app's *Export JSON*
+button produces and `legal-workbench/inbox/FORMAT.md` specifies:
+`{"v":1,"systems":[{id,name,answers,createdAt,updatedAt}]}`. A bridge envelope
+(`{"bridge":1,…,"blob":{…}}`, FORMAT.md §3) is unwrapped; anything with both
+`bridge` and a top-level `v` is refused as malformed.
+
+**What `put_assessment` is not.** Not a patch surface (send the whole blob, not
+a delta). Not a deletion surface (see conflict semantics). Not a verdict: a
+blob holds answers only — risk class, roles and obligation status are never
+stored, they are recomputed by `/assessment` and, for the catalog half, by
+`get_obligations`.
+
+**Auth.** `MCP_TOKEN` is the credential, the same variable `http.ts` already
+checks. Over HTTP the transport rejects a bad bearer before the tool runs; over
+stdio there is no header, so possession of the env var *is* the credential.
+Either way, **`MCP_TOKEN` unset ⇒ every write is refused** with an error naming
+the missing variable — never silently accepted. On claude.ai the value goes in
+the connector's *Request headers* field (beta rollout, allowlisted header
+names, value sent verbatim), so it must be entered as `Bearer <token>`
+including the space — see `explorer-ai-research/notes/w5-platform-checks-0.4.md`.
+Note that setting `MCP_TOKEN` on an HTTP deployment gates *all* tools, reads
+included; that is the pre-existing `http.ts` behaviour, not something this
+feature changes.
+
+**Enablement.** `AIACT_ASSESSMENT_STATE` unset ⇒ neither tool is registered at
+all. That is deliberate: the deployed read server keeps a ten-tool inventory
+with no write path to disable, and `npm run verify:mcp` asserts that inventory
+on every run.
+
+**State file.** One JSON file at `AIACT_ASSESSMENT_STATE`, written atomically
+(`.tmp` + rename). Nothing is ever written under `data/` or `public/` — the
+verify script fingerprints both directories around the write tests. Suggested
+local value `<repo>/.state/assessment.json`, which `.gitignore` excludes. A
+missing file reads as empty state; a *malformed* file is an error rather than a
+silent reset.
+
+**Validation.** Every answer key must exist in
+`data/questionnaire/assessment-v1.json`, and for `choice` / `janee` /
+`janeenvt` questions the value must be one of that question's options (`""`
+means "answer cleared"). An unknown id or an invalid value rejects the **whole**
+write, naming every offence, and nothing is stored. This is stricter than the
+drop-zone norm, where `assess.mjs` reports an unknown id as `unknownIds`
+staleness: a blob exported before a questionnaire change is refused here, and
+the caller must repair the export. Records that fail the id/name/answers shape
+are likewise reported, not silently dropped — the app's own import drops them,
+which FORMAT.md §6 calls the sharpest failure mode of the bridge.
+
+**Conflict semantics.** Merge is by system id, last write wins per record. A
+system id present in the submitted blob replaces the stored record wholesale
+(so a stale blob can lose an answer — hence `destructiveHint`). A system id
+*absent* from the blob is left untouched: omission never deletes. Deletion is
+out of band — edit the state file. There is no history and no rollback beyond
+the filesystem: the file is replaced, not versioned.
+
 ## Smoke test (stdio, no framework)
 
 ```sh
@@ -128,7 +201,24 @@ and the 21-article call refused with `isError: true` and a message naming both
 
 The full gate is `npm run verify:mcp` from the repo root — it pins the tool
 inventory, every input schema, and one call per branch, plus the size refusal
-against a server started with a deliberately tiny `MCP_MAX_RESULT_CHARS`.
+against a server started with a deliberately tiny `MCP_MAX_RESULT_CHARS`, plus
+the assessment pair against two more servers (state dir only → the write is
+refused and no file appears; state dir + `MCP_TOKEN` → write, round-trip,
+invalid-id and merge-by-id cases), with `data/` and `public/` fingerprinted
+around the whole section.
+
+The write path, end to end:
+
+```sh
+export AIACT_ASSESSMENT_STATE=$PWD/.state/assessment.json
+printf '%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}' \
+  '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"put_assessment","arguments":{"blob":{"v":1,"systems":[]}}}}' \
+  | node dist/mcp/src/stdio.js          # isError, message names MCP_TOKEN
+MCP_TOKEN=dev-token <same pipeline>     # succeeds; get_assessment returns the blob
+unset AIACT_ASSESSMENT_STATE            # tools/list is back to the ten corpus tools
+```
 
 ## Build
 
@@ -171,7 +261,8 @@ The whole build is CommonJS — the repo root `package.json` has no
 |---|---|---|
 | `PORT` | `3106` | listen port (binds 127.0.0.1) |
 | `BASE_URL` | `https://aia.mrfrank.dev` | prefix for deep links in output |
-| `MCP_TOKEN` | unset | if set, require `Authorization: Bearer` (Claude API MCP connector / Agents). Leave unset for claude.ai custom connectors — they have no static-token field. |
+| `MCP_TOKEN` | unset | the credential. Over HTTP: require `Authorization: Bearer` on every request. Everywhere (incl. stdio): the gate on `put_assessment` — unset means writes are refused. On claude.ai it goes in the connector's *Request headers* field as `Bearer <token>` (beta). |
+| `AIACT_ASSESSMENT_STATE` | unset (feature off) | path to the assessment state JSON. Unset ⇒ `get_assessment`/`put_assessment` are not registered. See "Assessment state (authed)". |
 | `MCP_MAX_RESULT_CHARS` | `85000` | `get_context_pack` size ceiling (see "Result-size guardrails"). The default is the strict Claude Code budget; a deployment serving only claude.ai can raise it toward `140000`. |
 | `AIACT_DATA_DIR` | `<repo>/data/generated` | corpus location override |
 | `AIACT_QUESTIONNAIRE` | `<repo>/data/questionnaire/assessment-v1.json` | assessment questionnaire (curated source, outside `AIACT_DATA_DIR`) |

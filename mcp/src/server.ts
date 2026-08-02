@@ -26,6 +26,18 @@ import {
   toc,
 } from "./data.js";
 import { renderAnnex, renderArticle, renderSegments, renderText } from "./render.js";
+import {
+  STATE_ENV,
+  assessmentEnabled,
+  mergeById,
+  readState,
+  renderAssessment,
+  statePath,
+  unwrapEnvelope,
+  validateBlob,
+  writeAuthorized,
+  writeState,
+} from "./assessment-state.js";
 
 const text = (md: string) => ({ content: [{ type: "text" as const, text: md }] });
 const err = (md: string) => ({ content: [{ type: "text" as const, text: md }], isError: true });
@@ -845,6 +857,128 @@ export function createServer(): McpServer {
       return text(lines.join("\n"));
     },
   );
+
+  // ---------------------------------------------------------------------
+  // Roadmap 4.1: the assessment bridge — the only non-read surface here.
+  //
+  // Registered *only* when AIACT_ASSESSMENT_STATE names a state file, so the
+  // public deployment (which sets PORT/BASE_URL and nothing else) keeps
+  // advertising exactly the read tools above and gains no write path. The
+  // credential is MCP_TOKEN, the same var http.ts checks as a bearer header.
+  if (assessmentEnabled()) {
+    server.registerTool(
+      "get_assessment",
+      {
+        title: "Assessmentstatus ophalen",
+        annotations: RO,
+        description:
+          "Read the assessment state stored on this server: the `aiact-assessments` blob " +
+          '(`{"v":1,"systems":[{id,name,answers,createdAt,updatedAt}]}`) — the same bytes the ' +
+          "self-assessment's Export JSON produces, so it round-trips through put_assessment " +
+          "unchanged. Answers only: risk class, roles and obligation status are never stored, " +
+          `they are recomputed (${BASE_URL}/assessment, or get_obligations for the catalog). ` +
+          "Use `system` to fetch one application when the state has grown large.",
+        inputSchema: {
+          system: z
+            .string()
+            .optional()
+            .describe("Restrict to one application: its id, or a substring of its name"),
+        },
+      },
+      async ({ system }) => {
+        try {
+          return text(renderAssessment(readState(), { system, maxChars: MAX_PACK_CHARS }));
+        } catch (e) {
+          return err(`Assessmentstatus niet leesbaar: ${(e as Error).message}`);
+        }
+      },
+    );
+
+    server.registerTool(
+      "put_assessment",
+      {
+        title: "Assessmentstatus opslaan",
+        // Not read-only, and honestly destructive: a record already stored
+        // under the same id is replaced wholesale, so an answer can be lost by
+        // submitting a stale blob. It is idempotent (the same blob twice leaves
+        // the same state) and touches nothing outside the state file.
+        annotations: {
+          readOnlyHint: false,
+          destructiveHint: true,
+          idempotentHint: true,
+          openWorldHint: false,
+        },
+        description:
+          "Write the assessment state. Requires authentication: the server must run with " +
+          "MCP_TOKEN set (over HTTP the connector sends it as `Authorization: Bearer <token>`); " +
+          "without it the call is refused, never silently accepted. `blob` is a **full** v1 " +
+          'export blob (`{"v":1,"systems":[…]}`, optionally wrapped in a bridge envelope), never ' +
+          "a patch. Merge is by system id, incoming wins; a system that is absent from the blob " +
+          "is left untouched — this tool cannot delete. Every answer is validated against the " +
+          "current questionnaire (get_questionnaire): an unknown question id or an invalid " +
+          "option value rejects the whole write, nothing is partially stored.",
+        inputSchema: {
+          blob: z
+            .object({})
+            .passthrough()
+            .describe(
+              'Complete v1 blob, e.g. {"v":1,"systems":[{"id":"sys-1","name":"…","answers":{"1.1":"…"}}]}',
+            ),
+        },
+      },
+      async ({ blob }) => {
+        if (!writeAuthorized()) {
+          return err(
+            "Schrijven geweigerd: dit endpoint is niet geauthenticeerd. De server draait zonder " +
+              "MCP_TOKEN, dus er is geen inloggegeven om tegen te toetsen. Zet MCP_TOKEN op de " +
+              "server (en stuur bij HTTP `Authorization: Bearer <token>` mee) en probeer opnieuw. " +
+              "Er is niets opgeslagen.",
+          );
+        }
+
+        const unwrapped = unwrapEnvelope(blob);
+        if ("error" in unwrapped) {
+          return err(`Blob geweigerd: ${unwrapped.error} Er is niets opgeslagen.`);
+        }
+
+        const validation = validateBlob(unwrapped.blob);
+        if (!validation.ok) {
+          return err(
+            [
+              `Blob geweigerd: ${validation.errors.length + validation.more} fout(en) gevonden. Er is niets opgeslagen — een gedeeltelijke schrijfactie zou de status onbetrouwbaar maken.`,
+              "",
+              ...validation.errors.map((e) => `- ${e}`),
+              ...(validation.more ? [`- … en nog ${validation.more} fout(en).`] : []),
+              "",
+              'Verwacht: een volledige exportblob {"v":1,"systems":[{"id":…,"name":…,"answers":{…}}]}. ' +
+                "Geldige vraag-ids en optiewaarden: tool get_questionnaire.",
+            ].join("\n"),
+          );
+        }
+
+        try {
+          const stored = readState();
+          const { merged, added, updated, untouched } = mergeById(stored, validation.state);
+          writeState(merged);
+          const list = (ids: string[]) => (ids.length ? ` (${ids.join(", ")})` : "");
+          return text(
+            [
+              `# Assessmentstatus opgeslagen`,
+              "",
+              `${added.length} toegevoegd${list(added)}, ${updated.length} bijgewerkt${list(updated)}, ` +
+                `${untouched.length} ongewijzigd${list(untouched)} — ${merged.systems.length} toepassing(en) in totaal.`,
+              "",
+              `Statusbestand: \`${statePath()}\` (${STATE_ENV}). Weglaten verwijdert niets: een systeem dat niet in de blob stond, staat er nog.`,
+              "",
+              `Uitkomsten herberekenen: ${BASE_URL}/assessment · verplichtingen per rol: tool get_obligations.`,
+            ].join("\n"),
+          );
+        } catch (e) {
+          return err(`Opslaan mislukt: ${(e as Error).message} Er is niets opgeslagen.`);
+        }
+      },
+    );
+  }
 
   return server;
 }
