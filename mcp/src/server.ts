@@ -1,13 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { Amendment } from "../../src/lib/types.js";
-import type {
-  HelpContent,
-  Module,
-  QRef,
-  RiskClass,
-  RoleFlag,
-} from "../../src/lib/assessment/types.js";
+import type { Module, RiskClass, RoleFlag } from "../../src/lib/assessment/types.js";
 import { obligationCatalog, unresolvedConditions } from "../../src/lib/assessment/engine.js";
 import { PRECISION_SEARCH_OPTIONS, makeSnippet, searchDocs } from "../../src/lib/search-core.js";
 import {
@@ -33,7 +27,15 @@ import {
   PANEL_URI,
   renderPanel,
 } from "./panel.js";
-import { renderAnnex, renderArticle, renderSegments, renderText } from "./render.js";
+import { refLinks, renderAnnex, renderArticle, renderSegments, renderText } from "./render.js";
+import { err, registerTool, text } from "./core/tools.js";
+import {
+  checkPackSize,
+  estTokens,
+  packLimitsFromEnv,
+  tooManyArticlesMessage,
+} from "./core/size.js";
+import { fmt, helpLines, plural } from "./core/text.js";
 import {
   STATE_ENV,
   assessmentEnabled,
@@ -47,54 +49,20 @@ import {
   writeState,
 } from "./assessment-state.js";
 
-const text = (md: string) => ({ content: [{ type: "text" as const, text: md }] });
-const err = (md: string) => ({ content: [{ type: "text" as const, text: md }], isError: true });
-
-/**
- * Every tool on this server reads a static corpus and mutates nothing, and no
- * tool reaches outside it. claude.ai's per-tool controls key off these hints,
- * so they belong on all tools, not only on new ones.
- */
-const RO = { readOnlyHint: true, openWorldHint: false } as const;
-
 /**
  * Result-size guardrails for get_context_pack — the only tool here that can
  * return an unbounded amount of text (it composes N full articles + their
- * recitals). Two client ceilings apply: claude.ai/Desktop truncates a tool
- * result around 150k characters, and Claude Code's default
- * MAX_MCP_OUTPUT_TOKENS is 25k tokens (it warns at 10k). Crossing either
- * silently yields a *truncated* pack, which is worse than an error: a review
- * built on half a pack still looks complete. So the tool refuses and says by
- * how much, rather than trimming.
- *
- * The default ceiling is the strict (Claude Code) one; a claude.ai-only
- * deployment can raise it toward 150k via MCP_MAX_RESULT_CHARS.
+ * recitals). The policy, the ceilings and the Dutch refusal templates live in
+ * core/size.ts (shared with the sibling explorers); the corpus facts they quote
+ * are filled in at the call site below. Read once at module scope, as the tool
+ * description quotes the same numbers the guard enforces.
  */
-const MAX_PACK_ARTICLES = 20;
-/** Measured ~3.5 chars/token on this Dutch corpus; rounded down to stay safe. */
-const CHARS_PER_TOKEN = 3.4;
-const DEFAULT_MAX_PACK_CHARS = 85_000; // 25k tokens x 3.4 — also well under 150k
-const MAX_PACK_CHARS = Number(process.env.MCP_MAX_RESULT_CHARS) || DEFAULT_MAX_PACK_CHARS;
-const WARN_PACK_CHARS = 34_000; // ~10k tokens — Claude Code's warn threshold
-const estTokens = (chars: number) => Math.round(chars / CHARS_PER_TOKEN);
-/** Thousands separators without depending on the runtime's ICU build. */
-const fmt = (n: number, sep = ".") => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+const PACK = packLimitsFromEnv();
 
 const omnibusSlugs = () => amendments.newArticles.map((a) => a.slug).join(", ");
 
 function amendmentById(id: string): Amendment | undefined {
   return amendments.amendments.find((a) => `${a.seq}${a.sub ?? ""}` === id);
-}
-
-/** QRef[] → " · "-joined deep links. */
-const refLinks = (refs: QRef[] | undefined) =>
-  (refs ?? []).map((r) => `[${r.label}](${BASE_URL}${r.href})`).join(" · ");
-
-/** HelpContent (paragraph | paragraphs/bullet lists) → markdown lines. */
-function helpLines(help: HelpContent | undefined): string[] {
-  if (!help) return [];
-  const blocks = typeof help === "string" ? [help] : help;
-  return blocks.flatMap((b) => (typeof b === "string" ? [b] : b.bullets.map((li) => `- ${li}`)));
 }
 
 /**
@@ -107,18 +75,14 @@ function helpLines(help: HelpContent | undefined): string[] {
 const conditionLine = (cond: NonNullable<Module["showIf"]>) =>
   `\`${JSON.stringify(cond)}\` — atomen: ${unresolvedConditions(cond, {}).join(" · ")}`;
 
-/** "1 verplichting" / "3 verplichtingen"; Dutch plurals are irregular enough
- *  that both forms are spelled out at the call site. */
-const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
-
 export function createServer(): McpServer {
   const server = new McpServer({ name: "ai-act-explorer-nl", version: "0.1.0" });
 
-  server.registerTool(
+  registerTool(
+    server,
     "search_ai_act",
     {
       title: "Zoek in de AI-verordening",
-      annotations: RO,
       description:
         "Full-text search in the Dutch text of the EU AI Act (Regulation 2024/1689, consolidated) " +
         "plus the digital-omnibus amendment layer. Returns hits with deep links to " +
@@ -151,11 +115,11 @@ export function createServer(): McpServer {
     },
   );
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_article",
     {
       title: "Artikel ophalen",
-      annotations: RO,
       description:
         'Full Dutch text of an article. Base articles: "1"–"113". Articles inserted by the ' +
         'digital omnibus: "75 bis", "4bis", etc.',
@@ -185,11 +149,11 @@ export function createServer(): McpServer {
     },
   );
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_recital",
     {
       title: "Overweging ophalen",
-      annotations: RO,
       description: "Full Dutch text of a recital (overweging), 1–180.",
       inputSchema: {
         number: z.coerce.number().int().min(1).max(180).describe("Recital number (1–180)"),
@@ -212,11 +176,11 @@ export function createServer(): McpServer {
     },
   );
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_annex",
     {
       title: "Bijlage ophalen",
-      annotations: RO,
       description:
         "Full Dutch text of an annex (bijlage) by Roman numeral, e.g. \"III\". Includes annexes added by the digital omnibus.",
       inputSchema: {
@@ -235,11 +199,11 @@ export function createServer(): McpServer {
     },
   );
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_structure",
     {
       title: "Structuur (inhoudsopgave)",
-      annotations: RO,
       description:
         "Compact table of contents: chapters, sections, articles (with digital-omnibus insertions), annexes, recital count.",
       inputSchema: {},
@@ -281,11 +245,11 @@ export function createServer(): McpServer {
     },
   );
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_amendments",
     {
       title: "Omnibus-wijzigingen",
-      annotations: RO,
       description:
         "Digital-omnibus (PE-CONS 30/26) amendments to the AI Act. Without arguments: overview of all " +
         "affected articles/annexes. With an article number: the amending instructions plus a word-level " +
@@ -346,19 +310,19 @@ export function createServer(): McpServer {
   // Batch 1 (roadmap 2.1): composition tools. Neither adds data — both are
   // compositions over the loaders the tools above already use.
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_context_pack",
     {
       title: "Contextpakket: artikelen + overwegingen + omnibus-status",
-      annotations: RO,
       description:
         "One call per review instead of three per provision: for each requested article the full " +
         "Dutch text, its digital-omnibus status, and the recitals the editorial recital map ties " +
         "to it — with every referenced recital rendered once, deduplicated across the pack. " +
         "Use this to open a contract or memo review; use get_article for a single provision and " +
         "get_amendments when you need the per-lid word diff. " +
-        `Hard limits: at most ${MAX_PACK_ARTICLES} articles per call, and the assembled pack must ` +
-        `stay under ${fmt(MAX_PACK_CHARS, ",")} characters (~${fmt(estTokens(MAX_PACK_CHARS), ",")} tokens); ` +
+        `Hard limits: at most ${PACK.maxArticles} articles per call, and the assembled pack must ` +
+        `stay under ${fmt(PACK.maxChars, ",")} characters (~${fmt(estTokens(PACK.maxChars, PACK), ",")} tokens); ` +
         "a pack over either is refused, never truncated. Ask for the provisions you need, not the " +
         "maximum: a pack runs to roughly 13k characters per article once its recitals are " +
         "included, so about 5 articles already fill a default result budget.",
@@ -367,7 +331,7 @@ export function createServer(): McpServer {
           .array(z.string())
           .min(1)
           .describe(
-            `Article numbers, e.g. ["6", "50", "75 bis"]. At most ${MAX_PACK_ARTICLES}, and fewer if the pack would exceed the size ceiling.`,
+            `Article numbers, e.g. ["6", "50", "75 bis"]. At most ${PACK.maxArticles}, and fewer if the pack would exceed the size ceiling.`,
           ),
       },
     },
@@ -376,13 +340,10 @@ export function createServer(): McpServer {
       // message is static and never names the request size, and the SDK rejects
       // before the handler runs — so the caller could not see how far over they
       // were, nor how to re-split.
-      if (articles.length > MAX_PACK_ARTICLES) {
-        const batches = Math.ceil(articles.length / MAX_PACK_ARTICLES);
-        return err(
-          `Contextpakket geweigerd: ${articles.length} artikelen gevraagd, maximaal ${MAX_PACK_ARTICLES} per aanroep. ` +
-            `Splits de aanvraag in ${batches} aanroepen van ten hoogste ${MAX_PACK_ARTICLES} artikelen. ` +
-            "Let op: ook onder dat aantal geldt een omvangsplafond — vraag alleen de bepalingen die u nodig heeft.",
-        );
+      if (articles.length > PACK.maxArticles) {
+        // No corpusLabel: this is a single-instrument corpus, so the shared
+        // template's " uit <citation>" clause stays absent.
+        return err(tooManyArticlesMessage(articles.length, PACK));
       }
 
       const unknown: string[] = [];
@@ -471,51 +432,23 @@ export function createServer(): McpServer {
         }
       }
 
-      // Size ceiling. Measured only after assembly: the per-article cost is
-      // dominated by recitals, which are deduplicated across the pack, so it
-      // cannot be predicted from the article count alone. Refuse rather than
-      // trim — and say which articles are expensive, so the caller can re-split
-      // deliberately instead of bisecting.
+      // Size ceiling and warning band: the policy and the Dutch templates are
+      // core/size.ts's (they are identical across the explorers); the facts they
+      // quote are this corpus's. Measured only after assembly — the per-article
+      // cost is dominated by recitals, which are deduplicated across the pack,
+      // so it cannot be predicted from the article count alone.
       const md = body.join("\n\n---\n\n");
-      if (md.length > MAX_PACK_CHARS) {
-        const recitalChars = body.slice(recitalStart).reduce((n, s) => n + s.length, 0);
-        const breakdown = [...sizes]
-          .sort((a, b) => b[1] - a[1])
-          .map(([key, n]) => `artikel ${key}: ~${Math.round(n / 1000)}k`)
-          .join(", ");
-        // Advice, deliberately conservative: the shared recital block does not
-        // shrink in proportion to the article count (recitals are deduplicated
-        // and several articles cite the same ones), so the linear estimate is
-        // an over-estimate — take one off it.
-        const linear = Math.floor(sections.length * (MAX_PACK_CHARS / md.length));
-        const advice =
-          sections.length === 1
-            ? "Dit ene artikel past al niet onder het plafond — gebruik get_article (zonder overwegingen) " +
-              "of verhoog MCP_MAX_RESULT_CHARS."
-            : `Vraag ongeveer ${Math.min(Math.max(linear - 1, 1), sections.length - 1)} artikel(en) per aanroep, ` +
-              "of minder wanneer u de grootste artikelen combineert. Voor één bepaling is get_article goedkoper.";
-        return err(
-          `Contextpakket geweigerd: het pakket voor ${sections.length} artikel(en) is ${fmt(md.length)} tekens ` +
-            `(~${fmt(estTokens(md.length))} tokens), boven het plafond van ${fmt(MAX_PACK_CHARS)} tekens ` +
-            `(~${fmt(estTokens(MAX_PACK_CHARS))} tokens). Het pakket wordt geweigerd en niet afgekapt: een afgekapt pakket ` +
-            "ziet er volledig uit.\n\n" +
-            `Opbouw — artikelen: ${breakdown}; gedeelde overwegingen (${uniqueRecitals.length}): ~${Math.round(recitalChars / 1000)}k tekens ` +
-            "(overwegingen zijn de grootste post en worden binnen het pakket ontdubbeld).\n\n" +
-            `${advice}\n\n` +
-            "Plafonds: claude.ai kapt een toolresultaat af rond 150.000 tekens; Claude Code hanteert standaard 25.000 tokens " +
-            "(MAX_MCP_OUTPUT_TOKENS). Een implementatie die alleen claude.ai bedient kan dit plafond verhogen via MCP_MAX_RESULT_CHARS.",
-        );
-      }
-
-      // Warning band. First in the result on purpose: if a client truncates
-      // anyway, the size notice is in the part that survives.
-      if (md.length > WARN_PACK_CHARS) {
-        const banner =
-          `> **Omvang:** dit pakket is ${fmt(md.length)} tekens (~${fmt(estTokens(md.length))} tokens) ` +
-          `en overschrijdt daarmee de waarschuwingsgrens van Claude Code (~${fmt(estTokens(WARN_PACK_CHARS))} tokens). ` +
-          `Het plafond ligt op ${fmt(MAX_PACK_CHARS)} tekens; vraag bij een volgende aanroep minder artikelen tegelijk.`;
-        return text(`${banner}\n\n${md}`);
-      }
+      const verdict = checkPackSize(md, PACK, {
+        sections: sections.length,
+        sizes,
+        sharedRecitals: uniqueRecitals.length,
+        sharedRecitalChars: body.slice(recitalStart).reduce((n, s) => n + s.length, 0),
+        singleArticleHint: "zonder overwegingen",
+      });
+      if (verdict.kind === "refused") return err(verdict.message);
+      // The banner goes first on purpose: if a client truncates anyway, the size
+      // notice is in the part that survives.
+      if (verdict.kind === "warn") return text(`${verdict.banner}\n\n${md}`);
       return text(md);
     },
   );
@@ -529,11 +462,11 @@ export function createServer(): McpServer {
     "gpai-aanbieder": "gpai_aanbieder",
   };
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_obligations",
     {
       title: "Verplichtingencatalogus per rol en risicoklasse",
-      annotations: RO,
       description:
         "Catalog of the AI Act obligations that apply to a role and/or risk class, derived from " +
         "the assessment questionnaire's obligation checklist, with deep links to the underlying " +
@@ -623,11 +556,11 @@ export function createServer(): McpServer {
   // Batch 2 (roadmap 2.2): the convenience half — curated layers the corpus
   // already encodes, served as-is instead of paraphrased from structure.
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_questionnaire",
     {
       title: "Zelfbeoordelingsvragenlijst (modules en vragen)",
-      annotations: RO,
       description:
         "The curated self-assessment questionnaire behind " +
         BASE_URL +
@@ -752,11 +685,11 @@ export function createServer(): McpServer {
     },
   );
 
-  server.registerTool(
+  registerTool(
+    server,
     "get_recital_map",
     {
       title: "Overwegingenkaart (overweging ↔ artikel)",
-      annotations: RO,
       description:
         "The curated recital↔article map: which operative articles a recital motivates, and which " +
         "recitals bear on an article. Without arguments: the whole map plus its coverage counts. " +
@@ -877,11 +810,11 @@ export function createServer(): McpServer {
   // advertising exactly the read tools above and gains no write path. The
   // credential is MCP_TOKEN, the same var http.ts checks as a bearer header.
   if (assessmentEnabled()) {
-    server.registerTool(
+    registerTool(
+      server,
       "get_assessment",
       {
         title: "Assessmentstatus ophalen",
-        annotations: RO,
         description:
           "Read the assessment state stored on this server: the `aiact-assessments` blob " +
           '(`{"v":1,"systems":[{id,name,answers,createdAt,updatedAt}]}`) — the same bytes the ' +
@@ -898,14 +831,15 @@ export function createServer(): McpServer {
       },
       async ({ system }) => {
         try {
-          return text(renderAssessment(readState(), { system, maxChars: MAX_PACK_CHARS }));
+          return text(renderAssessment(readState(), { system, maxChars: PACK.maxChars }));
         } catch (e) {
           return err(`Assessmentstatus niet leesbaar: ${(e as Error).message}`);
         }
       },
     );
 
-    server.registerTool(
+    registerTool(
+      server,
       "put_assessment",
       {
         title: "Assessmentstatus opslaan",

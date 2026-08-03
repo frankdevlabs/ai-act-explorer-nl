@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import type {
   AmendmentDiffs,
@@ -13,16 +12,13 @@ import type {
 } from "../../src/lib/types.js";
 import type { Questionnaire } from "../../src/lib/assessment/types.js";
 import { createSearchIndex } from "../../src/lib/search-core.js";
+import { baseUrlFromEnv, loadJson as load, normalizeArticleInput } from "./core/loader.js";
 
 // Compiled file lives at mcp/dist/mcp/src/data.js → repo root is 4 levels up.
 const REPO_ROOT = resolve(__dirname, "../../../..");
 const DATA_DIR = process.env.AIACT_DATA_DIR ?? join(REPO_ROOT, "data/generated");
 
-export const BASE_URL = (process.env.BASE_URL ?? "https://aia.mrfrank.dev").replace(/\/$/, "");
-
-function load<T>(path: string): T {
-  return JSON.parse(readFileSync(path, "utf8")) as T;
-}
+export const BASE_URL = baseUrlFromEnv("https://aia.mrfrank.dev");
 
 export const articles = load<Article[]>(join(DATA_DIR, "articles.json"));
 export const recitals = load<Recital[]>(join(DATA_DIR, "recitals.json"));
@@ -116,11 +112,6 @@ export function slugRank(slug: string): number {
   return SUFFIX_RANK[slug.replace(/^\d+/, "")] ?? 0;
 }
 
-/** "Artikel 6" / "75 bis" / "75-BIS" → "6" / "75bis". */
-export function normalizeArticleInput(input: string): string {
-  return input
-    .trim()
-    .toLowerCase()
-    .replace(/^artikel\s*/, "")
-    .replace(/[\s\-–]+/g, "");
-}
+// "Artikel 6" / "75 bis" / "75-BIS" → "6" / "75bis". Re-exported from core so
+// server.ts keeps importing its whole data surface from this one module.
+export { normalizeArticleInput };

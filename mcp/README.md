@@ -169,14 +169,15 @@ contract review built on half a pack still looks complete. `get_context_pack`
 **refuses** rather than trims, and the refusal names the request size, the
 ceiling and the per-article breakdown so the caller can re-split deliberately.
 
-Constants in `mcp/src/server.ts`:
+Limits in `mcp/src/core/size.ts` (`DEFAULT_PACK_LIMITS`), with the env override
+applied once at module scope in `mcp/src/server.ts` (`packLimitsFromEnv()`):
 
-| Constant | Value | Meaning |
+| Field | Value | Meaning |
 |---|---|---|
-| `MAX_PACK_ARTICLES` | `20` | more articles than this → refused before any text is assembled |
-| `MAX_PACK_CHARS` | `85000` (env `MCP_MAX_RESULT_CHARS`) | assembled pack over this → refused; 25k tokens × 3.4, also well under 150k |
-| `WARN_PACK_CHARS` | `34000` | over this → the pack is returned, prefixed with a `> **Omvang:**` banner |
-| `CHARS_PER_TOKEN` | `3.4` | estimate only; the guard enforces characters, which are exact |
+| `maxArticles` | `20` | more articles than this → refused before any text is assembled |
+| `maxChars` | `85000` (env `MCP_MAX_RESULT_CHARS`) | assembled pack over this → refused; 25k tokens × 3.4, also well under 150k |
+| `warnChars` | `34000` | over this → the pack is returned, prefixed with a `> **Omvang:**` banner |
+| `charsPerToken` | `3.4` | estimate only; the guard enforces characters, which are exact |
 
 The banner goes **first** in the result on purpose: if a client truncates
 anyway, the size notice is in the part that survives.
@@ -216,6 +217,81 @@ exactly what that guidance is for. `verify-mcp.ts` pins it under a 256 KiB
 `PANEL_MAX_BYTES` as a drift tripwire, not as a client limit. The lever if it
 ever needs to shrink: drop `help`/`intro` from the island (~109 kB → ~77 kB)
 and fetch them per module through the bridge with `get_questionnaire`.
+
+## Code layout (core/ vs corpus)
+
+`mcp/src/core/` is the corpus-agnostic half of this server — `explorer-core` in
+waiting (roadmap 4.3). It is a mirror of `dora-explorer-nl/mcp/src/core/`, same
+file names and same exported symbols, so the two directories can be diffed and
+later lifted into one package. The extraction rationale and the measurement
+behind the shared/corpus boundary live in that repo's
+`docs/mcp-core-extraction.md`, which the doc comments in `core/` cite; it is
+deliberately not duplicated here.
+
+| File | Contents |
+|---|---|
+| `core/tools.ts` | `ToolResult`, `text()`, `err()`, `READ_ONLY`, `ToolSpec`, `registerTool(server, name, spec, handler)` — the one registration path, annotations applied for free |
+| `core/size.ts` | `PackLimits`, `packLimitsFromEnv()`, `estTokens()`, `tooManyArticlesMessage()`, `checkPackSize()` → `ok` / `warn` / `refused`; the three Dutch refusal templates, with the corpus facts as parameters |
+| `core/markdown.ts` | `createMarkdown({ baseUrl })` → `renderText` / `renderTable` / `renderNodes` / `renderFootnotes` / `refLinks`, over structural `MdNode` & friends |
+| `core/text.ts` | `fmt`, `plural`, `helpLines` |
+| `core/loader.ts` | `loadJson()`, `baseUrlFromEnv()`, `normalizeArticleInput()` |
+| `core/transport.ts` | `serveStdio()` / `serveHttp()` — the express app, `/healthz`, the bearer gate, the 405/500 bodies |
+| `core/index.ts` | barrel re-export (the future package entry point) |
+
+The corpus half stays in `mcp/src/*.ts`: `data.ts` (every `data/generated`
+read, `getAnnex`, `resolveArticle`, `slugRank`), `render.ts`
+(`renderArticle`/`renderAnnex`/`renderSegments` and the omnibus banner — it
+re-exports the core render surface so call sites import one module),
+`assessment-state.ts`, `panel.ts` (the `ui://` resource, questionnaire-shaped
+throughout), and every handler body in `server.ts`.
+`mcp/scripts/check-core-isolation.mjs` fails the build if anything in `core/`
+imports outside itself (allowed: `node:*`, the MCP SDK, `zod`, `express`).
+`mcp/src/{stdio,http}.ts` stay as six-line entrypoints because the compiled
+paths `mcp/dist/mcp/src/{stdio,http}.js` are hardcoded in `scripts/verify-mcp.ts`
+and in the systemd unit.
+
+### Where this corpus did not fit the dora-derived core
+
+The finding this mirror was worth doing for — six places where the second
+corpus disagreed with what the extraction predicted:
+
+1. **The `renderNode` escape hatch is not what aiact needed.** The dora note
+   predicted this server would pass a hook for `DiffSegment`-bearing nodes.
+   It does not: `renderSegments(DiffSegment[])` formats word-diff runs inside
+   `get_amendments`, and `DiffSegment` is not a member of the `ContentNode`
+   union at all — it stays a plain function in `render.ts`. Conversely this
+   corpus has no `figure` nodes, so core's `figure` branch is dead code here.
+   The hook is still unexercised by a second corpus; keep or drop it
+   deliberately at package time.
+2. **`registerTool` had no way to register a write tool.** Core hardcoded
+   `annotations: READ_ONLY`, which cannot express `put_assessment`
+   (`readOnlyHint:false` / `destructiveHint:true` / `idempotentHint:true`).
+   Resolved here with an optional `annotations?: ToolAnnotations` on `ToolSpec`,
+   defaulting to `READ_ONLY`, so all twelve tools keep one registration path.
+   It is corpus-agnostic (what a tool mutates is not a property of the corpus)
+   and additive, but it is the **one** divergence from dora's `core/`:
+   backport debt of six lines, after which the directories diff to zero again.
+3. **A tool inventory that varies per deployment.** `if (assessmentEnabled())`
+   makes tool *existence* env-dependent — the first server in the family whose
+   `tools/list` is not constant. Core models registration, not an optional tool
+   set, so the gate stays at the call site.
+4. **Two auth gates, only one of which fits core.** `core/transport.ts`'s bearer
+   check gates the whole HTTP endpoint; `writeAuthorized()`
+   (`Boolean(process.env.MCP_TOKEN)`) is a second, tool-level gate that cannot
+   move into the transport, because stdio has no headers — there, possession of
+   the env var *is* the credential. Core has no per-tool authorization concept.
+5. **A second size policy core does not model.** `renderAssessment(state,
+   {maxChars})` consumes `PackLimits.maxChars` but not `checkPackSize`: over
+   budget it drops the fenced JSON blob and says so, rather than refusing.
+   `core/size.ts` encodes exactly one policy — refuse, never truncate — tied to
+   the context pack.
+6. **Negative findings, no core change needed.** The curated recital map, the
+   synthesized omnibus annexes (`getAnnex` → `amendments.newAnnexes` with a
+   computed `ordinal`) and the `ResolvedArticle` base/new union all sit cleanly
+   on the corpus side, as predicted. The refusal templates parameterise
+   correctly for a single-instrument corpus too: `corpusLabel` omitted plus
+   `singleArticleHint: "zonder overwegingen"` reproduces both pre-existing
+   messages byte-for-byte.
 
 ## Assessment state (authed)
 
@@ -339,8 +415,12 @@ unset AIACT_ASSESSMENT_STATE            # tools/list is back to the ten corpus t
 ```sh
 cd mcp
 npm install
-npm run build       # tsc → dist/ (compiled CommonJS)
+npm run build       # check-core-isolation → tsc → dist/ (compiled CommonJS)
 ```
+
+`npm run build` runs `scripts/check-core-isolation.mjs` first, so an import
+that reaches out of `mcp/src/core/` fails the build (and therefore
+`npm run verify:mcp`) rather than rotting into a comment.
 
 Layout note: `rootDir` is the repo root (the build compiles
 `src/lib/{types,search-core}.ts` alongside), so entrypoints land at
