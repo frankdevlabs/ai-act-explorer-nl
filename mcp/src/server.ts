@@ -81,7 +81,7 @@ export function createServer(): McpServer {
         BASE_URL +
         ". Query in Dutch works best.",
       inputSchema: {
-        query: z.string().min(2).describe("Search terms (Dutch)"),
+        query: z.string().min(2).max(200).describe("Search terms (Dutch)"),
         limit: z.number().int().min(1).max(50).optional().describe("Max results, default 10"),
         type: z
           .enum(["artikel", "overweging", "bijlage"])
