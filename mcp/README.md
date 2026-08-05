@@ -58,6 +58,102 @@ metadata that never alters legal text, and still being curated, so a missing
 entry means "not yet mapped", never "no relevant recital exists". Every result
 repeats that caveat.
 
+## Resource — the assessment panel (MCP Apps)
+
+The server's one *resource*: the self-assessment behind `get_questionnaire`,
+rendered as an interactive panel for hosts that support MCP Apps (SEP-1865).
+
+| | |
+|---|---|
+| URI | `ui://ai-act-explorer-nl/assessment/vragenlijst` |
+| Name | `aiact-assessment-panel` |
+| Mime type | `text/html;profile=mcp-app` |
+| Contents | one `text` entry: a single self-contained HTML document (~139 kB) |
+| Source | `mcp/src/panel.ts`; data island is `data/questionnaire/assessment-v1.json` verbatim |
+
+`get_questionnaire` carries the association that makes a host offer to render
+it — `_meta: { ui: { resourceUri: … } }` — so the tool and the panel are two
+views of one thing. Every other client still gets the markdown, which is
+complete on its own; the panel is an upgrade, never a prerequisite.
+
+The document inlines everything (CSS, JS, questionnaire). The MCP Apps iframe
+is sandboxed with a deny-by-default CSP: an external `script`/`link`/font
+would render the panel blank, so `verify-mcp.ts` asserts there are none.
+
+**What it does.** 25 modules and 205 questions, one module at a time, with a
+module rail carrying per-module answer counts. Conditional modules and
+questions appear and disappear as answers land (real `showIf` evaluation, the
+same progressive disclosure as the site wizard), each question deep-links its
+legal basis to the site, and the outcome pane re-scores on every answer:
+risicoklasse, kwalificatie, rol(len), art. 5 stops, bijlage I/III,
+art. 6 lid 3-uitzondering, FRIA, art. 50-transparantieleden and open actions.
+It stops there — the obligation checklist, the register row and the timeline
+stay on the site and in `get_obligations`.
+
+**The panel scores in the browser**, which means `mcp/src/panel.ts` carries a
+hand-written mirror of `src/lib/assessment/engine.ts` (an iframe cannot import
+the CommonJS build). The mirror is bracketed by `/*__PANEL_ENGINE_START__*/`
+sentinels; `verify-mcp.ts` slices it out of the *served* HTML, evaluates it,
+and asserts it agrees with the real engine on every fixture in
+`scripts/lib/assessment-fixtures.ts`. Changing the engine without changing the
+mirror is meant to turn `npm run verify:mcp` red — fix the mirror, do not
+loosen the gate.
+
+### The answer round-trip
+
+The panel is registered **unconditionally** — it renders data this server
+already publishes — but its write controls are capability-gated, from the same
+two env vars as the 4.1 tools, read per read:
+
+| Deployment | `data-state` | `data-write` | Panel |
+|---|---|---|---|
+| public read server (neither var) | `off` | `off` | full form + scoring; hands answers to the conversation |
+| `AIACT_ASSESSMENT_STATE` only | `on` | `off` | adds *Opgeslagen antwoorden laden* (`get_assessment`) |
+| state + `MCP_TOKEN` | `on` | `on` | adds *Opslaan op de server* (`put_assessment`) |
+
+An unauthed session therefore gets the panel with no write-back and no error:
+the two buttons are simply absent, not disabled-and-failing.
+
+Round-trip, in the panel's own words:
+
+1. **Laden** (`data-state="on"`) — `tools/call get_assessment {system}`, parse
+   the fenced ` ```json ` block out of the markdown, prefill the form.
+2. **Naar het gesprek** (always) — `ui/update-model-context` with the markdown
+   summary, then `ui/message` with a one-line result, so the model can reason
+   about the answers.
+3. **Opslaan** (`data-write="on"`) — `tools/call put_assessment {blob}` with
+   the same `{v:1,systems:[{id,name,answers}]}` shape the site's *Export JSON*
+   produces. `put_assessment` refuses **in-band** (`isError`, not a JSON-RPC
+   error), so the panel inspects the result rather than only the promise.
+   Merge is by `id`, hence the editable *Toepassing-id* field.
+
+Still **answers, not conclusions**: the blob stores what was answered; the
+outcome is recomputed from it, on the site or in the panel.
+
+Three fallback layers, because host support for `ui/*` and for tool calls from
+an iframe is uneven:
+
+- **no host** (`window.parent === window`, e.g. the file opened directly) — the
+  panel says so on load and *Naar het gesprek* fills a copy-paste `<textarea>`
+  with the markdown summary plus a paste-ready blob;
+- **host refuses or times out** (8 s) — the same box, with the error named;
+- **no HTML rendering at all** — `get_questionnaire` still carries every
+  question, `showIf` and `effects` included.
+
+Listing and reading it, over stdio:
+
+```sh
+printf '%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}' \
+  '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+  '{"jsonrpc":"2.0","id":2,"method":"resources/list"}' \
+  '{"jsonrpc":"2.0","id":3,"method":"resources/read","params":{"uri":"ui://ai-act-explorer-nl/assessment/vragenlijst"}}' \
+  | node dist/mcp/src/stdio.js
+```
+
+The HTTP transport serves a byte-identical payload from the same renderer;
+`verify-mcp.ts` starts its own short-lived `http.js` and asserts exactly that.
+
 ## Result-size guardrails
 
 Two client ceilings bound any tool result:
@@ -111,6 +207,17 @@ is the coarse cap; `MAX_PACK_CHARS` is the one that actually binds.
 tells callers to filter by role and risk class. It has no refusal branch,
 because it is bounded by the questionnaire, not by caller input.
 
+The **panel resource** sits far above all of this — ~139 kB of HTML, ~149 kB
+serialized — and deliberately so: the ceilings above bound *tool results*, text
+a model reads into its context on every call. A resource is a document a host
+fetches once and renders in an iframe; nothing here lands in the transcript.
+The bulk is the questionnaire data island (~109 kB, of which ~32 kB is the
+editorial `help`), kept because walking a client through 205 questions is
+exactly what that guidance is for. `verify-mcp.ts` pins it under a 256 KiB
+`PANEL_MAX_BYTES` as a drift tripwire, not as a client limit. The lever if it
+ever needs to shrink: drop `help`/`intro` from the island (~109 kB → ~77 kB)
+and fetch them per module through the bridge with `get_questionnaire`.
+
 ## Code layout (core/ vs corpus)
 
 `mcp/src/core/` is the corpus-agnostic half of this server — `explorer-core` in
@@ -135,7 +242,8 @@ The corpus half stays in `mcp/src/*.ts`: `data.ts` (every `data/generated`
 read, `getAnnex`, `resolveArticle`, `slugRank`), `render.ts`
 (`renderArticle`/`renderAnnex`/`renderSegments` and the omnibus banner — it
 re-exports the core render surface so call sites import one module),
-`assessment-state.ts`, and every handler body in `server.ts`.
+`assessment-state.ts`, `panel.ts` (the `ui://` resource, questionnaire-shaped
+throughout), and every handler body in `server.ts`.
 `mcp/scripts/check-core-isolation.mjs` fails the build if anything in `core/`
 imports outside itself (allowed: `node:*`, the MCP SDK, `zod`, `express`).
 `mcp/src/{stdio,http}.ts` stay as six-line entrypoints because the compiled
@@ -263,6 +371,8 @@ printf '%s\n' \
   '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_questionnaire","arguments":{"module":"m19"}}}' \
   '{"jsonrpc":"2.0","id":6,"method":"tools/call","params":{"name":"get_recital_map","arguments":{"article":"6"}}}' \
   '{"jsonrpc":"2.0","id":7,"method":"tools/call","params":{"name":"get_context_pack","arguments":{"articles":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]}}}' \
+  '{"jsonrpc":"2.0","id":8,"method":"resources/list"}' \
+  '{"jsonrpc":"2.0","id":9,"method":"resources/read","params":{"uri":"ui://ai-act-explorer-nl/assessment/vragenlijst"}}' \
   | node dist/mcp/src/stdio.js
 ```
 
@@ -272,7 +382,8 @@ with an omnibus-status block on article 6 and each recital rendered exactly
 once; modules 9 + 10 in the obligation output with none of the provider
 modules (11–16); `m19` rendered as *module 12*; a recital list for article 6;
 and the 21-article call refused with `isError: true` and a message naming both
-21 and 20.
+21 and 20. Then exactly one resource — the panel — and an HTML document with
+`data-state="off" data-write="off"`, since this pipeline sets neither env var.
 
 The full gate is `npm run verify:mcp` from the repo root — it pins the tool
 inventory, every input schema, and one call per branch, plus the size refusal
@@ -280,7 +391,11 @@ against a server started with a deliberately tiny `MCP_MAX_RESULT_CHARS`, plus
 the assessment pair against two more servers (state dir only → the write is
 refused and no file appears; state dir + `MCP_TOKEN` → write, round-trip,
 invalid-id and merge-by-id cases), with `data/` and `public/` fingerprinted
-around the whole section.
+around the whole section. For the panel it adds the resource inventory, the
+question-id coverage check (every id in `assessment-v1.json` must appear in the
+payload), the engine-parity gate, all three rows of the capability matrix, and
+a `resources/{list,read}` pass over a short-lived HTTP server asserting a
+byte-identical payload.
 
 The write path, end to end:
 

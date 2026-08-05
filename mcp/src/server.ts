@@ -19,6 +19,14 @@ import {
   slugRank,
   toc,
 } from "./data.js";
+import {
+  PANEL_DESCRIPTION,
+  PANEL_MIME,
+  PANEL_NAME,
+  PANEL_TITLE,
+  PANEL_URI,
+  renderPanel,
+} from "./panel.js";
 import { refLinks, renderAnnex, renderArticle, renderSegments, renderText } from "./render.js";
 import { err, registerTool, text } from "./core/tools.js";
 import {
@@ -563,7 +571,10 @@ export function createServer(): McpServer {
         "its atoms. There is deliberately no " +
         "all-modules mode (the questionnaire is ~108 kB of JSON); ask per module. Editorial " +
         "content: it paraphrases obligations and deep-links to the legal text, which lives in " +
-        "get_article.",
+        "get_article. Hosts that support MCP Apps can render the questionnaire as a fillable, " +
+        `self-scoring panel (${PANEL_URI}); every other client gets this markdown, which is ` +
+        "complete on its own.",
+      _meta: { ui: { resourceUri: PANEL_URI } },
       inputSchema: {
         module: z
           .string()
@@ -913,6 +924,38 @@ export function createServer(): McpServer {
       },
     );
   }
+
+  // ---------------------------------------------------------------------
+  // Roadmap 4.2: the one UI resource. Registered here, next to the tools, and
+  // served over both transports by construction — resources/list and
+  // resources/read ride the same McpServer the tools do.
+  //
+  // Deliberately *outside* the assessmentEnabled() block above: the panel
+  // renders data this server already publishes (the questionnaire), so the
+  // public read deployment gets it too. Only the load/save controls are
+  // capability-gated, and both env vars are read here, per read, so one build
+  // serves the public read server and an authed local one.
+  server.registerResource(
+    PANEL_NAME,
+    PANEL_URI,
+    {
+      title: PANEL_TITLE,
+      description: PANEL_DESCRIPTION,
+      mimeType: PANEL_MIME,
+    },
+    async (uri) => ({
+      contents: [
+        {
+          uri: uri.href,
+          mimeType: PANEL_MIME,
+          text: renderPanel(questionnaire, BASE_URL, {
+            state: assessmentEnabled(),
+            write: writeAuthorized(),
+          }),
+        },
+      ],
+    }),
+  );
 
   return server;
 }
