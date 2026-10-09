@@ -9,7 +9,9 @@ description: Verify the app end-to-end on this VPS - build, curl smoke checks, a
 check list change with nearly every epic (313 → 321 → 325 → 327 → 329 pages so
 far; epic 7 added /assessment, /assessment/vragenlijst, /assessment/resultaat
 and /register; /gpai-praktijkcode added after epic 7; the assessment expansion
-(2026-07) added /conformiteitsbeoordeling and /transparantie-art50). Update
+(2026-07) added /conformiteitsbeoordeling and /transparantie-art50; epic 8
+(2026-10) made the 27.7.2026 consolidation the base — the omnibus articles and
+bijlage XIV are base pages now, the change layer is derived from EUR-Lex). Update
 them in the same commit as the feature; a mismatch usually
 means this skill is stale, not that the app is broken — check `git log` before
 debugging.
@@ -20,13 +22,15 @@ debugging.
 cd ~/ai-act-explorer-nl && npm run build
 ```
 
-Must end green: `parse` logs counts (expect `113 articles, 180 recitals,
-13 annexes, 13 chapters, ... search docs` plus `parse-amendments: 76
-instructions, 36 amended articles, 6 new articles, 1 new annexes ...
-(complete=true)`), `verify` prints `verify-data: all assertions passed` and
-`verify-amendments: all assertions passed`, `next build` exports ~329 static
-pages, `verify` also prints `verify-assessment: all assertions passed` (epic 7;
-since the 2026-07 expansion: 25 modules, ~205 vragen, 33 registerkolommen).
+Must end green: `parse` logs counts (expect `119 articles, 180 recitals,
+14 annexes, 13 chapters, 11 footnotes, 885 search docs, 697 cross-references`
+plus `parse-amendments: Verordening (EU) 2026/1744 (in werking 2026-07-27):
+43 instructions (72 incl. sub-instructions), 36 amended articles, 6 new
+articles, 2 amended annexes, 1 new annexes, …`), `verify` prints
+`verify-data: all assertions passed`, `verify-amendments: all assertions
+passed (… 84 quoted blocks, 207 refs)`, `verify-recital-map`,
+`verify-assessment` (25 modules, 205 vragen, 33 registerkolommen) and
+`verify-search: 22 golden queries …`; `next build` exports ~329 static pages.
 
 ## 2. Dev server + curl smoke checks
 
@@ -51,11 +55,12 @@ curl -s "http://localhost:$PORT/gpai-praktijkcode" | grep -c "praktijkcode"     
 ## 3. Browser checks (Playwright, optional but thorough)
 
 Search is client-only, so curl can't test it. Playwright runs directly on this
-VPS via law-tracker's install — no npm install needed:
+VPS via the install in `~/mc/mcp-rcon` (browsers in `~/.cache/ms-playwright`;
+`~/law-tracker` no longer exists) — no npm install needed:
 
 ```bash
 cd "$SCRATCH"   # your session scratchpad
-ln -sfn ~/law-tracker/lib/node_modules node_modules
+ln -sfn ~/mc/mcp-rcon/node_modules node_modules
 ```
 
 Write `e2e.mjs`:
@@ -221,11 +226,12 @@ console.log("e2e: all checks passed");
 await browser.close();
 ```
 
-Run (the `LD_LIBRARY_PATH` is required — Chromium needs locally-extracted
-`libgbm` etc., no root on this VPS):
+Run (system libraries are installed on this VPS; the old
+`LD_LIBRARY_PATH=~/law-tracker/lib/chromium-sys-libs` trick is no longer
+needed):
 
 ```bash
-LD_LIBRARY_PATH=~/law-tracker/lib/chromium-sys-libs node e2e.mjs
+node e2e.mjs
 ```
 
 Gotchas: the symlinked `node_modules` must sit **next to the script** (ESM
@@ -237,17 +243,20 @@ elements the overlay covers.
 
 ```bash
 # 3 entries per route: page dir + .html + .txt
-ls ~/ai-act-explorer-nl/out/artikel | wc -l    # 357 = (113 base + 6 omnibus) × 3
+ls ~/ai-act-explorer-nl/out/artikel | wc -l    # 357 = 119 articles × 3 (incl. 4 bis, 60 bis, 75 bis–quinquies)
 ls ~/ai-act-explorer-nl/out/overweging | wc -l # 540 = 180 × 3
-ls ~/ai-act-explorer-nl/out/bijlage | wc -l    # 42 = 14 × 3, incl. bijlage XIV (digitale omnibus)
+ls ~/ai-act-explorer-nl/out/bijlage | wc -l    # 42 = 14 × 3, incl. bijlage XIV
 ```
 
-Amendment-layer checks (digitale omnibus, PE-CONS 30/26):
+Change-layer checks (digitale omnibus, Verordening (EU) 2026/1744, in force):
 
 ```bash
-curl -s "http://localhost:$PORT/artikel/4bis"   | grep -c "Ingevoegd door de digitale omnibus"  # >= 1
-curl -s "http://localhost:$PORT/bijlage/xiv"    | grep -c "Toegevoegd door de digitale omnibus" # >= 1
-curl -s "http://localhost:$PORT/wijzigingen"    | grep -c "PE-CONS 30/26"                       # >= 1
-curl -s "http://localhost:$PORT/artikel/2"      | grep -c 'id="w-lid-13"'                       # >= 1 (diff view prerendered)
-curl -s "http://localhost:$PORT/amendment-search-docs.json" | head -c 100                       # JSON array
+curl -s "http://localhost:$PORT/artikel/4bis"   | grep -c "Ingevoegd bij Verordening (EU) 2026/1744"  # >= 1
+curl -s "http://localhost:$PORT/bijlage/xiv"    | grep -c "Toegevoegd bij Verordening (EU) 2026/1744" # >= 1
+curl -s "http://localhost:$PORT/artikel/2"      | grep -c "Gewijzigd bij Verordening (EU) 2026/1744"   # >= 1
+curl -s "http://localhost:$PORT/artikel/10"     | grep -c "Geschrapt bij"                              # >= 1 (struck lid 5)
+curl -s "http://localhost:$PORT/wijzigingen"    | grep -c "in werking sinds 27 juli 2026"              # >= 1
+curl -s "http://localhost:$PORT/artikel/2"      | grep -c 'id="w-lid-13"'                              # >= 1 (diff view prerendered)
+curl -s "http://localhost:$PORT/amendment-search-docs.json" | head -c 100                              # JSON array of wijz- docs
+grep -rlE "PE-CONS|nog niet bekendgemaakt|nog niet in werking" ~/ai-act-explorer-nl/out | wc -l       # 0
 ```

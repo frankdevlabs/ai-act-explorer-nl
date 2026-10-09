@@ -19,8 +19,8 @@ they belong to; repo-internal oddities live in ARCHITECTURE.md "Known quirks".
 - Build chain (`parse → verify → next build`), static export, deploy script
   pattern.
 - MCP server skeleton (`mcp/`): tools, transports, search-core sharing.
-- The WAF fetch helper (`~/law-tracker/lib/fetch_blocked_doc.py`) works for
-  any EUR-Lex/consilium document.
+- The headless-Chromium WAF fetch (snippet in the `update-source` skill)
+  works for any EUR-Lex/consilium document.
 
 ## Layer 1 — Source acquisition
 
@@ -46,7 +46,8 @@ they belong to; repo-internal oddities live in ARCHITECTURE.md "Known quirks".
   transcription under a rule-2-style carve-out. What made it safe here:
   320 dpi page-image cross-check, byte-identical diff invariant, keeping
   official-text defects verbatim, whole-unit replace when anchors are
-  ambiguous. Procedure: `.claude/skills/transcribe-amendments/`.
+  ambiguous. Procedure: the `transcribe-amendments` skill in git history
+  before epic 8.
 
 ## Layer 2 — Parser (`scripts/parse-aiact.ts`)
 
@@ -123,13 +124,14 @@ Two traps that survive any language:
 
 ## Layer 6 — Amendment layer (optional)
 
-Only if the new law has pending amendments to track. The schema
-(`Amendment`/`ParagraphDiff`) and the apply-then-diff engine in
-`parse-amendments.ts` are reusable; the transcription
-(`data/source/amendments/*.json`) is per-amending-act, following
-`.claude/skills/transcribe-amendments/`. If a consolidated future version is
-available on EUR-Lex, prefer corpus-vs-corpus diffing over hand transcription
-(see the OJ swap plan in `docs/epics/epic-2-omnibus-track-changes.md`).
+Only if the new law has been (or will be) amended. For an amending act in
+force, use the deterministic route of epic 8: `scripts/lib/change-layer.ts`
+diffs two consolidated versions and attributes changes to the act's OJ
+instructions (`scripts/lib/oj-instructions.ts`, a small target grammar per
+language); `verify-amendments.ts` cross-checks against EUR-Lex's ▼M markers.
+For a *pending* act with only a lossy PDF, epic 2's hand transcription
+(apply-then-diff, page-image cross-check, `transcribe-amendments` skill) is
+in git history before epic 8 — plan its retirement from day one.
 
 ## Layer 7 — Editorial-metadata layer (optional)
 

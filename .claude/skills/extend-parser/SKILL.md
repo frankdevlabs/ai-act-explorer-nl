@@ -57,9 +57,11 @@ big diffs.
 ## 3. Oracle for new dialect handling
 
 This repo holds the act in BOTH EUR-Lex dialects:
-`data/source/aiact_nl_consolidated.html` (consolidated; articles/annexes)
-and `data/source/aiact_nl.html` (OJ; recitals — but it contains the full
-act). Any new capability in one dialect can be validated against the other
+`data/source/consolidated/*.html` (consolidated; articles/annexes — the base
+named in `data/source/corpus.json`) and `data/source/aiact_nl.html` (OJ;
+recitals — but it contains the full act as of 2024). For text the 2026
+omnibus inserted, the amending act's OJ text (`data/source/amending/`) is the
+second dialect to check against. Any new capability in one dialect can be validated against the other
 parser as ground truth:
 
 1. Point the relevant parse path at the other file **with sed, both

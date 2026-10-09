@@ -13,8 +13,7 @@ is client-side (MiniSearch over a build-time corpus).
 
 Deep dive: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Repeatable
 procedures: `.claude/skills/` (`plan-an-epic` — the working method,
-`update-source`, `extend-parser`, `transcribe-amendments`,
-`curate-recital-map`, `verify-app`).
+`update-source`, `extend-parser`, `curate-recital-map`, `verify-app`).
 
 ## Golden rules
 
@@ -104,8 +103,12 @@ fetch them with headless Chromium (snippet in `.claude/skills/update-source/`).
 
 - Dev server in tmux: `tmux new-session -d -s aiact-dev 'npm run dev'`
   (check `tmux list-sessions` first — it is often already running, port 3105).
-- No pip; no root. Playwright works via `~/law-tracker/lib` (see
-  `.claude/skills/verify-app/SKILL.md`).
+- No pip. Playwright works via `~/mc/mcp-rcon/node_modules` (browsers in
+  `~/.cache/ms-playwright`; see `.claude/skills/verify-app/SKILL.md` and the
+  EUR-Lex fetch snippet in `.claude/skills/update-source/SKILL.md`).
+- The live site and MCP (aia.mrfrank.dev) run on host vmi2502453 (tailnet
+  100.74.62.83), not necessarily where you are working: deploy = `git pull` +
+  `scripts/deploy-site.sh` + MCP rebuild/restart there (`mcp/README.md`).
 - GitHub: `frankdevlabs/ai-act-explorer-nl`; commit as
   `frankdevlabs <29236012+frankdevlabs@users.noreply.github.com>` (repo-local
-  git config already set).
+  git config; set it in fresh clones).
