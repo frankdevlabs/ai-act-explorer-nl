@@ -44,14 +44,14 @@ function ArticleLink({
 }) {
   return (
     <Link
-      href={`/artikel/${entry.number}`}
+      href={`/artikel/${entry.slug}`}
       onClick={onNavigate}
       className={cn(
         "block rounded px-2 py-1 text-sm hover:bg-surface hover:text-foreground",
         active ? "bg-surface font-medium text-accent" : "text-muted",
       )}
     >
-      <span className="text-muted">Art. {entry.number}</span> {entry.title}
+      <span className="text-muted">Art. {entry.displayNumber}</span> {entry.title}
       {amended && <OmnibusDot title="Gewijzigd door de digitale omnibus" />}
     </Link>
   );
@@ -93,35 +93,28 @@ export function SidebarToc({ toc, amended = [], newEntries = {}, onNavigate }: S
 
   const activeChapter = useMemo(() => {
     if (currentArticle === null) return null;
-    // slug articles activate their insertAfter neighbor's chapter
-    const baseNumber = Number(
-      /^\d+$/.test(currentArticle)
-        ? currentArticle
-        : (Object.entries(newEntries).find(([, list]) =>
-            list.some((e) => e.slug === currentArticle),
-          )?.[0] ?? NaN),
-    );
-    if (Number.isNaN(baseNumber)) return null;
-    return (
+    const chapterOf = (slug: string) =>
       toc.chapters.find((c) =>
-        [...c.articles, ...c.sections.flatMap((s) => s.articles)].some(
-          (a) => a.number === baseNumber,
-        ),
-      )?.roman ?? null
-    );
+        [...c.articles, ...c.sections.flatMap((s) => s.articles)].some((a) => a.slug === slug),
+      )?.roman ?? null;
+    // overlay-inserted articles activate their insertAfter neighbor's chapter
+    const neighbor = Object.entries(newEntries).find(([, list]) =>
+      list.some((e) => e.slug === currentArticle),
+    )?.[0];
+    return chapterOf(currentArticle) ?? (neighbor ? chapterOf(neighbor) : null);
   }, [toc, currentArticle, newEntries]);
 
   const [open, setOpen] = useState<Record<string, boolean>>({});
 
   const renderEntry = (a: TocEntry) => (
-    <div key={a.number}>
+    <div key={a.slug}>
       <ArticleLink
         entry={a}
-        active={String(a.number) === currentArticle}
-        amended={amendedSet.has(String(a.number))}
+        active={a.slug === currentArticle}
+        amended={amendedSet.has(a.slug)}
         onNavigate={onNavigate}
       />
-      {(newEntries[String(a.number)] ?? []).map((n) => (
+      {(newEntries[a.slug] ?? []).map((n) => (
         <NewArticleLink
           key={n.slug}
           entry={n}

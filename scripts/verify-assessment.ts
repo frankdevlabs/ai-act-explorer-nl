@@ -184,14 +184,14 @@ const internalPages = new Set([
 function checkRef(owner: string, href: string): void {
   const [pathWithQuery, fragment] = href.split("#");
   const path = pathWithQuery.split("?")[0];
-  const art = path.match(/^\/artikel\/(\d+)$/);
-  if (art) {
-    const a = articles.find((x) => x.number === Number(art[1]));
-    assert.ok(a, `${owner}: artikel ${art[1]} bestaat`);
+  const art = path.match(/^\/artikel\/([a-z0-9]+)$/);
+  const a = art ? articles.find((x) => x.slug === art[1]) : undefined;
+  if (a) {
     if (fragment)
-      assert.ok(articleAnchors(a!.paragraphs).has(fragment), `${owner}: anchor ${href}`);
+      assert.ok(articleAnchors(a.paragraphs).has(fragment), `${owner}: anchor ${href}`);
     return;
   }
+  if (art && /^\d+$/.test(art[1])) assert.fail(`${owner}: artikel ${art[1]} bestaat`);
   const newArt = path.match(/^\/artikel\/(\d+(?:bis|ter|quater|quinquies))$/);
   if (newArt) {
     const spec = amendments.newArticles.find((n) => n.slug === newArt[1]);

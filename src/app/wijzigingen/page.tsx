@@ -63,12 +63,12 @@ export default function WijzigingenPage() {
           if (!items.length) return null;
           const newArticle = t.kind === "article" ? getNewArticle(t.slug) : undefined;
           const base =
-            t.kind === "article" && !newArticle ? getArticle(Number(t.slug)) : undefined;
+            t.kind === "article" && !newArticle ? getArticle(t.slug) : undefined;
           const annex = t.kind === "annex" ? getAnnex(t.slug) : undefined;
           const heading = newArticle
             ? `Artikel ${newArticle.displayNumber} — ${newArticle.title}`
             : base
-              ? `Artikel ${base.number} — ${amendments.titleChanges[t.slug]?.title ?? base.title}`
+              ? `Artikel ${base.displayNumber} — ${amendments.titleChanges[t.slug]?.title ?? base.title}`
               : annex
                 ? `Bijlage ${annex.roman} — ${annex.title}`
                 : t.slug;

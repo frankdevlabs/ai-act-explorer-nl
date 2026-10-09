@@ -16,7 +16,7 @@ import type {
   RecitalMapGenerated,
   Toc,
 } from "./types";
-import { flattenNodes } from "./flatten";
+import { flattenNodes, lidLabel } from "./flatten";
 
 const articles = articlesJson as Article[];
 const recitals = recitalsJson as Recital[];
@@ -34,8 +34,9 @@ export function getArticles(): Article[] {
   return articles;
 }
 
-export function getArticle(nummer: number): Article | undefined {
-  return articles.find((a) => a.number === nummer);
+/** Article by route slug: "5", "4bis". */
+export function getArticle(slug: string): Article | undefined {
+  return articles.find((a) => a.slug === slug);
 }
 
 export function getRecitals(): Recital[] {
@@ -107,16 +108,14 @@ export type ResolvedArticle =
       sectionTitle: string | null;
     };
 
-/** Resolve a route param: numeric = base article, slug = omnibus new article
- *  (chapter/section metadata inherited from its insertAfter neighbor). */
+/** Resolve a route param: base-corpus article by slug, else an omnibus new
+ *  article (chapter/section metadata inherited from its insertAfter neighbor). */
 export function resolveArticle(nummer: string): ResolvedArticle | undefined {
-  if (/^\d+$/.test(nummer)) {
-    const article = getArticle(Number(nummer));
-    return article && { kind: "base", article };
-  }
+  const article = getArticle(nummer);
+  if (article) return { kind: "base", article };
   const spec = getNewArticle(nummer);
   if (!spec) return undefined;
-  const neighbor = getArticle(spec.insertAfter);
+  const neighbor = getArticle(String(spec.insertAfter));
   if (!neighbor) return undefined;
   return {
     kind: "new",
@@ -137,9 +136,9 @@ function slugRank(slug: string): number {
 /** All article slugs in document order: base articles with omnibus insertions
  *  spliced after their insertAfter neighbor (bis < ter < quater < quinquies). */
 const articleOrder: { slug: string; label: string; title: string }[] = articles.flatMap((a) => [
-  { slug: String(a.number), label: `Artikel ${a.number}`, title: a.title },
+  { slug: a.slug, label: `Artikel ${a.displayNumber}`, title: a.title },
   ...amendments.newArticles
-    .filter((n) => n.insertAfter === a.number)
+    .filter((n) => n.insertAfter === a.number && a.slug === String(a.number) && !getArticle(n.slug))
     .sort((x, y) => slugRank(x.slug) - slugRank(y.slug))
     .map((n) => ({ slug: n.slug, label: `Artikel ${n.displayNumber}`, title: n.title })),
 ]);
@@ -185,7 +184,10 @@ export function changedTargetPrevNext(
   const link = (t?: { kind: "article" | "annex"; slug: string }) => {
     if (!t) return undefined;
     return t.kind === "article"
-      ? { href: `/artikel/${t.slug}?diff=1`, label: `Artikel ${t.slug}` }
+      ? {
+          href: `/artikel/${t.slug}?diff=1`,
+          label: articleOrder.find((e) => e.slug === t.slug)?.label ?? `Artikel ${t.slug}`,
+        }
       : { href: `/bijlage/${t.slug}?diff=1`, label: `Bijlage ${t.slug.toUpperCase()}` };
   };
   return {
@@ -248,17 +250,16 @@ export function getPreview(href: string): RefPreview | undefined {
             : "",
     };
   }
-  const art = page.match(/^\/artikel\/(\d+)$/);
-  if (art) {
-    const a = getArticle(Number(art[1]));
-    if (!a) return undefined;
+  const art = page.match(/^\/artikel\/([a-z0-9]+)$/);
+  const a = art ? getArticle(art[1]) : undefined;
+  if (a) {
     // deep links preview the targeted lid rather than the article opening
     const para = fragment
       ? a.paragraphs.find((p) => p.anchor === fragment || fragment.startsWith(`${p.anchor}-`))
       : undefined;
-    const lid = para?.number != null ? `, lid ${para.number}` : "";
+    const label = para ? lidLabel(para) : null;
     return {
-      title: `Artikel ${a.number}${lid} — ${a.title}`,
+      title: `Artikel ${a.displayNumber}${label ? `, lid ${label}` : ""} — ${a.title}`,
       snippet: clip(flattenNodes((para ?? a.paragraphs[0]).content)),
     };
   }

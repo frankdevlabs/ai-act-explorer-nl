@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getNewArticleTocEntries, getToc } from "@/lib/data";
+import type { TocEntry } from "@/lib/types";
 
 /** Accent marker for articles inserted by the digitale omnibus. */
 function OmnibusDot({ title }: { title: string }) {
@@ -17,17 +18,17 @@ export default function Home() {
 
   // A base article followed by any omnibus-inserted articles, as sibling <li>s
   // (flatMap keeps them direct children of <ul> so space-y-1 spacing holds).
-  const articleItems = (a: { number: number; title: string }) => [
-    <li key={a.number}>
+  const articleItems = (a: TocEntry) => [
+    <li key={a.slug}>
       <Link
-        href={`/artikel/${a.number}`}
+        href={`/artikel/${a.slug}`}
         className="group flex gap-3 rounded px-2 py-1 hover:bg-surface"
       >
-        <span className="w-16 shrink-0 text-sm text-muted">Art. {a.number}</span>
+        <span className="w-16 shrink-0 text-sm text-muted">Art. {a.displayNumber}</span>
         <span className="group-hover:text-accent">{a.title}</span>
       </Link>
     </li>,
-    ...(newEntries[String(a.number)] ?? []).map((n) => (
+    ...(newEntries[a.slug] ?? []).map((n) => (
       <li key={n.slug}>
         <Link
           href={`/artikel/${n.slug}`}

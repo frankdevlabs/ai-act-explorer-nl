@@ -11,7 +11,7 @@ import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { findRefs, type RefContext } from "../src/lib/crossrefs";
-import { flattenNodes, markerToSlug } from "../src/lib/flatten";
+import { flattenNodes, lidLabel, markerToSlug } from "../src/lib/flatten";
 import type { ContentNode, SearchDoc, Toc, TocChapter } from "../src/lib/types";
 import { parseConsolidated, parseRecitals } from "./lib/consolidated";
 
@@ -57,7 +57,7 @@ for (const a of articles) {
     ids.push(p.anchor);
     collectItemAnchors(p.content, ids);
   }
-  articleAnchors.set(String(a.number), uniqueAnchors(ids));
+  articleAnchors.set(a.slug, uniqueAnchors(ids));
 }
 const annexAnchors = new Map<string, Set<string>>();
 for (const a of annexes) {
@@ -80,7 +80,7 @@ function resolveRefHref(href: string, where: string): string {
     return href;
   }
   let anchors: Set<string> | undefined;
-  const art = page.match(/^\/artikel\/(\d+)$/);
+  const art = page.match(/^\/artikel\/([a-z0-9]+)$/);
   const anx = page.match(/^\/bijlage\/([a-z]+)$/);
   const rct = page.match(/^\/overweging\/(\d+)$/);
   if (art) anchors = articleAnchors.get(art[1]);
@@ -113,12 +113,12 @@ function annotateNodes(nodes: ContentNode[], ctx: RefContext, selfHref: string, 
 for (const a of articles) {
   const ctx: RefContext = {
     selfType: "artikel",
-    selfRef: String(a.number),
+    selfRef: a.slug,
     // amendment articles quote text of other acts; only explicit self-forms link
     linkBareRefs: !(a.number >= 102 && a.number <= 110),
   };
   for (const p of a.paragraphs) {
-    annotateNodes(p.content, ctx, `/artikel/${a.number}`, `artikel ${a.number}`);
+    annotateNodes(p.content, ctx, `/artikel/${a.slug}`, `artikel ${a.displayNumber}`);
   }
 }
 for (const r of recitals) {
@@ -167,13 +167,15 @@ const toc: Toc = {
 const searchDocs: SearchDoc[] = [];
 for (const a of articles) {
   for (const p of a.paragraphs) {
-    const lid = p.number !== null ? `, lid ${p.number}` : "";
+    // a struck lid is no longer law: only the change layer shows its old text
+    if (p.repealed) continue;
+    const label = lidLabel(p);
     searchDocs.push({
-      id: `art-${a.number}-${p.anchor}`,
+      id: `art-${a.slug}-${p.anchor}`,
       type: "artikel",
-      ref: String(a.number),
-      heading: `Artikel ${a.number} — ${a.title}${lid}`,
-      url: `/artikel/${a.number}#${p.anchor}`,
+      ref: a.slug,
+      heading: `Artikel ${a.displayNumber} — ${a.title}${label ? `, lid ${label}` : ""}`,
+      url: `/artikel/${a.slug}#${p.anchor}`,
       text: flattenNodes(p.content),
     });
   }
@@ -241,7 +243,7 @@ for (const a of annexes) {
           `${item.marker} ${flattenNodes(item.content)}`.trim(),
         );
       }
-    } else {
+    } else if (!(node.type === "text" && node.repealed)) {
       buf.push(flattenNodes([node]));
     }
   }

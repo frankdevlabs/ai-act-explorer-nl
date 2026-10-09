@@ -37,8 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
   const article = resolved.article;
   return {
-    title: `Artikel ${article.number} — ${article.title}`,
-    description: `Artikel ${article.number} van de AI-verordening (EU) 2024/1689: ${article.title}`,
+    title: `Artikel ${article.displayNumber} — ${article.title}`,
+    description: `Artikel ${article.displayNumber} van de AI-verordening (EU) 2024/1689: ${article.title}`,
   };
 }
 
@@ -48,7 +48,7 @@ export default async function ArtikelPage({ params }: Props) {
   if (!resolved) notFound();
 
   const isNew = resolved.kind === "new";
-  const display = isNew ? `Artikel ${resolved.spec.displayNumber}` : `Artikel ${resolved.article.number}`;
+  const display = `Artikel ${isNew ? resolved.spec.displayNumber : resolved.article.displayNumber}`;
   const title = isNew ? resolved.spec.title : resolved.article.title;
   const chapter = isNew ? resolved.chapter : resolved.article.chapter;
   const chapterTitle = isNew ? resolved.chapterTitle : resolved.article.chapterTitle;

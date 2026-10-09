@@ -64,8 +64,12 @@ const tokenize: (text: string) => string[] = MiniSearch.getDefault("tokenize");
  */
 export function parseReferenceQuery(query: string): { exact?: string; prefix?: string } | null {
   const q = query.trim().toLowerCase();
-  let m = q.match(/^artikel\s+(\d+)(?:\s*,?\s*lid\s+(\d+))?$/);
-  if (m) return m[2] ? { exact: `art-${m[1]}-lid-${m[2]}` } : { prefix: `art-${m[1]}-` };
+  const SUFFIX = "(?:\\s*(bis|ter|quater|quinquies|sexies))?";
+  let m = q.match(new RegExp(`^artikel\\s+(\\d+)${SUFFIX}(?:\\s*,?\\s*lid\\s+(\\d+)${SUFFIX})?$`));
+  if (m) {
+    const art = `${m[1]}${m[2] ?? ""}`;
+    return m[3] ? { exact: `art-${art}-lid-${m[3]}${m[4] ?? ""}` } : { prefix: `art-${art}-` };
+  }
   m = q.match(/^overweging\s+(\d+)$/);
   if (m) return { exact: `rct-${m[1]}` };
   m = q.match(/^bijlage\s+([ivxlc]+)(?:\s*,?\s*punt\s+(\d+|[a-z]))?$/);
