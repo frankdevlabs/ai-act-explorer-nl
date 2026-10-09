@@ -53,8 +53,8 @@ export default function TransparantieArt50Page() {
             zorgen dat de output in <em>machineleesbaar formaat</em> als kunstmatig gegenereerd of
             gemanipuleerd gemarkeerd is — doeltreffend, interoperabel, robuust en betrouwbaar voor
             zover technisch haalbaar (denk aan watermerken of metadata zoals C2PA). Uitzondering:
-            AI die slechts een ondersteunende of standaardbewerkingsfunctie vervult en de input
-            niet wezenlijk verandert (
+            AI die een ondersteunende functie voor standaardbewerking vervult óf de input niet
+            wezenlijk wijzigt (
             <Link href="/artikel/50#lid-2" className="text-accent hover:underline">
               art. 50, lid 2
             </Link>

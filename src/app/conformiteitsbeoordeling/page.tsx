@@ -45,7 +45,7 @@ export default function ConformiteitsbeoordelingPage() {
             <Link href="/artikel/41" className="text-accent hover:underline">
               gemeenschappelijke specificaties
             </Link>{" "}
-            vaststellen met hetzelfde effect. Twee aanvullende vermoedens staan in{" "}
+            vaststellen met hetzelfde effect. Aanvullende vermoedens staan in{" "}
             <Link href="/artikel/42" className="text-accent hover:underline">
               art. 42
             </Link>
@@ -57,8 +57,9 @@ export default function ConformiteitsbeoordelingPage() {
             <Link href="/artikel/40#lid-2" className="text-accent hover:underline">
               art. 40, lid 2
             </Link>
-            ), en geldt een vermoeden van conformiteit met art. 15 voor systemen die aan de
-            Cyberweerbaarheidsverordening voldoen (
+            ), en worden systemen die onder de Cyberweerbaarheidsverordening vallen en aan de
+            voorwaarden van art. 12, lid 1, daarvan voldoen, geacht te voldoen aan de
+            cyberbeveiligingsvereisten van art. 15 (
             <Link href="/artikel/42#lid-3" className="text-accent hover:underline">
               art. 42, lid 3
             </Link>
@@ -101,8 +102,9 @@ export default function ConformiteitsbeoordelingPage() {
             </li>
             <li>
               <span className="font-medium">Bijlage I, afdeling A (productwetgeving):</span> de
-              sectorale conformiteitsprocedure van het onderliggende productregime (machines,
-              medische hulpmiddelen, speelgoed enz.), waarbij de AI-eisen van afdeling 2 in die
+              sectorale conformiteitsprocedure van het onderliggende productregime (medische
+              hulpmiddelen, speelgoed, liften enz.; machines vallen sinds de omnibus onder
+              afdeling B), waarbij de AI-eisen van afdeling 2 in die
               beoordeling worden meegenomen (
               <Link href="/artikel/43#lid-3" className="text-accent hover:underline">
                 art. 43, lid 3
@@ -205,8 +207,13 @@ export default function ConformiteitsbeoordelingPage() {
             <Link href="/artikel/113" className="text-accent hover:underline">
               art. 113, derde alinea, punt c)
             </Link>
-            ). Richt de conformiteitsroute desondanks vóór go-live in: systemen
-            die nu live gaan, zijn op die data al in gebruik.
+            ). Systemen die vóór die data in de handel of in gebruik zijn, vallen er alleen onder
+            bij een aanzienlijke ontwerpwijziging daarna; systemen bedoeld voor overheidsinstanties
+            moeten uiterlijk 2 augustus 2030 voldoen (
+            <Link href="/artikel/111#lid-2" className="text-accent hover:underline">
+              art. 111, lid 2
+            </Link>
+            ).
           </p>
         </section>
 

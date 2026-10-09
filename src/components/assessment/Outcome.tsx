@@ -177,6 +177,10 @@ export function Outcome({ previews }: { previews: Previews }) {
             (digitale omnibus), in werking sinds 27 juli 2026; de toepassingsdata volgen uit{" "}
             <Link href="/artikel/113" className="text-accent hover:underline">
               artikel 113
+            </Link>{" "}
+            en de overgangsbepalingen van{" "}
+            <Link href="/artikel/111" className="text-accent hover:underline">
+              artikel 111
             </Link>
             .{" "}
             <Link href="/wijzigingen" className="text-accent hover:underline">
