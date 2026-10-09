@@ -31,8 +31,9 @@ articles, 2 amended annexes, 1 new annexes, …`), `verify` prints
 passed (… 84 quoted blocks, 207 refs)`, `verify-recital-map`,
 `verify-assessment` (25 modules, 205 vragen, 33 registerkolommen) and
 `verify-search: 22 golden queries …`, plus `verify-register-export: all assertions passed`
-(card #176; 4 fixtures, 33 CSV-kolommen, 9 verplichtingen zonder AI Act-basis) and
-`verify-mcp`; `next build` exports ~329 static pages.
+(card #176; 4 fixtures, 33 CSV-kolommen, 9 verplichtingen zonder AI Act-basis);
+`next build` exports ~329 static pages. The MCP has its own gate, outside the
+build: `npm run verify:mcp` (builds `mcp/`, drives 56 calls over stdio + HTTP).
 
 ## 2. Dev server + curl smoke checks
 

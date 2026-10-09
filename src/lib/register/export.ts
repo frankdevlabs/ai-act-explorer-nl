@@ -215,7 +215,7 @@ export function registerDossierMarkdown(
     }
     lines.push(
       "",
-      "Data uit de digitale omnibus (PE-CONS 30/26) gelden pas na formele vaststelling en bekendmaking.",
+      "Data met de markering _(omnibus)_ zijn ingevoerd of gewijzigd bij Verordening (EU) 2026/1744 (digitale omnibus), in werking sinds 27 juli 2026; de toepassingsdata volgen uit artikel 113 en de overgangsbepalingen van artikel 111.",
       "",
     );
   }
