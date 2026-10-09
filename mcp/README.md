@@ -1,6 +1,7 @@
 # aiact-mcp — MCP server for AI Act Explorer NL
 
-Exposes the Dutch AI Act corpus (base text + digital-omnibus amendment layer)
+Exposes the Dutch AI Act corpus as in force (consolidated 02024R1689-20260727,
+incl. the digital omnibus, Regulation (EU) 2026/1744) plus its change layer
 over the Model Context Protocol: stdio for Claude Desktop/Code, streamable
 HTTP for claude.ai custom connectors.
 
@@ -12,11 +13,11 @@ Search relevance is identical to the site: both use
 | Tool | Input | Returns |
 |---|---|---|
 | `search_ai_act` | `query`, `limit?`, `type?` | hits with deep links + snippets |
-| `get_article` | `number` (`"6"`, `"75 bis"`) | full article text, omnibus flag |
+| `get_article` | `number` (`"6"`, `"75 bis"`) | article text in force; "ingevoegd/gewijzigd bij Vo 2026/1744" banner |
 | `get_recital` | `number` (1–180) | recital text |
-| `get_annex` | `roman` (`"III"`) | annex text (incl. omnibus annexes) |
-| `get_structure` | — | compact TOC with omnibus insertions |
-| `get_amendments` | `article?` | omnibus overview or per-article diff |
+| `get_annex` | `roman` (`"III"`) | annex text in force (I–XIV) |
+| `get_structure` | — | compact TOC, marking articles/annexes inserted by Vo 2026/1744 |
+| `get_amendments` | `article?`, `annex?` | status line + overview, or verbatim instructions and word diff vs the text before 27.7.2026 |
 
 All output is markdown with deep links to `BASE_URL` so Claude can cite.
 

@@ -7,7 +7,9 @@ import type {
   Footnote,
   RefSpan,
 } from "../../src/lib/types.js";
-import { BASE_URL, type ResolvedArticle } from "./data.js";
+import { APPLICATION_CAVEAT, actLabel, actShort, inForceSince } from "../../src/lib/amendment-meta.js";
+import { lidLabel } from "../../src/lib/flatten.js";
+import { BASE_URL, amendmentDiffs, amendments, isNewAnnex, isNewArticle, type ResolvedArticle } from "./data.js";
 
 /** Mirror of LinkedText: splice refs into markdown links, right-to-left so
  *  earlier offsets stay valid. Refs hold site-internal hrefs. */
@@ -69,8 +71,10 @@ export function renderFootnotes(footnotes: Footnote[]): string {
 function renderParagraphs(paragraphs: ArticleParagraph[]): string {
   return paragraphs
     .map((p) => {
-      const heading = p.number != null ? `## Lid ${p.number}\n\n` : "";
-      return `${heading}${renderNodes(p.content)}`;
+      const label = lidLabel(p);
+      const heading = label !== null ? `## Lid ${label}\n\n` : "";
+      const struck = p.repealed ? `\n\n*Geschrapt bij ${actShort(amendments.meta)}.*` : "";
+      return `${heading}${renderNodes(p.content)}${struck}`;
     })
     .join("\n\n");
 }
@@ -88,40 +92,37 @@ function contextLine(a: {
 
 function deepLinks(slug: string, paragraphs: ArticleParagraph[]): string {
   const links = paragraphs
-    .filter((p) => p.number != null)
+    .filter((p) => lidLabel(p) !== null && !p.repealed)
     .map((p) => `- ${BASE_URL}/artikel/${slug}#${p.anchor}`);
   return [`**Deep links**`, `- ${BASE_URL}/artikel/${slug}`, ...links].join("\n");
 }
 
 export function renderArticle(resolved: ResolvedArticle): string {
-  if (resolved.kind === "base") {
-    const a = resolved.article;
-    return [
-      `# Artikel ${a.number} — ${a.title}`,
-      contextLine(a),
-      renderParagraphs(a.paragraphs),
-      renderFootnotes(a.footnotes),
-      deepLinks(String(a.number), a.paragraphs),
-    ]
-      .filter(Boolean)
-      .join("\n\n");
-  }
-  const s = resolved.spec;
+  const a = resolved.article;
+  const m = amendments.meta;
   return [
-    `# Artikel ${s.displayNumber} — ${s.title}`,
-    contextLine(resolved),
-    `> Ingevoegd door de digitale omnibus (PE-CONS 30/26) — nog niet in werking.`,
-    renderParagraphs(s.paragraphs),
-    deepLinks(s.slug, s.paragraphs),
+    `# Artikel ${a.displayNumber} — ${a.title}`,
+    contextLine(a),
+    isNewArticle(a.slug) ? `> Ingevoegd bij ${actLabel(m)}, ${inForceSince(m)}. ${APPLICATION_CAVEAT}` : "",
+    renderParagraphs(a.paragraphs),
+    renderFootnotes(a.footnotes),
+    deepLinks(a.slug, a.paragraphs),
   ]
     .filter(Boolean)
     .join("\n\n");
 }
 
-export function renderAnnex(a: Annex, isNew: boolean): string {
+export function renderAnnex(a: Annex): string {
+  const m = amendments.meta;
+  const roman = a.roman.toLowerCase();
+  const status = isNewAnnex(roman)
+    ? `> Toegevoegd bij ${actLabel(m)}, ${inForceSince(m)}.`
+    : amendmentDiffs.annexes[roman]
+      ? `> Let op: deze bijlage is gewijzigd bij ${actLabel(m)}, ${inForceSince(m)}; de wijzigingen: ${BASE_URL}/bijlage/${roman}?diff=1.`
+      : "";
   return [
     `# Bijlage ${a.roman} — ${a.title}`,
-    isNew ? `> Toegevoegd door de digitale omnibus (PE-CONS 30/26) — nog niet in werking.` : "",
+    status,
     renderNodes(a.content),
     renderFootnotes(a.footnotes),
     `**Deep link**: ${BASE_URL}/bijlage/${a.roman.toLowerCase()}`,
