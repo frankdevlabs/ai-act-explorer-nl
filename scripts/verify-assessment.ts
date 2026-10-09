@@ -15,19 +15,28 @@ import assert from "node:assert";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { AmendmentDiffs, AmendmentsGenerated, Annex, Article, ContentNode, Recital } from "../src/lib/types";
-import type { QCondition, Question, Questionnaire } from "../src/lib/assessment/types";
-import { computeVisibility, evaluate, registerValueRow, toTsv } from "../src/lib/assessment/engine";
+import { vb001, vb002, vb003, vb004 } from "./lib/assessment-fixtures";
+import { loadCorpus, makeCheckRef } from "./lib/corpus-index";
+import type {
+  ObligationCatalogEntry,
+  QCondition,
+  Question,
+  Questionnaire,
+  RiskClass,
+  RoleFlag,
+} from "../src/lib/assessment/types";
+import {
+  computeVisibility,
+  evaluate,
+  obligationCatalog,
+  registerValueRow,
+  toTsv,
+} from "../src/lib/assessment/engine";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const load = <T>(rel: string): T => JSON.parse(readFileSync(join(root, rel), "utf-8"));
 
 const questionnaire = load<Questionnaire>("data/questionnaire/assessment-v1.json");
-const articles = load<Article[]>("data/generated/articles.json");
-const annexes = load<Annex[]>("data/generated/annexes.json");
-const recitals = load<Recital[]>("data/generated/recitals.json");
-const amendments = load<AmendmentsGenerated>("data/generated/amendments.json");
-const amendmentDiffs = load<AmendmentDiffs>("data/generated/amendment-diffs.json");
 
 // Derived flags the engine computes between modules (not set by effects).
 const DERIVED_FLAGS = new Set(["hoogrisico"]);
@@ -150,75 +159,9 @@ for (const { q } of allQuestions) {
 
 // ------------------------------------------------- ref integrity
 
-function collectAnchors(nodes: ContentNode[], into: Set<string>): void {
-  for (const node of nodes) {
-    if (node.type === "list") {
-      for (const item of node.items) {
-        if (item.anchor) into.add(item.anchor);
-        collectAnchors(item.content, into);
-      }
-    }
-  }
-}
-
-function articleAnchors(paragraphs: { anchor: string; content: ContentNode[] }[]): Set<string> {
-  const anchors = new Set<string>();
-  for (const p of paragraphs) {
-    anchors.add(p.anchor);
-    collectAnchors(p.content, anchors);
-  }
-  return anchors;
-}
-
-const annexRomans = new Set([
-  ...annexes.map((a) => a.roman.toLowerCase()),
-  ...amendments.newAnnexes.map((a) => a.roman.toLowerCase()),
-]);
-const recitalNumbers = new Set(recitals.map((r) => r.number));
-/** Curated internal info pages the questionnaire may link to (exact match, no fragments). */
-const internalPages = new Set([
-  "/gpai-praktijkcode",
-  "/conformiteitsbeoordeling",
-  "/transparantie-art50",
-]);
-
-function checkRef(owner: string, href: string): void {
-  const [pathWithQuery, fragment] = href.split("#");
-  const [path, query] = pathWithQuery.split("?");
-  const art = path.match(/^\/artikel\/([a-z0-9]+)$/);
-  const a = art ? articles.find((x) => x.slug === art[1]) : undefined;
-  if (a) {
-    // ?diff=1 links ("what changed") only on articles the amending act changed,
-    // and their #w- fragments must name a paragraph of that diff view
-    const diff = amendmentDiffs.articles[a.slug];
-    if (query === "diff=1") assert.ok(diff, `${owner}: ${href} — artikel ${a.slug} heeft geen wijzigingen`);
-    if (fragment?.startsWith("w-"))
-      assert.ok(
-        query === "diff=1" && diff!.some((p) => `w-${p.anchor}` === fragment && p.status !== "unchanged"),
-        `${owner}: diff-anchor ${href}`,
-      );
-    else if (fragment)
-      assert.ok(articleAnchors(a.paragraphs).has(fragment), `${owner}: anchor ${href}`);
-    return;
-  }
-  if (art) assert.fail(`${owner}: artikel ${art[1]} bestaat`);
-  const anx = path.match(/^\/bijlage\/([a-z]+)$/);
-  if (anx) {
-    assert.ok(annexRomans.has(anx[1]), `${owner}: bijlage ${anx[1]} bestaat`);
-    assert.ok(!fragment, `${owner}: geen fragmenten op bijlagen (${href})`);
-    return;
-  }
-  const rct = path.match(/^\/overweging\/(\d+)$/);
-  if (rct) {
-    assert.ok(recitalNumbers.has(Number(rct[1])), `${owner}: overweging ${rct[1]} bestaat`);
-    return;
-  }
-  if (internalPages.has(path)) {
-    assert.ok(!fragment, `${owner}: geen fragmenten op interne pagina's (${href})`);
-    return;
-  }
-  assert.fail(`${owner}: onbekend ref-pad ${href}`);
-}
+// The href grammar lives in scripts/lib/corpus-index.ts: verify-register-export
+// validates the same deep links from the exported dossier.
+const checkRef = makeCheckRef(loadCorpus(root));
 
 for (const m of questionnaire.modules) {
   for (const ref of m.refs ?? []) checkRef(`module ${m.id}`, ref.href);
@@ -263,101 +206,11 @@ function conditionDeps(cond: QCondition): { flags: string[]; answers: string[] }
 }
 
 // ------------------------------------------------- behaviour fixtures
-
-// VB-001 — ingekochte kredietscoringsmodule, deployer, financiële entiteit.
-const vb001: Record<string, string> = {
-  "1.1": "Kredietscoringsmodule leningaanvragen",
-  "1.12": "ja",
-  "2.1": "ja",
-  "2.2": "ja",
-  "2.3": "ja",
-  "2.4": "ja",
-  "3.1": "nee",
-  "3.2": "nee",
-  "4.1": "nee",
-  "4.2": "ja",
-  "4.3": "nee",
-  "4.4": "nee",
-  "4.5": "nee",
-  "4.6": "nee",
-  "4.7": "nee",
-  "4.8": "nee",
-  "5.1": "nee",
-  "5.2": "nee",
-  "5.3": "nee",
-  "5.4": "nee",
-  "5.5": "nee",
-  "5.6": "nee",
-  "5.7": "nee",
-  "5.8": "nee",
-  "5.9": "nee",
-  "5.10": "nee",
-  "6.1": "nee",
-  "7.1": "nee",
-  "7.2": "nee",
-  "7.3": "nee",
-  "7.4": "nee",
-  "7.5a": "nee",
-  "7.5b": "ja",
-  "7.5c": "nee",
-  "7.5d": "nee",
-  "7.6": "nee",
-  "7.7": "nee",
-  "7.8": "nee",
-  "8.1": "ja",
-  "9.1": "ja",
-  "9.2": "ja",
-  "9.3": "ja",
-  "9.4": "ja",
-  "9.5": "ja",
-  "9.6": "ja",
-  "9.7": "ja",
-  "9.8": "ja",
-  "9.9": "ja",
-  "9.10": "ja",
-  "9.11": "ja",
-  "9.12": "nvt",
-  "10.1": "nee",
-  "10.2": "ja",
-  "10.3": "ja",
-  "10.6": "ja",
-  "10.7": "ja",
-  "10.8": "ja",
-  "10.9": "ja",
-  "10.10": "ja",
-  "10.11": "ja",
-  "10.4": "nee",
-  "10.5": "ja",
-  "10.12": "ja",
-  "13.1": "nee",
-  "13.2": "nee",
-  "13.3": "nee",
-  "13.4": "nee",
-  "14.1": "ja",
-  "14.2": "ja",
-  "14.3": "ja",
-  "15.1": "ja",
-  "15.2": "ja",
-  "15.3": "ja",
-  "15.4": "ja",
-  "15.5": "ja",
-  "15.6": "ja",
-  "15.7": "nee",
-  "15.8": "ja",
-  "16.1": "ja",
-  "16.2": "ja",
-  "16.3": "ja",
-  "16.4": "ja",
-  "17.1": "ja",
-  "17.2": "ja",
-  "17.3": "ja",
-  "17.4": "ja",
-  "18.1": "hoog",
-  "18.2": "go-voorwaarden",
-  "18.3": "Kwartaalmonitoring bias",
-  "18.4": "09-2026 / 09-2027",
-  "18.5": "Dossier #123",
-};
+//
+// The answer blobs themselves live in scripts/lib/assessment-fixtures.ts:
+// scripts/verify-mcp.ts replays the same four through the mirrored engine
+// embedded in the MCP Apps panel, and this file cannot be imported (it asserts
+// at import time). The assertions stay here.
 
 {
   const e = evaluate(questionnaire, vb001);
@@ -396,85 +249,6 @@ const vb001: Record<string, string> = {
   assert.ok(!toTsv([row]).includes("\n"), "VB-001 TSV is één regel");
 }
 
-// VB-002 — generatieve AI-assistent (GPAI-systeem), deployer, geen hoog risico.
-const vb002: Record<string, string> = {
-  "1.1": "Generatieve AI-assistent kantoorwerk",
-  "1.12": "ja",
-  "2.1": "ja",
-  "2.2": "ja",
-  "2.3": "ja",
-  "2.4": "ja",
-  "3.1": "nee",
-  "3.2": "ja",
-  "3.3": "nee",
-  "3.4": "onbekend",
-  "4.1": "nee",
-  "4.2": "ja",
-  "4.3": "nee",
-  "4.4": "nee",
-  "4.5": "nee",
-  "4.6": "nee",
-  "4.7": "nee",
-  "4.8": "nee",
-  "5.1": "nee",
-  "5.2": "nee",
-  "5.3": "nee",
-  "5.4": "nee",
-  "5.5": "nee",
-  "5.6": "nee",
-  "5.7": "nee",
-  "5.8": "nee",
-  "5.9": "nee",
-  "5.10": "nee",
-  "6.1": "nee",
-  "7.1": "nee",
-  "7.2": "nee",
-  "7.3": "nee",
-  "7.4": "nee",
-  "7.5a": "nee",
-  "7.5b": "nee",
-  "7.5c": "nee",
-  "7.5d": "nee",
-  "7.6": "nee",
-  "7.7": "nee",
-  "7.8": "nee",
-  "25.1": "GPT-4o (OpenAI), via API",
-  "25.2": "ja",
-  "25.3": "nee",
-  "25.4": "ja",
-  "25.5": "ja",
-  "25.6": "nee",
-  "13.1": "ja",
-  "13.2": "ja",
-  "13.3": "nee",
-  "13.4": "nee",
-  "13.6": "ja",
-  "13.7": "ja",
-  "13.5": "ja",
-  "14.1": "ja",
-  "14.2": "ja",
-  "14.3": "ja",
-  "15.1": "ja",
-  "15.2": "ja",
-  "15.3": "nee",
-  "15.4": "ja",
-  "15.5": "ja",
-  "15.6": "ja",
-  "15.7": "nee",
-  "15.8": "ja",
-  "16.1": "ja",
-  "16.2": "ja",
-  "16.3": "ja",
-  "16.4": "ja",
-  "17.1": "ja",
-  "17.2": "ja",
-  "17.3": "ja",
-  "17.4": "ja",
-  "18.1": "midden",
-  "18.2": "go",
-  "18.4": "03-2026 / 03-2027",
-  "18.5": "Gebruiksbeleid v2.1",
-};
 
 {
   const e = evaluate(questionnaire, vb002);
@@ -501,119 +275,6 @@ const vb002: Record<string, string> = {
   );
 }
 
-// VB-003 — zelf ontwikkelde sollicitantenscreening, aanbieder, niet-financieel.
-const vb003: Record<string, string> = {
-  "1.1": "CV-screening en kandidaatranking",
-  "1.12": "nee",
-  "2.1": "ja",
-  "2.2": "ja",
-  "2.3": "ja",
-  "2.4": "ja",
-  "3.1": "nee",
-  "3.2": "nee",
-  "4.1": "ja",
-  "4.2": "nee",
-  "4.3": "nee",
-  "4.4": "nee",
-  "4.5": "nee",
-  "4.6": "nee",
-  "4.7": "nee",
-  "4.8": "nee",
-  "4.9": "nee",
-  "5.1": "nee",
-  "5.2": "nee",
-  "5.3": "nee",
-  "5.4": "nee",
-  "5.5": "nee",
-  "5.6": "nee",
-  "5.7": "nee",
-  "5.8": "nee",
-  "5.9": "nee",
-  "5.10": "nee",
-  "6.1": "nee",
-  "7.1": "nee",
-  "7.2": "nee",
-  "7.3": "nee",
-  "7.4": "ja",
-  "7.5a": "nee",
-  "7.5b": "nee",
-  "7.5c": "nee",
-  "7.5d": "nee",
-  "7.6": "nee",
-  "7.7": "nee",
-  "7.8": "nee",
-  "8.1": "ja",
-  "11.20": "ja",
-  "11.22": "ja",
-  "11.23": "ja",
-  "11.24": "ja",
-  "11.25": "ja",
-  "11.26": "ja",
-  "11.27": "ja",
-  "11.29": "ja",
-  "11.30": "ja",
-  "11.31": "ja",
-  "11.32": "ja",
-  "11.33": "nvt",
-  "19.1": "ja",
-  "19.2": "ja",
-  "19.3": "ja",
-  "19.5": "ja",
-  "19.6": "ja",
-  "19.7": "ja",
-  "19.8": "ja",
-  "20.1": "ja",
-  "20.2": "ja",
-  "20.3": "ja",
-  "20.4": "ja",
-  "20.6": "ja",
-  "20.7": "ja",
-  "20.8": "ja",
-  "21.1": "ja",
-  "21.2": "ja",
-  "21.3": "ja",
-  "21.5": "ja",
-  "21.6": "ja",
-  "21.7": "nee",
-  "21.8": "ja",
-  "21.9": "ja",
-  "21.11": "ja",
-  "22.1": "ja",
-  "22.2": "annex-vi",
-  "22.3": "ja",
-  "22.5": "ja",
-  "22.6": "ja",
-  "22.7": "ja",
-  "22.8": "ja",
-  "23.1": "ja",
-  "23.2": "ja",
-  "23.3": "ja",
-  "23.4": "ja",
-  "13.1": "nee",
-  "13.2": "nee",
-  "13.3": "nee",
-  "13.4": "nee",
-  "14.1": "ja",
-  "14.2": "ja",
-  "14.3": "ja",
-  "15.1": "ja",
-  "15.2": "ja",
-  "15.3": "ja",
-  "15.4": "ja",
-  "15.5": "ja",
-  "15.6": "ja",
-  "15.7": "nee",
-  "15.8": "ja",
-  "17.1": "ja",
-  "17.2": "ja",
-  "17.3": "ja",
-  "17.4": "ja",
-  "18.1": "hoog",
-  "18.2": "go-voorwaarden",
-  "18.3": "Herstel meldproces non-conformiteit",
-  "18.4": "10-2026 / 10-2027",
-  "18.5": "Dossier #124",
-};
 
 {
   const e = evaluate(questionnaire, vb003);
@@ -648,63 +309,6 @@ const vb003: Record<string, string> = {
   assert.equal(e.registerRow.conf_route, "Interne controle (bijlage VI)", "VB-003 registerrij conformiteitsroute");
 }
 
-// VB-004 — geïmporteerd hoogrisicosysteem (werving), rol importeur.
-const vb004: Record<string, string> = {
-  "1.1": "Ingekochte assessment-suite (import VS)",
-  "1.12": "nee",
-  "2.1": "ja",
-  "2.2": "ja",
-  "2.3": "ja",
-  "2.4": "ja",
-  "3.1": "nee",
-  "3.2": "nee",
-  "4.1": "nee",
-  "4.2": "nee",
-  "4.3": "ja",
-  "4.4": "nee",
-  "4.5": "nee",
-  "4.6": "nee",
-  "4.7": "nee",
-  "4.8": "nee",
-  "5.1": "nee",
-  "5.2": "nee",
-  "5.3": "nee",
-  "5.4": "nee",
-  "5.5": "nee",
-  "5.6": "nee",
-  "5.7": "nee",
-  "5.8": "nee",
-  "5.9": "nee",
-  "5.10": "nee",
-  "6.1": "nee",
-  "7.1": "nee",
-  "7.2": "nee",
-  "7.3": "nee",
-  "7.4": "ja",
-  "7.5a": "nee",
-  "7.5b": "nee",
-  "7.5c": "nee",
-  "7.5d": "nee",
-  "7.6": "nee",
-  "7.7": "nee",
-  "7.8": "nee",
-  "8.1": "ja",
-  "24.3": "ja",
-  "24.4": "ja",
-  "24.5": "ja",
-  "24.6": "ja",
-  "24.7": "nee",
-  "24.8": "ja",
-  "13.1": "nee",
-  "13.2": "nee",
-  "13.3": "nee",
-  "13.4": "nee",
-  "14.1": "ja",
-  "14.2": "ja",
-  "14.3": "ja",
-  "18.1": "hoog",
-  "18.2": "go-voorwaarden",
-};
 
 {
   const e = evaluate(questionnaire, vb004);
@@ -741,6 +345,137 @@ const vb004: Record<string, string> = {
   const e = evaluate(questionnaire, { "2.4": "ja", "5.6": "ja", "7.4": "ja" });
   assert.equal(e.riskClass, "verboden", "art. 5-hit → verboden");
   assert.deepEqual(e.stops, ["5.6"], "stop op 5.6");
+}
+
+// ------------------------------------------------- obligation catalog (MCP)
+
+/**
+ * `obligationCatalog` is the answer-independent view of the obligation-flagged
+ * questions that the MCP tool `get_obligations` serves. It is three-valued:
+ * a gate the filter does not decide keeps the obligation *in*, with the gate
+ * spelled out in `conditions`. Only a hard `false` excludes. So these pins
+ * measure two things: that the role axis really prunes (a deployer must not
+ * see the provider modules) and that nothing falls out of the catalog
+ * entirely.
+ */
+{
+  const ROLES: RoleFlag[] = [
+    "rol_aanbieder",
+    "rol_deployer",
+    "rol_importeur",
+    "rol_distributeur",
+    "rol_gemachtigde",
+    "gpai_aanbieder",
+  ];
+  const RISKS: RiskClass[] = [
+    "geen-ai",
+    "verboden",
+    "hoogrisico",
+    "transparantierisico",
+    "minimaal",
+  ];
+
+  const obligationIds = allQuestions.filter(({ q }) => q.obligation).map(({ q }) => q.id);
+  const perModule = (entries: ObligationCatalogEntry[]) => {
+    const counts: Record<string, number> = {};
+    for (const e of entries) counts[e.moduleId] = (counts[e.moduleId] ?? 0) + 1;
+    return counts;
+  };
+
+  // Unfiltered catalog = every obligation question, once, in document order.
+  const full = obligationCatalog(questionnaire);
+  assert.deepEqual(
+    full.map((e) => e.questionId),
+    obligationIds,
+    "catalogus zonder filter = alle verplichtingsvragen in documentvolgorde",
+  );
+  // History: 123 at the 2026-07 expansion (m11 split into m11/m19–m23, m24
+  // value chain, m12 systemic-risk split). Re-pin only after auditing which
+  // questions gained or lost `obligation: true`.
+  assert.equal(full.length, 123, "123 verplichtingsvragen in de catalogus");
+
+  // Role axis. Per-module counts, because the totals are dominated by the
+  // role-independent modules (m13–m17, m25) that every filter keeps.
+  const deployer = obligationCatalog(questionnaire, {
+    role: "rol_deployer",
+    riskClass: "hoogrisico",
+  });
+  assert.equal(perModule(deployer).m9, 13, "deployer/hoogrisico: 13 art. 26-verplichtingen (m9)");
+  assert.equal(perModule(deployer).m10, 10, "deployer/hoogrisico: 10 FRIA-verplichtingen (m10)");
+  for (const id of ["m11", "m19", "m20", "m21", "m22", "m23"]) {
+    assert.ok(!perModule(deployer)[id], `deployer/hoogrisico: aanbiedermodule ${id} uitgesloten`);
+  }
+
+  const aanbieder = obligationCatalog(questionnaire, {
+    role: "rol_aanbieder",
+    riskClass: "hoogrisico",
+  });
+  const aanbiederModules = perModule(aanbieder);
+  const aanbiederTotal = ["m11", "m19", "m20", "m21", "m22", "m23"].reduce(
+    (sum, id) => sum + (aanbiederModules[id] ?? 0),
+    0,
+  );
+  // 13 + 8 + 8 + 11 + 6 + 5 — the six provider modules of the 2026-07 split.
+  assert.equal(aanbiederTotal, 51, "aanbieder/hoogrisico: 51 aanbiedersverplichtingen");
+  for (const id of ["m9", "m10"]) {
+    assert.ok(!aanbiederModules[id], `aanbieder/hoogrisico: deployermodule ${id} uitgesloten`);
+  }
+
+  // m24 is one module for three value-chain roles; the role flag picks the
+  // block. Importeur: 24.3–24.8 (6) plus 11.17, whose own gate
+  // (aanbieder_derde_land) the filter cannot decide — so it stays, conditional.
+  const importeur = obligationCatalog(questionnaire, {
+    role: "rol_importeur",
+    riskClass: "hoogrisico",
+  });
+  assert.equal(perModule(importeur).m24, 7, "importeur: 6 importeursverplichtingen + 11.17");
+  assert.equal(
+    importeur.filter((e) => e.moduleId === "m24" && !e.conditions.length).length,
+    6,
+    "importeur/hoogrisico: de 6 eigen m24-verplichtingen zijn onvoorwaardelijk",
+  );
+  assert.equal(perModule(obligationCatalog(questionnaire, { role: "rol_distributeur" })).m24, 6);
+  assert.equal(perModule(obligationCatalog(questionnaire, { role: "rol_gemachtigde" })).m24, 3);
+
+  // gpai_aanbieder is the second axis: it opens m12 (art. 53–55) and does not
+  // touch the five rol_* modules.
+  assert.equal(
+    perModule(obligationCatalog(questionnaire, { role: "gpai_aanbieder" })).m12,
+    12,
+    "gpai-aanbieder: 12 GPAI-verplichtingen (m12)",
+  );
+
+  // Risk axis: no AI system → only the cross-cutting modules survive.
+  const geenAi = obligationCatalog(questionnaire, { riskClass: "geen-ai" });
+  assert.deepEqual(
+    Object.keys(perModule(geenAi)).sort(),
+    ["m15", "m16", "m17", "m8"],
+    "geen-ai: alleen AVG/DORA/overige raakvlakken (+ de voorwaardelijke escape-vraag)",
+  );
+
+  // No orphans: every obligation question must be reachable from at least one
+  // {role, riskClass} combination. This is the assertion that fires when a new
+  // obligation lands behind a gate the role mapping does not cover.
+  {
+    const reachable = new Set<string>();
+    for (const role of [undefined, ...ROLES]) {
+      for (const riskClass of [undefined, ...RISKS]) {
+        for (const e of obligationCatalog(questionnaire, { role, riskClass })) {
+          reachable.add(e.questionId);
+        }
+      }
+    }
+    for (const id of obligationIds) {
+      assert.ok(reachable.has(id), `verplichting ${id} is bereikbaar via een rol/risicoklasse`);
+    }
+  }
+
+  // The catalog carries refs into MCP output, so they get the same integrity
+  // check as the questionnaire's own refs.
+  for (const e of full) {
+    for (const ref of e.refs ?? []) checkRef(`catalogus ${e.questionId}`, ref.href);
+    assert.ok(e.moduleTitle.length > 0, `catalogus ${e.questionId}: moduletitel aanwezig`);
+  }
 }
 
 const questionCount = allQuestions.length;

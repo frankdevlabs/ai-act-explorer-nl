@@ -1,11 +1,13 @@
 import type {
   Evaluation,
   Module,
+  ObligationCatalogEntry,
   ObligationStatus,
   QCondition,
   Question,
   Questionnaire,
   RiskClass,
+  RoleFlag,
   TimelineEntry,
 } from "./types";
 
@@ -119,7 +121,8 @@ export function computeVisibility(
   return { flags, visibleModules, visibleQuestions };
 }
 
-function answerLabel(q: Question, value: string | undefined): string {
+/** Human-readable form of a stored answer value ("ja" → "Ja", choice → label). */
+export function answerLabel(q: Question, value: string | undefined): string {
   if (value === undefined || value === "") return "";
   if (q.answerType === "choice") {
     return q.options?.find((o) => o.value === value)?.label ?? value;
@@ -336,6 +339,184 @@ export function evaluate(
     timeline,
     registerRow,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Obligation catalog (answer-independent)
+//
+// `evaluate()` above answers "what applies to *this* system", which requires
+// answers. The catalog answers the prior question — "which obligations exist
+// for a role / risk class at all" — and is what the MCP tool `get_obligations`
+// exposes. Same source of truth (the obligation-flagged questions), different
+// input: a handful of *facts* instead of a full answer set.
+//
+// Three-valued on purpose. A gate that the filter does not decide
+// (`fria_vereist`, `sector_financieel`, any `answer:` gate, …) is "unknown",
+// and an unknown gate *includes* the obligation with its condition spelled
+// out. For a catalog, over-inclusion with a visible condition is the safe
+// error: a missing obligation is a compliance gap, a conditional one is a
+// question. Only a hard `false` excludes.
+
+export type Tri = true | false | "unknown";
+
+/** Known facts only; an absent key is "unknown". */
+export type CatalogFacts = Record<string, boolean>;
+
+export interface ObligationCatalogFilter {
+  role?: RoleFlag;
+  riskClass?: RiskClass;
+}
+
+/** The five mutually exclusive role flags (gpai_aanbieder is a second axis). */
+const EXCLUSIVE_ROLE_FLAGS: RoleFlag[] = [
+  "rol_aanbieder",
+  "rol_deployer",
+  "rol_importeur",
+  "rol_distributeur",
+  "rol_gemachtigde",
+];
+
+/** Gate flags as Dutch noun phrases; read as "alleen bij <label>". */
+const FLAG_LABELS: Record<string, string> = {
+  aanbieder_derde_land: "een aanbieder buiten de Unie",
+  ai_systeem: "een AI-systeem",
+  annex1_hoogrisico: "hoog risico via bijlage I",
+  annex1_kandidaat: "een product dat onder bijlage I valt",
+  annex3_kandidaat: "een categorie van bijlage III",
+  conf_notified: "een aangemelde instantie in de conformiteitsroute",
+  dora_ict_derde: "een ICT-derde in de zin van DORA",
+  escape_conditie: "een vervulde voorwaarde van art. 6, lid 3",
+  escape_geen_risico: "afwezigheid van significant risico",
+  escape_ingeroepen: "een ingeroepen uitzondering van art. 6, lid 3",
+  fria_vereist: "FRIA-plicht",
+  gpai_aanbieder: "de rol van GPAI-modelaanbieder",
+  gpai_model: "een GPAI-model",
+  gpai_systeem: "een GPAI-systeem",
+  gpai_systeemrisico_check: "een (mogelijk) systeemrisico van het GPAI-model",
+  hoogrisico: "hoog risico",
+  persoonsgegevens: "verwerking van persoonsgegevens",
+  profilering: "profilering",
+  rol_aanbieder: "de rol van aanbieder",
+  rol_deployer: "de rol van gebruiksverantwoordelijke",
+  rol_distributeur: "de rol van distributeur",
+  rol_gemachtigde: "de rol van gemachtigde",
+  rol_importeur: "de rol van importeur",
+  sector_financieel: "een financiële entiteit",
+  transparantie_lid1: "toepasselijkheid van art. 50, lid 1",
+  transparantie_lid2: "toepasselijkheid van art. 50, lid 2",
+  transparantie_lid3: "toepasselijkheid van art. 50, lid 3",
+  transparantie_lid4: "toepasselijkheid van art. 50, lid 4",
+};
+
+function flagPhrase(flag: string, negated: boolean): string {
+  const label = FLAG_LABELS[flag] ?? `de vlag "${flag}"`;
+  return negated ? `alleen zonder ${label} (${flag})` : `alleen bij ${label} (${flag})`;
+}
+
+function triAll(values: Tri[]): Tri {
+  if (values.includes(false)) return false;
+  if (values.includes("unknown")) return "unknown";
+  return true;
+}
+
+function triAny(values: Tri[]): Tri {
+  if (values.includes(true)) return true;
+  if (values.includes("unknown")) return "unknown";
+  return false;
+}
+
+/**
+ * Three-valued sibling of `evalCondition`: facts in, true/false/"unknown" out.
+ * `answer:` gates are always unknown — a catalog has no answers.
+ */
+export function evalConditionTri(cond: QCondition, facts: CatalogFacts): Tri {
+  if (cond.all) return triAll(cond.all.map((c) => evalConditionTri(c, facts)));
+  if (cond.any) return triAny(cond.any.map((c) => evalConditionTri(c, facts)));
+  if (cond.not) {
+    const v = evalConditionTri(cond.not, facts);
+    return v === "unknown" ? "unknown" : !v;
+  }
+  if (cond.flag) return cond.flag in facts ? facts[cond.flag] : "unknown";
+  if (cond.answer) return "unknown";
+  return true;
+}
+
+/** Every atom of `cond` the facts do not decide, as a Dutch condition phrase. */
+export function unresolvedConditions(
+  cond: QCondition,
+  facts: CatalogFacts,
+  negated = false,
+): string[] {
+  if (cond.all) return cond.all.flatMap((c) => unresolvedConditions(c, facts, negated));
+  if (cond.any) return cond.any.flatMap((c) => unresolvedConditions(c, facts, negated));
+  if (cond.not) return unresolvedConditions(cond.not, facts, !negated);
+  if (cond.flag) return cond.flag in facts ? [] : [flagPhrase(cond.flag, negated)];
+  if (cond.answer) return [`afhankelijk van het antwoord op vraag ${cond.answer.q}`];
+  return [];
+}
+
+/**
+ * Filter → facts. Risk class first, role second: role wins where the two
+ * disagree, because the caller named the role explicitly.
+ */
+export function catalogFacts(filter: ObligationCatalogFilter): CatalogFacts {
+  const facts: CatalogFacts = {};
+  if (filter.riskClass) {
+    const geenAi = filter.riskClass === "geen-ai";
+    facts.ai_systeem = !geenAi;
+    facts.hoogrisico = filter.riskClass === "hoogrisico";
+    if (geenAi) {
+      facts.gpai_model = false;
+      facts.gpai_systeem = false;
+      facts.gpai_aanbieder = false;
+    }
+  }
+  if (filter.role) {
+    if (filter.role === "gpai_aanbieder") {
+      facts.gpai_aanbieder = true;
+    } else {
+      for (const f of EXCLUSIVE_ROLE_FLAGS) facts[f] = f === filter.role;
+    }
+  }
+  return facts;
+}
+
+/**
+ * The obligation catalog: every obligation-flagged question that the filter
+ * does not rule out, in document order, with its unresolved gates.
+ * No filter = the full catalog.
+ */
+export function obligationCatalog(
+  questionnaire: Questionnaire,
+  filter: ObligationCatalogFilter = {},
+): ObligationCatalogEntry[] {
+  const facts = catalogFacts(filter);
+  const out: ObligationCatalogEntry[] = [];
+  for (const mod of questionnaire.modules) {
+    const modTri = mod.showIf ? evalConditionTri(mod.showIf, facts) : true;
+    if (modTri === false) continue;
+    const modConditions =
+      mod.showIf && modTri === "unknown" ? unresolvedConditions(mod.showIf, facts) : [];
+    for (const q of mod.questions) {
+      if (!q.obligation) continue;
+      const qTri = q.showIf ? evalConditionTri(q.showIf, facts) : true;
+      if (qTri === false) continue;
+      const qConditions =
+        q.showIf && qTri === "unknown" ? unresolvedConditions(q.showIf, facts) : [];
+      out.push({
+        questionId: q.id,
+        moduleId: mod.id,
+        moduleNr: mod.nr,
+        moduleTitle: mod.title,
+        text: q.text,
+        help: q.help,
+        refs: q.refs,
+        omnibus: q.omnibus,
+        conditions: [...new Set([...modConditions, ...qConditions])],
+      });
+    }
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------------------

@@ -76,6 +76,9 @@ fetch them with headless Chromium (snippet in `.claude/skills/update-source/`).
 | `scripts/parse-aiact.ts` | corpus → JSON (refs, TOC, search docs); dialect parsing in `scripts/lib/consolidated.ts` |
 | `scripts/parse-amendments.ts` | change layer of the in-force amending act (`scripts/lib/change-layer.ts`) |
 | `scripts/verify-data.ts` | pre-build completeness assertions (counts, structure, spot-checks) |
+| `scripts/lib/corpus-index.ts` | shared corpus index + `checkRef` — one href grammar for every gate that validates curated deep links |
+| `scripts/verify-mcp.ts` | MCP smoke test: tool inventory + per-tool call, deep links, result-size ceiling, the UI panel resource (incl. its engine-parity gate) |
+| `mcp/src/panel.ts` | the `ui://` MCP Apps panel: the questionnaire as a fillable, self-scoring form; mirrors `src/lib/assessment/engine.ts` in browser JS |
 | `src/lib/types.ts` | shared data model (ContentNode, Article, SearchDoc, …) |
 | `src/lib/data.ts` | typed accessors + prev/next navigation over generated JSON |
 | `src/lib/search.ts` | MiniSearch index (lazy singleton), Dutch normalization, snippets |
@@ -97,7 +100,12 @@ fetch them with headless Chromium (snippet in `.claude/skills/update-source/`).
   Set/Map); derive UI state during render, not in effects. Details:
   ARCHITECTURE.md, "Frontend notes".
 - UI language is Dutch; code, comments, and docs are English.
-- No test framework; verification = `verify-data.ts` + `verify-search.ts` (golden search queries; update entries consciously, never delete to pass) + the `verify-app` skill.
+- No test framework; verification = `verify-data.ts` + `verify-search.ts` (golden
+  search queries; update entries consciously, never delete to pass) +
+  `verify-register-export.ts` (AI-register dossier/CSV export: resolving
+  deeplinks, stable column set, spreadsheet round-trip) +
+  `verify-mcp.ts` (`npm run verify:mcp` — standalone, not in the build chain:
+  it needs `mcp/node_modules` + a fresh `mcp` build) + the `verify-app` skill.
 
 ## Environment (this VPS)
 

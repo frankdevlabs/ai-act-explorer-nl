@@ -355,14 +355,78 @@ corpus to Claude clients; the site build never sees it. Full reference:
 [`mcp/README.md`](../mcp/README.md).
 
 - `mcp/src/data.ts` reads `data/generated/*.json` +
-  `public/{search-docs,amendment-search-docs}.json` **once at startup** —
-  after `update-source` or amendment changes, restart the service.
+  `public/{search-docs,amendment-search-docs}.json` +
+  `data/questionnaire/assessment-v1.json` **once at startup** — after
+  `update-source`, amendment changes **or a questionnaire edit**, restart the
+  service. (`AIACT_QUESTIONNAIRE` overrides the questionnaire path, since it
+  sits outside `AIACT_DATA_DIR`.)
+- The assessment layer is MCP-exposed through `get_obligations`, which calls
+  the pure `obligationCatalog()` in `src/lib/assessment/engine.ts` (cross-
+  compiled like `search-core.ts`). The catalog is answer-independent and
+  carries no compliance status — `evaluate()` stays the only thing that
+  computes status, and it needs answers the server does not have.
+- All corpus tools carry `annotations: {readOnlyHint, openWorldHint: false}`:
+  they read a static corpus, and claude.ai's per-tool controls key off those
+  hints.
+- The one write surface is the assessment pair `get_assessment` /
+  `put_assessment` (`mcp/src/assessment-state.ts`, roadmap 4.1). It is **opt-in
+  per deployment**: without `AIACT_ASSESSMENT_STATE` neither tool is
+  registered, which is why the public server stays a read server. State is a
+  single gitignored JSON file outside the corpus — the committed `data/` tree
+  is never written, and `verify-mcp.ts` fingerprints `data/` + `public/` around
+  the write tests to prove it. Writes need `MCP_TOKEN` and are validated
+  question-by-question against `data/questionnaire/assessment-v1.json`; merge
+  is by system id and omission never deletes. Auth, blob shape (the
+  legal-workbench drop-zone format) and conflict semantics: `mcp/README.md`,
+  "Assessment state (authed)".
+- The server's one **resource** is the MCP Apps panel (`mcp/src/panel.ts`,
+  roadmap 4.2): `ui://ai-act-explorer-nl/assessment/vragenlijst`, a single
+  self-contained HTML document rendering the questionnaire as a fillable,
+  self-scoring form, associated to `get_questionnaire` via
+  `_meta.ui.resourceUri`. Unlike the tool pair above it is registered
+  **unconditionally** — it only renders data this server already publishes —
+  and just its load/save controls are capability-gated (`data-state` /
+  `data-write` on `<body>`, from the same two env vars, read per read), so an
+  unauthed session gets the panel without write-back and without an error.
+  Because it scores in a sandboxed iframe that cannot import the CommonJS
+  build, `panel.ts` carries a **hand-written mirror** of the forward pass in
+  `src/lib/assessment/engine.ts`, bracketed by `__PANEL_ENGINE__` sentinels.
+  `scripts/verify-mcp.ts` owns the parity gate: it slices the mirror out of the
+  *served* HTML, evals it, and asserts it agrees with the real engine on every
+  fixture in `scripts/lib/assessment-fixtures.ts` (extracted from
+  `verify-assessment.ts` so both gates share them). **An engine change without
+  a matching mirror change is meant to fail `npm run verify:mcp`** — fix the
+  mirror rather than loosening the gate. Round-trip and degradation matrix:
+  `mcp/README.md`, "Resource — the assessment panel".
+- `get_context_pack` is the one tool whose result size is caller-controlled, so
+  it is the one with guardrails: `DEFAULT_PACK_LIMITS` (`maxArticles` /
+  `maxChars` / `warnChars`) in `mcp/src/core/size.ts`, with
+  `packLimitsFromEnv()` applied once at module scope in `mcp/src/server.ts`.
+  Over either limit it
+  **refuses** (naming the request size, the ceiling and the per-article cost)
+  instead of truncating — a truncated pack still looks complete. Measured
+  sizes, the two client ceilings behind the numbers and the
+  `MCP_MAX_RESULT_CHARS` override live in `mcp/README.md`, "Result-size
+  guardrails"; keep the figures there, not here.
 - Search relevance is shared with the site via `src/lib/search-core.ts`
   (stopwords, normalization, MiniSearch options); `src/lib/search.ts` is the
   thin browser wrapper around it.
 - One `createServer()` factory, two transports: `stdio.ts` (Claude
   Desktop/Code) and `http.ts` (stateless streamable HTTP on `127.0.0.1:3106`,
-  behind nginx at `https://aia.mrfrank.dev`).
+  behind nginx at `https://aia.mrfrank.dev`). Both are six-line entrypoints over
+  `core/transport.ts`; the compiled paths `mcp/dist/mcp/src/{stdio,http}.js` are
+  hardcoded in `verify-mcp.ts` and in the systemd unit, so they must not move.
+- `mcp/src/core/` is the corpus-agnostic half (roadmap 4.3), mirroring
+  `dora-explorer-nl/mcp/src/core/` file for file: tool registration and
+  annotations, the pack-size policy and its Dutch refusal templates, the
+  markdown renderers, the Dutch formatting helpers, the JSON loader and both
+  transports. `registerTool()` applies the annotations, so no call site spells
+  them out (only `put_assessment` overrides them). Nothing in `core/` may import
+  `src/lib`, `./data.js` or anything else outside itself —
+  `mcp/scripts/check-core-isolation.mjs` runs as the first half of
+  `npm --prefix mcp run build` and therefore of `npm run verify:mcp`. The split
+  and the six places this corpus did not fit the shared core: `mcp/README.md`,
+  "Code layout (core/ vs corpus)".
 
 ## Runbook — which script, when
 
@@ -371,6 +435,7 @@ corpus to Claude clients; the site build never sees it. Full reference:
 | `npm run parse` | after changing parser code or source HTML | regenerates `data/generated/*` + `public/*-search-docs.json` (commit together with the change — golden rule 4) |
 | `npm run verify` | automatically before every build; run standalone while iterating | hard assertions; update pins only deliberately (golden rule 3) |
 | `npm run build` | before deploying | parse → verify → static export in `out/` |
+| `npm run verify:mcp` | after changing `mcp/src/*` or regenerating data | rebuilds `mcp/dist`, then drives the stdio server: tool inventory pin, one call per tool, deep-link + size assertions (`scripts/verify-mcp.ts`). Standalone — needs `mcp/node_modules`, so it is not in the build chain |
 | `scripts/deploy-site.sh` | publish the site | build + rsync `out/` → `/var/www/aia.mrfrank.dev` + nginx reload (needs sudo) |
 | MCP restart (systemd unit / tmux, see `mcp/README.md`) | after any data regeneration reaches `main` | picks up new JSON (loaded at startup only) |
 | `.claude/skills/update-source` | new consolidated version / amending act on EUR-Lex | fetch → corpus.json → re-parse → change-layer audit → assertion updates |

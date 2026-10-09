@@ -1,72 +1,25 @@
-import type {
-  Annex,
-  Article,
-  ArticleParagraph,
-  ContentNode,
-  DiffSegment,
-  Footnote,
-  RefSpan,
-} from "../../src/lib/types.js";
+import type { Annex, ArticleParagraph, DiffSegment } from "../../src/lib/types.js";
 import { APPLICATION_CAVEAT, actLabel, actShort, inForceSince } from "../../src/lib/amendment-meta.js";
 import { lidLabel } from "../../src/lib/flatten.js";
-import { BASE_URL, amendmentDiffs, amendments, isNewAnnex, isNewArticle, type ResolvedArticle } from "./data.js";
+import {
+  BASE_URL,
+  amendmentDiffs,
+  amendments,
+  isNewAnnex,
+  isNewArticle,
+  type ResolvedArticle,
+} from "./data.js";
+import { createMarkdown } from "./core/markdown.js";
 
-/** Mirror of LinkedText: splice refs into markdown links, right-to-left so
- *  earlier offsets stay valid. Refs hold site-internal hrefs. */
-export function renderText(text: string, refs?: RefSpan[]): string {
-  if (!refs?.length) return text;
-  let out = text;
-  const sorted = [...refs].sort((a, b) => b.start - a.start);
-  let prevStart = Infinity;
-  for (const ref of sorted) {
-    if (ref.start < 0 || ref.end > text.length || ref.end <= ref.start || ref.end > prevStart) {
-      continue; // out-of-range or overlapping span — leave text as-is
-    }
-    out = `${out.slice(0, ref.start)}[${out.slice(ref.start, ref.end)}](${BASE_URL}${ref.href})${out.slice(ref.end)}`;
-    prevStart = ref.start;
-  }
-  return out;
-}
-
-function renderTable(rows: string[][]): string {
-  const esc = (cell: string) => cell.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
-  const [head, ...body] = rows;
-  if (!head) return "";
-  const lines = [
-    `| ${head.map(esc).join(" | ")} |`,
-    `| ${head.map(() => "---").join(" | ")} |`,
-    ...body.map((row) => `| ${row.map(esc).join(" | ")} |`),
-  ];
-  return lines.join("\n");
-}
-
-/** ContentNode[] → markdown; traversal mirrors ContentNodes.tsx. */
-export function renderNodes(nodes: ContentNode[]): string {
-  const blocks: string[] = [];
-  for (const node of nodes) {
-    if (node.type === "heading") {
-      blocks.push(`### ${node.text}`);
-    } else if (node.type === "text") {
-      blocks.push(renderText(node.text, node.refs));
-    } else if (node.type === "table") {
-      blocks.push(renderTable(node.rows));
-    } else {
-      const items = node.items.map((item) => {
-        const body = renderNodes(item.content);
-        const [first = "", ...rest] = body.split("\n");
-        const restIndented = rest.map((l) => (l ? `  ${l}` : l)).join("\n");
-        return `- **${item.marker}** ${first}${rest.length ? `\n${restIndented}` : ""}`;
-      });
-      blocks.push(items.join("\n"));
-    }
-  }
-  return blocks.join("\n\n").trim();
-}
-
-export function renderFootnotes(footnotes: Footnote[]): string {
-  if (!footnotes.length) return "";
-  return `**Voetnoten**\n\n${footnotes.map((f) => `- [${f.label}] ${f.text}`).join("\n")}`;
-}
+/**
+ * The corpus-specific render layer: everything below needs an article slug, the
+ * amending-act status banner (Vo 2026/1744, in force) or a diff segment. The corpus-agnostic half (text/table/node/
+ * footnote/ref rendering) lives in core/markdown.ts and is re-exported here, so
+ * call sites keep importing the whole render surface from one module.
+ * See mcp/README.md, "Code layout (core/ vs corpus)".
+ */
+const md = createMarkdown({ baseUrl: BASE_URL });
+export const { renderText, renderNodes, renderFootnotes, refLinks } = md;
 
 function renderParagraphs(paragraphs: ArticleParagraph[]): string {
   return paragraphs
@@ -125,7 +78,7 @@ export function renderAnnex(a: Annex): string {
     status,
     renderNodes(a.content),
     renderFootnotes(a.footnotes),
-    `**Deep link**: ${BASE_URL}/bijlage/${a.roman.toLowerCase()}`,
+    `**Deep link**: ${BASE_URL}/bijlage/${roman}`,
   ]
     .filter(Boolean)
     .join("\n\n");

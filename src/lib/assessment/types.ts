@@ -120,6 +120,40 @@ export interface ObligationStatus {
   refs?: QRef[];
 }
 
+/**
+ * The role axis of the obligation catalog. The five `rol_*` flags are mutually
+ * exclusive as a *filter* (asking for importer obligations should not return
+ * the provider modules); `gpai_aanbieder` is a second, orthogonal axis — a
+ * provider of an AI system can also be a provider of a GPAI model.
+ */
+export type RoleFlag =
+  | "rol_aanbieder"
+  | "rol_deployer"
+  | "rol_importeur"
+  | "rol_distributeur"
+  | "rol_gemachtigde"
+  | "gpai_aanbieder";
+
+/**
+ * One obligation-flagged question, keyed on role/risk class instead of on
+ * answers. Deliberately carries no `status`: status is a function of the
+ * practitioner's answers (see ObligationStatus) and a catalog has none.
+ * `conditions` names the gates that could not be resolved from the filter —
+ * the entry is included, but only applies if those hold.
+ */
+export interface ObligationCatalogEntry {
+  questionId: string;
+  moduleId: string;
+  moduleNr: number;
+  moduleTitle: string;
+  text: string;
+  help?: HelpContent;
+  refs?: QRef[];
+  omnibus?: { appliesFrom?: string; note: string };
+  /** Unresolved gates, as Dutch phrases ("alleen bij FRIA-plicht (fria_vereist)"). */
+  conditions: string[];
+}
+
 export interface TimelineEntry {
   date: string; // ISO or "van kracht"
   label: string;
