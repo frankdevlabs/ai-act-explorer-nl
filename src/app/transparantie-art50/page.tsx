@@ -117,11 +117,15 @@ export default function TransparantieArt50Page() {
               art. 50, lid 5
             </Link>
             ). De plichten komen bóvenop hoofdstuk III (hoog risico) en ander Unierecht (lid 6).
-            Het AI-bureau faciliteert praktijkcodes voor de praktische uitvoering van de detectie
-            en markering; de omnibus vervangt lid 7 — de Commissie beoordeelt en publiceert
-            voortaan of zulke codes toereikend zijn (
-            <Link href="/artikel/50?diff=1" className="text-accent hover:underline">
-              zie de diff van art. 50
+            De Commissie stimuleert en faciliteert praktijkcodes voor het opsporen, markeren en
+            labelen; sinds de digitale omnibus (Verordening (EU) 2026/1744) beoordeelt zij of de
+            naleving daarvan toereikend is voor de leden 2 en 4 (
+            <Link href="/artikel/50#lid-7" className="text-accent hover:underline">
+              art. 50, lid 7
+            </Link>
+            ; zie{" "}
+            <Link href="/artikel/50?diff=1#w-lid-7" className="text-accent hover:underline">
+              de wijziging
             </Link>
             ).
           </p>
@@ -135,13 +139,14 @@ export default function TransparantieArt50Page() {
               <span className="font-medium">2 augustus 2026</span>.
             </li>
             <li>
-              Overgang (omnibus,{" "}
-              <Link href="/artikel/111" className="text-accent hover:underline">
+              Overgang (
+              <Link href="/artikel/111#lid-4" className="text-accent hover:underline">
                 art. 111, lid 4
               </Link>
-              ): aanbieders van generatieve systemen die vóór 2 augustus 2026 in de handel zijn
-              gebracht, krijgen tot <span className="font-medium">2 december 2026</span> om aan de
-              markeringsplicht van lid 2 te voldoen.
+              , ingevoegd bij de digitale omnibus): aanbieders van generatieve systemen die vóór 2
+              augustus 2026 in de handel zijn gebracht, hebben tot{" "}
+              <span className="font-medium">2 december 2026</span> om aan de markeringsplicht van
+              lid 2 te voldoen.
             </li>
           </ul>
         </section>

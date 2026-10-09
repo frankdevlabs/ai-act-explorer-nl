@@ -173,8 +173,12 @@ export function Outcome({ previews }: { previews: Previews }) {
             ))}
           </ul>
           <p className="mt-3 text-xs text-muted">
-            Data uit de digitale omnibus (PE-CONS 30/26) gelden pas na formele vaststelling en
-            bekendmaking.{" "}
+            Data met het label ‘omnibus’ zijn ingevoerd of gewijzigd bij Verordening (EU) 2026/1744
+            (digitale omnibus), in werking sinds 27 juli 2026; de toepassingsdata volgen uit{" "}
+            <Link href="/artikel/113" className="text-accent hover:underline">
+              artikel 113
+            </Link>
+            .{" "}
             <Link href="/wijzigingen" className="text-accent hover:underline">
               Bekijk de omnibus-wijzigingen
             </Link>
