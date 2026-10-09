@@ -59,7 +59,7 @@ export function OmnibusBadge({
   return (
     <div className="mt-2 rounded-md border border-accent/40 bg-accent/5 px-3 py-2 text-xs">
       <span className="font-semibold text-accent">
-        Omnibus{appliesFrom ? ` — vanaf ${formatDate(appliesFrom)}` : ""}
+        Omnibus{appliesFrom ? ` — van toepassing vanaf ${formatDate(appliesFrom)}` : ""}
       </span>{" "}
       <span className="text-muted">{note}</span>
     </div>

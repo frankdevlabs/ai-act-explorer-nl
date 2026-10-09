@@ -25,8 +25,9 @@
  * - BASE_URL is overridden with a sentinel host, which both proves the env
  *   plumbing in mcp/src/data.ts and lets every deep-link assertion be exact
  *   without hardcoding the deployed domain.
- * - Counts duplicated from other gates (113 articles, 180 recitals, 76 amending
- *   instructions) carry a pointer to their twin; this file asserts that the
+ * - Counts duplicated from other gates (119 articles = 113 + 6 inserted by
+ *   Vo 2026/1744, 180 recitals, 43 / 72 amending instructions) carry a pointer
+ *   to their twin; this file asserts that the
  *   *rendering* still carries them, so a source update moves both files together.
  * - Recital-map values are deliberately not pinned (curation in progress,
  *   verify-recital-map.ts owns their content) — only panel presence.
@@ -186,16 +187,25 @@ const TOOLS: ToolSpec[] = [
         },
       },
       {
-        // tripwire for the "second corpus silently absent" branch in
-        // mcp/src/data.ts: these leden only exist in public/amendment-search-docs.json
+        // articles inserted by Vo 2026/1744 are base corpus since epic 8:
+        // their leden must be searchable like any other article
         args: { query: "dwangsommen AI-bureau", limit: 10 },
         check: (md) => {
-          const omnibus = urlLines(md).filter((u) =>
+          const inserted = urlLines(md).filter((u) =>
             /\/artikel\/(4bis|60bis|75bis|75ter|75quater|75quinquies)/.test(u),
           );
+          assert.ok(inserted.length >= 1, "inserted articles (75 bis–quinquies) missing from search");
+        },
+      },
+      {
+        // tripwire for the "second corpus silently absent" branch in
+        // mcp/src/data.ts: the change-layer docs (wijz-*) only exist in
+        // public/amendment-search-docs.json
+        args: { query: "2026/1744", limit: 5 },
+        check: (md) => {
           assert.ok(
-            omnibus.length >= 1,
-            "omnibus search corpus missing — public/amendment-search-docs.json not loaded?",
+            urlLines(md).includes(`${BASE}/wijzigingen`),
+            "change-layer search corpus missing — public/amendment-search-docs.json not loaded?",
           );
         },
       },
@@ -230,9 +240,10 @@ const TOOLS: ToolSpec[] = [
           // deepLinks() block: article root + one anchor per numbered lid
           has(md, "**Deep links**", "art. 6 deep-link block");
           has(md, `${BASE}/artikel/6#lid-1`, "art. 6 lid anchor");
-          // art. 6 is amended by the omnibus, so the ?diff=1 pointer must appear
-          has(md, `${BASE}/artikel/6?diff=1`, "art. 6 omnibus warning");
-          has(md, "digitale omnibus (PE-CONS 30/26)", "art. 6 omnibus warning");
+          // art. 6 was amended by the omnibus (in force): status + ?diff=1 pointer
+          has(md, `${BASE}/artikel/6?diff=1`, "art. 6 omnibus status");
+          has(md, "dit artikel is gewijzigd bij Verordening (EU) 2026/1744", "art. 6 omnibus status");
+          has(md, "In werking ≠ van toepassing", "art. 6 application caveat");
           // presence only — verify-recital-map.ts owns which recitals are listed
           has(md, "**Relevante overwegingen:**", "art. 6 recital panel");
           assert.ok(
@@ -246,7 +257,7 @@ const TOOLS: ToolSpec[] = [
         check: (md) => {
           // input normalisation ("75 bis" → slug 75bis) + the new-article path
           has(md, "# Artikel 75 bis — ", "art. 75 bis heading");
-          has(md, "Ingevoegd door de digitale omnibus (PE-CONS 30/26)", "art. 75 bis banner");
+          has(md, "> Ingevoegd bij Verordening (EU) 2026/1744 (digitale omnibus inzake AI), in werking sinds 27 juli 2026.", "art. 75 bis banner");
           has(md, `${BASE}/artikel/75bis`, "art. 75 bis deep link");
         },
       },
@@ -257,7 +268,7 @@ const TOOLS: ToolSpec[] = [
         check: (md) => {
           has(md, "niet gevonden", "unknown article error");
           has(md, "1–113", "unknown article error names the base range");
-          has(md, "75bis", "unknown article error names the omnibus slugs");
+          has(md, "75 bis", "unknown article error names the inserted articles");
         },
       },
     ],
@@ -326,7 +337,7 @@ const TOOLS: ToolSpec[] = [
         args: { roman: "XIV" },
         check: (md) => {
           has(md, "# Bijlage XIV — ", "bijlage XIV heading");
-          has(md, "Toegevoegd door de digitale omnibus (PE-CONS 30/26)", "bijlage XIV banner");
+          has(md, "> Toegevoegd bij Verordening (EU) 2026/1744", "bijlage XIV banner");
           has(md, `${BASE}/bijlage/xiv`, "bijlage XIV deep link");
         },
       },
@@ -353,13 +364,16 @@ const TOOLS: ToolSpec[] = [
           has(md, "# Verordening (EU) 2024/1689 — structuur", "structure heading");
           has(md, "## Hoofdstuk I", "structure chapters");
           has(md, "## Bijlagen", "structure annex section");
-          // twin of verify-data.ts "113 articles" / "180 recitals"
-          const baseArticles = md.match(/^- Artikel \d+: /gm) ?? [];
-          assert.equal(baseArticles.length, 113, "structure lists all 113 base articles");
+          // twin of verify-data.ts "119 articles" (113 + 6 inserted) / "180 recitals"
+          const integerArticles = md.match(/^- Artikel \d+: /gm) ?? [];
+          assert.equal(integerArticles.length, 113, "structure lists articles 1–113");
+          const allArticles = md.match(/^- Artikel /gm) ?? [];
+          assert.equal(allArticles.length, 119, "structure lists all 119 articles");
           has(md, `180 overwegingen — ${BASE}/overwegingen`, "structure recital count");
-          // omnibus insertions are interleaved, not appended
-          has(md, `- Artikel 75 bis (omnibus): `, "structure omnibus insertion");
+          // inserted articles sit in document order, marked
+          has(md, `- Artikel 75 bis (ingevoegd bij Vo. (EU) 2026/1744): `, "structure omnibus insertion");
           has(md, `${BASE}/artikel/75bis`, "structure omnibus insertion link");
+          has(md, `- Bijlage XIV (toegevoegd bij Vo. (EU) 2026/1744): `, "structure omnibus annex");
         },
       },
     ],
@@ -367,16 +381,18 @@ const TOOLS: ToolSpec[] = [
   {
     name: "get_amendments",
     title: "Omnibus-wijzigingen",
-    properties: ["article"],
+    properties: ["article", "annex"],
     required: [],
     calls: [
       {
         args: {},
         check: (md) => {
-          has(md, "# Digitale omnibus — PE-CONS 30/26", "amendments overview heading");
-          // twin of verify-amendments.ts EXPECTED.instructions (76)
-          has(md, "76 wijzigingsinstructies", "amendments instruction count");
-          has(md, "6 nieuwe artikelen", "amendments new-article count");
+          has(md, "# Wijzigingen bij Verordening (EU) 2026/1744 (digitale omnibus inzake AI)", "amendments overview heading");
+          has(md, "Status: in werking sinds 27 juli 2026; verwerkt in de geldende tekst", "amendments status line");
+          // twin of verify-amendments.ts EXPECTED.instructions / leaves (43 / 72)
+          has(md, "43 instructies (72 incl. subinstructies)", "amendments instruction count");
+          has(md, "6 ingevoegde artikelen", "amendments new-article count");
+          has(md, `${BASE}/artikel/4bis`, "amendments overview links inserted articles");
           has(md, `${BASE}/artikel/6?diff=1`, "amendments overview diff link");
           has(md, `Volledig overzicht: ${BASE}/wijzigingen`, "amendments overview footer");
         },
@@ -386,12 +402,12 @@ const TOOLS: ToolSpec[] = [
         check: (md) => {
           assert.equal(
             md.split("\n")[0],
-            "# Omnibus-wijzigingen aan artikel 6 (PE-CONS 30/26)",
+            "# Wijzigingen aan artikel 6 bij Verordening (EU) 2026/1744",
             "amendments art. 6 heading",
           );
-          has(md, "**Instructie 8** (insert)", "amendments art. 6 instruction");
-          has(md, "## Wijzigingen per lid", "amendments art. 6 diff section");
-          has(md, "### lid 1 bis (inserted)", "amendments art. 6 inserted lid");
+          has(md, "- **Instructie 8)** (ingevoegd): in artikel 6 worden de volgende leden ingevoegd:", "amendments art. 6 instruction");
+          has(md, "## Wijzigingen per lid t.o.v. de tekst vóór 27 juli 2026", "amendments art. 6 diff section");
+          has(md, "### lid 1 bis (ingevoegd)", "amendments art. 6 inserted lid");
           assert.ok(
             md.trimEnd().endsWith(`${BASE}/artikel/6?diff=1`),
             "amendments art. 6 ends with the diff-view link",
@@ -404,8 +420,16 @@ const TOOLS: ToolSpec[] = [
         args: { article: "7" },
         noLinks: true,
         check: (md) => {
-          has(md, "wordt niet gewijzigd", "unamended article");
+          has(md, "Artikel 7 is niet gewijzigd bij Verordening (EU) 2026/1744", "unamended article");
           has(md, "Gewijzigde artikelen:", "unamended article lists the amended set");
+        },
+      },
+      {
+        args: { annex: "VIII" },
+        check: (md) => {
+          has(md, "# Wijzigingen aan bijlage VIII bij Verordening (EU) 2026/1744", "amendments annex heading");
+          has(md, "worden de punten 7 en 9 geschrapt", "amendments annex instruction (verbatim OJ wording)");
+          has(md, `${BASE}/bijlage/viii?diff=1`, "amendments annex diff link");
         },
       },
     ],
@@ -434,7 +458,7 @@ const TOOLS: ToolSpec[] = [
           has(md, "# Artikel 6 — ", "pack renders article 6");
           has(md, "# Artikel 50 — ", "pack renders article 50");
           // omnibus status per article, with the pointer to the per-lid diff
-          has(md, "**Omnibus-status:** gewijzigd door de digitale omnibus", "pack omnibus block");
+          has(md, "**Omnibus-status:** gewijzigd bij Verordening (EU) 2026/1744, in werking sinds 27 juli 2026", "pack omnibus block");
           assert.equal(
             md.match(/^\*\*Omnibus-status:\*\* /gm)?.length,
             2,

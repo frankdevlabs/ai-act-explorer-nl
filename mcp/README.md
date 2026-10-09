@@ -1,6 +1,7 @@
 # aiact-mcp — MCP server for AI Act Explorer NL
 
-Exposes the Dutch AI Act corpus (base text + digital-omnibus amendment layer)
+Exposes the Dutch AI Act corpus as in force (consolidated 02024R1689-20260727,
+incl. the digital omnibus, Regulation (EU) 2026/1744) plus its change layer
 over the Model Context Protocol: stdio for Claude Desktop/Code, streamable
 HTTP for claude.ai custom connectors.
 
@@ -12,12 +13,12 @@ Search relevance is identical to the site: both use
 | Tool | Input | Returns |
 |---|---|---|
 | `search_ai_act` | `query`, `limit?`, `type?` | hits with deep links + snippets |
-| `get_article` | `number` (`"6"`, `"75 bis"`) | full article text, omnibus flag |
+| `get_article` | `number` (`"6"`, `"75 bis"`) | article text in force; "ingevoegd/gewijzigd bij Vo 2026/1744" banner |
 | `get_recital` | `number` (1–180) | recital text |
-| `get_annex` | `roman` (`"III"`) | annex text (incl. omnibus annexes) |
-| `get_structure` | — | compact TOC with omnibus insertions |
-| `get_amendments` | `article?` | omnibus overview or per-article diff |
-| `get_context_pack` | `articles` (1–20, and under the size ceiling) | per article: full text + omnibus status + related recitals, then every referenced recital once |
+| `get_annex` | `roman` (`"III"`) | annex text in force (I–XIV) |
+| `get_structure` | — | compact TOC, marking articles/annexes inserted by Vo 2026/1744 |
+| `get_amendments` | `article?`, `annex?` | status line + overview, or verbatim instructions and word diff vs the text before 27.7.2026 |
+| `get_context_pack` | `articles` (1–20, and under the size ceiling) | per article: text in force + omnibus status (gewijzigd / ingevoegd / niet gewijzigd bij Vo 2026/1744) + related recitals, then every referenced recital once |
 | `get_obligations` | `role?`, `riskClass?` | obligation catalog per role/risk class, grouped by module, with deep links |
 | `get_questionnaire` | `module?` | self-assessment module list, or one module in full (questions, answer types, `showIf`, effects) |
 | `get_recital_map` | `article?`, `recital?` | curated recital↔article map: the whole map, or one entry in either direction |
@@ -287,8 +288,9 @@ corpus disagreed with what the extraction predicted:
    the context pack.
 6. **Negative findings, no core change needed.** The curated recital map, the
    synthesized omnibus annexes (`getAnnex` → `amendments.newAnnexes` with a
-   computed `ordinal`) and the `ResolvedArticle` base/new union all sit cleanly
-   on the corpus side, as predicted. The refusal templates parameterise
+   computed `ordinal`) and the `ResolvedArticle` base/new union all sat cleanly
+   on the corpus side, as predicted. (Since epic 8 the omnibus articles and
+   bijlage XIV are base corpus — the synthesis and the union are gone.) The refusal templates parameterise
    correctly for a single-instrument corpus too: `corpusLabel` omitted plus
    `singleArticleHint: "zonder overwegingen"` reproduces both pre-existing
    messages byte-for-byte.

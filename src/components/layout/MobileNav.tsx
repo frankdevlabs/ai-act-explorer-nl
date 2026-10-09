@@ -5,16 +5,18 @@ import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Toc } from "@/lib/types";
 import { OPEN_MENU_EVENT } from "./Header";
-import { SidebarToc, type NewTocEntry } from "./SidebarToc";
+import { SidebarToc } from "./SidebarToc";
 
 interface MobileNavProps {
   toc: Toc;
   amended?: string[];
-  newEntries?: Record<string, NewTocEntry[]>;
+  inserted?: string[];
+  amendedTitle?: string;
+  insertedTitle?: string;
 }
 
 /** Off-canvas TOC drawer for small screens, opened from the header button. */
-export function MobileNav({ toc, amended, newEntries }: MobileNavProps) {
+export function MobileNav({ toc, amended, inserted, amendedTitle, insertedTitle }: MobileNavProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -40,7 +42,9 @@ export function MobileNav({ toc, amended, newEntries }: MobileNavProps) {
           <SidebarToc
             toc={toc}
             amended={amended}
-            newEntries={newEntries}
+            inserted={inserted}
+            amendedTitle={amendedTitle}
+            insertedTitle={insertedTitle}
             onNavigate={() => setOpen(false)}
           />
         </Dialog.Content>

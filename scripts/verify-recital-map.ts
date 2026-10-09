@@ -40,7 +40,7 @@ const EXPECTED: { pairCount: number | null; spot: Record<string, string[]> | nul
 // ------------------------------------------------- structural checks
 
 const validSlugs = new Set<string>([
-  ...articles.map((a) => String(a.number)),
+  ...articles.map((a) => a.slug),
   ...amendments.newArticles.map((n) => n.slug),
 ]);
 const recitalKeys = recitals.map((r) => String(r.number));

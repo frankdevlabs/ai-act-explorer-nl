@@ -79,7 +79,7 @@ paths). Fix, re-run to a clean pass, then deploy.
 ## Executable sub-procedures in this repo
 
 `update-source` (consolidation swap), `extend-parser` (parser/grammar
-changes with oracle validation), `transcribe-amendments` (amendment
-layer), `curate-recital-map` (editorial layer), `verify-app` (end-to-end
+changes with oracle validation; also new amending acts — change layer),
+`curate-recital-map` (editorial layer), `verify-app` (end-to-end
 checks). Strategic background: `docs/PORTING.md` in dora-explorer-nl for
 porting the codebase to another law.

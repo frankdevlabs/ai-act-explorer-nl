@@ -57,6 +57,16 @@ export function flattenWithBreaks(nodes: ContentNode[]): { text: string; breaks:
   };
 }
 
+/** Compact anchor of a lid: 5 → "lid-5", "1 bis" → "lid-1bis". */
+export function lidAnchor(display: string | number): string {
+  return `lid-${String(display).toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+}
+
+/** Display label of a paragraph's lid ("5", "1 bis"), or null when unnumbered. */
+export function lidLabel(p: { number: number | null; displayNumber?: string }): string | null {
+  return p.displayNumber ?? (p.number !== null ? String(p.number) : null);
+}
+
 /** "a)" → "a", "(14)" → "14"; empty for markers like "—". */
 export function markerToSlug(marker: string): string {
   return marker

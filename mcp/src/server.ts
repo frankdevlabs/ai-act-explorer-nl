@@ -1,6 +1,13 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import type { Amendment } from "../../src/lib/types.js";
+import type { Amendment, ParagraphDiff } from "../../src/lib/types.js";
+import {
+  APPLICATION_CAVEAT,
+  actLabel,
+  dutchDate,
+  inForceSince,
+  statusText,
+} from "../../src/lib/amendment-meta.js";
 import type { Module, RiskClass, RoleFlag } from "../../src/lib/assessment/types.js";
 import { obligationCatalog, unresolvedConditions } from "../../src/lib/assessment/engine.js";
 import { PRECISION_SEARCH_OPTIONS, makeSnippet, searchDocs } from "../../src/lib/search-core.js";
@@ -10,13 +17,15 @@ import {
   amendments,
   annexes,
   getAnnex,
+  getArticle,
   getRecital,
   index,
+  isNewAnnex,
+  isNewArticle,
   normalizeArticleInput,
   questionnaire,
   recitalMap,
   resolveArticle,
-  slugRank,
   toc,
 } from "./data.js";
 import {
@@ -59,10 +68,53 @@ import {
  */
 const PACK = packLimitsFromEnv();
 
-const omnibusSlugs = () => amendments.newArticles.map((a) => a.slug).join(", ");
+// ---- change layer of the in-force amending act (Vo 2026/1744, epic 8) ----
 
-function amendmentById(id: string): Amendment | undefined {
-  return amendments.amendments.find((a) => `${a.seq}${a.sub ?? ""}` === id);
+const OP_LABEL: Record<Amendment["operation"], string> = {
+  replace: "vervangen",
+  insert: "ingevoegd",
+  add: "toegevoegd",
+  delete: "geschrapt",
+};
+const STATUS_LABEL: Record<ParagraphDiff["status"], string> = {
+  modified: "gewijzigd",
+  inserted: "ingevoegd",
+  deleted: "geschrapt",
+  unchanged: "ongewijzigd",
+};
+
+/** "Artikel 4 bis" for a slug, falling back to the slug itself. */
+const articleLabel = (slug: string) => `Artikel ${getArticle(slug)?.displayNumber ?? slug}`;
+
+/** Articles 1–113 plus the inserted ones, for "not found" errors. */
+const articleRange = () =>
+  `Artikelen: 1–113 en ${amendments.newArticles.map((a) => a.displayNumber).join(", ")}.`;
+
+/** "Status: in werking sinds 27 juli 2026; verwerkt in de geldende tekst (…). In werking ≠ van toepassing …" */
+const statusLine = () =>
+  `Status: ${inForceSince(amendments.meta)}; verwerkt in de geldende tekst (geconsolideerd ${amendments.meta.current}). ${APPLICATION_CAVEAT}`;
+
+/** "- **Instructie 2) a)** (vervangen): artikel 2 wordt als volgt gewijzigd: … lid 2 wordt vervangen door:" */
+const instructionLine = (am: Amendment) =>
+  `- **Instructie ${am.seq})${am.sub ? ` ${am.sub})` : ""}** (${OP_LABEL[am.operation]}): ` +
+  `${am.parentIntro ? `${am.parentIntro} … ` : ""}${am.intro}`;
+
+const instructionsById = (ids: string[]) => amendments.amendments.filter((a) => ids.includes(a.id));
+
+/** Per-paragraph word diffs against the text before entry into force. */
+function diffSection(diffs: ParagraphDiff[]): string[] {
+  const lines = [
+    "",
+    `## Wijzigingen per lid t.o.v. de tekst vóór ${dutchDate(amendments.meta.inForce)} (~~geschrapt~~ / **ingevoegd**)`,
+  ];
+  for (const d of diffs) {
+    if (d.status === "unchanged") continue;
+    const label =
+      d.anchor === "inhoud" ? "inhoud" : d.displayNumber ? `lid ${d.displayNumber}` : d.anchor.replace(/^lid-/, "lid ");
+    lines.push("", `### ${label} (${STATUS_LABEL[d.status]})`, "");
+    if (d.segments) lines.push(renderSegments(d.segments).replace(/\n+/g, " "));
+  }
+  return lines;
 }
 
 /**
@@ -84,8 +136,9 @@ export function createServer(): McpServer {
     {
       title: "Zoek in de AI-verordening",
       description:
-        "Full-text search in the Dutch text of the EU AI Act (Regulation 2024/1689, consolidated) " +
-        "plus the digital-omnibus amendment layer. Returns hits with deep links to " +
+        "Full-text search in the Dutch text of the EU AI Act as in force (Regulation 2024/1689, " +
+        "consolidated incl. the digital omnibus, Regulation (EU) 2026/1744) plus an index of the " +
+        "omnibus's amending instructions. Returns hits with deep links to " +
         BASE_URL +
         ". Query in Dutch works best.",
       inputSchema: {
@@ -121,8 +174,8 @@ export function createServer(): McpServer {
     {
       title: "Artikel ophalen",
       description:
-        'Full Dutch text of an article. Base articles: "1"–"113". Articles inserted by the ' +
-        'digital omnibus: "75 bis", "4bis", etc.',
+        'Full Dutch text of an article as in force (consolidated text incl. the digital omnibus, ' +
+        'Regulation (EU) 2026/1744): "1"–"113" plus the inserted "4 bis", "60 bis", "75 bis"–"75 quinquies".',
       inputSchema: {
         number: z.string().describe('Article number, e.g. "6" or "75 bis"'),
       },
@@ -131,13 +184,11 @@ export function createServer(): McpServer {
       const key = normalizeArticleInput(number);
       const resolved = resolveArticle(key);
       if (!resolved) {
-        return err(
-          `Artikel "${number}" niet gevonden. Basisartikelen: 1–113. Omnibus-artikelen: ${omnibusSlugs()}.`,
-        );
+        return err(`Artikel "${number}" niet gevonden. ${articleRange()}`);
       }
       let md = renderArticle(resolved);
-      if (resolved.kind === "base" && (amendmentDiffs.articles[key] || amendments.titleChanges[key])) {
-        md += `\n\n> Let op: dit artikel wordt gewijzigd door de digitale omnibus (PE-CONS 30/26) — zie het tool get_amendments of ${BASE_URL}/artikel/${key}?diff=1.`;
+      if (amendmentDiffs.articles[key] || amendments.titleChanges[key]) {
+        md += `\n\n> Let op: dit artikel is gewijzigd bij ${actLabel(amendments.meta)}, ${inForceSince(amendments.meta)}. Hierboven staat de geldende tekst; de wijzigingen: get_amendments of ${BASE_URL}/artikel/${key}?diff=1. ${APPLICATION_CAVEAT}`;
       }
       const related = recitalMap.byArticle[key];
       if (related?.length) {
@@ -166,10 +217,7 @@ export function createServer(): McpServer {
       const slugs = recitalMap.byRecital[String(r.number)];
       const related = slugs?.length
         ? `\n\n**Relevante artikelen:** ${slugs
-            .map((s) => {
-              const display = amendments.newArticles.find((n) => n.slug === s)?.displayNumber ?? s;
-              return `Artikel ${display} — ${BASE_URL}/artikel/${s}`;
-            })
+            .map((s) => `${articleLabel(s)} — ${BASE_URL}/artikel/${s}`)
             .join(" · ")}`
         : "";
       return text(`# Overweging ${r.number}\n\n${body}${related}\n\n**Deep link**: ${BASE_URL}/overweging/${r.number}`);
@@ -182,7 +230,7 @@ export function createServer(): McpServer {
     {
       title: "Bijlage ophalen",
       description:
-        "Full Dutch text of an annex (bijlage) by Roman numeral, e.g. \"III\". Includes annexes added by the digital omnibus.",
+        "Full Dutch text of an annex (bijlage) as in force, by Roman numeral, e.g. \"III\" (I–XIV; XIV added by Regulation (EU) 2026/1744).",
       inputSchema: {
         roman: z.string().describe('Annex Roman numeral, e.g. "III"'),
       },
@@ -191,11 +239,9 @@ export function createServer(): McpServer {
       const key = roman.trim().replace(/^bijlage\s*/i, "");
       const a = getAnnex(key);
       if (!a) {
-        const known = [...annexes.map((x) => x.roman), ...amendments.newAnnexes.map((x) => x.roman)];
-        return err(`Bijlage "${roman}" niet gevonden. Beschikbaar: ${known.join(", ")}.`);
+        return err(`Bijlage "${roman}" niet gevonden. Beschikbaar: ${annexes.map((x) => x.roman).join(", ")}.`);
       }
-      const isNew = amendments.newAnnexes.some((n) => n.roman.toLowerCase() === a.roman.toLowerCase());
-      return text(renderAnnex(a, isNew));
+      return text(renderAnnex(a));
     },
   );
 
@@ -205,40 +251,32 @@ export function createServer(): McpServer {
     {
       title: "Structuur (inhoudsopgave)",
       description:
-        "Compact table of contents: chapters, sections, articles (with digital-omnibus insertions), annexes, recital count.",
+        "Compact table of contents of the text in force: chapters, sections, articles (marking those inserted by Regulation (EU) 2026/1744), annexes, recital count.",
       inputSchema: {},
     },
     async () => {
-      const lines: string[] = ["# Verordening (EU) 2024/1689 — structuur", ""];
+      const lines: string[] = [
+        `# Verordening (EU) 2024/1689 — structuur (geldende tekst, ${amendments.meta.current})`,
+        "",
+      ];
+      const act = amendments.meta.document.replace(/^Verordening/, "Vo.");
       for (const ch of toc.chapters) {
         lines.push(`## Hoofdstuk ${ch.roman} — ${ch.title}`);
-        const pushArticle = (n: number, title: string) => {
-          lines.push(`- Artikel ${n}: ${title} — ${BASE_URL}/artikel/${n}`);
-          for (const ins of amendments.newArticles
-            .filter((x) => x.insertAfter === n)
-            .sort((a, b) => slugRank(a.slug) - slugRank(b.slug))) {
-            lines.push(
-              `- Artikel ${ins.displayNumber} (omnibus): ${ins.title} — ${BASE_URL}/artikel/${ins.slug}`,
-            );
-          }
+        const pushArticle = (a: { slug: string; displayNumber: string; title: string }) => {
+          const mark = isNewArticle(a.slug) ? ` (ingevoegd bij ${act})` : "";
+          lines.push(`- Artikel ${a.displayNumber}${mark}: ${a.title} — ${BASE_URL}/artikel/${a.slug}`);
         };
-        for (const a of ch.articles) pushArticle(a.number, a.title);
-        for (const s of ch.sections) {
-          lines.push(`### Afdeling ${s.number} — ${s.title}`);
-          for (const a of s.articles) pushArticle(a.number, a.title);
+        for (const a of ch.articles) pushArticle(a);
+        for (const sec of ch.sections) {
+          lines.push(`### Afdeling ${sec.number} — ${sec.title}`);
+          for (const a of sec.articles) pushArticle(a);
         }
         lines.push("");
       }
       lines.push("## Bijlagen");
       for (const a of toc.annexes) {
-        lines.push(`- Bijlage ${a.roman}: ${a.title} — ${BASE_URL}/bijlage/${a.roman.toLowerCase()}`);
-        for (const ins of amendments.newAnnexes.filter(
-          (x) => x.insertAfter.toLowerCase() === a.roman.toLowerCase(),
-        )) {
-          lines.push(
-            `- Bijlage ${ins.roman} (omnibus): ${ins.title} — ${BASE_URL}/bijlage/${ins.roman.toLowerCase()}`,
-          );
-        }
+        const mark = isNewAnnex(a.roman) ? ` (toegevoegd bij ${act})` : "";
+        lines.push(`- Bijlage ${a.roman}${mark}: ${a.title} — ${BASE_URL}/bijlage/${a.roman.toLowerCase()}`);
       }
       lines.push("", `${toc.recitalCount} overwegingen — ${BASE_URL}/overwegingen`);
       return text(lines.join("\n"));
@@ -251,56 +289,93 @@ export function createServer(): McpServer {
     {
       title: "Omnibus-wijzigingen",
       description:
-        "Digital-omnibus (PE-CONS 30/26) amendments to the AI Act. Without arguments: overview of all " +
-        "affected articles/annexes. With an article number: the amending instructions plus a word-level " +
-        "diff (~~deleted~~ / **inserted**).",
+        "Changes made to the AI Act by the digital omnibus, Regulation (EU) 2026/1744 — in force since " +
+        "27 July 2026 and already part of the text the other tools return. Without arguments: status, source " +
+        "and overview of all changed articles/annexes. With an article or annex: the verbatim amending " +
+        "instructions plus a word-level diff against the text before entry into force " +
+        "(~~deleted~~ / **inserted**).",
       inputSchema: {
         article: z.string().optional().describe('Article number, e.g. "6" or "75 bis"'),
+        annex: z.string().optional().describe('Annex Roman numeral, e.g. "I"'),
       },
     },
-    async ({ article }) => {
+    async ({ article, annex }) => {
       const meta = amendments.meta;
-      if (!article) {
+      if (!article && !annex) {
+        const changedArticles = Object.keys(amendmentDiffs.articles).length;
+        const changedAnnexes = Object.keys(amendmentDiffs.annexes).length;
+        const topLevel = new Set(amendments.amendments.map((a) => a.seq)).size;
         const lines = [
-          `# Digitale omnibus — ${meta.document} (${meta.date})`,
+          `# Wijzigingen bij ${actLabel(meta)}`,
           "",
-          `${amendments.amendments.length} wijzigingsinstructies; ${amendments.newArticles.length} nieuwe artikelen; ${amendments.newAnnexes.length} nieuwe bijlagen. Nog niet in werking.`,
+          statusLine(),
+          `Bron: ${statusText.publication(meta)} — ${meta.eli}`,
+          "",
+          `${topLevel} instructies (${amendments.amendments.length} incl. subinstructies); ${changedArticles} gewijzigde artikelen; ` +
+            `${amendments.newArticles.length} ingevoegde artikelen; ${changedAnnexes} gewijzigde bijlagen; ` +
+            `${amendments.newAnnexes.length} toegevoegde bijlage(n).`,
           "",
           "Gewijzigde onderdelen in documentvolgorde:",
-          ...amendments.orderedTargets.map((t) =>
-            t.kind === "article"
-              ? `- Artikel ${amendments.newArticles.find((n) => n.slug === t.slug)?.displayNumber ?? t.slug} — ${BASE_URL}/artikel/${t.slug}?diff=1`
-              : `- Bijlage ${t.slug.toUpperCase()} — ${BASE_URL}/bijlage/${t.slug}?diff=1`,
-          ),
+          ...amendments.orderedTargets.map((t) => {
+            if (t.kind === "article") {
+              return isNewArticle(t.slug)
+                ? `- ${articleLabel(t.slug)} (ingevoegd) — ${BASE_URL}/artikel/${t.slug}`
+                : `- ${articleLabel(t.slug)} — ${BASE_URL}/artikel/${t.slug}?diff=1`;
+            }
+            return isNewAnnex(t.slug)
+              ? `- Bijlage ${t.slug.toUpperCase()} (toegevoegd) — ${BASE_URL}/bijlage/${t.slug}`
+              : `- Bijlage ${t.slug.toUpperCase()} — ${BASE_URL}/bijlage/${t.slug}?diff=1`;
+          }),
           "",
           `Volledig overzicht: ${BASE_URL}/wijzigingen`,
         ];
         return text(lines.join("\n"));
       }
 
-      const key = normalizeArticleInput(article);
-      const ids = amendments.byArticle[key];
-      if (!ids?.length) {
+      if (annex) {
+        const roman = annex.trim().replace(/^bijlage\s*/i, "").toLowerCase();
+        const a = getAnnex(roman);
+        if (!a) return err(`Bijlage "${annex}" niet gevonden. Beschikbaar: ${annexes.map((x) => x.roman).join(", ")}.`);
+        const ids = amendments.byAnnex[roman] ?? [];
+        if (!ids.length) return text(`Bijlage ${a.roman} is niet gewijzigd bij ${actLabel(meta)}.`);
+        const lines = [
+          `# Wijzigingen aan bijlage ${a.roman} bij ${meta.document}`,
+          "",
+          statusLine(),
+          "",
+          ...instructionsById(ids).map(instructionLine),
+        ];
+        if (isNewAnnex(roman)) lines.push("", `Bijlage ${a.roman} is in zijn geheel toegevoegd; de volledige tekst: get_annex.`);
+        const diffs = amendmentDiffs.annexes[roman];
+        if (diffs) lines.push(...diffSection(diffs), "", `Diff-weergave op de site: ${BASE_URL}/bijlage/${roman}?diff=1`);
+        return text(lines.join("\n"));
+      }
+
+      const key = normalizeArticleInput(article!);
+      const target = getArticle(key);
+      if (!target) return err(`Artikel "${article}" niet gevonden. ${articleRange()}`);
+      const ids = amendments.byArticle[key] ?? [];
+      if (!ids.length) {
         return text(
-          `Artikel ${article} wordt niet gewijzigd door de digitale omnibus. Gewijzigde artikelen: ${Object.keys(amendments.byArticle).join(", ")}.`,
+          `Artikel ${target.displayNumber} is niet gewijzigd bij ${actLabel(meta)}. ` +
+            `Gewijzigde artikelen: ${Object.keys(amendments.byArticle).map((s) => getArticle(s)?.displayNumber ?? s).join(", ")}.`,
         );
       }
-      const lines = [`# Omnibus-wijzigingen aan artikel ${key} (${meta.document})`, ""];
-      for (const id of ids) {
-        const am = amendmentById(id);
-        if (!am) continue;
-        lines.push(`- **Instructie ${id}** (${am.operation}): ${am.scope.description}${am.note ? ` — ${am.note}` : ""}`);
+      const lines = [
+        `# Wijzigingen aan artikel ${target.displayNumber} bij ${meta.document}`,
+        "",
+        statusLine(),
+        "",
+        ...instructionsById(ids).map(instructionLine),
+      ];
+      if (isNewArticle(key)) {
+        lines.push("", `Artikel ${target.displayNumber} is in zijn geheel ingevoegd; de volledige tekst: get_article.`);
+        return text(lines.join("\n"));
       }
+      const title = amendments.titleChanges[key];
+      if (title) lines.push("", `Titel: ~~${title.previous}~~ **${title.title}**`);
       const diffs = amendmentDiffs.articles[key];
-      if (diffs) {
-        lines.push("", "## Wijzigingen per lid (~~geschrapt~~ / **ingevoegd**)");
-        for (const d of diffs) {
-          if (d.status === "unchanged") continue;
-          const label = d.displayNumber ? `lid ${d.displayNumber}` : d.anchor;
-          lines.push("", `### ${label} (${d.status})`, "");
-          if (d.segments) lines.push(renderSegments(d.segments).replace(/\n+/g, " "));
-        }
-      }
+      if (diffs) lines.push(...diffSection(diffs));
       lines.push("", `Diff-weergave op de site: ${BASE_URL}/artikel/${key}?diff=1`);
       return text(lines.join("\n"));
     },
@@ -317,7 +392,8 @@ export function createServer(): McpServer {
       title: "Contextpakket: artikelen + overwegingen + omnibus-status",
       description:
         "One call per review instead of three per provision: for each requested article the full " +
-        "Dutch text, its digital-omnibus status, and the recitals the editorial recital map ties " +
+        "Dutch text as in force, its status under the digital omnibus (Regulation (EU) 2026/1744, in " +
+        "force since 27 July 2026: amended, inserted or not changed), and the recitals the editorial recital map ties " +
         "to it — with every referenced recital rendered once, deduplicated across the pack. " +
         "Use this to open a contract or memo review; use get_article for a single provision and " +
         "get_amendments when you need the per-lid word diff. " +
@@ -363,28 +439,30 @@ export function createServer(): McpServer {
         }
         const parts = [renderArticle(resolved)];
 
-        // Omnibus status. The instructions and the diff link go here; the
+        // Omnibus status (Vo 2026/1744 is in force: the text above already
+        // includes it). The instructions and the diff link go here; the
         // per-lid word diffs stay in get_amendments, and the section says so —
-        // PRACTICE.md requires an omnibus check per cited article, so the
+        // PRACTICE.md requires a consolidation check per cited article, so the
         // caller must know which call satisfies which half of it.
-        if (resolved.kind === "base") {
-          const ids = amendments.byArticle[key] ?? [];
-          const changed = ids.length > 0 || Boolean(amendments.titleChanges[key]);
-          if (changed) {
-            const instructions = ids
-              .map((id) => amendmentById(id))
-              .filter((a): a is Amendment => Boolean(a))
-              .map((a) => `- ${a.seq}${a.sub ?? ""} (${a.operation}): ${a.scope.description}`);
-            parts.push(
-              [
-                `**Omnibus-status:** gewijzigd door de digitale omnibus (${amendments.meta.document}) — nog niet in werking.`,
-                ...instructions,
-                `Woorddiff per lid: tool get_amendments({article: "${key}"}) · ${BASE_URL}/artikel/${key}?diff=1`,
-              ].join("\n"),
-            );
-          } else {
-            parts.push("**Omnibus-status:** niet gewijzigd door de digitale omnibus.");
-          }
+        const meta = amendments.meta;
+        const ids = amendments.byArticle[key] ?? [];
+        if (isNewArticle(key)) {
+          parts.push(
+            [
+              `**Omnibus-status:** ingevoegd bij ${meta.document}, ${inForceSince(meta)}. ${APPLICATION_CAVEAT}`,
+              ...instructionsById(ids).map(instructionLine),
+            ].join("\n"),
+          );
+        } else if (ids.length > 0 || amendments.titleChanges[key]) {
+          parts.push(
+            [
+              `**Omnibus-status:** gewijzigd bij ${meta.document}, ${inForceSince(meta)}; hierboven staat de geldende tekst. ${APPLICATION_CAVEAT}`,
+              ...instructionsById(ids).map(instructionLine),
+              `Woorddiff per lid t.o.v. de tekst vóór ${dutchDate(meta.inForce)}: tool get_amendments({article: "${key}"}) · ${BASE_URL}/artikel/${key}?diff=1`,
+            ].join("\n"),
+          );
+        } else {
+          parts.push(`**Omnibus-status:** niet gewijzigd bij ${meta.document}.`);
         }
 
         const related = recitalMap.byArticle[key] ?? [];
@@ -403,7 +481,7 @@ export function createServer(): McpServer {
 
       if (!sections.length) {
         return err(
-          `Geen van de opgevraagde artikelen bestaat (${unknown.join(", ")}). Basisartikelen: 1–113. Omnibus-artikelen: ${omnibusSlugs()}.`,
+          `Geen van de opgevraagde artikelen bestaat (${unknown.join(", ")}). ${articleRange()}`,
         );
       }
 
@@ -411,7 +489,7 @@ export function createServer(): McpServer {
       const head = [
         `# Contextpakket — ${sections.length} artikel(en), ${uniqueRecitals.length} overweging(en)`,
         "",
-        `Bron: Verordening (EU) 2024/1689 (geconsolideerd) + digitale omnibus ${amendments.meta.document}.`,
+        `Bron: Verordening (EU) 2024/1689, geldende tekst (geconsolideerd ${amendments.meta.current}, incl. ${amendments.meta.document}); overwegingen uit PB L 2024/1689.`,
         // The map is curated and unfinished: an empty recital list must not be
         // read as "no relevant recital exists".
         `> De overwegingenkaart is een gecureerde, nog onvolledige laag (${recitalMap.meta.pairCount} paren, ${recitalMap.meta.reviewedCount} van de overwegingen nagelopen). Een lege lijst betekent "nog niet in kaart gebracht", niet "geen relevante overweging".`,
@@ -535,7 +613,7 @@ export function createServer(): McpServer {
         lines.push("", `**${e.questionId}** — ${e.text}`);
         if (e.conditions.length) lines.push(`**Voorwaarde:** ${e.conditions.join(" · ")}`);
         if (e.omnibus) {
-          const from = e.omnibus.appliesFrom ? ` (vanaf ${e.omnibus.appliesFrom})` : "";
+          const from = e.omnibus.appliesFrom ? ` (van toepassing vanaf ${e.omnibus.appliesFrom})` : "";
           lines.push(`**Omnibus${from}:** ${e.omnibus.note}`);
         }
         if (e.refs?.length) {
@@ -639,7 +717,7 @@ export function createServer(): McpServer {
       if (mod.showIf) lines.push(`**Zichtbaar als:** ${conditionLine(mod.showIf)}`);
       if (mod.financeOnly) lines.push("**Alleen relevant voor financiële entiteiten (DORA/Wft).**");
       if (mod.omnibus) {
-        const from = mod.omnibus.appliesFrom ? ` (vanaf ${mod.omnibus.appliesFrom})` : "";
+        const from = mod.omnibus.appliesFrom ? ` (van toepassing vanaf ${mod.omnibus.appliesFrom})` : "";
         lines.push(`**Omnibus${from}:** ${mod.omnibus.note}`);
       }
       if (mod.refs?.length) lines.push(`**Grondslag:** ${refLinks(mod.refs)}`);
@@ -672,7 +750,7 @@ export function createServer(): McpServer {
         ].filter(Boolean);
         if (marks.length) lines.push(`- **Markering:** ${marks.join(" · ")}`);
         if (q.omnibus) {
-          const from = q.omnibus.appliesFrom ? ` (vanaf ${q.omnibus.appliesFrom})` : "";
+          const from = q.omnibus.appliesFrom ? ` (van toepassing vanaf ${q.omnibus.appliesFrom})` : "";
           lines.push(`- **Omnibus${from}:** ${q.omnibus.note}`);
         }
         if (q.refs?.length) lines.push(`- **Grondslag:** ${refLinks(q.refs)}`);
@@ -720,8 +798,7 @@ export function createServer(): McpServer {
         `(complete: ${recitalMap.meta.complete}). Een lege lijst betekent "nog niet in kaart ` +
         'gebracht", niet "geen relevante overweging".';
       const articleLink = (slug: string) => {
-        const display = amendments.newArticles.find((n) => n.slug === slug)?.displayNumber ?? slug;
-        return `[Artikel ${display}](${BASE_URL}/artikel/${slug})`;
+        return `[${articleLabel(slug)}](${BASE_URL}/artikel/${slug})`;
       };
 
       if (article != null) {
@@ -729,12 +806,11 @@ export function createServer(): McpServer {
         const resolved = resolveArticle(key);
         if (!resolved) {
           return err(
-            `Artikel "${article}" niet gevonden. Basisartikelen: 1–113. Omnibus-artikelen: ${omnibusSlugs()}.`,
+            `Artikel "${article}" niet gevonden. ${articleRange()}`,
           );
         }
-        const display =
-          resolved.kind === "base" ? String(resolved.article.number) : resolved.spec.displayNumber;
-        const title = resolved.kind === "base" ? resolved.article.title : resolved.spec.title;
+        const display = resolved.article.displayNumber;
+        const title = resolved.article.title;
         const nums = recitalMap.byArticle[key] ?? [];
         return text(
           [

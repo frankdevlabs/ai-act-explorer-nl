@@ -31,7 +31,7 @@ const fail = (msg: string): never => {
 
 // Valid targets: base article numbers ∪ omnibus new-article slugs.
 const validSlugs = new Set<string>([
-  ...articles.map((a) => String(a.number)),
+  ...articles.map((a) => a.slug),
   ...amendments.newArticles.map((n) => n.slug),
 ]);
 
@@ -40,9 +40,9 @@ const SUFFIX_RANK: Record<string, number> = { bis: 1, ter: 2, quater: 3, quinqui
 const slugRank = (slug: string) => SUFFIX_RANK[slug.replace(/^\d+/, "")] ?? 0;
 const docOrder = new Map<string, number>();
 for (const a of articles) {
-  docOrder.set(String(a.number), docOrder.size);
+  docOrder.set(a.slug, docOrder.size);
   for (const n of amendments.newArticles
-    .filter((x) => x.insertAfter === a.number)
+    .filter((x) => x.insertAfter === a.number && !docOrder.has(x.slug) && a.slug === String(a.number))
     .sort((x, y) => slugRank(x.slug) - slugRank(y.slug))) {
     docOrder.set(n.slug, docOrder.size);
   }

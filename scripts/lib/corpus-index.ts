@@ -11,13 +11,14 @@
 import assert from "node:assert";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import type { AmendmentsGenerated, Annex, Article, ContentNode, Recital } from "../../src/lib/types";
+import type { AmendmentDiffs, AmendmentsGenerated, Annex, Article, ContentNode, Recital } from "../../src/lib/types";
 
 export interface Corpus {
   articles: Article[];
   annexes: Annex[];
   recitals: Recital[];
   amendments: AmendmentsGenerated;
+  amendmentDiffs: AmendmentDiffs;
 }
 
 export function loadCorpus(root: string): Corpus {
@@ -27,6 +28,7 @@ export function loadCorpus(root: string): Corpus {
     annexes: load<Annex[]>("data/generated/annexes.json"),
     recitals: load<Recital[]>("data/generated/recitals.json"),
     amendments: load<AmendmentsGenerated>("data/generated/amendments.json"),
+    amendmentDiffs: load<AmendmentDiffs>("data/generated/amendment-diffs.json"),
   };
 }
 
@@ -59,30 +61,29 @@ export const INTERNAL_PAGES = new Set([
 
 /** `checkRef(owner, href)`: asserts the href resolves against the corpus. */
 export function makeCheckRef(corpus: Corpus) {
-  const { articles, annexes, recitals, amendments } = corpus;
-  const annexRomans = new Set([
-    ...annexes.map((a) => a.roman.toLowerCase()),
-    ...amendments.newAnnexes.map((a) => a.roman.toLowerCase()),
-  ]);
+  const { articles, annexes, recitals, amendmentDiffs } = corpus;
+  const annexRomans = new Set(annexes.map((a) => a.roman.toLowerCase()));
   const recitalNumbers = new Set(recitals.map((r) => r.number));
 
   return function checkRef(owner: string, href: string): void {
     const [pathWithQuery, fragment] = href.split("#");
-    const path = pathWithQuery.split("?")[0];
-    const art = path.match(/^\/artikel\/(\d+)$/);
+    const [path, query] = pathWithQuery.split("?");
+    // articles by slug: the base corpus includes 4 bis … 75 quinquies (epic 8)
+    const art = path.match(/^\/artikel\/([a-z0-9]+)$/);
     if (art) {
-      const a = articles.find((x) => x.number === Number(art[1]));
+      const a = articles.find((x) => x.slug === art[1]);
       assert.ok(a, `${owner}: artikel ${art[1]} bestaat`);
-      if (fragment)
+      // ?diff=1 ("what changed") only on articles the amending act changed,
+      // and #w- fragments must name a changed paragraph of that diff view
+      const diff = amendmentDiffs.articles[a!.slug];
+      if (query === "diff=1") assert.ok(diff, `${owner}: ${href} — artikel ${a!.slug} heeft geen wijzigingen`);
+      if (fragment?.startsWith("w-"))
+        assert.ok(
+          query === "diff=1" && diff!.some((p) => `w-${p.anchor}` === fragment && p.status !== "unchanged"),
+          `${owner}: diff-anchor ${href}`,
+        );
+      else if (fragment)
         assert.ok(articleAnchors(a!.paragraphs).has(fragment), `${owner}: anchor ${href}`);
-      return;
-    }
-    const newArt = path.match(/^\/artikel\/(\d+(?:bis|ter|quater|quinquies))$/);
-    if (newArt) {
-      const spec = amendments.newArticles.find((n) => n.slug === newArt[1]);
-      assert.ok(spec, `${owner}: omnibus-artikel ${newArt[1]} bestaat`);
-      if (fragment)
-        assert.ok(articleAnchors(spec!.paragraphs).has(fragment), `${owner}: anchor ${href}`);
       return;
     }
     const anx = path.match(/^\/bijlage\/([a-z]+)$/);

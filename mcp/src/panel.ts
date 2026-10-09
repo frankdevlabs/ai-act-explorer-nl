@@ -469,7 +469,7 @@ const SCRIPT = `
     if (q.omnibus){
       box.appendChild(el("p", {
         cls: "note",
-        text: "Omnibus" + (q.omnibus.appliesFrom ? " (vanaf " + q.omnibus.appliesFrom + ")" : "") + ": " + q.omnibus.note
+        text: "Omnibus" + (q.omnibus.appliesFrom ? " (van toepassing vanaf " + q.omnibus.appliesFrom + ")" : "") + ": " + q.omnibus.note
       }));
     }
     helpNodes(q.help).forEach(function(n){ box.appendChild(n); });
@@ -522,7 +522,7 @@ const SCRIPT = `
     if (m.omnibus){
       sec.appendChild(el("p", {
         cls: "note",
-        text: "Omnibus" + (m.omnibus.appliesFrom ? " (vanaf " + m.omnibus.appliesFrom + ")" : "") + ": " + m.omnibus.note
+        text: "Omnibus" + (m.omnibus.appliesFrom ? " (van toepassing vanaf " + m.omnibus.appliesFrom + ")" : "") + ": " + m.omnibus.note
       }));
     }
     helpNodes(m.intro).forEach(function(n){ sec.appendChild(n); });

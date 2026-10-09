@@ -6,7 +6,8 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { SidebarToc } from "@/components/layout/SidebarToc";
 import { TabStrip } from "@/components/layout/TabStrip";
 import { SearchPalette } from "@/components/search/SearchPalette";
-import { getAmendedArticleNumbers, getNewArticleTocEntries, getToc } from "@/lib/data";
+import { actLabel } from "@/lib/amendment-meta";
+import { getAmendedArticleNumbers, getAmendingAct, getInsertedArticleSlugs, getToc } from "@/lib/data";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,7 +36,9 @@ export default function RootLayout({
 }>) {
   const toc = getToc();
   const amended = [...getAmendedArticleNumbers()];
-  const newEntries = getNewArticleTocEntries();
+  const inserted = getInsertedArticleSlugs();
+  const act = actLabel(getAmendingAct());
+  const dots = { amendedTitle: `Gewijzigd bij ${act}`, insertedTitle: `Ingevoegd bij ${act}` };
   return (
     <html
       lang="nl"
@@ -46,11 +49,11 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
           <TabStrip />
-          <MobileNav toc={toc} amended={amended} newEntries={newEntries} />
+          <MobileNav toc={toc} amended={amended} inserted={inserted} {...dots} />
           <SearchPalette />
           <div className="mx-auto flex max-w-7xl px-4">
             <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-80 shrink-0 overflow-y-auto border-r border-line py-6 pr-4 lg:block">
-              <SidebarToc toc={toc} amended={amended} newEntries={newEntries} />
+              <SidebarToc toc={toc} amended={amended} inserted={inserted} {...dots} />
             </aside>
             <main className="min-w-0 flex-1 break-words py-8 lg:pl-8">
               <div className="mx-auto max-w-3xl">{children}</div>

@@ -171,14 +171,18 @@ export default function GpaiPraktijkcodePage() {
               Actuele lijst: zie de Commissiepagina hieronder.
             </li>
             <li>
-              Digitale omnibus (PE-CONS 30/26, nog niet bekendgemaakt): art. 56, lid 6 wordt
-              vervangen — de Commissie (met advies van de AI-board) beoordeelt voortaan of
-              praktijkcodes de verplichtingen dekken en <em>publiceert haar beoordeling</em>.
-              Zie{" "}
-              <Link href="/artikel/56?diff=1" className="text-accent hover:underline">
-                art. 56 in de wijzigingenweergave
+              Sinds de digitale omnibus (Verordening (EU) 2026/1744, in werking sinds 27 juli
+              2026) beoordeelt de Commissie, zoveel mogelijk rekening houdend met het advies van
+              de AI-board, of praktijkcodes de verplichtingen van art. 53 en 55 dekken, en{" "}
+              <em>publiceert zij haar beoordeling</em> (
+              <Link href="/artikel/56#lid-6" className="text-accent hover:underline">
+                art. 56, lid 6
               </Link>
-              .
+              ; zie{" "}
+              <Link href="/artikel/56?diff=1#w-lid-6" className="text-accent hover:underline">
+                de wijziging
+              </Link>
+              ).
             </li>
           </ul>
         </section>

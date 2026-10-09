@@ -15,7 +15,7 @@ export function ContentNodes({ nodes }: { nodes: ContentNode[] }) {
         }
         if (node.type === "text") {
           return (
-            <p key={i} className="my-2 leading-relaxed">
+            <p key={i} className={node.repealed ? "my-2 leading-relaxed text-muted" : "my-2 leading-relaxed"}>
               <LinkedText text={node.text} refs={node.refs} />
             </p>
           );

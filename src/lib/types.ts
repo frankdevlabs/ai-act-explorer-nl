@@ -10,7 +10,9 @@ export interface RefSpan {
 }
 
 export type ContentNode =
-  | { type: "text"; text: string; refs?: RefSpan[] }
+  /** `repealed`: EUR-Lex's deletion placeholder ("—————") where an amending
+   *  act struck a provision; rendered muted, never indexed for search. */
+  | { type: "text"; text: string; refs?: RefSpan[]; repealed?: true }
   | { type: "heading"; text: string }
   | { type: "list"; items: ListItem[] }
   | { type: "table"; rows: string[][] };
@@ -28,14 +30,25 @@ export interface Footnote {
 }
 
 export interface ArticleParagraph {
-  /** Lid number; null for articles whose body has no numbered paragraphs */
+  /** Lid number; null for articles whose body has no numbered paragraphs and
+   *  for inserted leden numbered "1 bis" (see displayNumber). */
   number: number | null;
+  /** Display number of an inserted lid outside numeric numbering ("1 bis");
+   *  its anchor is the compact form ("lid-1bis"). */
+  displayNumber?: string;
   anchor: string;
   content: ContentNode[];
+  /** A lid struck by an amending act: content is the "—————" placeholder. */
+  repealed?: true;
 }
 
 export interface Article {
+  /** Integer part of the article number (4 for "4 bis"); ordering only. */
   number: number;
+  /** Route slug and lookup key: "4", "4bis", "75quater". */
+  slug: string;
+  /** Display form: "4", "4 bis". */
+  displayNumber: string;
   title: string;
   chapter: string;
   chapterTitle: string;
@@ -65,6 +78,8 @@ export interface Annex {
 
 export interface TocEntry {
   number: number;
+  slug: string;
+  displayNumber: string;
   title: string;
 }
 
@@ -97,87 +112,69 @@ export interface SearchDoc {
 }
 
 // ---------------------------------------------------------------------------
-// Digitale-omnibus amendment layer (PE-CONS 30/26, 2025/0359 COD).
-// Source: data/source/amendments/pe-cons-30-26.json (curated transcription —
-// see AGENTS.md carve-out); generated: data/generated/amendments.json and
-// amendment-diffs.json via scripts/parse-amendments.ts.
+// Change layer of the in-force amending act (Verordening (EU) 2026/1744,
+// digitale omnibus inzake AI). Derived by scripts/parse-amendments.ts from
+// EUR-Lex sources only (data/source/corpus.json): the previous consolidated
+// version, the current one (the base corpus) and the act's OJ text.
 
 export type AmendmentOperation = "replace" | "insert" | "add" | "delete";
 
-export interface AmendmentScope {
-  /** Existing anchor in the base article/annex: "lid-2", "lid-2-g", "punt-14",
-   *  or pseudo-scope "lid-2-aanhef" (chapeau text before the first list). */
-  anchor?: string;
-  wholeArticle?: boolean;
-  /** True when the instruction replaces the article title. */
-  title?: boolean;
-  /** Instruction wording, e.g. "lid 2, punt g), wordt vervangen". */
-  description: string;
-}
-
-export interface NewArticleSpec {
-  /** Route slug: "4bis", "75quater" (lowercase, no hyphen). */
+export interface AmendmentTarget {
+  kind: "article" | "annex";
+  /** Article slug ("4bis") or lowercase annex roman ("xiv"). */
   slug: string;
-  /** Display form: "4 bis". */
-  displayNumber: string;
-  title: string;
-  /** Base article number this article is inserted after. */
-  insertAfter: number;
-  paragraphs: ArticleParagraph[];
+  /** Paragraph anchors the instruction changed; "titel" = the article title. */
+  anchors: string[];
+  /** The instruction inserts the whole article/annex. */
+  inserted?: true;
 }
 
-export interface NewAnnexSpec {
-  roman: string; // "XIV"
-  title: string;
-  insertAfter: string; // "XIII"
-  content: ContentNode[];
-}
-
+/** One leaf instruction of Article 1 of the amending act. */
 export interface Amendment {
-  /** Instruction number within Article 1 of the amending act; sub for "2)a)". */
+  /** "2a" — instruction 2), sub-instruction a). */
+  id: string;
   seq: number;
   sub?: string;
-  target: { article?: string; annex?: string }; // article: "2" | "4bis"; annex: "XIV"
+  /** Verbatim instruction wording: "lid 2 wordt vervangen door:". */
+  intro: string;
+  /** Verbatim wording of the parent instruction ("artikel 2 wordt als volgt gewijzigd:"). */
+  parentIntro?: string;
   operation: AmendmentOperation;
-  scope: AmendmentScope;
-  /** Replacement content for a scoped change (lid body, point content, aanhef,
-   *  or — with scope.title — a single text node holding the new title). */
-  newContent?: ContentNode[];
-  /** Whole-article replaces and lid inserts: full paragraphs in new order.
-   *  Anchors may be omitted in the source; the parser derives them. */
-  newParagraphs?: ArticleParagraph[];
-  /** Point-level inserts: new list items placed after scope.anchor. */
-  newItems?: ListItem[];
-  /** Present when the instruction inserts a whole new article. */
-  newArticle?: NewArticleSpec;
-  /** Present when the instruction adds a whole new annex. */
-  newAnnex?: NewAnnexSpec;
-  /** Free-text remark, e.g. staggered application dates. */
-  note?: string;
+  targets: AmendmentTarget[];
 }
 
-export interface AmendmentsSource {
-  meta: {
-    document: string;
-    date: string;
-    /** False while transcription is in progress; verify-amendments skips
-     *  exact-count assertions until flipped. */
-    complete: boolean;
-  };
+export interface AmendingActMeta {
+  celex: string;
+  /** "Verordening (EU) 2026/1744" */
+  document: string;
+  /** "digitale omnibus inzake AI" */
+  shortTitle: string;
+  title: string;
+  eli: string;
+  /** "PB L, 2026/1744, 24.7.2026" */
+  ojRef: string;
+  /** ISO dates read from the act: adoption, OJ publication, entry into force. */
+  adopted: string;
+  published: string;
+  inForce: string;
+  /** Consolidated versions compared: before and after the act ("02024R1689-…"). */
+  previous: string;
+  current: string;
+}
+
+export interface AmendmentsGenerated {
+  meta: AmendingActMeta;
   amendments: Amendment[];
-}
-
-export interface AmendmentsGenerated extends AmendmentsSource {
-  /** Amendment ids ("2", "2a") grouped by base-article number / new-article slug. */
+  /** Instruction ids grouped by article slug / lowercase annex roman. */
   byArticle: Record<string, string[]>;
-  /** Amendment ids grouped by annex roman. */
   byAnnex: Record<string, string[]>;
-  /** All affected targets in document order, for cross-target navigation. */
+  /** All changed or inserted targets in document order. */
   orderedTargets: { kind: "article" | "annex"; slug: string }[];
-  newArticles: NewArticleSpec[];
-  newAnnexes: NewAnnexSpec[];
-  /** Article-title replacements, keyed by article number. */
-  titleChanges: Record<string, { title: string; seq: number }>;
+  /** Articles and annexes the act inserted (their text is in the base corpus). */
+  newArticles: { slug: string; displayNumber: string; title: string; insertAfter: number }[];
+  newAnnexes: { roman: string; title: string; insertAfter: string }[];
+  /** Replaced article titles, keyed by slug. */
+  titleChanges: Record<string, { title: string; previous: string; ids: string[] }>;
 }
 
 /** Refs offsets index into this segment's `text` (spans crossing a segment
@@ -195,10 +192,8 @@ export interface ParagraphDiff {
   displayNumber?: string;
   /** Word-level segments for modified/inserted/deleted paragraphs. */
   segments?: DiffSegment[];
-  /** Structured replacement content (drives the clean "nieuwe tekst" view). */
-  newContent?: ContentNode[];
-  /** Instruction seq numbers responsible for this paragraph's status. */
-  seq: number[];
+  /** Instruction ids ("2a") responsible for this paragraph's status. */
+  ids: string[];
 }
 
 /** Per affected target: the full paragraph list in new-document order.

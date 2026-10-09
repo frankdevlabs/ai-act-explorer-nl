@@ -80,8 +80,14 @@ const GOLDEN: Golden[] = [
   // typeahead surface: typo tolerance (fuzzy) and mid-word prefix
   { q: "sublimnale technieken", surface: "site", topN: { id: "art-5-lid-1", n: 3 } },
   { q: "transparantiever", surface: "site", top1: "art-13-lid-1" },
-  // amendment corpus stays reachable through the shared index
-  { q: "digitale omnibus", top1: "omnibus-" },
+  // change layer stays reachable through the shared index (Vo 2026/1744 in
+  // force: its docs carry instruction wording only, the law itself is base)
+  { q: "digitale omnibus", top1: "wijz-", note: "was omnibus- (PE-CONS 30/26 overlay docs) until epic 8" },
+  { q: "2026/1744", top1: "wijz-" },
+  // articles and leden inserted by Vo 2026/1744 are base corpus now
+  { q: "artikel 4 bis", top1: "art-4bis-" },
+  { q: "artikel 5 lid 1 bis", top1: "art-5-lid-1bis" },
+  { q: "bijzondere categorieën persoonsgegevens vooringenomenheid", topN: { id: "art-4bis-lid-1", n: 3 } },
 ];
 
 for (const g of GOLDEN) {

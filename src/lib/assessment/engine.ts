@@ -162,7 +162,10 @@ function obligationStatuses(
 function buildTimeline(flags: Set<string>, stops: string[], transparantieLeden: string[]): TimelineEntry[] {
   const t: TimelineEntry[] = [];
   if (!flags.has("ai_systeem")) return t;
-  t.push({ date: "2025-02-02", label: "Verboden praktijken (art. 5) en AI-geletterdheid (art. 4): van kracht." });
+  t.push({
+    date: "2025-02-02",
+    label: "Verboden praktijken (art. 5) en AI-geletterdheid (art. 4; sinds 27 juli 2026 in gewijzigde formulering): van toepassing.",
+  });
   if (stops.includes("5.9") || stops.includes("5.10")) {
     t.push({
       date: "2026-12-02",
@@ -188,14 +191,14 @@ function buildTimeline(flags: Set<string>, stops: string[], transparantieLeden: 
     if (flags.has("annex3_kandidaat")) {
       t.push({
         date: "2027-12-02",
-        label: "Hoogrisicoverplichtingen bijlage III (hfdst. III, afdelingen 1–3, incl. art. 26/27): van toepassing (was 2 augustus 2026).",
+        label: "Hoogrisicoverplichtingen bijlage III (hfdst. III, afdelingen 1–3, incl. art. 26/27): van toepassing (oorspronkelijk 2 augustus 2026; uitgesteld bij de omnibus).",
         omnibus: true,
       });
     }
     if (flags.has("annex1_hoogrisico")) {
       t.push({
         date: "2028-08-02",
-        label: "Hoogrisicoverplichtingen bijlage I: van toepassing (was 2 augustus 2027).",
+        label: "Hoogrisicoverplichtingen bijlage I: van toepassing (oorspronkelijk 2 augustus 2027; uitgesteld bij de omnibus).",
         omnibus: true,
       });
     }

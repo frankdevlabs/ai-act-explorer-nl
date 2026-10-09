@@ -55,7 +55,7 @@ export interface Question {
   effects?: QEffect[];
   showIf?: QCondition;
   /**
-   * Omnibus (PE-CONS 30/26) annotation: date the underlying provision starts
+   * Omnibus (Vo 2026/1744, in force) annotation: date the underlying provision starts
    * to apply and/or what the omnibus changes. Rendered as a dated badge.
    */
   omnibus?: { appliesFrom?: string; note: string };

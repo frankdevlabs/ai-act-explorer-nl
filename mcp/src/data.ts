@@ -4,7 +4,6 @@ import type {
   AmendmentsGenerated,
   Annex,
   Article,
-  NewArticleSpec,
   Recital,
   RecitalMapGenerated,
   SearchDoc,
@@ -48,8 +47,9 @@ export const index = createSearchIndex([...searchDocs, ...amendmentSearchDocs]);
 
 // --- resolvers (ported from src/lib/data.ts, which uses static JSON imports) ---
 
-export function getArticle(nummer: number): Article | undefined {
-  return articles.find((a) => a.number === nummer);
+/** Article by slug: "6", "75bis". */
+export function getArticle(slug: string): Article | undefined {
+  return articles.find((a) => a.slug === slug);
 }
 
 export function getRecital(nummer: number): Recital | undefined {
@@ -57,59 +57,23 @@ export function getRecital(nummer: number): Recital | undefined {
 }
 
 export function getAnnex(roman: string): Annex | undefined {
-  const base = annexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
-  if (base) return base;
-  const added = amendments.newAnnexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
-  if (!added) return undefined;
-  return {
-    roman: added.roman,
-    ordinal: annexes.length + 1 + amendments.newAnnexes.indexOf(added),
-    title: added.title,
-    content: added.content,
-    footnotes: [],
-  };
+  return annexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
 }
 
-export function getNewArticle(slug: string): NewArticleSpec | undefined {
-  return amendments.newArticles.find((a) => a.slug === slug);
+/** Inserted by the in-force amending act (Vo 2026/1744): "4bis", "XIV". */
+export function isNewArticle(slug: string): boolean {
+  return amendments.newArticles.some((a) => a.slug === slug);
+}
+export function isNewAnnex(roman: string): boolean {
+  return amendments.newAnnexes.some((a) => a.roman.toLowerCase() === roman.toLowerCase());
 }
 
-export type ResolvedArticle =
-  | { kind: "base"; article: Article }
-  | {
-      kind: "new";
-      spec: NewArticleSpec;
-      chapter: string;
-      chapterTitle: string;
-      section: number | null;
-      sectionTitle: string | null;
-    };
+export type ResolvedArticle = { kind: "base"; article: Article };
 
-/** Numeric input = base article; otherwise an omnibus slug ("75bis"),
- *  chapter/section metadata inherited from its insertAfter neighbor. */
+/** Resolve a (normalized) article input to the article in force. */
 export function resolveArticle(nummer: string): ResolvedArticle | undefined {
-  if (/^\d+$/.test(nummer)) {
-    const article = getArticle(Number(nummer));
-    return article && { kind: "base", article };
-  }
-  const spec = getNewArticle(nummer);
-  if (!spec) return undefined;
-  const neighbor = getArticle(spec.insertAfter);
-  if (!neighbor) return undefined;
-  return {
-    kind: "new",
-    spec,
-    chapter: neighbor.chapter,
-    chapterTitle: neighbor.chapterTitle,
-    section: neighbor.section,
-    sectionTitle: neighbor.sectionTitle,
-  };
-}
-
-const SUFFIX_RANK: Record<string, number> = { bis: 1, ter: 2, quater: 3, quinquies: 4 };
-
-export function slugRank(slug: string): number {
-  return SUFFIX_RANK[slug.replace(/^\d+/, "")] ?? 0;
+  const article = getArticle(nummer);
+  return article && { kind: "base", article };
 }
 
 // "Artikel 6" / "75 bis" / "75-BIS" → "6" / "75bis". Re-exported from core so

@@ -1,3 +1,4 @@
+import { lidLabel } from "@/lib/flatten";
 import type { ArticleParagraph, ParagraphDiff } from "@/lib/types";
 import { ContentNodes } from "./ContentNodes";
 import { DiffSegments } from "./DiffSegments";
@@ -12,7 +13,8 @@ interface DiffArticleBodyProps {
 
 function numberLabel(diff: ParagraphDiff, base?: ArticleParagraph): string | null {
   if (diff.displayNumber) return `${diff.displayNumber}.`;
-  if (base?.number != null) return `${base.number}.`;
+  const label = base ? lidLabel(base) : null;
+  if (label !== null) return `${label}.`;
   const m = diff.anchor.match(/^lid-(\d+)$/);
   return m ? `${m[1]}.` : null;
 }

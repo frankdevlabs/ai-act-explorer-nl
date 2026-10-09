@@ -6,17 +6,17 @@ import amendmentsJson from "../../data/generated/amendments.json";
 import amendmentDiffsJson from "../../data/generated/amendment-diffs.json";
 import recitalMapJson from "../../data/generated/recital-map.json";
 import type {
+  AmendingActMeta,
   AmendmentDiffs,
   AmendmentsGenerated,
   Annex,
   Article,
-  NewArticleSpec,
   ParagraphDiff,
   Recital,
   RecitalMapGenerated,
   Toc,
 } from "./types";
-import { flattenNodes } from "./flatten";
+import { flattenNodes, lidLabel } from "./flatten";
 
 const articles = articlesJson as Article[];
 const recitals = recitalsJson as Recital[];
@@ -34,8 +34,9 @@ export function getArticles(): Article[] {
   return articles;
 }
 
-export function getArticle(nummer: number): Article | undefined {
-  return articles.find((a) => a.number === nummer);
+/** Article by route slug: "5", "4bis". */
+export function getArticle(slug: string): Article | undefined {
+  return articles.find((a) => a.slug === slug);
 }
 
 export function getRecitals(): Recital[] {
@@ -51,24 +52,18 @@ export function getAnnexes(): Annex[] {
 }
 
 export function getAnnex(roman: string): Annex | undefined {
-  const base = annexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
-  if (base) return base;
-  const added = amendments.newAnnexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
-  if (!added) return undefined;
-  return {
-    roman: added.roman,
-    ordinal: annexes.length + 1 + amendments.newAnnexes.indexOf(added),
-    title: added.title,
-    content: added.content,
-    footnotes: [],
-  };
+  return annexes.find((a) => a.roman.toLowerCase() === roman.toLowerCase());
 }
 
 // ---------------------------------------------------------------------------
-// Amendment layer (digitale omnibus, PE-CONS 30/26)
+// Change layer of the in-force amending act (Vo 2026/1744, digitale omnibus)
 
 export function getAmendments(): AmendmentsGenerated {
   return amendments;
+}
+
+export function getAmendingAct(): AmendingActMeta {
+  return amendments.meta;
 }
 
 export function getAmendmentDiffs(): AmendmentDiffs {
@@ -83,97 +78,52 @@ export function getAnnexDiff(roman: string): ParagraphDiff[] | undefined {
   return amendmentDiffs.annexes[roman.toLowerCase()];
 }
 
-/** Base articles whose text or title the omnibus changes (numbers as strings). */
+/** Article slugs whose text or title the amending act changed. */
 export function getAmendedArticleNumbers(): Set<string> {
   return new Set([...Object.keys(amendmentDiffs.articles), ...Object.keys(amendments.titleChanges)]);
+}
+
+/** Article slugs the amending act inserted ("4bis", …). */
+export function getInsertedArticleSlugs(): string[] {
+  return amendments.newArticles.map((a) => a.slug);
+}
+
+export function isNewArticle(slug: string): boolean {
+  return amendments.newArticles.some((a) => a.slug === slug);
 }
 
 export function getAmendedAnnexRomans(): Set<string> {
   return new Set(Object.keys(amendmentDiffs.annexes));
 }
 
-export function getNewArticle(slug: string): NewArticleSpec | undefined {
-  return amendments.newArticles.find((a) => a.slug === slug);
-}
+export type ResolvedArticle = { kind: "base"; article: Article };
 
-export type ResolvedArticle =
-  | { kind: "base"; article: Article }
-  | {
-      kind: "new";
-      spec: NewArticleSpec;
-      chapter: string;
-      chapterTitle: string;
-      section: number | null;
-      sectionTitle: string | null;
-    };
-
-/** Resolve a route param: numeric = base article, slug = omnibus new article
- *  (chapter/section metadata inherited from its insertAfter neighbor). */
+/** Resolve a route param (article slug). */
 export function resolveArticle(nummer: string): ResolvedArticle | undefined {
-  if (/^\d+$/.test(nummer)) {
-    const article = getArticle(Number(nummer));
-    return article && { kind: "base", article };
-  }
-  const spec = getNewArticle(nummer);
-  if (!spec) return undefined;
-  const neighbor = getArticle(spec.insertAfter);
-  if (!neighbor) return undefined;
-  return {
-    kind: "new",
-    spec,
-    chapter: neighbor.chapter,
-    chapterTitle: neighbor.chapterTitle,
-    section: neighbor.section,
-    sectionTitle: neighbor.sectionTitle,
-  };
+  const article = getArticle(nummer);
+  return article && { kind: "base", article };
 }
 
-const SUFFIX_RANK: Record<string, number> = { bis: 1, ter: 2, quater: 3, quinquies: 4 };
-
-function slugRank(slug: string): number {
-  return SUFFIX_RANK[slug.replace(/^\d+/, "")] ?? 0;
-}
-
-/** All article slugs in document order: base articles with omnibus insertions
- *  spliced after their insertAfter neighbor (bis < ter < quater < quinquies). */
-const articleOrder: { slug: string; label: string; title: string }[] = articles.flatMap((a) => [
-  { slug: String(a.number), label: `Artikel ${a.number}`, title: a.title },
-  ...amendments.newArticles
-    .filter((n) => n.insertAfter === a.number)
-    .sort((x, y) => slugRank(x.slug) - slugRank(y.slug))
-    .map((n) => ({ slug: n.slug, label: `Artikel ${n.displayNumber}`, title: n.title })),
-]);
+/** All article slugs in document order (4 < 4 bis < 5). */
+const articleOrder: { slug: string; label: string; title: string }[] = articles.map((a) => ({
+  slug: a.slug,
+  label: `Artikel ${a.displayNumber}`,
+  title: a.title,
+}));
 
 export function getArticleOrder(): { slug: string; label: string; title: string }[] {
   return articleOrder;
 }
 
-/** Omnibus-inserted articles per base-article number, for TOC insertion.
- *  Plain object (not Map/Set) so it can cross the RSC boundary. */
-export function getNewArticleTocEntries(): Record<string, { slug: string; title: string }[]> {
-  const out: Record<string, { slug: string; title: string }[]> = {};
-  for (const n of amendments.newArticles) {
-    (out[String(n.insertAfter)] ??= []).push({ slug: n.slug, title: n.title });
-  }
-  for (const list of Object.values(out)) list.sort((a, b) => slugRank(a.slug) - slugRank(b.slug));
-  return out;
-}
-
-/** All annex romans (lowercase) in order, omnibus additions appended after
- *  their insertAfter neighbor. */
-const annexOrder: string[] = annexes.flatMap((a) => [
-  a.roman.toLowerCase(),
-  ...amendments.newAnnexes
-    .filter((n) => n.insertAfter.toLowerCase() === a.roman.toLowerCase())
-    .map((n) => n.roman.toLowerCase()),
-]);
+/** All annex romans (lowercase) in order. */
+const annexOrder: string[] = annexes.map((a) => a.roman.toLowerCase());
 
 export function getAnnexOrder(): string[] {
   return annexOrder;
 }
 
 /** Previous/next amended target (article or annex with a computed diff) in
- *  document order, for stepping through the omnibus changes. */
+ *  document order, for stepping through the changes. */
 export function changedTargetPrevNext(
   kind: "article" | "annex",
   slug: string,
@@ -185,7 +135,10 @@ export function changedTargetPrevNext(
   const link = (t?: { kind: "article" | "annex"; slug: string }) => {
     if (!t) return undefined;
     return t.kind === "article"
-      ? { href: `/artikel/${t.slug}?diff=1`, label: `Artikel ${t.slug}` }
+      ? {
+          href: `/artikel/${t.slug}?diff=1`,
+          label: articleOrder.find((e) => e.slug === t.slug)?.label ?? `Artikel ${t.slug}`,
+        }
       : { href: `/bijlage/${t.slug}?diff=1`, label: `Bijlage ${t.slug.toUpperCase()}` };
   };
   return {
@@ -248,31 +201,17 @@ export function getPreview(href: string): RefPreview | undefined {
             : "",
     };
   }
-  const art = page.match(/^\/artikel\/(\d+)$/);
-  if (art) {
-    const a = getArticle(Number(art[1]));
-    if (!a) return undefined;
+  const art = page.match(/^\/artikel\/([a-z0-9]+)$/);
+  const a = art ? getArticle(art[1]) : undefined;
+  if (a) {
     // deep links preview the targeted lid rather than the article opening
     const para = fragment
       ? a.paragraphs.find((p) => p.anchor === fragment || fragment.startsWith(`${p.anchor}-`))
       : undefined;
-    const lid = para?.number != null ? `, lid ${para.number}` : "";
+    const label = para ? lidLabel(para) : null;
     return {
-      title: `Artikel ${a.number}${lid} — ${a.title}`,
+      title: `Artikel ${a.displayNumber}${label ? `, lid ${label}` : ""} — ${a.title}`,
       snippet: clip(flattenNodes((para ?? a.paragraphs[0]).content)),
-    };
-  }
-  const newArt = page.match(/^\/artikel\/(\d+(?:bis|ter|quater|quinquies))$/);
-  if (newArt) {
-    const spec = getNewArticle(newArt[1]);
-    if (!spec || spec.paragraphs.length === 0) return undefined;
-    const para = fragment
-      ? spec.paragraphs.find((p) => p.anchor === fragment || fragment.startsWith(`${p.anchor}-`))
-      : undefined;
-    const lid = para?.number != null ? `, lid ${para.number}` : "";
-    return {
-      title: `Artikel ${spec.displayNumber}${lid} — ${spec.title}`,
-      snippet: clip(flattenNodes((para ?? spec.paragraphs[0]).content)),
     };
   }
   const anx = page.match(/^\/bijlage\/([a-z]+)$/);

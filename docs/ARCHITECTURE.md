@@ -5,50 +5,61 @@ quick operating manual, see [`AGENTS.md`](../AGENTS.md) in the repo root.
 
 ## Big picture
 
-Fully static site. All content lives in committed JSON generated once from two
-EUR-Lex HTML files; there is no database and no server runtime.
+Fully static site. All content lives in committed JSON generated from
+EUR-Lex HTML files listed in `data/source/corpus.json`; there is no database
+and no server runtime.
 
 ```
-data/source/aiact_nl_consolidated.html ─┐
-data/source/aiact_nl.html ──────────────┤→ scripts/parse-aiact.ts
-                                        │       ↓
-                                        │  data/generated/{toc,articles,recitals,annexes,search-docs}.json
-                                        │       ↓                          ↓
-                                        │  scripts/verify-data.ts     public/search-docs.json (copy)
-                                        │       ↓                          ↓
-                                        └─ next build (static import   fetched lazily in the browser,
-                                           via src/lib/data.ts)        indexed by MiniSearch (src/lib/search.ts)
+data/source/corpus.json → base     consolidated/02024R1689-20260727.html ─┐
+                        → recitals aiact_nl.html (original OJ) ───────────┤→ scripts/parse-aiact.ts
+                                                                          │   (scripts/lib/consolidated.ts)
+                                                                          │       ↓
+                                                                          │  data/generated/{toc,articles,recitals,annexes,search-docs}.json
+                                                                          │       ↓                          ↓
+                                                                          │  scripts/verify-data.ts     public/search-docs.json (copy)
+                                                                          │       ↓                          ↓
+                                                                          └─ next build (static import   fetched lazily in the browser,
+                                                                             via src/lib/data.ts)        indexed by MiniSearch (src/lib/search.ts)
 
-data/source/amendments/pe-cons-30-26.json (curated, see Amendment layer)
-    → scripts/parse-amendments.ts (after parse-aiact; diffs against the base corpus)
+                        → previous consolidated/02024R1689-20240712.html ─┐
+                        → amending amending/32026R1744.html (OJ) ─────────┤→ scripts/parse-amendments.ts
+   base corpus (data/generated, above) ───────────────────────────────────┘   (scripts/lib/{change-layer,oj-instructions}.ts)
     → data/generated/{amendments,amendment-diffs}.json + public/amendment-search-docs.json
     → scripts/verify-amendments.ts
 ```
 
 `npm run build` = `parse → verify → next build`, where `parse` runs
-`parse-aiact.ts` then `parse-amendments.ts` and `verify` runs `verify-data.ts`
-then `verify-amendments.ts`. Verify is a hard gate: any failed assertion stops
-the build.
+`parse-aiact.ts`, `parse-amendments.ts` and `build-recital-map.ts`, and
+`verify` runs `verify-data.ts`, `verify-amendments.ts`,
+`verify-recital-map.ts`, `verify-assessment.ts` and `verify-search.ts`.
+Verify is a hard gate: any failed assertion stops the build.
 
-## Why two source files
+## Sources (`data/source/corpus.json`)
 
-- **`aiact_nl_consolidated.html`** — consolidated text, CELEX
-  `02024R1689-20240712`, which incorporates corrigenda R(02)/R(04) (e.g. the
-  fixed lid numbering of article 73). Source for **chapters, articles,
-  annexes, TOC, footnotes**.
-- **`aiact_nl.html`** — the original Official Journal (OJ) publication.
+- **base** — `consolidated/02024R1689-20260727.html`, the consolidated text
+  in force since 27.7.2026: Regulation 2024/1689 as amended by Verordening (EU)
+  2026/1744 (digitale omnibus inzake AI, ▼M1) with corrigenda C1/C2. Source
+  for **chapters, articles, annexes, TOC, footnotes** — everything the site
+  and MCP serve.
+- **previous** — `consolidated/02024R1689-20240712.html`, the consolidation
+  before the omnibus. Only diffed against (change layer); never served.
+- **recitals** — `aiact_nl.html`, the original Official Journal publication.
   Consolidated versions on EUR-Lex **omit the preamble**, so the 180
-  **recitals** can only come from this file.
+  **recitals** can only come from this file (the omnibus did not amend them).
+- **amending** — `amending/32026R1744.html`, the OJ text of Verordening (EU)
+  2026/1744: its Article 1 instructions and its own metadata (adoption,
+  publication, entry into force) drive the change layer.
 
-Both URLs sit behind an AWS WAF (plain `curl` gets HTTP 202 + a JS challenge).
-They were fetched once with `~/law-tracker/lib/fetch_blocked_doc.py` (see the
-`update-source` skill in `.claude/skills/`).
+All URLs sit behind an AWS WAF (plain `curl` gets HTTP 202 + a JS challenge).
+Fetch them with headless Chromium — snippet in the `update-source` skill.
 
 ## The two EUR-Lex HTML dialects (the #1 trap)
 
-The two files use **completely different markup**. `parse-aiact.ts` loads them
-into separate cheerio instances: `$` = consolidated, `$oj` = OJ. Do not assume
-a selector that works in one file works in the other.
+Consolidated and OJ files use **completely different markup**.
+`scripts/lib/consolidated.ts` parses each with its own cheerio instance
+(`parseConsolidated` / `parseRecitals`), and `scripts/lib/oj-instructions.ts`
+reads the amending act's OJ dialect. Do not assume a selector that works in
+one file works in the other.
 
 | Concept | Consolidated dialect (`$`) | OJ dialect (`$oj`) |
 |---|---|---|
@@ -65,9 +76,11 @@ Only the consolidated dialect (articles/annexes) and the OJ recital shape are
 implemented; the OJ article code was removed when the consolidated version was
 folded in (git history has it if ever needed).
 
-## Parser walkthrough (`scripts/parse-aiact.ts`)
+## Parser walkthrough (`scripts/lib/consolidated.ts` → `scripts/parse-aiact.ts`)
 
-Read top-to-bottom; it's a straight-line script, ~450 lines.
+`parseConsolidated(html)` is pure (one cheerio document per call), so the
+change layer can parse a second consolidated version; `parse-aiact.ts` adds
+the cross-reference post-pass, TOC and search docs for the base corpus.
 
 ### Generic block parser: `parseBlocks` / `parseNodes`
 
@@ -86,6 +99,17 @@ Converts a container's children into `ContentNode[]` (`text` | `heading` |
 - **`SKIP_P_CLASSES`**: structural titles (`title-article-norm`,
   `title-division-*`, `title-annex-*`) and `p.footnote` are skipped;
   `p.title-gr-seq-*` becomes a `heading` node (annex sub-headings).
+- **Consolidation markers** (`p.modref` / `p.arrow`, "▼M1", "▼B", "▼C2") carry
+  no legal text and are skipped — except EUR-Lex's placeholder for struck text
+  ("▼M1 —————", a[title] "…: DELETED"), kept verbatim as a `repealed` text node
+  (or, between leden, a `repealed` paragraph that takes the next lid number).
+  Before epic 8 the art. 73 markers leaked into the text as "▼C2"/"▼B".
+- **Data tables** (`<table>`, bijlage XIV): a `table` node of direct
+  `tbody > tr` rows (nested-table text belongs to its cell).
+- **Provenance**: a document-order pre-pass records which ▼ marker governs
+  every element; `parseConsolidated` returns, per paragraph/title/annex, the
+  acts whose text it holds. Not persisted — verify-amendments cross-checks the
+  change layer against it.
 - **Grid lists**: each `div.grid-container.grid-list` is one list item;
   consecutive ones merge into the preceding `list` node. Column 2 recurses,
   giving nested point hierarchies.
@@ -94,8 +118,13 @@ Converts a container's children into `ContentNode[]` (`text` | `heading` |
 
 Iterates an article's **direct children in document order**:
 
-- A `div.norm` whose first `span.no-parag` matches `/^\d+\.$/` (unquoted!)
-  starts a new lid entry.
+- A `div.norm` whose first `span.no-parag` matches
+  `/^\d+( bis| ter| quater| quinquies| sexies)?\.$/` (unquoted!) starts a new lid
+  entry. Inserted leden ("1 bis.") get `number: null`, `displayNumber: "1 bis"`
+  and the compact anchor `lid-1bis` (`lidAnchor` in `src/lib/flatten.ts`).
+- Article ids `art_4a` … `art_75d` are EUR-Lex's encoding of "4 bis" …
+  "75 quinquies" (a/b/c/d/e = bis/ter/quater/quinquies/sexies): `slug` "4bis",
+  `displayNumber` "4 bis", checked against the visible "Artikel 4 bis" heading.
 - **Everything else is buffered and flushed into the *current* lid.** In this
   dialect, continuation alineas of a lid are *siblings* of the lid div, not
   children. An earlier version treated only lid divs and lost text from 41
@@ -106,8 +135,8 @@ Iterates an article's **direct children in document order**:
 - A flat article (no lids at all) gets a single paragraph
   `{number: null, anchor: "inhoud"}`. The known flat list is asserted in
   `verify-data.ts` (`FLAT`).
-- **Anchor dedup**: if a lid number repeats (happened with OJ art 73), anchors
-  become `lid-N`, `lid-N-bis`, `lid-N-bis-3`, … Never strip suffixes with a
+- **Duplicate anchors throw** (they used to be renamed `lid-N-bis`, which
+  would now collide with legal bis-numbering `lid-Nbis`). Never strip suffixes with a
   regex here — `lid-11` looks like `lid-1` + suffix.
 
 ### Footnotes
@@ -147,9 +176,10 @@ SearchDoc   = { id, type: artikel|overweging|bijlage, ref, heading, url, text }
 ```
 
 The `table` node exists only for amendment content (Bijlage XIV); the base
-parser never emits it. Amendment-layer types (`Amendment`, `NewArticleSpec`,
-`ParagraphDiff`, `DiffSegment`, …) live in the same file — see the Amendment
-layer section.
+parser never emits it. Change-layer types (`Amendment`, `AmendingActMeta`,
+`ParagraphDiff`, `DiffSegment`, …) live in the same file — see the Change
+layer section. Articles carry `slug`/`displayNumber` next to the integer
+`number` (4 for "4 bis"); key everything on `slug`.
 
 Anchor scheme: `#lid-3`, `#lid-3-a` (point a of lid 3), `#punt-12` (top-level
 points of flat articles/annexes), `#inhoud` (flat article body).
@@ -158,21 +188,22 @@ points of flat articles/annexes), `#inhoud` (flat article body).
 
 Runs before every build. Assertion classes and what they guard:
 
-- **Counts + consecutive numbering** (113/180/13/13): a selector regression
-  silently dropping items.
+- **Counts + consecutive numbering** (119 articles of which 113 integer,
+  180/14/13): a selector regression silently dropping items. Look articles up
+  by slug, never by array index (bis-articles shift indexes).
 - **Section distribution** `{III:5, V:4, VII:2, IX:5}`: chapter/section
   containment logic.
 - **Per-article title/body length + unique anchors**: empty-parse and dedup
   regressions.
-- **`FLAT` list** (3, 4, 16, 32, 39, 66, 85, 87, 94, 102–110, 113) and its
+- **`FLAT` list** (3, 16, 32, 39, 66, 75 ter, 85, 87, 94, 102–110, 113) and its
   inverse: the lid-marker regex. If an article suddenly moves in/out of this
   list, the walker changed behavior.
-- **Corpus > 500k chars, > 700 search docs**: bulk text loss (the class of bug
-  that once cost 41 articles).
+- **Corpus > 500k chars, exactly 885 search docs**: bulk text loss (the class
+  of bug that once cost 41 articles).
 - **Spot checks**: exact Dutch phrases from art 3/5/113, recitals 1/180,
   annex III nesting — proof the *right* text landed in the *right* place.
 - **Consolidated-specific**: art 73 lids exactly `1..11` (the corrigendum);
-  arts 78 and 102–110 exactly 1 footnote each.
+  arts 40, 78 and 102–110 exactly 1 footnote each; art 10 lid 5 struck.
 
 **When the source legitimately changes** (new consolidated version): expect
 the FLAT list, footnote counts, spot-check phrases, and possibly counts to
@@ -186,8 +217,8 @@ Protocol: change the producer → `npm run parse` → `git diff data/generated/`
 regression → re-pin **with a history comment next to the assertion** (see
 `verify-data.ts` around the ref-count pin, `verify-amendments.ts` around
 `allRefs.length`). The count pins are not tripwires against change; they are
-forcing functions for this diff audit — three re-pins so far (566→563→561
-base, 462→460 amendment) each caught real mislinks.
+forcing functions for this diff audit — the history comments next to each pin
+record every move (566→563→561→697 base, 462→460→464→207 change layer).
 
 ## Search (`src/lib/search.ts`)
 
@@ -253,71 +284,69 @@ counting), independent href-resolution rechecks, positive and negative spot
 checks (VWEU refs, other-instrument refs and treaty-Protocol refs must NOT be
 annotated).
 
-## Amendment layer (digitale omnibus)
+## Change layer (digitale omnibus, in force)
 
-Tracks the changes PE-CONS 30/26 (2025/0359 COD) makes to this regulation.
-Everything is build-time; the site stays fully static.
+Verordening (EU) 2026/1744 (digitale omnibus inzake AI) is in force since
+27.7.2026 and is part of the base text. The change layer shows *what it
+changed*: a historical diff against the consolidation before it. Everything
+is derived from EUR-Lex HTML; nothing is transcribed (epic 8 retired the
+PE-CONS 30/26 hand transcription that drove this layer while the act was
+pending — see `docs/epics/epic-2-omnibus-track-changes.md` and git history).
 
 ```
-data/source/amendments/pe-cons-30-26.json   ← curated transcription (AGENTS.md golden rule 2 carve-out;
-        ↓                                      procedure: .claude/skills/transcribe-amendments/)
-scripts/parse-amendments.ts                 ← runs after parse-aiact.ts
-        ↓
-data/generated/amendments.json              ← normalized instructions + indexes {byArticle, byAnnex,
-        │                                      orderedTargets}, newArticles/newAnnexes, title changes
-data/generated/amendment-diffs.json         ← per target, per paragraph: ParagraphDiff
-public/amendment-search-docs.json           ← "omnibus-" prefixed SearchDocs, merged into the
-                                               MiniSearch index (site + MCP)
+corpus.previous (02024R1689-20240712) ─┐
+base corpus (data/generated)          ─┼→ scripts/parse-amendments.ts
+corpus.amending (32026R1744, OJ)      ─┘     ↓
+data/generated/amendments.json       ← meta (act number, OJ ref, adopted/published/in force — read
+        │                               from the act), 72 instructions (verbatim wording, operation,
+        │                               targets), byArticle/byAnnex, orderedTargets, newArticles/
+        │                               newAnnexes (refs only — their text is base corpus), titleChanges
+data/generated/amendment-diffs.json  ← per changed article/annex, per paragraph: ParagraphDiff
+public/amendment-search-docs.json    ← "wijz-" SearchDocs: instruction wording only, never legal text
 ```
 
-Key mechanics in `parse-amendments.ts`:
+Mechanics (`scripts/lib/change-layer.ts`):
 
-- **Apply-then-diff**: base paragraphs become `ParaState`s; each instruction
-  (`replace`/`insert`/`add`/`delete`, scoped by anchor or whole article)
-  mutates the state; `statesToDiffs` then word-diffs old vs new flattened text
-  (`diffWordsWithSpace` from the `diff` package) into
-  `DiffSegment { op: eq|ins|del, text }` lists.
-- **Diff invariant** (asserted here AND re-checked in `verify-amendments.ts`):
-  `concat(eq+del) === flatten(old)` and `concat(eq+ins) === flatten(new)`,
-  byte-exact. This is the strongest guard on transcription/diff integrity.
-- **Anchors**: `withAnchors`/`paragraphAnchor` fill in anchors the
-  transcription may omit, including bis-paragraph forms (`lid-5bis` via
-  `displayNumber`). Shared flatten/anchor helpers live in `src/lib/flatten.ts`
-  (used by parse-aiact, parse-amendments, and verify).
-- **New provisions**: `NewArticleSpec` (slug `4bis`, display `4 bis`,
-  `insertAfter`) and `NewAnnexSpec` drive extra static routes
-  (`/artikel/4bis`, `/bijlage/xiv`), sidebar insertion, and prev/next chains.
-- **Line structure**: flattening collapses list/paragraph structure, so
-  `statesToDiffs` splits segments at block boundaries (`flattenWithBreaks` in
-  `flatten.ts`, asserted byte-identical to `flattenNodes`) and flags each
-  boundary chunk `br: true` — eq/ins split at new-text offsets, del at
-  old-text offsets. Same-op adjacency keeps the diff invariant byte-exact;
-  `DiffSegments` renders one `<p>` per `br` line (one definition per line on
-  `/artikel/3` instead of a 20k-char blob).
-- **Cross-references**: a post-pass annotates all amendment text (see the
-  Cross-references section). For segments, `findRefs` runs once over the
-  whole new text and spans are clipped per eq/ins segment
-  (`DiffSegment.refs`, segment-local offsets; `del` never carries refs) —
-  verify re-merges the clips before its span checks.
+- **Corpus vs corpus**: `diffCorpora` aligns the two versions per article
+  (slug) and paragraph (anchor): unchanged / modified / inserted / deleted, a
+  struck lid (`repealed` in the base) counting as deleted. Annexes diff as one
+  pseudo-paragraph `inhoud`.
+- **Typographic baseline**: the 2026 consolidation re-typeset the whole act
+  (every opening quote “ → „; footnotes renumbered after the one instruction
+  17 inserted in art. 40). The previous version is compared — and its deleted
+  text shown — in the current typography, so only substantive changes remain.
+- **Word segments**: `diffWordsWithSpace` over flattened text (struck-text
+  placeholders excluded), split at block boundaries (`flattenWithBreaks`, `br`
+  flags) for line structure. **Diff invariant** (asserted in the producer and
+  re-checked in verify): `concat(eq+del) === old` and `concat(eq+ins) === new`,
+  byte-exact.
+- **Instructions** (`scripts/lib/oj-instructions.ts`): Article 1 of the OJ
+  text — 43 numbered instructions, 72 leaves — with verbatim parent/child
+  wording and quoted new text. A small grammar reads each instruction's target
+  (artikel/lid[ bis]/punt/alinea/aanhef/titel/bijlage, or inserted
+  articles/annex) and throws on anything unknown; every instruction must
+  change something and every change must have an instruction.
+- **Cross-references** in eq/ins segments: `findRefs` over the whole new text,
+  clipped per segment (`DiffSegment.refs`), validated against the base corpus.
 
-Verify (`scripts/verify-amendments.ts`) runs in **two regimes** keyed on
-`source.meta.complete`: structural checks always (targets/anchors resolve,
-slugs don't collide, diff reconstruction, search-doc shape, spot checks);
-once `complete: true`, exact instruction/target counts are pinned.
+Verify (`scripts/verify-amendments.ts`) re-derives the layer from the sources
+and checks four independent signals: (a) the diff invariant; (b) EUR-Lex's
+own ▼M1 markers in the base consolidation cover exactly the changed set
+(explained allowlist); (c) every quoted block of the act's instructions is in
+the new text of its target and not in the old; (d) attribution both ways.
+Plus act metadata (in force = publication + 3 days = consolidation date),
+pinned target sets, bijlage XIV table shapes, ref and search-doc pins.
 
 UI surfaces: `AmendedArticleView` (per-article toggle "Toon wijzigingen",
-both views pre-rendered as hidden siblings, change-nav) plus a global header
-toggle — both share the `omnibus-diff` localStorage pref via
-`src/lib/omnibus-pref.ts` (`useSyncExternalStore`; custom event same-tab,
-`storage` event cross-tab). Precedence: `?diff=1` wins at page load, any
-later preference change wins over the URL. `DiffArticleBody`/`DiffSegments`
-(ins/del rendering, `br` line grouping, `LinkedText` cross-links inside
-eq/ins), `/wijzigingen` index, sidebar dots.
-
-**Planned source swap**: once the act is published in the OJ, a deterministic
-parse of the CELEX HTML replaces the curated transcription — only the producer
-of `amendments.json` changes; diffs, UI and verify stay as-is (see
-`docs/epics/epic-2-omnibus-track-changes.md`).
+both views pre-rendered as hidden siblings, change-nav; the clean view is the
+law in force) plus a global header toggle — both share the `omnibus-diff`
+localStorage pref via `src/lib/omnibus-pref.ts` (`useSyncExternalStore`;
+custom event same-tab, `storage` event cross-tab). Precedence: `?diff=1` wins
+at page load, any later preference change wins over the URL.
+`DiffArticleBody`/`DiffSegments` (ins/del rendering, `br` line grouping,
+`LinkedText` cross-links inside eq/ins), `/wijzigingen` index (verbatim
+instructions, deep links), sidebar dots, inserted-article/annex banners. All
+status wording comes from `src/lib/amendment-meta.ts` (shared with the MCP).
 
 ## MCP server (`mcp/`)
 
@@ -403,14 +432,13 @@ corpus to Claude clients; the site build never sees it. Full reference:
 
 | Command / script | When | Gates / output |
 |---|---|---|
-| `npm run parse` | after changing parser code, source HTML, or the amendment transcription | regenerates `data/generated/*` + `public/*-search-docs.json` (commit together with the change — golden rule 4) |
+| `npm run parse` | after changing parser code or source HTML | regenerates `data/generated/*` + `public/*-search-docs.json` (commit together with the change — golden rule 4) |
 | `npm run verify` | automatically before every build; run standalone while iterating | hard assertions; update pins only deliberately (golden rule 3) |
 | `npm run build` | before deploying | parse → verify → static export in `out/` |
 | `npm run verify:mcp` | after changing `mcp/src/*` or regenerating data | rebuilds `mcp/dist`, then drives the stdio server: tool inventory pin, one call per tool, deep-link + size assertions (`scripts/verify-mcp.ts`). Standalone — needs `mcp/node_modules`, so it is not in the build chain |
 | `scripts/deploy-site.sh` | publish the site | build + rsync `out/` → `/var/www/aia.mrfrank.dev` + nginx reload (needs sudo) |
 | MCP restart (systemd unit / tmux, see `mcp/README.md`) | after any data regeneration reaches `main` | picks up new JSON (loaded at startup only) |
-| `.claude/skills/update-source` | new consolidated version on EUR-Lex | fetch → re-parse → corpus diff → assertion updates |
-| `.claude/skills/transcribe-amendments` | wording fixes / new instructions in the amendment layer | curated-source edit procedure with page-image cross-check |
+| `.claude/skills/update-source` | new consolidated version / amending act on EUR-Lex | fetch → corpus.json → re-parse → change-layer audit → assertion updates |
 | `.claude/skills/verify-app` | after parser/data/UI changes, before pushing | build + curl smoke + Playwright checks |
 
 ## Frontend notes

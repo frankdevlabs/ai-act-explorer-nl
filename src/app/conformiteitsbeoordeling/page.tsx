@@ -45,17 +45,25 @@ export default function ConformiteitsbeoordelingPage() {
             <Link href="/artikel/41" className="text-accent hover:underline">
               gemeenschappelijke specificaties
             </Link>{" "}
-            vaststellen met hetzelfde effect. Twee aanvullende vermoedens staan in{" "}
+            vaststellen met hetzelfde effect. Aanvullende vermoedens staan in{" "}
             <Link href="/artikel/42" className="text-accent hover:underline">
               art. 42
             </Link>
             : training en tests op omgevingseigen data (voor art. 10, lid 4) en certificering
-            onder een EU-cyberbeveiligingsregeling (voor art. 15, lid 5). De digitale omnibus
-            verbreedt de normalisatieopdracht en de vermoedens — zie{" "}
-            <Link href="/artikel/40?diff=1" className="text-accent hover:underline">
-              art. 40 in de wijzigingenweergave
+            onder een EU-cyberbeveiligingsregeling (voor art. 15, lid 5). Sinds de digitale omnibus
+            (Verordening (EU) 2026/1744) vraagt de Commissie de normalisatieorganisaties ook om
+            normalisatieproducten voor gezamenlijke naleving met de harmonisatiewetgeving van
+            bijlage I (
+            <Link href="/artikel/40#lid-2" className="text-accent hover:underline">
+              art. 40, lid 2
             </Link>
-            .
+            ), en worden systemen die onder de Cyberweerbaarheidsverordening vallen en aan de
+            voorwaarden van art. 12, lid 1, daarvan voldoen, geacht te voldoen aan de
+            cyberbeveiligingsvereisten van art. 15 (
+            <Link href="/artikel/42#lid-3" className="text-accent hover:underline">
+              art. 42, lid 3
+            </Link>
+            ).
           </p>
         </section>
 
@@ -94,15 +102,16 @@ export default function ConformiteitsbeoordelingPage() {
             </li>
             <li>
               <span className="font-medium">Bijlage I, afdeling A (productwetgeving):</span> de
-              sectorale conformiteitsprocedure van het onderliggende productregime (machines,
-              medische hulpmiddelen, speelgoed enz.), waarbij de AI-eisen van afdeling 2 in die
+              sectorale conformiteitsprocedure van het onderliggende productregime (medische
+              hulpmiddelen, speelgoed, liften enz.; machines vallen sinds de omnibus onder
+              afdeling B), waarbij de AI-eisen van afdeling 2 in die
               beoordeling worden meegenomen (
               <Link href="/artikel/43#lid-3" className="text-accent hover:underline">
                 art. 43, lid 3
               </Link>
-              , door de omnibus vervangen — zie{" "}
-              <Link href="/artikel/43?diff=1" className="text-accent hover:underline">
-                de diff
+              , zoals vervangen bij de digitale omnibus — zie{" "}
+              <Link href="/artikel/43?diff=1#w-lid-3" className="text-accent hover:underline">
+                de wijziging
               </Link>
               ).
             </li>
@@ -191,11 +200,20 @@ export default function ConformiteitsbeoordelingPage() {
         <section>
           <h2 className="border-b border-line pb-2 text-lg font-semibold">Vanaf wanneer?</h2>
           <p className="mt-3 text-sm leading-relaxed">
-            Volgens de digitale omnibus gelden de hoogrisicoverplichtingen — en dus ook deze
+            Sinds de digitale omnibus gelden de hoogrisicoverplichtingen — en dus ook deze
             sluitstukken — vanaf <span className="font-medium">2 december 2027</span> voor
             bijlage III-systemen en <span className="font-medium">2 augustus 2028</span> voor
-            bijlage I-systemen. Richt de conformiteitsroute desondanks vóór go-live in: systemen
-            die nu live gaan, zijn op die data al in gebruik.
+            bijlage I-systemen (
+            <Link href="/artikel/113" className="text-accent hover:underline">
+              art. 113, derde alinea, punt c)
+            </Link>
+            ). Systemen die vóór die data in de handel of in gebruik zijn, vallen er alleen onder
+            bij een aanzienlijke ontwerpwijziging daarna; systemen bedoeld voor overheidsinstanties
+            moeten uiterlijk 2 augustus 2030 voldoen (
+            <Link href="/artikel/111#lid-2" className="text-accent hover:underline">
+              art. 111, lid 2
+            </Link>
+            ).
           </p>
         </section>
 

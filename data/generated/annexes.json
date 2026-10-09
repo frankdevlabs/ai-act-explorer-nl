@@ -10,7 +10,8 @@
    },
    {
     "type": "text",
-    "text": "1. Richtlijn 2006/42/EG van het Europees Parlement en de Raad van 17 mei 2006 betreffende machines en tot wijziging van Richtlijn 95/16/EG (PB L 157 van 9.6.2006, blz. 24)"
+    "text": "—————",
+    "repealed": true
    },
    {
     "type": "text",
@@ -103,6 +104,10 @@
       "href": "/artikel/2#lid-1-b"
      }
     ]
+   },
+   {
+    "type": "text",
+    "text": "21. Verordening (EU) 2023/1230 van het Europees Parlement en de Raad van 14 juni 2023 betreffende machines en tot intrekking van Richtlijn 2006/42/EG van het Europees Parlement en de Raad en Richtlijn 73/361/EEG van de Raad (PB L 165 van 29.6.2023, blz. 1, ELI: http://data.europa.eu/eli/reg/2023/1230/oj)."
    }
   ],
   "footnotes": []
@@ -1688,45 +1693,33 @@
        }
       ],
       "anchor": "punt-6"
-     },
-     {
-      "marker": "7.",
-      "content": [
-       {
-        "type": "text",
-        "text": "een korte samenvatting van de redenen waarom het AI-systeem bij de toepassing van de procedure uit hoofde van artikel 6, lid 3, niet als een systeem met een hoog risico wordt beschouwd;",
-        "refs": [
-         {
-          "start": 110,
-          "end": 126,
-          "href": "/artikel/6#lid-3"
-         }
-        ]
-       }
-      ],
-      "anchor": "punt-7"
-     },
+     }
+    ]
+   },
+   {
+    "type": "text",
+    "text": "—————",
+    "repealed": true
+   },
+   {
+    "type": "list",
+    "items": [
      {
       "marker": "8.",
       "content": [
        {
         "type": "text",
-        "text": "de status van het AI-systeem (in de handel, in gebruik, niet langer in de handel/in gebruik, teruggeroepen);"
+        "text": "de status van het AI-systeem (in de handel, in gebruik, niet langer in de handel/in gebruik, teruggeroepen)."
        }
       ],
       "anchor": "punt-8"
-     },
-     {
-      "marker": "9.",
-      "content": [
-       {
-        "type": "text",
-        "text": "de lidstaten waarin het AI-systeem in de handel is gebracht, in gebruik is gesteld of op de markt in de Unie is aangeboden."
-       }
-      ],
-      "anchor": "punt-9"
      }
     ]
+   },
+   {
+    "type": "text",
+    "text": "—————",
+    "repealed": true
    },
    {
     "type": "heading",
@@ -1968,7 +1961,7 @@
    },
    {
     "type": "text",
-    "text": "Verordening (EU 2024/1358 van het Europees Parlement en de Raad van 14 mei 2024 betreffende de instelling van “Eurodac” voor de vergelijking van biometrische gegevens om de Verordeningen (EU) 2024/1315 en (EU) 2024/1350 van het Europees Parlement en de Raad en Richtlijn 2001/55/EG van de Raad doeltreffend toe te passen en om illegaal verblijvende onderdanen van derde landen en staatlozen te identificeren en betreffende verzoeken van rechtshandhavingsinstanties van de lidstaten en Europol om vergelijkingen van Eurodac-gegevens ten behoeve van rechtshandhaving, tot wijziging van de Verordeningen (EU) 2018/1240 en (EU) 2019/818 van het Europees Parlement en de Raad en tot intrekking van Verordening (EU) nr. 603/2013 van het Europees Parlement en de Raad (PB L, 2024/1358, 22.5.2024, ELI: http://data.europa.eu/eli/reg/2024/1358/oj)."
+    "text": "Verordening (EU 2024/1358 van het Europees Parlement en de Raad van 14 mei 2024 betreffende de instelling van „Eurodac” voor de vergelijking van biometrische gegevens om de Verordeningen (EU) 2024/1315 en (EU) 2024/1350 van het Europees Parlement en de Raad en Richtlijn 2001/55/EG van de Raad doeltreffend toe te passen en om illegaal verblijvende onderdanen van derde landen en staatlozen te identificeren en betreffende verzoeken van rechtshandhavingsinstanties van de lidstaten en Europol om vergelijkingen van Eurodac-gegevens ten behoeve van rechtshandhaving, tot wijziging van de Verordeningen (EU) 2018/1240 en (EU) 2019/818 van het Europees Parlement en de Raad en tot intrekking van Verordening (EU) nr. 603/2013 van het Europees Parlement en de Raad (PB L, 2024/1358, 22.5.2024, ELI: http://data.europa.eu/eli/reg/2024/1358/oj)."
    },
    {
     "type": "heading",
@@ -2098,7 +2091,7 @@
           "content": [
            {
             "type": "text",
-            "text": "de “acceptable use policies” die van toepassing zijn;"
+            "text": "de „acceptable use policies” die van toepassing zijn;"
            }
           ]
          },
@@ -2275,7 +2268,7 @@
           "content": [
            {
             "type": "text",
-            "text": "de “acceptable use policies” die van toepassing zijn;"
+            "text": "de „acceptable use policies” die van toepassing zijn;"
            }
           ]
          },
@@ -2473,6 +2466,229 @@
        }
       ],
       "anchor": "punt-g"
+     }
+    ]
+   }
+  ],
+  "footnotes": []
+ },
+ {
+  "roman": "XIV",
+  "ordinal": 14,
+  "title": "Bijlage XIV",
+  "content": [
+   {
+    "type": "text",
+    "text": "De lijst met codes, categorieën en overeenkomstige soorten AI-systemen ten behoeve van de in artikel 30 bedoelde aanmeldingsprocedure ter omschrijving van de reikwijdte van de aanwijzing van de aangemelde instanties",
+    "refs": [
+     {
+      "start": 93,
+      "end": 103,
+      "href": "/artikel/30"
+     }
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "1. Inleiding"
+   },
+   {
+    "type": "text",
+    "text": "Voor de conformiteitsbeoordeling van AI-systemen met een hoog risico uit hoofde van deze verordening kan de betrokkenheid van conformiteitsbeoordelingsinstanties vereist zijn. Alleen conformiteitsbeoordelingsinstanties die uit hoofde van deze verordening zijn aangewezen, mogen conformiteitsbeoordelingen uitvoeren, en dan alleen voor de activiteiten in verband met de betrokken soorten AI-systemen. De lijst met codes, categorieën en overeenkomstige soorten AI-systemen bepaalt de reikwijdte van de aanwijzing van conformiteitsbeoordelingsinstanties die krachtens artikel 30 zijn aangemeld.",
+    "refs": [
+     {
+      "start": 565,
+      "end": 575,
+      "href": "/artikel/30"
+     }
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "2. Lijst met codes, categorieën en overeenkomstige soorten AI-systemen"
+   },
+   {
+    "type": "heading",
+    "text": "a. AI-systemen die onder bijlage I, punt 1, vallen"
+   },
+   {
+    "type": "table",
+    "rows": [
+     [
+      "Code AI-verordening",
+      ""
+     ],
+     [
+      "AIP 0102",
+      "AI-systemen die onder bijlage I, afdeling A, punt 2, vallen."
+     ],
+     [
+      "AIP 0103",
+      "AI-systemen die onder bijlage I, afdeling A, punt 3, vallen."
+     ],
+     [
+      "AIP 0104",
+      "AI-systemen die onder bijlage I, afdeling A, punt 4, vallen."
+     ],
+     [
+      "AIP 0105",
+      "AI-systemen die onder bijlage I, afdeling A, punt 5, vallen."
+     ],
+     [
+      "AIP 0106",
+      "AI-systemen die onder bijlage I, afdeling A, punt 6, vallen."
+     ],
+     [
+      "AIP 0107",
+      "AI-systemen die onder bijlage I, afdeling A, punt 7, vallen."
+     ],
+     [
+      "AIP 0108",
+      "AI-systemen die onder bijlage I, afdeling A, punt 8, vallen."
+     ],
+     [
+      "AIP 0109",
+      "AI-systemen die onder bijlage I, afdeling A, punt 9, vallen."
+     ],
+     [
+      "AIP 0110",
+      "AI-systemen die onder bijlage I, afdeling A, punt 10, vallen."
+     ],
+     [
+      "AIP 0111",
+      "AI-systemen die onder bijlage I, afdeling A, punt 11, vallen."
+     ],
+     [
+      "AIP 0112",
+      "AI-systemen die onder bijlage I, afdeling A, punt 12, vallen."
+     ]
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "b. AI-systemen die onder bijlage III, punt 1, vallen"
+   },
+   {
+    "type": "table",
+    "rows": [
+     [
+      "Code AI-verordening",
+      ""
+     ],
+     [
+      "AIB 0201",
+      "Systemen voor biometrische identificatie op afstand"
+     ],
+     [
+      "AIB 0202",
+      "AI-systemen voor biometrische categorisering"
+     ],
+     [
+      "AIB 0203",
+      "AI-systemen voor het herkennen van emoties"
+     ]
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "3. AI-technologiespecifieke codes"
+   },
+   {
+    "type": "heading",
+    "text": "a. Symbolische AI- en expertsystemen"
+   },
+   {
+    "type": "table",
+    "rows": [
+     [
+      "Code AI-verordening",
+      ""
+     ],
+     [
+      "AIH 0101",
+      "AI-systemen op basis van symbolische AI, expert- en op kennis gebaseerde systemen, en AI-systemen op basis van zoekopdrachten en optimalisatie"
+     ]
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "b. Machinaal leren, met uitzondering van generatieve AI en AI-systemen voor algemene doeleinden"
+   },
+   {
+    "type": "table",
+    "rows": [
+     [
+      "Code AI-verordening",
+      ""
+     ],
+     [
+      "AIH 0201",
+      "AI-systemen voor de verwerking van gestructureerde gegevens"
+     ],
+     [
+      "AIH 0202",
+      "AI-systemen voor de verwerking van signaal- en audiogegevens"
+     ],
+     [
+      "AIH 0203",
+      "AI-systemen voor de verwerking van tekstgegevens"
+     ],
+     [
+      "AIH 0204",
+      "AI-systemen voor de verwerking van beelden en video’s"
+     ],
+     [
+      "AIH 0205",
+      "AI-systemen die van hun omgeving leren, met uitzondering van AI-systemen die onder AIH 0401 vallen"
+     ]
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "c. AI-systemen op basis van AI-modellen voor algemene doeleinden of generatieve AI"
+   },
+   {
+    "type": "table",
+    "rows": [
+     [
+      "Code AI-verordening",
+      ""
+     ],
+     [
+      "AIH 0301",
+      "Generatieve AI-systemen, met inbegrip van AI-systemen die zijn gebaseerd op AI-modellen voor algemene doeleinden"
+     ]
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "d. Opkomende AI-technologieën"
+   },
+   {
+    "type": "table",
+    "rows": [
+     [
+      "Code AI-verordening",
+      ""
+     ],
+     [
+      "AIH 0401",
+      "AI-systemen op basis van andere opkomende AI-technologieën die niet onder andere codes vallen, met inbegrip van agentische AI"
+     ]
+    ]
+   },
+   {
+    "type": "heading",
+    "text": "4. Verzoek om aanwijzing"
+   },
+   {
+    "type": "text",
+    "text": "De conformiteitsbeoordelingsinstanties maken gebruik van de lijsten met codes, categorieën en overeenkomstige soorten AI-systemen in deze bijlage bij het specificeren van de soorten AI-systemen in het in artikel 29 bedoelde verzoek om aanwijzing.",
+    "refs": [
+     {
+      "start": 204,
+      "end": 214,
+      "href": "/artikel/29"
      }
     ]
    }

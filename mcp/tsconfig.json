@@ -16,6 +16,8 @@
     "../src/lib/types.ts",
     "../src/lib/search-core.ts",
     "../src/lib/search-expansion.ts",
+    "../src/lib/amendment-meta.ts",
+    "../src/lib/flatten.ts",
     "../src/lib/assessment/types.ts",
     "../src/lib/assessment/engine.ts"
   ]

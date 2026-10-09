@@ -13,8 +13,7 @@ is client-side (MiniSearch over a build-time corpus).
 
 Deep dive: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Repeatable
 procedures: `.claude/skills/` (`plan-an-epic` — the working method,
-`update-source`, `extend-parser`, `transcribe-amendments`,
-`curate-recital-map`, `verify-app`).
+`update-source`, `extend-parser`, `curate-recital-map`, `verify-app`).
 
 ## Golden rules
 
@@ -22,18 +21,14 @@ procedures: `.claude/skills/` (`plan-an-epic` — the working method,
    `public/amendment-search-docs.json`.** They are parser output. Change
    `scripts/parse-aiact.ts` / `scripts/parse-amendments.ts` and run
    `npm run parse`.
-2. **Never edit the legal text itself.** All base-corpus content comes
-   deterministically from the two EUR-Lex HTML files in `data/source/` — no
-   manual or LLM transcription, ever. Wording bugs are parser bugs.
-   **Approved carve-out (amendment layer only):**
-   `data/source/amendments/pe-cons-30-26.json` is a curated, hand-verified
-   transcription of PE-CONS 30/26 (digitale omnibus inzake AI, 2025/0359 COD);
-   the PDF's text layer is too lossy for deterministic parsing. Procedure:
-   `.claude/skills/transcribe-amendments/`. Every wording change must cite the
-   PDF page and pass the page-image cross-check — never edit it from memory.
-   Scheduled for removal: once published in the OJ, a deterministic parse of
-   the CELEX 32026R… HTML replaces the transcription (only the producer of
-   `data/generated/amendments.json` changes; everything downstream is stable).
+2. **Never edit the legal text itself.** All legal text comes
+   deterministically from the EUR-Lex HTML files listed in
+   `data/source/corpus.json` — no manual or LLM transcription, ever. Wording
+   bugs are parser bugs. This includes the change layer of the digitale
+   omnibus (Verordening (EU) 2026/1744): it is derived from the two
+   consolidated versions plus the act's OJ text (epic 8 retired the PE-CONS
+   30/26 hand transcription; see git history before `epic-8` if a future
+   *pending* amending act ever needs tracking again).
    **2b. Editorial-metadata layer:** `data/source/recital-article-map.json`
    is hand/LLM-curated *interpretive* metadata (which articles each recital
    motivates), clearly not legal text. It must never alter the rendering of
@@ -58,23 +53,28 @@ procedures: `.claude/skills/` (`plan-an-epic` — the working method,
 `search-docs.json` is also copied to `public/` and lazily fetched in the
 browser (`src/lib/search.ts`).
 
-Amendment layer (digitale omnibus): `data/source/amendments/pe-cons-30-26.json`
-(curated — see golden rule 2) → `scripts/parse-amendments.ts` (jsdiff word
-diffs vs the base corpus) → `data/generated/amendments.json` +
-`amendment-diffs.json` + `public/amendment-search-docs.json`.
+Change layer (digitale omnibus, Verordening (EU) 2026/1744, in force
+27.7.2026): `scripts/parse-amendments.ts` diffs the `previous` consolidated
+version against the base corpus and attributes every change to an
+instruction of the amending act (OJ text) → `data/generated/amendments.json`
++ `amendment-diffs.json` + `public/amendment-search-docs.json`. Libraries:
+`scripts/lib/{consolidated,change-layer,oj-instructions}.ts`.
 
-Two sources on purpose: the **consolidated** text (CELEX 02024R1689-20240712,
-corrigenda incorporated) provides articles/annexes/TOC; the **original OJ**
-text provides the 180 recitals (consolidated versions have no preamble). The
-two files use different HTML markup — see ARCHITECTURE.md before touching the
-parser. Both are WAF-blocked on EUR-Lex; fetch new versions via
-`python3 ~/law-tracker/lib/fetch_blocked_doc.py "<url>" "<out>"`.
+Sources (`data/source/corpus.json`): the **consolidated** text (base, CELEX
+02024R1689-20260727 — the law in force) provides articles/annexes/TOC; the
+**previous** consolidation (02024R1689-20240712) is only diffed against; the
+**original OJ** text provides the 180 recitals (consolidated versions have no
+preamble); the **amending act's** OJ text (32026R1744) provides instructions
+and act metadata. Consolidated and OJ files use different HTML markup — see
+ARCHITECTURE.md before touching the parser. All are WAF-blocked on EUR-Lex;
+fetch them with headless Chromium (snippet in `.claude/skills/update-source/`).
 
 ## Key files
 
 | File | Role |
 |---|---|
-| `scripts/parse-aiact.ts` | HTML → JSON parser, both dialects; the heart of the repo |
+| `scripts/parse-aiact.ts` | corpus → JSON (refs, TOC, search docs); dialect parsing in `scripts/lib/consolidated.ts` |
+| `scripts/parse-amendments.ts` | change layer of the in-force amending act (`scripts/lib/change-layer.ts`) |
 | `scripts/verify-data.ts` | pre-build completeness assertions (counts, structure, spot-checks) |
 | `scripts/lib/corpus-index.ts` | shared corpus index + `checkRef` — one href grammar for every gate that validates curated deep links |
 | `scripts/verify-mcp.ts` | MCP smoke test: tool inventory + per-tool call, deep links, result-size ceiling, the UI panel resource (incl. its engine-parity gate) |
@@ -111,8 +111,12 @@ parser. Both are WAF-blocked on EUR-Lex; fetch new versions via
 
 - Dev server in tmux: `tmux new-session -d -s aiact-dev 'npm run dev'`
   (check `tmux list-sessions` first — it is often already running, port 3105).
-- No pip; no root. Playwright works via `~/law-tracker/lib` (see
-  `.claude/skills/verify-app/SKILL.md`).
+- No pip. Playwright works via `~/mc/mcp-rcon/node_modules` (browsers in
+  `~/.cache/ms-playwright`; see `.claude/skills/verify-app/SKILL.md` and the
+  EUR-Lex fetch snippet in `.claude/skills/update-source/SKILL.md`).
+- The live site and MCP (aia.mrfrank.dev) run on host vmi2502453 (tailnet
+  100.74.62.83), not necessarily where you are working: deploy = `git pull` +
+  `scripts/deploy-site.sh` + MCP rebuild/restart there (`mcp/README.md`).
 - GitHub: `frankdevlabs/ai-act-explorer-nl`; commit as
   `frankdevlabs <29236012+frankdevlabs@users.noreply.github.com>` (repo-local
-  git config already set).
+  git config; set it in fresh clones).
