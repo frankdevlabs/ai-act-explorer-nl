@@ -151,11 +151,11 @@ const toc: Toc = {
         title: s.title,
         articles: inChapter
           .filter((a) => a.section === s.number)
-          .map((a) => ({ number: a.number, title: a.title })),
+          .map((a) => ({ number: a.number, slug: a.slug, displayNumber: a.displayNumber, title: a.title })),
       })),
       articles: inChapter
         .filter((a) => a.section === null)
-        .map((a) => ({ number: a.number, title: a.title })),
+        .map((a) => ({ number: a.number, slug: a.slug, displayNumber: a.displayNumber, title: a.title })),
     };
   }),
   annexes: annexes.map((a) => ({ roman: a.roman, title: a.title })),

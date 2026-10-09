@@ -10,7 +10,9 @@ export interface RefSpan {
 }
 
 export type ContentNode =
-  | { type: "text"; text: string; refs?: RefSpan[] }
+  /** `repealed`: EUR-Lex's deletion placeholder ("—————") where an amending
+   *  act struck a provision; rendered muted, never indexed for search. */
+  | { type: "text"; text: string; refs?: RefSpan[]; repealed?: true }
   | { type: "heading"; text: string }
   | { type: "list"; items: ListItem[] }
   | { type: "table"; rows: string[][] };
@@ -28,14 +30,25 @@ export interface Footnote {
 }
 
 export interface ArticleParagraph {
-  /** Lid number; null for articles whose body has no numbered paragraphs */
+  /** Lid number; null for articles whose body has no numbered paragraphs and
+   *  for inserted leden numbered "1 bis" (see displayNumber). */
   number: number | null;
+  /** Display number of an inserted lid outside numeric numbering ("1 bis");
+   *  its anchor is the compact form ("lid-1bis"). */
+  displayNumber?: string;
   anchor: string;
   content: ContentNode[];
+  /** A lid struck by an amending act: content is the "—————" placeholder. */
+  repealed?: true;
 }
 
 export interface Article {
+  /** Integer part of the article number (4 for "4 bis"); ordering only. */
   number: number;
+  /** Route slug and lookup key: "4", "4bis", "75quater". */
+  slug: string;
+  /** Display form: "4", "4 bis". */
+  displayNumber: string;
   title: string;
   chapter: string;
   chapterTitle: string;
@@ -65,6 +78,8 @@ export interface Annex {
 
 export interface TocEntry {
   number: number;
+  slug: string;
+  displayNumber: string;
   title: string;
 }
 

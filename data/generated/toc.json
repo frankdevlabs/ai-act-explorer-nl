@@ -7,18 +7,26 @@
    "articles": [
     {
      "number": 1,
+     "slug": "1",
+     "displayNumber": "1",
      "title": "Onderwerp"
     },
     {
      "number": 2,
+     "slug": "2",
+     "displayNumber": "2",
      "title": "Toepassingsgebied"
     },
     {
      "number": 3,
+     "slug": "3",
+     "displayNumber": "3",
      "title": "Definities"
     },
     {
      "number": 4,
+     "slug": "4",
+     "displayNumber": "4",
      "title": "AI-geletterdheid"
     }
    ]
@@ -30,6 +38,8 @@
    "articles": [
     {
      "number": 5,
+     "slug": "5",
+     "displayNumber": "5",
      "title": "Verboden AI-praktijken"
     }
    ]
@@ -44,10 +54,14 @@
      "articles": [
       {
        "number": 6,
+       "slug": "6",
+       "displayNumber": "6",
        "title": "Classificatieregels voor AI-systemen met een hoog risico"
       },
       {
        "number": 7,
+       "slug": "7",
+       "displayNumber": "7",
        "title": "Wijzigingen in bijlage III"
       }
      ]
@@ -58,34 +72,50 @@
      "articles": [
       {
        "number": 8,
+       "slug": "8",
+       "displayNumber": "8",
        "title": "Naleving van de eisen"
       },
       {
        "number": 9,
+       "slug": "9",
+       "displayNumber": "9",
        "title": "Systeem voor risicobeheer"
       },
       {
        "number": 10,
+       "slug": "10",
+       "displayNumber": "10",
        "title": "Data en datagovernance"
       },
       {
        "number": 11,
+       "slug": "11",
+       "displayNumber": "11",
        "title": "Technische documentatie"
       },
       {
        "number": 12,
+       "slug": "12",
+       "displayNumber": "12",
        "title": "Registratie"
       },
       {
        "number": 13,
+       "slug": "13",
+       "displayNumber": "13",
        "title": "Transparantie en informatieverstrekking aan gebruiksverantwoordelijken"
       },
       {
        "number": 14,
+       "slug": "14",
+       "displayNumber": "14",
        "title": "Menselijk toezicht"
       },
       {
        "number": 15,
+       "slug": "15",
+       "displayNumber": "15",
        "title": "Nauwkeurigheid, robuustheid en cyberbeveiliging"
       }
      ]
@@ -96,50 +126,74 @@
      "articles": [
       {
        "number": 16,
+       "slug": "16",
+       "displayNumber": "16",
        "title": "Verplichtingen van aanbieders van AI-systemen met een hoog risico"
       },
       {
        "number": 17,
+       "slug": "17",
+       "displayNumber": "17",
        "title": "Systeem voor kwaliteitsbeheer"
       },
       {
        "number": 18,
+       "slug": "18",
+       "displayNumber": "18",
        "title": "Bewaring van documentatie"
       },
       {
        "number": 19,
+       "slug": "19",
+       "displayNumber": "19",
        "title": "Automatisch gegenereerde logs"
       },
       {
        "number": 20,
+       "slug": "20",
+       "displayNumber": "20",
        "title": "Corrigerende maatregelen en mededelingsverplichting"
       },
       {
        "number": 21,
+       "slug": "21",
+       "displayNumber": "21",
        "title": "Samenwerking met bevoegde autoriteiten"
       },
       {
        "number": 22,
+       "slug": "22",
+       "displayNumber": "22",
        "title": "Gemachtigden van aanbieders van AI-systemen met een hoog risico"
       },
       {
        "number": 23,
+       "slug": "23",
+       "displayNumber": "23",
        "title": "Verplichtingen van importeurs"
       },
       {
        "number": 24,
+       "slug": "24",
+       "displayNumber": "24",
        "title": "Verplichtingen van distributeurs"
       },
       {
        "number": 25,
+       "slug": "25",
+       "displayNumber": "25",
        "title": "Verantwoordelijkheden in de AI-waardeketen"
       },
       {
        "number": 26,
+       "slug": "26",
+       "displayNumber": "26",
        "title": "Verplichtingen van gebruiksverantwoordelijken van AI-systemen met een hoog risico"
       },
       {
        "number": 27,
+       "slug": "27",
+       "displayNumber": "27",
        "title": "Beoordeling van de gevolgen voor de grondrechten van AI-systemen met een hoog risico"
       }
      ]
@@ -150,50 +204,74 @@
      "articles": [
       {
        "number": 28,
+       "slug": "28",
+       "displayNumber": "28",
        "title": "Aanmeldende autoriteiten"
       },
       {
        "number": 29,
+       "slug": "29",
+       "displayNumber": "29",
        "title": "Verzoek om aanmelding van een conformiteitsbeoordelingsinstantie"
       },
       {
        "number": 30,
+       "slug": "30",
+       "displayNumber": "30",
        "title": "Aanmeldingsprocedure"
       },
       {
        "number": 31,
+       "slug": "31",
+       "displayNumber": "31",
        "title": "Voorschriften in verband met aangemelde instanties"
       },
       {
        "number": 32,
+       "slug": "32",
+       "displayNumber": "32",
        "title": "Vermoeden van conformiteit met voorschriften met betrekking tot aangemelde instanties"
       },
       {
        "number": 33,
+       "slug": "33",
+       "displayNumber": "33",
        "title": "Dochterondernemingen van aangemelde instanties en onderaanneming"
       },
       {
        "number": 34,
+       "slug": "34",
+       "displayNumber": "34",
        "title": "Operationele verplichtingen van aangemelde instanties"
       },
       {
        "number": 35,
+       "slug": "35",
+       "displayNumber": "35",
        "title": "Identificatienummers en lijsten van aangemelde instanties"
       },
       {
        "number": 36,
+       "slug": "36",
+       "displayNumber": "36",
        "title": "Wijzigingen in de aanmelding"
       },
       {
        "number": 37,
+       "slug": "37",
+       "displayNumber": "37",
        "title": "Betwisting van de bekwaamheid van aangemelde instanties"
       },
       {
        "number": 38,
+       "slug": "38",
+       "displayNumber": "38",
        "title": "Coördinatie van aangemelde instanties"
       },
       {
        "number": 39,
+       "slug": "39",
+       "displayNumber": "39",
        "title": "Conformiteitsbeoordelingsinstanties van derde landen"
       }
      ]
@@ -204,42 +282,62 @@
      "articles": [
       {
        "number": 40,
+       "slug": "40",
+       "displayNumber": "40",
        "title": "Geharmoniseerde normen en normalisatieproducten"
       },
       {
        "number": 41,
+       "slug": "41",
+       "displayNumber": "41",
        "title": "Gemeenschappelijke specificaties"
       },
       {
        "number": 42,
+       "slug": "42",
+       "displayNumber": "42",
        "title": "Vermoeden van conformiteit met bepaalde eisen"
       },
       {
        "number": 43,
+       "slug": "43",
+       "displayNumber": "43",
        "title": "Conformiteitsbeoordeling"
       },
       {
        "number": 44,
+       "slug": "44",
+       "displayNumber": "44",
        "title": "Certificaten"
       },
       {
        "number": 45,
+       "slug": "45",
+       "displayNumber": "45",
        "title": "Informatieverplichtingen voor aangemelde instanties"
       },
       {
        "number": 46,
+       "slug": "46",
+       "displayNumber": "46",
        "title": "Afwijking van de conformiteitsbeoordelingsprocedure"
       },
       {
        "number": 47,
+       "slug": "47",
+       "displayNumber": "47",
        "title": "EU-conformiteitsverklaring"
       },
       {
        "number": 48,
+       "slug": "48",
+       "displayNumber": "48",
        "title": "CE-markering"
       },
       {
        "number": 49,
+       "slug": "49",
+       "displayNumber": "49",
        "title": "Registratie"
       }
      ]
@@ -254,6 +352,8 @@
    "articles": [
     {
      "number": 50,
+     "slug": "50",
+     "displayNumber": "50",
      "title": "Transparantieverplichtingen voor aanbieders en gebruiksverantwoordelijken van bepaalde AI-systemen"
     }
    ]
@@ -268,10 +368,14 @@
      "articles": [
       {
        "number": 51,
+       "slug": "51",
+       "displayNumber": "51",
        "title": "Classificatie van AI-modellen voor algemene doeleinden als AI-modellen voor algemene doeleinden met een systeemrisico"
       },
       {
        "number": 52,
+       "slug": "52",
+       "displayNumber": "52",
        "title": "Procedure"
       }
      ]
@@ -282,10 +386,14 @@
      "articles": [
       {
        "number": 53,
+       "slug": "53",
+       "displayNumber": "53",
        "title": "Verplichtingen voor aanbieders van AI-modellen voor algemene doeleinden"
       },
       {
        "number": 54,
+       "slug": "54",
+       "displayNumber": "54",
        "title": "Gemachtigden van aanbieders van AI-modellen voor algemene doeleinden"
       }
      ]
@@ -296,6 +404,8 @@
      "articles": [
       {
        "number": 55,
+       "slug": "55",
+       "displayNumber": "55",
        "title": "Verplichtingen van aanbieders van AI-modellen voor algemene doeleinden met een systeemrisico"
       }
      ]
@@ -306,6 +416,8 @@
      "articles": [
       {
        "number": 56,
+       "slug": "56",
+       "displayNumber": "56",
        "title": "Praktijkcodes"
       }
      ]
@@ -320,30 +432,44 @@
    "articles": [
     {
      "number": 57,
+     "slug": "57",
+     "displayNumber": "57",
      "title": "AI-testomgevingen voor regelgeving"
     },
     {
      "number": 58,
+     "slug": "58",
+     "displayNumber": "58",
      "title": "Gedetailleerde regelingen voor, en werking van, AI-testomgevingen voor regelgeving"
     },
     {
      "number": 59,
+     "slug": "59",
+     "displayNumber": "59",
      "title": "Verdere verwerking van persoonsgegevens voor het ontwikkelen van bepaalde AI-systemen in het algemeen belang in de AI-testomgeving voor regelgeving"
     },
     {
      "number": 60,
+     "slug": "60",
+     "displayNumber": "60",
      "title": "Testen van AI-systemen met een hoog risico onder reële omstandigheden buiten AI-testomgevingen voor regelgeving"
     },
     {
      "number": 61,
+     "slug": "61",
+     "displayNumber": "61",
      "title": "Geïnformeerde toestemming om deel te nemen aan het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving"
     },
     {
      "number": 62,
+     "slug": "62",
+     "displayNumber": "62",
      "title": "Maatregelen voor aanbieders en gebruiksverantwoordelijken, met name kmo’s, met inbegrip van start-ups"
     },
     {
      "number": 63,
+     "slug": "63",
+     "displayNumber": "63",
      "title": "Afwijkingen voor specifieke operatoren"
     }
    ]
@@ -358,26 +484,38 @@
      "articles": [
       {
        "number": 64,
+       "slug": "64",
+       "displayNumber": "64",
        "title": "AI-bureau"
       },
       {
        "number": 65,
+       "slug": "65",
+       "displayNumber": "65",
        "title": "Oprichting en structuur van de Europese raad voor artificiële intelligentie"
       },
       {
        "number": 66,
+       "slug": "66",
+       "displayNumber": "66",
        "title": "Taken van de AI-board"
       },
       {
        "number": 67,
+       "slug": "67",
+       "displayNumber": "67",
        "title": "Adviesforum"
       },
       {
        "number": 68,
+       "slug": "68",
+       "displayNumber": "68",
        "title": "Wetenschappelijk panel van onafhankelijke deskundigen"
       },
       {
        "number": 69,
+       "slug": "69",
+       "displayNumber": "69",
        "title": "Toegang tot de pool van deskundigen door de lidstaten"
       }
      ]
@@ -388,6 +526,8 @@
      "articles": [
       {
        "number": 70,
+       "slug": "70",
+       "displayNumber": "70",
        "title": "Aanwijzing van nationale bevoegde autoriteiten en centrale contactpunten"
       }
      ]
@@ -402,6 +542,8 @@
    "articles": [
     {
      "number": 71,
+     "slug": "71",
+     "displayNumber": "71",
      "title": "EU-databank voor in bijlage III vermelde AI-systemen met een hoog risico"
     }
    ]
@@ -416,6 +558,8 @@
      "articles": [
       {
        "number": 72,
+       "slug": "72",
+       "displayNumber": "72",
        "title": "Monitoring door aanbieders na het in de handel brengen en plan voor monitoring na het in de handel brengen voor AI-systemen met een hoog risico"
       }
      ]
@@ -426,6 +570,8 @@
      "articles": [
       {
        "number": 73,
+       "slug": "73",
+       "displayNumber": "73",
        "title": "Melding van ernstige incidenten"
       }
      ]
@@ -436,46 +582,68 @@
      "articles": [
       {
        "number": 74,
+       "slug": "74",
+       "displayNumber": "74",
        "title": "Markttoezicht op en controle van AI-systemen op de markt van de Unie"
       },
       {
        "number": 75,
+       "slug": "75",
+       "displayNumber": "75",
        "title": "Wederzijdse bijstand, markttoezicht en controle van AI-systemen voor algemene doeleinden"
       },
       {
        "number": 76,
+       "slug": "76",
+       "displayNumber": "76",
        "title": "Toezicht op tests onder reële omstandigheden door markttoezichtautoriteiten"
       },
       {
        "number": 77,
+       "slug": "77",
+       "displayNumber": "77",
        "title": "Bevoegdheden van de autoriteiten voor de bescherming van de grondrechten"
       },
       {
        "number": 78,
+       "slug": "78",
+       "displayNumber": "78",
        "title": "Vertrouwelijkheid"
       },
       {
        "number": 79,
+       "slug": "79",
+       "displayNumber": "79",
        "title": "Procedure op nationaal niveau voor de omgang met AI-systemen die een risico vormen"
       },
       {
        "number": 80,
+       "slug": "80",
+       "displayNumber": "80",
        "title": "Procedure voor de omgang met AI-systemen die conform bijlage III door de aanbieder zijn ingedeeld als systemen die geen hoog risico met zich meebrengen"
       },
       {
        "number": 81,
+       "slug": "81",
+       "displayNumber": "81",
        "title": "Vrijwaringsprocedure van de Unie"
       },
       {
        "number": 82,
+       "slug": "82",
+       "displayNumber": "82",
        "title": "Conforme AI-systemen die een risico inhouden"
       },
       {
        "number": 83,
+       "slug": "83",
+       "displayNumber": "83",
        "title": "Formele non-conformiteit"
       },
       {
        "number": 84,
+       "slug": "84",
+       "displayNumber": "84",
        "title": "Ondersteunende AI-teststructuren van de Unie"
       }
      ]
@@ -486,14 +654,20 @@
      "articles": [
       {
        "number": 85,
+       "slug": "85",
+       "displayNumber": "85",
        "title": "Recht om een klacht in te dienen bij een markttoezichtautoriteit"
       },
       {
        "number": 86,
+       "slug": "86",
+       "displayNumber": "86",
        "title": "Recht op uitleg bij individuele besluitvorming"
       },
       {
        "number": 87,
+       "slug": "87",
+       "displayNumber": "87",
        "title": "Melding van inbreuken en bescherming van melders"
       }
      ]
@@ -504,30 +678,44 @@
      "articles": [
       {
        "number": 88,
+       "slug": "88",
+       "displayNumber": "88",
        "title": "Handhaving van de verplichtingen van aanbieders van AI-modellen voor algemene doeleinden"
       },
       {
        "number": 89,
+       "slug": "89",
+       "displayNumber": "89",
        "title": "Monitoringmaatregelen"
       },
       {
        "number": 90,
+       "slug": "90",
+       "displayNumber": "90",
        "title": "Waarschuwingen voor systeemrisico’s door het wetenschappelijk panel"
       },
       {
        "number": 91,
+       "slug": "91",
+       "displayNumber": "91",
        "title": "Bevoegdheid om documentatie en informatie op te vragen"
       },
       {
        "number": 92,
+       "slug": "92",
+       "displayNumber": "92",
        "title": "Bevoegdheid voor het verrichten van evaluaties"
       },
       {
        "number": 93,
+       "slug": "93",
+       "displayNumber": "93",
        "title": "Bevoegdheid voor het verzoeken om maatregelen"
       },
       {
        "number": 94,
+       "slug": "94",
+       "displayNumber": "94",
        "title": "Procedurele rechten van marktdeelnemers die het AI-model voor algemene doeleinden aanbieden"
       }
      ]
@@ -542,10 +730,14 @@
    "articles": [
     {
      "number": 95,
+     "slug": "95",
+     "displayNumber": "95",
      "title": "Gedragscodes voor vrijwillige toepassing van specifieke voorschriften"
     },
     {
      "number": 96,
+     "slug": "96",
+     "displayNumber": "96",
      "title": "Richtsnoeren van de Commissie over de uitvoering van deze verordening"
     }
    ]
@@ -557,10 +749,14 @@
    "articles": [
     {
      "number": 97,
+     "slug": "97",
+     "displayNumber": "97",
      "title": "Uitoefening van de bevoegdheidsdelegatie"
     },
     {
      "number": 98,
+     "slug": "98",
+     "displayNumber": "98",
      "title": "Comitéprocedure"
     }
    ]
@@ -572,14 +768,20 @@
    "articles": [
     {
      "number": 99,
+     "slug": "99",
+     "displayNumber": "99",
      "title": "Sancties"
     },
     {
      "number": 100,
+     "slug": "100",
+     "displayNumber": "100",
      "title": "Administratieve geldboeten voor instellingen, organen en instanties van de Unie"
     },
     {
      "number": 101,
+     "slug": "101",
+     "displayNumber": "101",
      "title": "Geldboeten voor aanbieders van AI-systemen voor algemene doeleinden"
     }
    ]
@@ -591,50 +793,74 @@
    "articles": [
     {
      "number": 102,
+     "slug": "102",
+     "displayNumber": "102",
      "title": "Wijziging van Verordening (EG) nr. 300/2008"
     },
     {
      "number": 103,
+     "slug": "103",
+     "displayNumber": "103",
      "title": "Wijziging van Verordening (EU) nr. 167/2013"
     },
     {
      "number": 104,
+     "slug": "104",
+     "displayNumber": "104",
      "title": "Wijziging van Verordening (EU) nr. 168/2013"
     },
     {
      "number": 105,
+     "slug": "105",
+     "displayNumber": "105",
      "title": "Wijziging van Richtlijn 2014/90/EU"
     },
     {
      "number": 106,
+     "slug": "106",
+     "displayNumber": "106",
      "title": "Wijziging van Richtlijn (EU) 2016/797"
     },
     {
      "number": 107,
+     "slug": "107",
+     "displayNumber": "107",
      "title": "Wijziging van Verordening (EU) 2018/858"
     },
     {
      "number": 108,
+     "slug": "108",
+     "displayNumber": "108",
      "title": "Wijzigingen van Verordening (EU) 2018/1139"
     },
     {
      "number": 109,
+     "slug": "109",
+     "displayNumber": "109",
      "title": "Wijziging van Verordening (EU) 2019/2144"
     },
     {
      "number": 110,
+     "slug": "110",
+     "displayNumber": "110",
      "title": "Wijziging van Richtlijn (EU) 2020/1828"
     },
     {
      "number": 111,
+     "slug": "111",
+     "displayNumber": "111",
      "title": "Reeds in de handel gebrachte of in gebruik gestelde AI-systemen"
     },
     {
      "number": 112,
+     "slug": "112",
+     "displayNumber": "112",
      "title": "Evaluatie en toetsing"
     },
     {
      "number": 113,
+     "slug": "113",
+     "displayNumber": "113",
      "title": "Inwerkingtreding en toepassing"
     }
    ]

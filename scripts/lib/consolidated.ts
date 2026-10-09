@@ -22,7 +22,7 @@
  */
 import * as cheerio from "cheerio";
 import type { AnyNode, Element } from "domhandler";
-import { assignItemAnchors } from "../../src/lib/flatten";
+import { assignItemAnchors, lidAnchor } from "../../src/lib/flatten";
 import type { Annex, Article, ArticleParagraph, ContentNode, Footnote, ListItem, Recital } from "../../src/lib/types";
 
 const ROMAN_VALUES: Record<string, number> = { I: 1, V: 5, X: 10, L: 50, C: 100 };
@@ -66,15 +66,91 @@ export interface ChapterInfo {
   sections: { number: number; title: string }[];
 }
 
+/**
+ * Where an amending act's text sits in a consolidated version, read from
+ * EUR-Lex's own block markers (p.modref "▼M1" with a[title] "32026R1744:
+ * REPLACED|INSERTED|DELETED"; "▼B" returns to the base act). A marker governs
+ * all following content until the next ▼ marker. Not persisted — the change
+ * layer cross-checks its diff against it (verify-amendments gate b).
+ */
+export interface Provenance {
+  celex: string;
+  kind: "article" | "annex";
+  /** Article slug ("4bis") or lowercase annex roman ("xiv"). */
+  slug: string;
+  /** "titel", a paragraph anchor ("lid-1bis", "inhoud") or "inhoud" for annexes. */
+  anchor: string;
+  /** DELETED placeholders only; other blocks may mix REPLACED and INSERTED. */
+  deleted?: true;
+}
+
 export interface ParsedConsolidated {
   chapters: ChapterInfo[];
   articles: Article[];
   annexes: Annex[];
   footnoteCount: number;
+  provenance: Provenance[];
 }
+
+/** EUR-Lex encodes "4 bis" as art_4a, "75 quater" as art_75c. */
+const ID_SUFFIX: Record<string, string> = { a: "bis", b: "ter", c: "quater", d: "quinquies", e: "sexies" };
+const LID_MARKER = /^(\d+)(?: (bis|ter|quater|quinquies|sexies|septies|octies))?\.$/;
+/** A DELETED block marker carries EUR-Lex's placeholder for the struck text. */
+const PLACEHOLDER = /^▼\S+ (—{3,})$/;
 
 export function parseConsolidated(html: string): ParsedConsolidated {
   const $ = cheerio.load(html);
+
+  // ----------------------------------------------- consolidation markers
+  // Document-order pre-pass: the ▼ marker in force at every element.
+  interface MarkerState {
+    celex: string;
+    op?: string;
+  }
+  const stateOf = new Map<Element, MarkerState>();
+  let state: MarkerState = { celex: "" };
+  $("body *").each((_, el) => {
+    const classes = ($(el).attr("class") ?? "").split(/\s+/);
+    if (el.tagName === "p" && (classes.includes("modref") || classes.includes("arrow"))) {
+      const text = cleanText($(el).text());
+      if (text.startsWith("▼")) {
+        const [celex, op] = ($(el).find("a[title]").first().attr("title") ?? "").split(/:\s*/);
+        if (!celex) throw new Error(`consolidation marker without act: ${text}`);
+        state = { celex, op };
+      }
+    }
+    stateOf.set(el, state);
+  });
+  /** Acts (CELEX) governing text-bearing elements within `nodes`; a struck-
+   *  provision placeholder counts as text of the act that struck it. */
+  function governingActs(nodes: AnyNode[]): Set<string> {
+    const acts = new Set<string>();
+    const visit = (n: AnyNode) => {
+      if (!isTag(n)) return;
+      const classes = ($(n).attr("class") ?? "").split(/\s+/);
+      if (n.tagName === "p" && classes.includes("modref")) {
+        if (PLACEHOLDER.test(cleanText($(n).text()))) acts.add(stateOf.get(n)!.celex);
+        return;
+      }
+      if (n.tagName === "p" && classes.includes("title-article-norm")) return;
+      const ownText = n.children.some((c) => isText(c) && c.data.trim() !== "");
+      if (ownText) acts.add(stateOf.get(n)!.celex);
+      n.children.forEach(visit);
+    };
+    nodes.forEach(visit);
+    return acts;
+  }
+  /** Acts that struck provisions inside `el` (DELETED placeholders). */
+  function strikingActs(el: Element): Set<string> {
+    const acts = new Set<string>();
+    $(el)
+      .find("p.modref")
+      .each((_, m) => {
+        if (PLACEHOLDER.test(cleanText($(m).text()))) acts.add(stateOf.get(m)!.celex);
+      });
+    return acts;
+  }
+  const provenance: Provenance[] = [];
 
   /**
    * Convert a container's child nodes into ContentNodes. Handles direct text
@@ -121,6 +197,13 @@ export function parseConsolidated(html: string): ParsedConsolidated {
       flushText();
 
       if (child.tagName === "p") {
+        if (cls.includes("modref")) {
+          // consolidation marker: no text of its own, except EUR-Lex's
+          // placeholder where an amending act struck a provision
+          const ph = cleanText($child.text()).match(PLACEHOLDER);
+          if (ph) nodes.push({ type: "text", text: ph[1], repealed: true });
+          continue;
+        }
         if (SKIP_P_CLASSES.some((c) => cls.includes(c))) continue;
         if (cls.includes("title-gr-seq")) {
           const text = cleanText($child.text());
@@ -129,6 +212,22 @@ export function parseConsolidated(html: string): ParsedConsolidated {
         }
         const text = cleanText($child.text());
         if (text) nodes.push({ type: "text", text });
+      } else if (child.tagName === "table") {
+        // data table (bijlage XIV): direct rows only — a nested table's text
+        // belongs to the cell that contains it
+        const rows = $child
+          .children("tbody")
+          .children("tr")
+          .add($child.children("tr"))
+          .toArray()
+          .map((tr) =>
+            $(tr)
+              .children("td, th")
+              .toArray()
+              .map((td) => cleanText($(td).text())),
+          );
+        if (rows.length === 0) throw new Error("empty <table> in corpus text");
+        nodes.push({ type: "table", rows });
       } else if (child.tagName === "div") {
         if (cls.includes("eli-title")) continue;
         if (cls.includes("grid-container")) {
@@ -216,28 +315,49 @@ export function parseConsolidated(html: string): ParsedConsolidated {
   const articles: Article[] = [];
   $("div.eli-subdivision[id]").each((_, el) => {
     const id = $(el).attr("id")!;
-    const m = id.match(/^art_(\d+)$/);
-    if (!m) return;
+    if (!id.startsWith("art_") || id.includes(".")) return;
+    const m = id.match(/^art_(\d+)([a-e])?$/);
+    if (!m) throw new Error(`unrecognized article id ${id}`);
     const number = Number(m[1]);
-    const title = cleanText($(el).children(".eli-title").find(".stitle-article-norm").first().text());
+    const suffix = m[2] ? ID_SUFFIX[m[2]] : undefined;
+    const slug = suffix ? `${number}${suffix}` : String(number);
+    const displayNumber = suffix ? `${number} ${suffix}` : String(number);
+    const heading = cleanText($(el).children("p.title-article-norm").first().text());
+    if (heading !== `Artikel ${displayNumber}`)
+      throw new Error(`${id}: heading "${heading}" does not match Artikel ${displayNumber}`);
+    const titleDiv = $(el).children(".eli-title").first();
+    const title = cleanText(titleDiv.find(".stitle-article-norm").first().text());
+    for (const act of governingActs(titleDiv.toArray()))
+      provenance.push({ celex: act, kind: "article", slug, anchor: "titel" });
 
     const chapter = chapters.find((c) => $.contains(c.el, el));
-    if (!chapter) throw new Error(`Article ${number}: no containing chapter`);
+    if (!chapter) throw new Error(`Article ${displayNumber}: no containing chapter`);
     const section = chapter.sections.find((s) => $.contains(s.el, el)) ?? null;
 
     // Walk direct children in document order. A div.norm with an unquoted "N."
     // no-parag marker starts a new lid (quoted markers belong to text of amended
     // acts, art. 102-110); everything else — continuation alineas are SIBLINGS
     // of the lid div in this dialect — is appended to the current lid.
-    const entries: { lid: number | null; content: ContentNode[] }[] = [];
+    interface Entry {
+      lid: number | null;
+      /** "1 bis" for inserted leden outside numeric numbering */
+      display?: string;
+      repealed?: true;
+      content: ContentNode[];
+      dom: AnyNode[];
+    }
+    const entries: Entry[] = [];
     let buffer: AnyNode[] = [];
     const flushBuffer = () => {
       if (buffer.length === 0) return;
       const nodes = parseNodes(buffer);
+      const dom = buffer;
       buffer = [];
       if (nodes.length === 0) return;
-      if (entries.length === 0) entries.push({ lid: null, content: [] });
-      entries[entries.length - 1].content.push(...nodes);
+      if (entries.length === 0) entries.push({ lid: null, content: [], dom: [] });
+      const last = entries[entries.length - 1];
+      last.content.push(...nodes);
+      last.dom.push(...dom);
     };
     for (const child of el.children) {
       if (isTag(child)) {
@@ -245,10 +365,33 @@ export function parseConsolidated(html: string): ParsedConsolidated {
         const cls = $child.attr("class") ?? "";
         if (child.tagName === "p" && cls.includes("title-article-norm")) continue;
         if (child.tagName === "div" && cls.includes("eli-title")) continue;
+        if (child.tagName === "p" && cls.includes("modref")) {
+          // a placeholder between leden is a struck lid of its own: it takes the
+          // number after the previous lid (checked against the next one below)
+          const ph = cleanText($child.text()).match(PLACEHOLDER);
+          if (ph) {
+            flushBuffer();
+            const prev = entries[entries.length - 1];
+            if (prev?.lid == null || prev.display)
+              throw new Error(`${id}: struck-lid placeholder without a numbered predecessor`);
+            entries.push({
+              lid: prev.lid + 1,
+              repealed: true,
+              content: [{ type: "text", text: ph[1], repealed: true }],
+              dom: [child],
+            });
+          }
+          continue;
+        }
         const marker = cleanText($child.children("span.no-parag").first().text());
-        if (child.tagName === "div" && cls.includes("norm") && /^\d+\.$/.test(marker)) {
+        const lm = marker.match(LID_MARKER);
+        if (child.tagName === "div" && cls.includes("norm") && lm) {
           flushBuffer();
-          entries.push({ lid: Number(marker.slice(0, -1)), content: parseBlocks(child, true) });
+          entries.push(
+            lm[2]
+              ? { lid: null, display: `${lm[1]} ${lm[2]}`, content: parseBlocks(child, true), dom: [child] }
+              : { lid: Number(lm[1]), content: parseBlocks(child, true), dom: [child] },
+          );
           continue;
         }
       }
@@ -257,19 +400,39 @@ export function parseConsolidated(html: string): ParsedConsolidated {
     flushBuffer();
 
     const paragraphs: ArticleParagraph[] = [];
-    for (const e of entries) {
-      const base =
-        e.lid !== null ? `lid-${e.lid}` : entries.length === 1 ? "inhoud" : `alinea-${paragraphs.length + 1}`;
-      let anchor = base;
-      for (let n = 2; paragraphs.some((p) => p.anchor === anchor); n++) {
-        anchor = `${base}-bis${n > 2 ? `-${n}` : ""}`;
+    entries.forEach((e, i) => {
+      if (e.repealed) {
+        const next = entries.slice(i + 1).find((x) => x.lid !== null);
+        if (next && next.lid !== e.lid! + 1)
+          throw new Error(`${id}: struck lid ${e.lid} is followed by lid ${next.lid}`);
       }
-      assignItemAnchors(e.content, e.lid !== null ? anchor : "");
-      paragraphs.push({ number: e.lid, anchor, content: e.content });
-    }
+      const numbered = e.lid !== null || e.display !== undefined;
+      const anchor = e.display
+        ? lidAnchor(e.display)
+        : e.lid !== null
+          ? lidAnchor(e.lid)
+          : entries.length === 1
+            ? "inhoud"
+            : `alinea-${paragraphs.length + 1}`;
+      // a duplicate anchor would shadow a deep link; it used to be renamed with
+      // a "-bis" suffix, which now collides with legal bis-numbering
+      if (paragraphs.some((p) => p.anchor === anchor)) throw new Error(`${id}: duplicate anchor ${anchor}`);
+      assignItemAnchors(e.content, numbered ? anchor : "");
+      const para: ArticleParagraph = { number: e.lid, anchor, content: e.content };
+      if (e.display) para.displayNumber = e.display;
+      if (e.repealed) para.repealed = true;
+      paragraphs.push(para);
+      for (const act of governingActs(e.dom)) {
+        const prov: Provenance = { celex: act, kind: "article", slug, anchor };
+        if (e.repealed) prov.deleted = true;
+        provenance.push(prov);
+      }
+    });
 
     articles.push({
       number,
+      slug,
+      displayNumber,
       title,
       chapter: chapter.roman,
       chapterTitle: chapter.title,
@@ -279,7 +442,10 @@ export function parseConsolidated(html: string): ParsedConsolidated {
       footnotes: referencedFootnotes(el),
     });
   });
-  articles.sort((a, b) => a.number - b.number);
+  // document order: 4 < 4 bis < 5 — EUR-Lex emits them in that order already
+  const SUFFIX_RANK = ["", "bis", "ter", "quater", "quinquies", "sexies"];
+  const rank = (a: Article) => SUFFIX_RANK.indexOf(a.slug.replace(/^\d+/, ""));
+  articles.sort((a, b) => a.number - b.number || rank(a) - rank(b));
 
   // ----------------------------------------------- annexes
 
@@ -291,6 +457,10 @@ export function parseConsolidated(html: string): ParsedConsolidated {
     const title = cleanText($(el).find("p.title-annex-2").first().text()) || `Bijlage ${roman}`;
     const content = parseBlocks(el);
     assignItemAnchors(content, "");
+    for (const act of governingActs([el]))
+      provenance.push({ celex: act, kind: "annex", slug: roman.toLowerCase(), anchor: "inhoud" });
+    for (const act of strikingActs(el))
+      provenance.push({ celex: act, kind: "annex", slug: roman.toLowerCase(), anchor: "inhoud", deleted: true });
     annexes.push({
       roman,
       ordinal: romanToInt(roman),
@@ -310,6 +480,7 @@ export function parseConsolidated(html: string): ParsedConsolidated {
     articles,
     annexes,
     footnoteCount: footnoteTextById.size,
+    provenance,
   };
 }
 
