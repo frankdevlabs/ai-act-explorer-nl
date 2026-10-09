@@ -238,7 +238,7 @@ for (const ref of allRefs) {
   // every span reads as a reference: keyword/number, or a bare enumeration
   // continuation token ("c)" in "punten b) en c)", "V" in "hoofdstukken I en V")
   assert.ok(
-    /artikel|bijlage|hoofdstuk|lid|punt|\d|^[a-z]{1,2}\)$|^[IVX]+$/.test(
+    /artikel|bijlage|hoofdstuk|lid|punt|\d|^[a-z]{1,2}(?: (?:bis|ter|quater|quinquies))?\)$|^[IVX]+$/.test(
       ref.text.slice(ref.start, ref.end),
     ),
     `${label} (span text "${ref.text.slice(ref.start, ref.end)}")`,

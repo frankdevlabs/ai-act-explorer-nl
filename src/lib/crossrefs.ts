@@ -18,6 +18,7 @@
  * Verordening (EU) 2024/1689". With linkBareRefs=false (amendment articles
  * 102–110, which quote text of other acts) only the explicit self-forms link.
  */
+import { lidAnchor } from "./flatten";
 import type { RefSpan } from "./types";
 
 export interface RefContext {
@@ -43,6 +44,8 @@ const ORDINAL =
 
 const ARTIKEL_NUM = /\d+(?![\d/])(?!\.\d)(?:[  ]+(?:bis|ter|quater|quinquies)\b)?/y;
 const PLAIN_NUM = /\d+(?![\d/])(?!\.\d)/y;
+// inserted leden carry a Latin suffix: "lid 1 bis" → #lid-1bis
+const LID_NUM = /\d+(?![\d/])(?:[  ]+(?:bis|ter|quater|quinquies|sexies)\b)?/y;
 // ", en artikel …" / " of de artikelen …" — a conjunction chaining to another
 // reference phrase, whose trailing instrument qualifier distributes back
 const CONJ = /,?[  ]*(?:en|of)[  ]+(?:onverminderd[  ]+)?(?:de[  ]+|het[  ]+)?/y;
@@ -127,18 +130,21 @@ interface SubRefs {
 /** Parse the ", lid N / leden … / punt x) / punten … / eerste alinea" tail. */
 function eatSubRefs(c: Cursor): SubRefs {
   const out: SubRefs = { lids: [], punten: [], end: c.i };
-  const PUNT_TOKEN = /(?:[a-z]{1,2}\)|\d+(?:\.\d+)*\)?)/y;
+  // inserted points carry a Latin suffix: "b bis)" → -b-bis, "14 bis)" → punt-14-bis
+  const PUNT_TOKEN =
+    /(?:[a-z]{1,2}(?:[  ]+(?:bis|ter|quater|quinquies))?\)|\d+(?:\.\d+)*(?:[  ]+(?:bis|ter|quater|quinquies)\b)?\)?)/y;
   for (;;) {
     const save = c.i;
-    if (c.eat(/,[  ]*(?:en[  ]+)?lid[  ]+/y)) {
-      const n = c.eat(/\d+/y);
+    // ", lid N", ", en lid N" and — after a leden list — " en lid N"
+    if (c.eat(/(?:,[  ]*(?:en[  ]+)?|[  ]+en[  ]+)lid[  ]+/y)) {
+      const n = c.eat(LID_NUM);
       if (!n) {
         c.i = save;
         break;
       }
       out.lids.push({ start: n.index, end: c.i, value: n[0] });
     } else if (c.eat(/,[  ]*(?:en[  ]+)?leden[  ]+/y)) {
-      const ns = eatNumberList(c, /\d+/y);
+      const ns = eatNumberList(c, LID_NUM);
       if (ns.length === 0) {
         c.i = save;
         break;
@@ -282,7 +288,7 @@ function parseArtikel(c: Cursor, phraseStart: number, linkBareRefs: boolean): Re
     return punten.map((p, i) => ({
       start: i === 0 ? phraseStart : p.start,
       end: p.end,
-      href: `${page}#lid-${lids[0].value}-${slug(p.value)}`,
+      href: `${page}#${lidAnchor(lids[0].value)}-${slug(p.value)}`,
     }));
   }
   if (lids.length > 0) {
@@ -290,7 +296,7 @@ function parseArtikel(c: Cursor, phraseStart: number, linkBareRefs: boolean): Re
     return lids.map((l, i) => ({
       start: i === 0 ? phraseStart : l.start,
       end: i === lids.length - 1 && punten.length === 0 ? sub.end : l.end,
-      href: `${page}#lid-${l.value}`,
+      href: `${page}#${lidAnchor(l.value)}`,
     }));
   }
   // punten directly on the article (flat articles use punt-N anchors)

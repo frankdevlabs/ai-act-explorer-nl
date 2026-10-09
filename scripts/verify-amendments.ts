@@ -361,7 +361,7 @@ for (const ref of allRefs) {
   // every (re-merged) span reads as a reference; flattened segment text also
   // contains list markers ("a) …"), so this guards against marker misparses
   assert.ok(
-    /artikel|bijlage|hoofdstuk|lid|punt|\d|^[a-z]{1,2}\)$|^[IVX]+$/.test(
+    /artikel|bijlage|hoofdstuk|lid|punt|\d|^[a-z]{1,2}(?: (?:bis|ter|quater|quinquies))?\)$|^[IVX]+$/.test(
       ref.text.slice(ref.start, ref.end),
     ),
     `${label} (span text "${ref.text.slice(ref.start, ref.end)}")`,
@@ -402,8 +402,11 @@ if (source.meta.complete) {
   // exact snapshot (clips re-merged): grammar changes must consciously update
   // this (462 → 460 when instrument qualifiers learned to distribute over
   // conjunctions: two "artikel 14, lid 4, en/of artikel 16, lid 3, van
-  // Verordening (EU) 2019/1020" false positives dropped)
-  assert.equal(allRefs.length, 460, `amendment cross-reference count (got ${allRefs.length})`);
+  // Verordening (EU) 2019/1020" false positives dropped; 460 → 464 when lid
+  // and punt tokens learned Latin suffixes: art. 113 punt a) "artikel 5, leden
+  // 1 bis en lid 1 ter" and "punten b bis) en b ter)" now link #lid-1bis,
+  // #lid-1ter, #lid-1-b-bis, #lid-1-b-ter instead of mislinking #lid-1)
+  assert.equal(allRefs.length, 464, `amendment cross-reference count (got ${allRefs.length})`);
 }
 
 console.log(

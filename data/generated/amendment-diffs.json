@@ -11105,13 +11105,23 @@
       "refs": [
        {
         "start": 23,
-        "end": 54,
-        "href": "/artikel/5#lid-1"
+        "end": 69,
+        "href": "/artikel/5#lid-1-b-bis"
+       },
+       {
+        "start": 73,
+        "end": 79,
+        "href": "/artikel/5#lid-1-b-ter"
        },
        {
         "start": 84,
-        "end": 102,
-        "href": "/artikel/5#lid-1"
+        "end": 106,
+        "href": "/artikel/5#lid-1bis"
+       },
+       {
+        "start": 114,
+        "end": 119,
+        "href": "/artikel/5#lid-1ter"
        }
       ]
      },
@@ -11422,13 +11432,23 @@
            },
            {
             "start": 92,
-            "end": 123,
-            "href": "/artikel/5#lid-1"
+            "end": 138,
+            "href": "/artikel/5#lid-1-b-bis"
+           },
+           {
+            "start": 142,
+            "end": 148,
+            "href": "/artikel/5#lid-1-b-ter"
            },
            {
             "start": 153,
-            "end": 171,
-            "href": "/artikel/5#lid-1"
+            "end": 175,
+            "href": "/artikel/5#lid-1bis"
+           },
+           {
+            "start": 183,
+            "end": 188,
+            "href": "/artikel/5#lid-1ter"
            }
           ]
          }
