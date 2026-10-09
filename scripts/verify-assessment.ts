@@ -15,7 +15,7 @@ import assert from "node:assert";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { AmendmentsGenerated, Annex, Article, ContentNode, Recital } from "../src/lib/types";
+import type { AmendmentDiffs, AmendmentsGenerated, Annex, Article, ContentNode, Recital } from "../src/lib/types";
 import type { QCondition, Question, Questionnaire } from "../src/lib/assessment/types";
 import { computeVisibility, evaluate, registerValueRow, toTsv } from "../src/lib/assessment/engine";
 
@@ -27,6 +27,7 @@ const articles = load<Article[]>("data/generated/articles.json");
 const annexes = load<Annex[]>("data/generated/annexes.json");
 const recitals = load<Recital[]>("data/generated/recitals.json");
 const amendments = load<AmendmentsGenerated>("data/generated/amendments.json");
+const amendmentDiffs = load<AmendmentDiffs>("data/generated/amendment-diffs.json");
 
 // Derived flags the engine computes between modules (not set by effects).
 const DERIVED_FLAGS = new Set(["hoogrisico"]);
@@ -183,11 +184,20 @@ const internalPages = new Set([
 
 function checkRef(owner: string, href: string): void {
   const [pathWithQuery, fragment] = href.split("#");
-  const path = pathWithQuery.split("?")[0];
+  const [path, query] = pathWithQuery.split("?");
   const art = path.match(/^\/artikel\/([a-z0-9]+)$/);
   const a = art ? articles.find((x) => x.slug === art[1]) : undefined;
   if (a) {
-    if (fragment)
+    // ?diff=1 links ("what changed") only on articles the amending act changed,
+    // and their #w- fragments must name a paragraph of that diff view
+    const diff = amendmentDiffs.articles[a.slug];
+    if (query === "diff=1") assert.ok(diff, `${owner}: ${href} — artikel ${a.slug} heeft geen wijzigingen`);
+    if (fragment?.startsWith("w-"))
+      assert.ok(
+        query === "diff=1" && diff!.some((p) => `w-${p.anchor}` === fragment && p.status !== "unchanged"),
+        `${owner}: diff-anchor ${href}`,
+      );
+    else if (fragment)
       assert.ok(articleAnchors(a.paragraphs).has(fragment), `${owner}: anchor ${href}`);
     return;
   }
