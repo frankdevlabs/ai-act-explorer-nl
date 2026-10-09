@@ -15,14 +15,19 @@ interface AmendedArticleViewProps {
   diff: ReactNode;
   /** Prefixed element ids of changed paragraphs, in document order ("w-lid-2"). */
   changedAnchors?: string[];
-  /** Previous/next amended target in the omnibus, for cross-target stepping. */
+  /** Previous/next amended target, for cross-target stepping. */
   prevChanged?: ChangedLink;
   nextChanged?: ChangedLink;
+  /** Status line next to the toggle ("Gewijzigd bij … ; in werking sinds …"). */
+  note?: string;
+  /** What the diff compares against ("t.o.v. de tekst vóór 27 juli 2026 (…)"). */
+  legend?: string;
 }
 
 /**
  * Toggle between the current text and the track-changes view of an article
- * amended by the digitale omnibus. Both views are server-rendered siblings;
+ * amended by the digitale omnibus (what changed versus the text before the
+ * act entered into force). Both views are server-rendered siblings;
  * this component only switches visibility. Precedence: ?diff=1 wins at load
  * (stable deep links); any preference change after load — this button, the
  * header toggle, another tab — wins over the URL.
@@ -33,6 +38,8 @@ export function AmendedArticleView({
   changedAnchors = [],
   prevChanged,
   nextChanged,
+  note,
+  legend,
 }: AmendedArticleViewProps) {
   const params = useSearchParams();
   const router = useRouter();
@@ -105,14 +112,16 @@ export function AmendedArticleView({
             wijziging {cursor >= 0 ? cursor + 1 : "–"} van {changedAnchors.length}
           </span>
         )}
-        {showDiff && (
+        {showDiff ? (
           <span className="text-xs text-muted">
             <ins className="rounded-sm bg-emerald-100 px-1 no-underline dark:bg-emerald-950">
               toegevoegd
             </ins>{" "}
-            <del className="rounded-sm bg-red-100 px-1 dark:bg-red-950">geschrapt</del> — PE-CONS
-            30/26, nog niet bekendgemaakt in het Publicatieblad
+            <del className="rounded-sm bg-red-100 px-1 dark:bg-red-950">geschrapt</del>
+            {legend ? ` — ${legend}` : ""}
           </span>
+        ) : (
+          note && <span className="text-xs text-muted">{note}</span>
         )}
       </div>
       <div hidden={showDiff}>{clean}</div>

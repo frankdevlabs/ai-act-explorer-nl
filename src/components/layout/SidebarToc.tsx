@@ -8,17 +8,15 @@ import { useMemo, useState } from "react";
 import type { Toc, TocEntry } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-export interface NewTocEntry {
-  slug: string;
-  title: string;
-}
-
 interface SidebarTocProps {
   toc: Toc;
-  /** Article numbers (as strings) amended by the digitale omnibus. */
+  /** Article slugs amended by the in-force amending act. */
   amended?: string[];
-  /** Omnibus-inserted articles, keyed by the base article they follow. */
-  newEntries?: Record<string, NewTocEntry[]>;
+  /** Article slugs inserted by it. */
+  inserted?: string[];
+  /** Dot tooltips: "Gewijzigd bij …" / "Ingevoegd bij …". */
+  amendedTitle?: string;
+  insertedTitle?: string;
   onNavigate?: () => void;
 }
 
@@ -34,12 +32,13 @@ function OmnibusDot({ title }: { title: string }) {
 function ArticleLink({
   entry,
   active,
-  amended,
+  dot,
   onNavigate,
 }: {
   entry: TocEntry;
   active: boolean;
-  amended: boolean;
+  /** Tooltip of the change marker, if the article was amended or inserted. */
+  dot?: string;
   onNavigate?: () => void;
 }) {
   return (
@@ -52,57 +51,36 @@ function ArticleLink({
       )}
     >
       <span className="text-muted">Art. {entry.displayNumber}</span> {entry.title}
-      {amended && <OmnibusDot title="Gewijzigd door de digitale omnibus" />}
-    </Link>
-  );
-}
-
-function NewArticleLink({
-  entry,
-  active,
-  onNavigate,
-}: {
-  entry: NewTocEntry;
-  active: boolean;
-  onNavigate?: () => void;
-}) {
-  const display = entry.slug.replace(/^(\d+)(.+)$/, "$1 $2");
-  return (
-    <Link
-      href={`/artikel/${entry.slug}`}
-      onClick={onNavigate}
-      className={cn(
-        "block rounded px-2 py-1 text-sm hover:bg-surface hover:text-foreground",
-        active ? "bg-surface font-medium text-accent" : "text-muted",
-      )}
-    >
-      <span className="text-muted">Art. {display}</span> {entry.title}
-      <OmnibusDot title="Ingevoegd door de digitale omnibus" />
+      {dot && <OmnibusDot title={dot} />}
     </Link>
   );
 }
 
 /** Collapsible chapter/section tree; current article's chapter auto-expands. */
-export function SidebarToc({ toc, amended = [], newEntries = {}, onNavigate }: SidebarTocProps) {
+export function SidebarToc({
+  toc,
+  amended = [],
+  inserted = [],
+  amendedTitle = "Gewijzigd",
+  insertedTitle = "Ingevoegd",
+  onNavigate,
+}: SidebarTocProps) {
   const pathname = usePathname();
   const currentArticle = useMemo(() => {
     const m = pathname.match(/^\/artikel\/(\d+(?:bis|ter|quater|quinquies)?)/);
     return m ? m[1] : null;
   }, [pathname]);
   const amendedSet = useMemo(() => new Set(amended), [amended]);
+  const insertedSet = useMemo(() => new Set(inserted), [inserted]);
 
   const activeChapter = useMemo(() => {
     if (currentArticle === null) return null;
-    const chapterOf = (slug: string) =>
+    return (
       toc.chapters.find((c) =>
-        [...c.articles, ...c.sections.flatMap((s) => s.articles)].some((a) => a.slug === slug),
-      )?.roman ?? null;
-    // overlay-inserted articles activate their insertAfter neighbor's chapter
-    const neighbor = Object.entries(newEntries).find(([, list]) =>
-      list.some((e) => e.slug === currentArticle),
-    )?.[0];
-    return chapterOf(currentArticle) ?? (neighbor ? chapterOf(neighbor) : null);
-  }, [toc, currentArticle, newEntries]);
+        [...c.articles, ...c.sections.flatMap((s) => s.articles)].some((a) => a.slug === currentArticle),
+      )?.roman ?? null
+    );
+  }, [toc, currentArticle]);
 
   const [open, setOpen] = useState<Record<string, boolean>>({});
 
@@ -111,17 +89,9 @@ export function SidebarToc({ toc, amended = [], newEntries = {}, onNavigate }: S
       <ArticleLink
         entry={a}
         active={a.slug === currentArticle}
-        amended={amendedSet.has(a.slug)}
+        dot={insertedSet.has(a.slug) ? insertedTitle : amendedSet.has(a.slug) ? amendedTitle : undefined}
         onNavigate={onNavigate}
       />
-      {(newEntries[a.slug] ?? []).map((n) => (
-        <NewArticleLink
-          key={n.slug}
-          entry={n}
-          active={n.slug === currentArticle}
-          onNavigate={onNavigate}
-        />
-      ))}
     </div>
   );
 

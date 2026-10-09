@@ -191,15 +191,7 @@ function checkRef(owner: string, href: string): void {
       assert.ok(articleAnchors(a.paragraphs).has(fragment), `${owner}: anchor ${href}`);
     return;
   }
-  if (art && /^\d+$/.test(art[1])) assert.fail(`${owner}: artikel ${art[1]} bestaat`);
-  const newArt = path.match(/^\/artikel\/(\d+(?:bis|ter|quater|quinquies))$/);
-  if (newArt) {
-    const spec = amendments.newArticles.find((n) => n.slug === newArt[1]);
-    assert.ok(spec, `${owner}: omnibus-artikel ${newArt[1]} bestaat`);
-    if (fragment)
-      assert.ok(articleAnchors(spec!.paragraphs).has(fragment), `${owner}: anchor ${href}`);
-    return;
-  }
+  if (art) assert.fail(`${owner}: artikel ${art[1]} bestaat`);
   const anx = path.match(/^\/bijlage\/([a-z]+)$/);
   if (anx) {
     assert.ok(annexRomans.has(anx[1]), `${owner}: bijlage ${anx[1]} bestaat`);

@@ -28,6 +28,12 @@
      "slug": "4",
      "displayNumber": "4",
      "title": "AI-geletterdheid"
+    },
+    {
+     "number": 4,
+     "slug": "4bis",
+     "displayNumber": "4 bis",
+     "title": "Verwerking van bijzondere categorieën persoonsgegevens met het oog op de opsporing en correctie van vooringenomenheid"
     }
    ]
   },
@@ -455,6 +461,12 @@
      "title": "Testen van AI-systemen met een hoog risico onder reële omstandigheden buiten AI-testomgevingen voor regelgeving"
     },
     {
+     "number": 60,
+     "slug": "60bis",
+     "displayNumber": "60 bis",
+     "title": "Het testen onder reële omstandigheden buiten AI-testomgevingen voor regelgeving van AI-systemen met een hoog risico die onder de in bijlage I, afdeling B, vermelde harmonisatiewetgeving van de Unie vallen"
+    },
+    {
      "number": 61,
      "slug": "61",
      "displayNumber": "61",
@@ -590,7 +602,31 @@
        "number": 75,
        "slug": "75",
        "displayNumber": "75",
-       "title": "Wederzijdse bijstand, markttoezicht en controle van AI-systemen voor algemene doeleinden"
+       "title": "Markttoezicht en controle van AI-systemen en wederzijdse bijstand"
+      },
+      {
+       "number": 75,
+       "slug": "75bis",
+       "displayNumber": "75 bis",
+       "title": "Toezichts- en handhavingsbevoegdheden van het AI-bureau"
+      },
+      {
+       "number": 75,
+       "slug": "75ter",
+       "displayNumber": "75 ter",
+       "title": "Toezeggingen"
+      },
+      {
+       "number": 75,
+       "slug": "75quater",
+       "displayNumber": "75 quater",
+       "title": "Niet-naleving, boeten en dwangsommen"
+      },
+      {
+       "number": 75,
+       "slug": "75quinquies",
+       "displayNumber": "75 quinquies",
+       "title": "Vrijwaringsmaatregelen en verdere specificatie"
       },
       {
        "number": 76,
@@ -602,7 +638,7 @@
        "number": 77,
        "slug": "77",
        "displayNumber": "77",
-       "title": "Bevoegdheden van de autoriteiten voor de bescherming van de grondrechten"
+       "title": "Bevoegdheden van de autoriteiten voor de bescherming van de grondrechten en samenwerking met markttoezichtautoriteiten"
       },
       {
        "number": 78,
@@ -918,6 +954,10 @@
   {
    "roman": "XIII",
    "title": "In artikel 51 bedoelde criteria voor de aanwijzing van AI-modellen voor algemene doeleinden met een systeemrisico"
+  },
+  {
+   "roman": "XIV",
+   "title": "Bijlage XIV"
   }
  ],
  "recitalCount": 180

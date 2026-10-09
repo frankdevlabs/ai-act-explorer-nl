@@ -6,9 +6,13 @@ import { ParagraphAnchor } from "./ParagraphAnchor";
 
 interface ArticleBodyProps {
   article: { paragraphs: ArticleParagraph[]; footnotes: Footnote[] };
+  /** Shown under a struck lid ("Geschrapt bij Vo. (EU) 2026/1744"). */
+  repealedNote?: string;
+  /** Diff view of the article, where the struck text is shown. */
+  repealedHref?: string;
 }
 
-export function ArticleBody({ article }: ArticleBodyProps) {
+export function ArticleBody({ article, repealedNote, repealedHref }: ArticleBodyProps) {
   return (
     <div>
       {article.paragraphs.map((p) => {
@@ -27,6 +31,19 @@ export function ArticleBody({ article }: ArticleBodyProps) {
               </span>
               <div>
                 <ContentNodes nodes={p.content} />
+                {p.repealed && repealedNote && (
+                  <p className="-mt-1 text-xs text-muted">
+                    {repealedNote}
+                    {repealedHref && (
+                      <>
+                        {" · "}
+                        <a href={`${repealedHref}#w-${p.anchor}`} className="text-accent hover:underline">
+                          toon geschrapte tekst
+                        </a>
+                      </>
+                    )}
+                  </p>
+                )}
               </div>
             </div>
           ) : (

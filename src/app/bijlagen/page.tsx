@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { getAmendedAnnexRomans, getAnnex, getAnnexOrder, isNewAnnex } from "@/lib/data";
+import { actLabel } from "@/lib/amendment-meta";
+import { getAmendedAnnexRomans, getAmendingAct, getAnnex, getAnnexOrder, isNewAnnex } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Bijlagen",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 
 export default function BijlagenPage() {
   const amended = getAmendedAnnexRomans();
+  const act = actLabel(getAmendingAct());
   return (
     <div>
       <Breadcrumbs crumbs={[{ label: "Bijlagen" }]} />
@@ -19,9 +21,9 @@ export default function BijlagenPage() {
           const a = getAnnex(roman);
           if (!a) return null;
           const badge = isNewAnnex(roman)
-            ? "Toegevoegd door de digitale omnibus"
+            ? `Toegevoegd bij ${act}`
             : amended.has(roman)
-              ? "Gewijzigd door de digitale omnibus"
+              ? `Gewijzigd bij ${act}`
               : null;
           return (
             <li key={a.roman}>

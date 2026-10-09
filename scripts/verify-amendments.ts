@@ -1,23 +1,27 @@
 /**
- * Assertions over the amendment layer (digitale omnibus PE-CONS 30/26).
- * Runs after verify-data.ts in `npm run verify`.
+ * Assertions over the change layer of the in-force amending act
+ * (Verordening (EU) 2026/1744). Runs after verify-data.ts in `npm run verify`.
  *
- * Two regimes, keyed on source meta.complete:
- * - while false (transcription in progress): structural checks only — anchor
- *   resolution, diff invariant, collisions, boundary guard, plus verbatim
- *   spot checks for instructions already transcribed;
- * - once true: additionally pin the exact instruction count and the exact
- *   affected-article set (filled in when transcription finishes).
+ * The layer is re-derived from the EUR-Lex sources (data/source/corpus.json)
+ * and checked against what parse-amendments.ts wrote, then against three
+ * independent signals that must agree:
+ *   (a) the diff reconstructs both versions byte-exact;
+ *   (b) EUR-Lex's own ▼M1 block markers in the current consolidation cover
+ *       exactly the changed set (allowlist below, each entry explained);
+ *   (c) every quoted new-text block of the act's instructions is contained in
+ *       the current text of its target and (if substantial) absent from the
+ *       previous one; struck targets are repealed;
+ *   (d) every instruction changed something and every change has an instruction.
+ * Pins (instruction counts, target sets, tables, refs, search docs) follow the
+ * audit-then-pin protocol in docs/ARCHITECTURE.md ("Verify script").
  */
 import assert from "node:assert";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { flattenNodes } from "../src/lib/flatten";
 import type {
   AmendmentDiffs,
   AmendmentsGenerated,
-  AmendmentsSource,
   Annex,
   Article,
   ContentNode,
@@ -25,11 +29,19 @@ import type {
   SearchDoc,
   Toc,
 } from "../src/lib/types";
+import { addDays, parseAmendingAct } from "./lib/oj-instructions";
+import { diffCorpora, diffText, resolveInstruction } from "./lib/change-layer";
+import { parseConsolidated } from "./lib/consolidated";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const load = <T>(rel: string): T => JSON.parse(readFileSync(join(root, rel), "utf-8"));
+const source = (rel: string) => readFileSync(join(root, "data/source", rel), "utf-8");
 
-const source = load<AmendmentsSource>("data/source/amendments/pe-cons-30-26.json");
+const corpus = load<{
+  base: { celex: string; file: string };
+  previous: { celex: string; file: string };
+  amending: { celex: string; file: string };
+}>("data/source/corpus.json");
 const generated = load<AmendmentsGenerated>("data/generated/amendments.json");
 const diffs = load<AmendmentDiffs>("data/generated/amendment-diffs.json");
 const searchDocs = load<SearchDoc[]>("public/amendment-search-docs.json");
@@ -38,212 +50,258 @@ const annexes = load<Annex[]>("data/generated/annexes.json");
 const recitals = load<Recital[]>("data/generated/recitals.json");
 const toc = load<Toc>("data/generated/toc.json");
 
-// Pinned at transcription completion: 43 numbered instructions in Article 1
-// of PE-CONS 30/26 = 76 entries including sub-instructions.
-const EXPECTED: { instructions: number | null; affectedArticles: string[] | null } = {
-  instructions: 76,
-  affectedArticles: [
+const previous = parseConsolidated(source(corpus.previous.file));
+const current = parseConsolidated(source(corpus.base.file));
+const act = parseAmendingAct(source(corpus.amending.file), corpus.amending.celex);
+const base = { articles, annexes };
+const reDiff = diffCorpora(previous, base);
+const instructions = act.instructions.map((i) => resolveInstruction(i, previous, base));
+
+// ------------------------------------------------- pins (audited 2026-10-09)
+
+const EXPECTED = {
+  // Article 1 of Vo 2026/1744: 43 numbered instructions, 72 leaf instructions
+  // (the PE-CONS 30/26 transcription split 32 into 32a–d and 37a into a1/a2: 76)
+  instructions: 43,
+  leaves: 72,
+  amendedArticles: [
     "1", "2", "3", "4", "5", "6", "10", "11", "17", "25", "27", "28", "29", "30",
     "40", "42", "43", "50", "56", "57", "58", "60", "63", "64", "69", "70", "72",
     "75", "76", "77", "95", "96", "97", "99", "111", "113",
   ],
+  newArticles: ["4bis", "60bis", "75bis", "75ter", "75quater", "75quinquies"],
+  amendedAnnexes: ["i", "viii"],
+  newAnnexes: ["XIV"],
+  titleChanges: ["75", "77"],
+  // bijlage XIV: rows × columns of its six code tables
+  xivTables: ["12x2", "4x2", "2x2", "6x2", "2x2", "2x2"],
+  // 46 = overview + 36 amended + 6 inserted articles + 2 amended + 1 added annex
+  searchDocs: 46,
+  // refs in diff segments (eq/ins clips re-merged)
+  refs: 207,
 };
 
-const amendments = source.amendments;
-const id = (a: (typeof amendments)[number]) => `${a.seq}${a.sub ?? ""}`;
+/** ▼M1 marker positions that are not changes, with the reason. */
+const PROVENANCE_ALLOWLIST: Record<string, string> = {
+  "article 4 titel": "instructie 5) vervangt artikel 4 in zijn geheel en herhaalt daarbij de ongewijzigde titel",
+};
+/** Previous-version paragraph anchors that legitimately no longer exist. */
+const ANCHOR_ALLOWLIST: Record<string, string> = {
+  "4 inhoud": "artikel 4 was één ongenummerde alinea; instructie 5) vervangt het door leden 1–3",
+};
 
-// generated mirrors source
-assert.deepEqual(generated.amendments, amendments, "generated amendments mirror source");
-assert.equal(generated.meta.complete, source.meta.complete, "meta.complete mirrors source");
+// ------------------------------------------------- generated mirrors sources
 
-// ------------------------------------------------- anchor resolution
-
-function articleAnchors(a: Article): Set<string> {
-  const anchors = new Set<string>();
-  for (const p of a.paragraphs) {
-    anchors.add(p.anchor);
-    for (const node of p.content)
-      if (node.type === "list")
-        for (const item of node.items) if (item.anchor) anchors.add(item.anchor);
-  }
-  return anchors;
+assert.equal(generated.meta.celex, act.celex, "meta.celex");
+assert.equal(generated.meta.document, act.document, "meta.document");
+assert.equal(generated.meta.ojRef, act.ojRef, "meta.ojRef");
+assert.equal(generated.meta.adopted, act.adopted, "meta.adopted");
+assert.equal(generated.meta.published, act.published, "meta.published");
+assert.equal(generated.meta.inForce, act.inForce, "meta.inForce");
+assert.equal(generated.meta.previous, corpus.previous.celex, "meta.previous");
+assert.equal(generated.meta.current, corpus.base.celex, "meta.current");
+assert.deepEqual(
+  generated.amendments.map((a) => [a.id, a.intro, a.parentIntro ?? null, a.operation, a.targets]),
+  instructions.map((i) => [i.id, i.intro, i.parentIntro ?? null, i.operation, i.targets]),
+  "generated instructions mirror the OJ text",
+);
+const statusSet = (list: { anchor: string; status: string }[]) =>
+  list.filter((p) => p.status !== "unchanged").map((p) => `${p.anchor}:${p.status}`);
+for (const kind of ["articles", "annexes"] as const) {
+  assert.deepEqual(Object.keys(diffs[kind]).sort(), Object.keys(reDiff[kind]).sort(), `${kind} with diffs`);
+  for (const [key, list] of Object.entries(reDiff[kind]))
+    assert.deepEqual(statusSet(diffs[kind][key]), statusSet(list), `${kind} ${key}: paragraph statuses`);
 }
 
-function annexAnchors(a: Annex): Set<string> {
-  const anchors = new Set<string>(["inhoud"]);
+// ------------------------------------------------- (g) act metadata
+
+assert.equal(act.topLevelCount, EXPECTED.instructions, "numbered instructions in Article 1");
+assert.equal(act.instructions.length, EXPECTED.leaves, "leaf instructions");
+assert.equal(act.inForce, addDays(act.published, act.inForceDays), "in force = publication + n days");
+const m = corpus.base.celex.match(/-(\d{4})(\d{2})(\d{2})$/)!;
+assert.equal(act.inForce, `${m[1]}-${m[2]}-${m[3]}`, "base consolidation date = entry into force");
+// the only amending act marked in the base consolidation is this one
+const markedActs = new Set(
+  current.provenance.map((p) => p.celex).filter((c) => /^3\d{4}R\d{4}$/.test(c) && c !== "32024R1689"),
+);
+assert.deepEqual([...markedActs], [act.celex], "amending acts marked in the base consolidation");
+assert.ok(
+  previous.provenance.every((p) => p.celex !== act.celex),
+  "previous consolidation predates the act",
+);
+
+// ------------------------------------------------- pinned target sets
+
+assert.deepEqual(Object.keys(diffs.articles).sort(), [...EXPECTED.amendedArticles].sort(), "amended articles");
+assert.deepEqual(generated.newArticles.map((a) => a.slug), EXPECTED.newArticles, "inserted articles");
+assert.deepEqual(Object.keys(diffs.annexes).sort(), EXPECTED.amendedAnnexes, "amended annexes");
+assert.deepEqual(generated.newAnnexes.map((a) => a.roman), EXPECTED.newAnnexes, "added annexes");
+assert.deepEqual(Object.keys(generated.titleChanges).sort(), EXPECTED.titleChanges, "replaced titles");
+for (const n of generated.newArticles) {
+  const a = articles.find((x) => x.slug === n.slug);
+  assert.ok(a && a.displayNumber === n.displayNumber && a.title === n.title, `new article ${n.slug} in base`);
+  assert.ok(articles.some((x) => x.slug === String(n.insertAfter)), `new article ${n.slug} insertAfter`);
+}
+const tables: string[] = [];
+for (const a of annexes) {
   const walk = (nodes: ContentNode[]) => {
-    for (const node of nodes)
-      if (node.type === "list")
-        for (const item of node.items) {
-          if (item.anchor) anchors.add(item.anchor);
-          walk(item.content);
-        }
+    for (const n of nodes) {
+      if (n.type === "table") {
+        assert.equal(a.roman, "XIV", `data table outside bijlage XIV (bijlage ${a.roman})`);
+        tables.push(`${n.rows.length}x${n.rows[0].length}`);
+      } else if (n.type === "list") n.items.forEach((i) => walk(i.content));
+    }
   };
   walk(a.content);
-  return anchors;
 }
+for (const a of articles)
+  for (const p of a.paragraphs)
+    assert.ok(!JSON.stringify(p.content).includes('"type":"table"'), `data table in artikel ${a.slug}`);
+assert.deepEqual(tables, EXPECTED.xivTables, "bijlage XIV tables");
 
-const baseNumbers = new Set(articles.map((a) => String(a.number)));
-const baseRomans = new Set(annexes.map((a) => a.roman.toLowerCase()));
+// ------------------------------------------------- (a) diff invariant
 
-for (const am of amendments) {
-  const ctx = `instruction ${id(am)}`;
-  if (am.newArticle) {
-    assert.match(am.newArticle.slug, /^\d+(bis|ter|quater|quinquies)$/, `${ctx} slug`);
-    assert.ok(!baseNumbers.has(am.newArticle.slug), `${ctx} slug collides with base article`);
-    assert.ok(baseNumbers.has(String(am.newArticle.insertAfter)), `${ctx} insertAfter exists`);
-    continue;
-  }
-  if (am.newAnnex) {
-    assert.ok(!baseRomans.has(am.newAnnex.roman.toLowerCase()), `${ctx} annex roman collides`);
-    continue;
-  }
-  // boundary guard: every scoped instruction targets the base 2024/1689 corpus
-  // (articles 1-113 or annexes I-XIII) or an already-declared new article.
-  if (am.target.article) {
-    const t = am.target.article;
-    const isBase = baseNumbers.has(t);
-    const isNew = amendments.some((x) => x.newArticle?.slug === t);
-    assert.ok(isBase || isNew, `${ctx}: target article ${t} outside base corpus`);
-    if (isBase && am.scope.anchor && !am.scope.wholeArticle) {
-      const a = articles.find((x) => String(x.number) === t)!;
-      const anchors = articleAnchors(a);
-      const anchor = am.scope.anchor;
-      const resolves =
-        anchors.has(anchor) ||
-        (anchor.endsWith("-aanhef") && anchors.has(anchor.slice(0, -"-aanhef".length)));
-      assert.ok(resolves, `${ctx}: anchor ${anchor} does not resolve in artikel ${t}`);
-      if (am.operation === "delete")
-        assert.ok(anchors.has(anchor), `${ctx}: delete must target an existing anchor`);
-    }
-  }
-  if (am.target.annex) {
-    const roman = am.target.annex.toLowerCase();
-    const isBase = baseRomans.has(roman);
-    const isNew = amendments.some((x) => x.newAnnex?.roman.toLowerCase() === roman);
-    assert.ok(isBase || isNew, `${ctx}: target annex ${am.target.annex} outside base corpus`);
-    if (isBase && am.scope.anchor) {
-      const a = annexes.find((x) => x.roman.toLowerCase() === roman)!;
-      assert.ok(
-        annexAnchors(a).has(am.scope.anchor),
-        `${ctx}: anchor ${am.scope.anchor} does not resolve in bijlage ${am.target.annex}`,
-      );
+const joinOps = (segments: { op: string; text: string }[], skip: string) =>
+  segments.filter((s) => s.op !== skip).map((s) => s.text).join("");
+for (const [kind, lists] of [
+  ["articles", reDiff.articles],
+  ["annexes", reDiff.annexes],
+] as const) {
+  for (const [key, list] of Object.entries(lists)) {
+    const gen = diffs[kind][key];
+    for (const change of list) {
+      const where = `${kind} ${key} ${change.anchor}`;
+      const d = gen.find((p) => p.anchor === change.anchor)!;
+      if (change.status === "unchanged") {
+        assert.ok(!d.segments, `${where}: unchanged paragraph carries segments`);
+        continue;
+      }
+      assert.ok(d.segments?.length, `${where}: changed paragraph without segments`);
+      if (change.old) assert.equal(joinOps(d.segments!, "ins"), diffText(change.old), `${where}: old text`);
+      else assert.ok(d.segments!.every((s) => s.op === "ins"), `${where}: inserted paragraph`);
+      if (change.next && change.status !== "deleted")
+        assert.equal(joinOps(d.segments!, "del"), diffText(change.next), `${where}: new text`);
+      else assert.ok(d.segments!.every((s) => s.op === "del"), `${where}: deleted paragraph`);
+      if (change.status === "modified")
+        assert.ok(d.segments!.some((s) => s.op !== "eq"), `${where}: modified without a visible change`);
     }
   }
 }
 
-// ------------------------------------------------- diff invariant
+// ------------------------------------------------- (d) attribution
 
-function checkDiffList(key: string, kind: "article" | "annex") {
-  const list = kind === "article" ? diffs.articles[key] : diffs.annexes[key];
-  const base =
-    kind === "article"
-      ? articles.find((a) => String(a.number) === key)
-      : undefined;
-  const baseAnnex = kind === "annex" ? annexes.find((a) => a.roman.toLowerCase() === key) : undefined;
-  const oldFlatByAnchor = new Map<string, string>();
-  if (base) for (const p of base.paragraphs) oldFlatByAnchor.set(p.anchor, flattenNodes(p.content));
-  if (baseAnnex) oldFlatByAnchor.set("inhoud", flattenNodes(baseAnnex.content));
-
+const changedKeys = new Set<string>();
+for (const [slug, list] of Object.entries(diffs.articles))
   for (const p of list) {
-    const ctx = `${kind} ${key} ${p.anchor}`;
     if (p.status === "unchanged") {
-      assert.ok(!p.segments && !p.newContent, `${ctx}: unchanged carries no payload`);
+      assert.deepEqual(p.ids, [], `artikel ${slug} ${p.anchor}: unchanged paragraph attributed`);
       continue;
     }
-    assert.ok(p.segments && p.segments.length > 0, `${ctx}: segments required`);
-    assert.ok(
-      p.segments!.some((s) => s.op !== "eq"),
-      `${ctx}: ${p.status} but no ins/del segment`,
-    );
-    const reOld = p.segments!.filter((s) => s.op !== "ins").map((s) => s.text).join("");
-    const reNew = p.segments!.filter((s) => s.op !== "del").map((s) => s.text).join("");
-    if (p.status === "inserted") {
-      assert.equal(reOld, "", `${ctx}: inserted reconstructs empty old`);
-      assert.ok(p.newContent, `${ctx}: inserted needs newContent`);
-      assert.equal(reNew, flattenNodes(p.newContent!), `${ctx}: ins text === flatten(newContent)`);
-    } else if (p.status === "deleted") {
-      assert.equal(reNew, "", `${ctx}: deleted reconstructs empty new`);
-      assert.equal(reOld, oldFlatByAnchor.get(p.anchor), `${ctx}: del text === flatten(old)`);
-    } else {
-      assert.equal(reOld, oldFlatByAnchor.get(p.anchor), `${ctx}: eq+del reconstructs old`);
-      assert.ok(p.newContent, `${ctx}: modified needs newContent`);
-      assert.equal(reNew, flattenNodes(p.newContent!), `${ctx}: eq+ins reconstructs new`);
+    changedKeys.add(`article ${slug} ${p.anchor}`);
+    assert.ok(p.ids.length > 0, `artikel ${slug} ${p.anchor}: change without an instruction`);
+  }
+for (const [roman, list] of Object.entries(diffs.annexes))
+  for (const p of list) {
+    changedKeys.add(`annex ${roman} ${p.anchor}`);
+    assert.ok(p.ids.length > 0, `bijlage ${roman}: change without an instruction`);
+  }
+for (const [slug, t] of Object.entries(generated.titleChanges)) {
+  changedKeys.add(`article ${slug} titel`);
+  assert.ok(t.ids.length > 0, `artikel ${slug}: title change without an instruction`);
+}
+const ids = new Set(generated.amendments.map((a) => a.id));
+for (const list of [...Object.values(diffs.articles), ...Object.values(diffs.annexes)])
+  for (const p of list) for (const id of p.ids) assert.ok(ids.has(id), `unknown instruction id ${id}`);
+for (const a of generated.amendments) {
+  const touched = a.targets.some((t) =>
+    t.inserted ? true : t.anchors.some((anchor) => changedKeys.has(`${t.kind} ${t.slug} ${anchor}`)),
+  );
+  assert.ok(touched, `instructie ${a.id} ("${a.intro}") changed nothing`);
+}
+
+// ------------------------------------------------- (b) ▼M1 provenance ⇔ changes
+
+const newTargets = new Set([
+  ...generated.newArticles.map((a) => `article ${a.slug}`),
+  ...generated.newAnnexes.map((a) => `annex ${a.roman.toLowerCase()}`),
+]);
+const provenance = new Set(
+  current.provenance.filter((p) => p.celex === act.celex).map((p) => `${p.kind} ${p.slug} ${p.anchor}`),
+);
+for (const key of provenance) {
+  const target = key.split(" ").slice(0, 2).join(" ");
+  if (newTargets.has(target) || changedKeys.has(key)) continue;
+  assert.ok(key in PROVENANCE_ALLOWLIST, `▼M1 text without a change: ${key}`);
+}
+for (const key of changedKeys) {
+  if (provenance.has(key)) continue;
+  // a paragraph the act removed without a placeholder: the article it sat in
+  // must have been replaced as a whole (all of its current text under ▼M1)
+  const [kind, slug, anchor] = key.split(" ");
+  const p = diffs.articles[slug]?.find((x) => x.anchor === anchor);
+  const whole =
+    kind === "article" &&
+    p?.status === "deleted" &&
+    articles
+      .find((a) => a.slug === slug)!
+      .paragraphs.every((x) => provenance.has(`article ${slug} ${x.anchor}`));
+  assert.ok(whole, `change without ▼M1 marker: ${key}`);
+}
+for (const key of newTargets)
+  assert.ok([...provenance].some((p) => p.startsWith(`${key} `)), `inserted ${key} not under ▼M1`);
+
+// ------------------------------------------------- (c) quoted text ⊂ new text
+
+const norm = (s: string) => s.replace(/\(\*?\d+\)/g, "").replace(/[\s“”„"‘’']/g, "");
+const targetText = (t: { kind: string; slug: string }, c: { articles: Article[]; annexes: Annex[] }) => {
+  if (t.kind === "annex") {
+    const a = c.annexes.find((x) => x.roman.toLowerCase() === t.slug);
+    return a ? norm(`Bijlage ${a.roman} ${a.title} ${diffText(a.content)}`) : "";
+  }
+  const a = c.articles.find((x) => x.slug === t.slug);
+  if (!a) return "";
+  const lid = (p: Article["paragraphs"][number]) =>
+    p.displayNumber ? `${p.displayNumber}. ` : p.number !== null ? `${p.number}. ` : "";
+  return norm(`Artikel ${a.displayNumber} ${a.title} ${a.paragraphs.map((p) => lid(p) + diffText(p.content)).join(" ")}`);
+};
+let quotedBlocks = 0;
+for (const ins of instructions) {
+  const now = ins.targets.map((t) => targetText(t, base)).join(" ");
+  const before = ins.targets.map((t) => targetText(t, previous)).join(" ");
+  if (ins.operation === "delete") {
+    assert.equal(ins.quoted.length, 0, `instructie ${ins.id}: deletion quotes text`);
+    for (const t of ins.targets) {
+      if (t.kind !== "article") continue;
+      const a = articles.find((x) => x.slug === t.slug)!;
+      for (const anchor of t.anchors)
+        assert.equal(a.paragraphs.find((p) => p.anchor === anchor)?.repealed, true, `instructie ${ins.id}: ${t.slug} ${anchor} struck`);
     }
+    continue;
   }
-  // every base paragraph accounted for, in-order superset
-  if (base) {
-    const anchorsInDiff = list.map((p) => p.anchor);
-    for (const p of base.paragraphs)
-      assert.ok(anchorsInDiff.includes(p.anchor), `${kind} ${key}: base ${p.anchor} missing from diff`);
-  }
-}
-
-for (const key of Object.keys(diffs.articles)) checkDiffList(key, "article");
-for (const key of Object.keys(diffs.annexes)) checkDiffList(key, "annex");
-
-// every replace instruction produced at least one ins/del somewhere
-for (const am of amendments) {
-  if (am.operation !== "replace" || am.newArticle || am.newAnnex || am.scope.title) continue;
-  const key = am.target.article ?? am.target.annex!.toLowerCase();
-  const list = am.target.article ? diffs.articles[key] : diffs.annexes[key];
-  assert.ok(
-    list?.some((p) => p.seq.includes(am.seq) && p.segments?.some((s) => s.op !== "eq")),
-    `instruction ${id(am)}: replace produced no visible change`,
-  );
-}
-
-// ------------------------------------------------- verbatim spot checks
-// (active as soon as the relevant instruction is transcribed)
-
-const flatNew = (key: string) =>
-  (diffs.articles[key] ?? [])
-    .map((p) => (p.newContent ? flattenNodes(p.newContent) : ""))
-    .join(" ");
-
-if (diffs.articles["1"])
-  assert.ok(
-    flatNew("1").includes("kleine midcapondernemingen"),
-    "spot check: artikel 1 amended text mentions kleine midcapondernemingen",
-  );
-if (diffs.articles["2"]?.some((p) => p.status === "inserted"))
-  assert.ok(
-    flatNew("2").includes("Uiterlijk op 2 augustus 2027"),
-    "spot check: artikel 2 inserted lid mentions 2 augustus 2027",
-  );
-const art4bis = generated.newArticles.find((n) => n.slug === "4bis");
-if (art4bis) assert.equal(art4bis.displayNumber, "4 bis", "spot check: Artikel 4 bis display number");
-
-// search docs shape
-for (const d of searchDocs) {
-  assert.ok(d.id.startsWith("omnibus-"), `search doc ${d.id} id prefix`);
-  assert.ok(d.text.length > 0, `search doc ${d.id} has text`);
-}
-
-// ------------------------------------------------- cross-references
-// The parser is the single authority: the transcription must not carry
-// hand-curated refs, and every generated ref (newContent + new articles/
-// annexes + diff segments) must resolve, stay in bounds, and read as a
-// reference. Mirrors verify-data's block, extended with the pages/anchors
-// the omnibus itself adds.
-
-function assertNoSourceRefs(nodes: ContentNode[], where: string): void {
-  for (const n of nodes) {
-    if (n.type === "text")
-      assert.ok(!("refs" in n), `${where}: hand-curated refs in transcription (parser generates them)`);
-    else if (n.type === "list") for (const i of n.items) assertNoSourceRefs(i.content, where);
+  assert.ok(ins.quoted.length > 0, `instructie ${ins.id}: no quoted text`);
+  for (const q of ins.quoted) {
+    const n = norm(q).replace(/[.;,]+$/, "");
+    if (n.length < 3) continue; // a lone ";" closing the quotation
+    quotedBlocks++;
+    assert.ok(now.includes(n), `instructie ${ins.id}: quoted text not in the current text: ${q.slice(0, 80)}`);
+    if (n.length > 40)
+      assert.ok(!before.includes(n), `instructie ${ins.id}: quoted text already in the previous text: ${q.slice(0, 80)}`);
   }
 }
-for (const am of amendments) {
-  const where = `instruction ${id(am)}`;
-  if (am.newContent) assertNoSourceRefs(am.newContent, where);
-  for (const p of am.newParagraphs ?? []) assertNoSourceRefs(p.content, where);
-  for (const it of am.newItems ?? []) assertNoSourceRefs(it.content, where);
-  for (const p of am.newArticle?.paragraphs ?? []) assertNoSourceRefs(p.content, where);
-  if (am.newAnnex) assertNoSourceRefs(am.newAnnex.content, where);
+assert.ok(quotedBlocks >= 80, `quoted blocks checked (${quotedBlocks})`);
+
+// ------------------------------------------------- (e) anchor stability
+
+for (const p of previous.articles) {
+  const c = articles.find((a) => a.slug === p.slug)!;
+  for (const para of p.paragraphs) {
+    if (c.paragraphs.some((x) => x.anchor === para.anchor)) continue;
+    assert.ok(`${p.slug} ${para.anchor}` in ANCHOR_ALLOWLIST, `artikel ${p.slug}#${para.anchor} disappeared`);
+  }
 }
 
-// page → anchor sets: base corpus ∪ omnibus additions
+// ------------------------------------------------- refs in diff segments
+
 const pageAnchors = new Map<string, Set<string>>();
 function collectAnchors(nodes: ContentNode[], into: Set<string>): void {
   for (const n of nodes) {
@@ -254,31 +312,18 @@ function collectAnchors(nodes: ContentNode[], into: Set<string>): void {
     }
   }
 }
-for (const a of articles) pageAnchors.set(`/artikel/${a.number}`, articleAnchors(a));
-for (const a of annexes) pageAnchors.set(`/bijlage/${a.roman.toLowerCase()}`, annexAnchors(a));
-for (const na of generated.newArticles) {
+for (const a of articles) {
   const set = new Set<string>();
-  for (const p of na.paragraphs) {
+  for (const p of a.paragraphs) {
     set.add(p.anchor);
     collectAnchors(p.content, set);
   }
-  pageAnchors.set(`/artikel/${na.slug}`, set);
+  pageAnchors.set(`/artikel/${a.slug}`, set);
 }
-for (const na of generated.newAnnexes) {
+for (const a of annexes) {
   const set = new Set<string>(["inhoud"]);
-  collectAnchors(na.content, set);
-  pageAnchors.set(`/bijlage/${na.roman.toLowerCase()}`, set);
-}
-for (const [key, list] of Object.entries(diffs.articles)) {
-  const set = pageAnchors.get(`/artikel/${key}`)!;
-  for (const p of list) {
-    set.add(p.anchor);
-    if (p.newContent) collectAnchors(p.newContent, set);
-  }
-}
-for (const [roman, list] of Object.entries(diffs.annexes)) {
-  const set = pageAnchors.get(`/bijlage/${roman}`)!;
-  for (const p of list) if (p.newContent) collectAnchors(p.newContent, set);
+  collectAnchors(a.content, set);
+  pageAnchors.set(`/bijlage/${a.roman.toLowerCase()}`, set);
 }
 const chapterRomans = new Set(toc.chapters.map((c) => c.roman.toLowerCase()));
 const recitalNumbers = new Set(recitals.map((r) => String(r.number)));
@@ -291,27 +336,14 @@ interface FlatRef {
   href: string;
 }
 const allRefs: FlatRef[] = [];
-function collectRefs(nodes: ContentNode[], where: string): void {
-  for (const n of nodes) {
-    if (n.type === "text" && n.refs) {
-      for (const r of n.refs) allRefs.push({ where, text: n.text, ...r });
-    } else if (n.type === "list") {
-      for (const i of n.items) collectRefs(i.content, where);
-    }
-  }
-}
-for (const na of generated.newArticles)
-  for (const p of na.paragraphs) collectRefs(p.content, `artikel ${na.slug}`);
-for (const na of generated.newAnnexes) collectRefs(na.content, `bijlage ${na.roman}`);
 for (const [kind, lists] of [
   ["artikel", diffs.articles],
   ["bijlage", diffs.annexes],
 ] as const) {
   for (const [key, list] of Object.entries(lists)) {
     for (const p of list) {
-      const where = `${kind} ${key} ${p.anchor}`;
-      if (p.newContent) collectRefs(p.newContent, where);
       if (!p.segments) continue;
+      const where = `${kind} ${key} ${p.anchor}`;
       // segment refs are clips of spans over the whole new text: rebuild the
       // global text and offsets, re-merge touching same-href clips, and check
       // the merged span (a lone clip fragment can be pure punctuation)
@@ -324,10 +356,7 @@ for (const [kind, lists] of [
           continue;
         }
         for (const r of s.refs ?? []) {
-          assert.ok(
-            r.start >= 0 && r.start < r.end && r.end <= s.text.length,
-            `${where}: segment ref offsets out of bounds (${r.href})`,
-          );
+          assert.ok(r.start >= 0 && r.start < r.end && r.end <= s.text.length, `${where}: segment ref offsets (${r.href})`);
           const g = { where, text: newFlat, start: off + r.start, end: off + r.end, href: r.href };
           const prev = merged[merged.length - 1];
           if (prev && prev.href === g.href && prev.end === g.start) prev.end = g.end;
@@ -339,7 +368,6 @@ for (const [kind, lists] of [
     }
   }
 }
-
 for (const ref of allRefs) {
   const [page, fragment] = ref.href.split("#");
   const label = `${ref.where}: ref ${ref.href}`;
@@ -355,61 +383,36 @@ for (const ref of allRefs) {
     }
   }
   assert.ok(
-    ref.start >= 0 && ref.start < ref.end && ref.end <= ref.text.length,
-    `${label} (offsets)`,
-  );
-  // every (re-merged) span reads as a reference; flattened segment text also
-  // contains list markers ("a) …"), so this guards against marker misparses
-  assert.ok(
     /artikel|bijlage|hoofdstuk|lid|punt|\d|^[a-z]{1,2}(?: (?:bis|ter|quater|quinquies))?\)$|^[IVX]+$/.test(
       ref.text.slice(ref.start, ref.end),
     ),
     `${label} (span text "${ref.text.slice(ref.start, ref.end)}")`,
   );
 }
+assert.ok(allRefs.some((r) => r.href === "/artikel/5#lid-1bis"), "diff links inserted lid 5(1 bis)");
+// exact snapshot (clips re-merged): grammar or source changes must consciously
+// update this (history: 462 → 460 → 464 over the PE-CONS 30/26 transcription;
+// 464 → 207 when the layer was re-derived from the OJ text: inserted articles
+// and bijlage XIV are base corpus now, their refs counted by verify-data)
+assert.equal(allRefs.length, EXPECTED.refs, `change-layer cross-reference count (got ${allRefs.length})`);
 
-// spot check: the omnibus text references its own inserted articles
-assert.ok(
-  allRefs.some((r) => r.href === "/artikel/75ter"),
-  "amendment layer links artikel 75 ter",
+// ------------------------------------------------- search docs (instruction wording only)
+
+assert.equal(searchDocs.length, EXPECTED.searchDocs, `change-layer search docs (${searchDocs.length})`);
+assert.equal(new Set(searchDocs.map((d) => d.id)).size, searchDocs.length, "search doc ids unique");
+const composed = new Map(
+  generated.amendments.map((a) => [a.id, a.parentIntro ? `${a.parentIntro} ${a.intro}` : a.intro]),
 );
-
-// ------------------------------------------------- completeness pin
-
-if (source.meta.complete) {
-  assert.ok(
-    EXPECTED.instructions !== null && EXPECTED.affectedArticles !== null,
-    "meta.complete is true — pin EXPECTED counts in verify-amendments.ts",
-  );
-  assert.equal(amendments.length, EXPECTED.instructions, "exact instruction count");
-  assert.deepEqual(
-    Object.keys(diffs.articles).sort((a, b) => Number(a) - Number(b)),
-    EXPECTED.affectedArticles,
-    "exact affected-article set",
-  );
-  assert.deepEqual(
-    generated.newArticles.map((n) => n.slug).sort(),
-    ["4bis", "60bis", "75bis", "75quater", "75quinquies", "75ter"],
-    "exact new-article set",
-  );
-  assert.deepEqual(Object.keys(diffs.annexes).sort(), ["i", "viii"], "exact amended-annex set");
-  assert.deepEqual(
-    generated.newAnnexes.map((n) => n.roman),
-    ["XIV"],
-    "exact new-annex set",
-  );
-  assert.equal(Math.max(...amendments.map((a) => a.seq)), 43, "43 numbered instructions");
-  // exact snapshot (clips re-merged): grammar changes must consciously update
-  // this (462 → 460 when instrument qualifiers learned to distribute over
-  // conjunctions: two "artikel 14, lid 4, en/of artikel 16, lid 3, van
-  // Verordening (EU) 2019/1020" false positives dropped; 460 → 464 when lid
-  // and punt tokens learned Latin suffixes: art. 113 punt a) "artikel 5, leden
-  // 1 bis en lid 1 ter" and "punten b bis) en b ter)" now link #lid-1bis,
-  // #lid-1ter, #lid-1-b-bis, #lid-1-b-ter instead of mislinking #lid-1)
-  assert.equal(allRefs.length, 464, `amendment cross-reference count (got ${allRefs.length})`);
+for (const d of searchDocs) {
+  assert.ok(d.id.startsWith("wijz-"), `search doc id ${d.id}`);
+  if (d.id === "wijz-overzicht") continue;
+  const [, kind, slug] = d.id.match(/^wijz-(art|anx)-(.+)$/)!;
+  const idList = (kind === "art" ? generated.byArticle : generated.byAnnex)[slug] ?? [];
+  assert.equal(d.text, idList.map((id) => composed.get(id)).join(" "), `${d.id}: instruction wording only`);
+  assert.ok(pageAnchors.has(d.url.split("?")[0]), `${d.id}: url ${d.url}`);
 }
 
 console.log(
-  `verify-amendments: all assertions passed ` +
-    `(${amendments.length} instructions, complete=${source.meta.complete})`,
+  `verify-amendments: all assertions passed (${act.document}, ${EXPECTED.instructions} instructions / ` +
+    `${EXPECTED.leaves} leaves, ${quotedBlocks} quoted blocks, ${allRefs.length} refs)`,
 );

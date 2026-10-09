@@ -24,7 +24,9 @@ const art = (slug: string): Article => {
 };
 
 // counts and numbering
-assert.equal(articles.length, 113, "113 articles");
+// 113 → 119 with consolidation 02024R1689-20260727: articles 4 bis, 60 bis and
+// 75 bis–quinquies inserted by Verordening (EU) 2026/1744
+assert.equal(articles.length, 119, "119 articles");
 // integer articles 1..113 without gaps; bis-articles sit right after their base
 const integerArticles = articles.filter((a) => a.slug === String(a.number));
 assert.equal(integerArticles.length, 113, "articles 1..113");
@@ -35,7 +37,8 @@ articles.forEach((a, i) => {
 });
 assert.equal(recitals.length, 180, "180 recitals");
 recitals.forEach((r, i) => assert.equal(r.number, i + 1, `recital numbering at ${i}`));
-assert.equal(annexes.length, 13, "13 annexes");
+// 13 → 14 with consolidation 02024R1689-20260727: bijlage XIV (Vo 2026/1744)
+assert.equal(annexes.length, 14, "14 annexes");
 annexes.forEach((a, i) => assert.equal(a.ordinal, i + 1, `annex ordering at ${i}`));
 assert.equal(toc.chapters.length, 13, "13 chapters");
 
@@ -57,7 +60,8 @@ for (const a of articles) {
 
 // known articles without numbered leden (incl. amendment articles 102-110,
 // whose quoted lid numbers belong to the amended acts), parsed as one flat body
-const FLAT = ["3", "4", "16", "32", "39", "66", "85", "87", "94", "102", "103", "104", "105", "106", "107", "108", "109", "110", "113"];
+// (2026-07-27 consolidation: art. 4 now has leden 1–3; art. 75 ter is flat)
+const FLAT = ["3", "16", "32", "39", "66", "75ter", "85", "87", "94", "102", "103", "104", "105", "106", "107", "108", "109", "110", "113"];
 for (const slug of FLAT) {
   const a = art(slug);
   assert.ok(
@@ -89,11 +93,15 @@ const corpus =
   recitals.map((r) => r.paragraphs.map((p) => p.text).join(" ")).join(" ") +
   annexes.map((a) => flatten(a.content)).join(" ");
 assert.ok(corpus.length > 500_000, `corpus ${corpus.length} chars`);
-// 726 → 826 when annex chunking went per-point (2026-07, search overhaul)
-assert.equal(searchDocs.length, 826, `search docs ${searchDocs.length}`);
+// 726 → 826 when annex chunking went per-point (2026-07, search overhaul);
+// 826 → 885 with consolidation 02024R1689-20260727: +63 for text inserted by
+// Vo 2026/1744 (new articles, leden, points, bijlage XIV), −4 for text it
+// struck or restructured (art. 10 lid 5, art. 4's flat body, bijlage VIII B
+// punten 7 and 9)
+assert.equal(searchDocs.length, 885, `search docs ${searchDocs.length}`);
 assert.equal(
   searchDocs.filter((d) => d.type === "bijlage").length,
-  127,
+  134, // 127 → 134: +9 bijlage XIV, −2 bijlage VIII B (2026-07-27 consolidation)
   "bijlage search docs (per-point chunking)",
 );
 assert.equal(new Set(searchDocs.map((d) => d.id)).size, searchDocs.length, "search doc ids unique");
@@ -128,6 +136,11 @@ const art5 = flatten(art("5").paragraphs[0].content);
 assert.ok(art5.includes("subliminale technieken"), "art 5 lid 1 a");
 assert.equal(art("5").title, "Verboden AI-praktijken", "art 5 title");
 assert.ok(flatten(art("113").paragraphs[0].content).includes("2 augustus 2026"), "art 113");
+// consolidated text in force since 27.7.2026 (Vo 2026/1744): new point d), new dates in c)
+assert.ok(flatten(art("113").paragraphs[0].content).includes("27 juli 2026"), "art 113 d) (2026/1744)");
+assert.ok(flatten(art("113").paragraphs[0].content).includes("2 december 2027"), "art 113 c) i) (2026/1744)");
+assert.ok(art("4bis").title.startsWith("Verwerking van bijzondere categorieën"), "art 4 bis title");
+assert.equal(art("10").paragraphs.find((p) => p.anchor === "lid-5")?.repealed, true, "art 10 lid 5 struck");
 assert.ok(
   recitals[0].paragraphs[0].text.includes("betrouwbare artificiële intelligentie"),
   "recital 1",
@@ -147,8 +160,9 @@ assert.deepEqual(
   [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   "art 73 lid numbering (corrigendum)",
 );
-// footnote-referencing articles: 78 (bedrijfsgeheimen) + amendment articles 102-110
-for (const n of ["78", "102", "103", "104", "105", "106", "107", "108", "109", "110"]) {
+// footnote-referencing articles: 40 (Verordening 1025/2012, added by Vo 2026/1744),
+// 78 (bedrijfsgeheimen) + amendment articles 102-110
+for (const n of ["40", "78", "102", "103", "104", "105", "106", "107", "108", "109", "110"]) {
   assert.ok(art(n).footnotes.length === 1, `art ${n} footnote`);
 }
 
@@ -185,8 +199,11 @@ for (const a of annexes) collectRefs(a.content, `bijlage ${a.roman}`);
 // 563 → 561 when instrument qualifiers learned to distribute over
 // conjunctions — recital 140 "artikel 6, lid 4, en artikel 9 … van
 // Verordening (EU) 2016/679" and "artikel 4, lid 2, en artikel 10 van
-// Richtlijn (EU) 2016/680" dropped)
-assert.equal(allRefs.length, 561, `cross-reference count (got ${allRefs.length})`);
+// Richtlijn (EU) 2016/680" dropped; 561 → 697 with consolidation
+// 02024R1689-20260727: +136 in the text Vo 2026/1744 inserted or replaced —
+// audited: every article the act did not touch keeps identical refs, annex
+// refs 46 → 48 (bijlage XIV +3, VIII −1 with struck punt 9), recitals 12 → 12)
+assert.equal(allRefs.length, 697, `cross-reference count (got ${allRefs.length})`);
 
 // every href resolves — recheck from the JSON, independent of the parser's own sets
 const articleSlugs = new Set(articles.map((a) => a.slug));
@@ -285,11 +302,12 @@ assert.ok(
   allRefs.some((r) => r.where === "artikel 6" && r.href === "/bijlage/i"),
   "art 6 links bijlage I",
 );
+// art. 2 lid 2 as replaced by Vo 2026/1744: "de artikelen 102 tot en met 112"
 const rangeRefs = allRefs.filter(
-  (r) => r.where === "artikel 2" && r.text.includes("artikelen 102 tot en met 109"),
+  (r) => r.where === "artikel 2" && r.text.includes("artikelen 102 tot en met 112"),
 );
 assert.ok(
-  rangeRefs.some((r) => r.href === "/artikel/102") && rangeRefs.some((r) => r.href === "/artikel/109"),
+  rangeRefs.some((r) => r.href === "/artikel/102") && rangeRefs.some((r) => r.href === "/artikel/112"),
   "tot-en-met range links both endpoints",
 );
 assert.ok(
