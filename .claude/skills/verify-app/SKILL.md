@@ -73,8 +73,9 @@ const page = await browser.newPage();
 const errors = [];
 page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
 
-// 1. palette search navigates to a deep link
-await page.goto(BASE);
+// 1. palette search navigates to a deep link (wait for hydration: the
+// Ctrl+K listener is attached client-side, after the load event in dev)
+await page.goto(BASE, { waitUntil: "networkidle" });
 await page.keyboard.press("Control+k");
 await page.getByPlaceholder(/zoek/i).fill("verboden praktijken");
 await page.waitForTimeout(600);
@@ -126,8 +127,15 @@ await page.goto(`${BASE}/artikel/6?diff=1`);
 await diffAppears("?diff=1 deep link did not show diff");
 await headerToggle().click(); // pref 0 -> 1
 await headerToggle().click(); // pref 1 -> 0: must override ?diff=1
-await page.waitForTimeout(300);
-if (await diffVisible()) throw new Error("header toggle did not override ?diff=1");
+// poll instead of a fixed settle wait: the two preference updates land
+// asynchronously and take longer than 300 ms on a dev server
+await page
+  .locator("[data-diff-status]")
+  .first()
+  .waitFor({ state: "hidden", timeout: 5000 })
+  .catch(() => {
+    throw new Error("header toggle did not override ?diff=1");
+  });
 
 // 8. diff view carries working cross-reference links inside <ins> segments
 await page.evaluate(() => localStorage.setItem("omnibus-diff", "1"));
